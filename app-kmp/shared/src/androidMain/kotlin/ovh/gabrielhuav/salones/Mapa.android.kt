@@ -3,6 +3,7 @@ package ovh.gabrielhuav.salones
 import android.graphics.BitmapFactory
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -10,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -19,21 +21,19 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.math.floor
 import kotlin.math.roundToInt
-
-/** Cuántas teselas se descargan alrededor del lugar en cada dirección (5 × 5 cubren la pantalla). */
-private const val RADIO = 2
 
 /** Descarga una tesela; si falla, lanza la excepción con el motivo. */
 private fun descargar(url: String): ImageBitmap {
@@ -53,54 +53,74 @@ private fun descargar(url: String): ImageBitmap {
 
 /**
  * En Android, el mapa se arma con las teselas del proveedor y se dibuja en un Canvas de Compose,
- * sin WebView ni JavaScript. Si el proveedor elegido no responde, prueba los siguientes.
+ * sin WebView ni JavaScript. Se arrastra con el dedo, en vertical o en horizontal.
+ * Si el proveedor elegido no responde, prueba los siguientes y dice por qué.
  */
 @Composable
 actual fun Mapa(lugar: Ubicacion, conMarcador: Boolean, proveedor: Int, modifier: Modifier) {
-    var teselas by remember(lugar, proveedor) { mutableStateOf<Map<Pair<Int, Int>, ImageBitmap>>(emptyMap()) }
-    var aviso by remember(lugar, proveedor) { mutableStateOf("Cargando el mapa…") }
     val (fx, fy) = posicionEnTeselas(lugar)
-    val cx = floor(fx).toInt()
-    val cy = floor(fy).toInt()
+    val lado = with(LocalDensity.current) { 256.dp.toPx() } // la tesela de 256 px se dibuja a 256 dp
+    var tamano by remember { mutableStateOf(IntSize.Zero) }
+    var desplazamiento by remember(lugar) { mutableStateOf(Offset.Zero) }
+    val teselas = remember(lugar, proveedor) { mutableStateMapOf<Pair<Int, Int>, ImageBitmap>() }
+    var activo by remember(lugar, proveedor) { mutableStateOf<Proveedor?>(null) }
+    var aviso by remember(lugar, proveedor) { mutableStateOf("Cargando el mapa…") }
 
+    // 1. Elegir el proveedor: el primero, empezando por el elegido, cuya tesela central sí llega.
     LaunchedEffect(lugar, proveedor) {
         var motivo = ""
         for (k in PROVEEDORES.indices) {
             val p = PROVEEDORES[(proveedor + k) % PROVEEDORES.size]
             aviso = "Cargando ${p.nombre}…"
-            // Primero la tesela del centro: si no llega, se pasa al siguiente proveedor.
-            val centro = runCatching { withContext(Dispatchers.IO) { descargar(urlTesela(p, cx, cy)) } }
-            if (centro.isFailure) {
-                motivo = "${p.nombre}: ${centro.exceptionOrNull()?.message ?: "sin respuesta"}"
-                continue
+            val x = floor(fx).toInt()
+            val y = floor(fy).toInt()
+            val centro = runCatching { withContext(Dispatchers.IO) { descargar(urlTesela(p, x, y)) } }
+            if (centro.isSuccess) {
+                teselas[x to y] = centro.getOrThrow()
+                activo = p
+                aviso = p.credito
+                return@LaunchedEffect
             }
-            val resto = coroutineScope {
-                (-RADIO..RADIO).flatMap { dx -> (-RADIO..RADIO).map { dy -> dx to dy } }
-                    .filter { it != (0 to 0) }
-                    .map { (dx, dy) ->
-                        async(Dispatchers.IO) {
-                            runCatching { (cx + dx to cy + dy) to descargar(urlTesela(p, cx + dx, cy + dy)) }.getOrNull()
-                        }
-                    }
-                    .awaitAll()
-                    .filterNotNull()
-            }
-            teselas = (resto + ((cx to cy) to centro.getOrThrow())).toMap()
-            aviso = p.credito
-            return@LaunchedEffect
+            motivo = "${p.nombre}: ${centro.exceptionOrNull()?.message ?: "sin respuesta"}"
         }
         aviso = "No se pudo descargar el mapa ($motivo). Revisa que el teléfono o el emulador tenga internet."
     }
 
-    Box(modifier.background(Color(0xFFE8E8E8))) {
+    // 2. Las teselas que se ven en pantalla (cambian al arrastrar o al girar el teléfono).
+    val mitadX = tamano.width / 2f
+    val mitadY = tamano.height / 2f
+    val visibles = if (tamano == IntSize.Zero) emptyList() else {
+        val x0 = floor(fx + (-mitadX - desplazamiento.x) / lado).toInt()
+        val x1 = floor(fx + (mitadX - desplazamiento.x) / lado).toInt()
+        val y0 = floor(fy + (-mitadY - desplazamiento.y) / lado).toInt()
+        val y1 = floor(fy + (mitadY - desplazamiento.y) / lado).toInt()
+        (x0..x1).flatMap { x -> (y0..y1).map { y -> x to y } }
+    }
+    LaunchedEffect(activo, visibles) {
+        val p = activo ?: return@LaunchedEffect
+        visibles.filter { it !in teselas }.forEach { xy ->
+            launch(Dispatchers.IO) {
+                runCatching { descargar(urlTesela(p, xy.first, xy.second)) }
+                    .onSuccess { teselas[xy] = it }
+            }
+        }
+    }
+
+    Box(
+        modifier
+            .background(Color(0xFFE8E8E8))
+            .onSizeChanged { tamano = it }
+            .pointerInput(lugar) {
+                detectDragGestures { cambio, arrastre ->
+                    cambio.consume()
+                    desplazamiento += arrastre
+                }
+            },
+    ) {
         Canvas(Modifier.fillMaxSize()) {
-            // La tesela mide 256 px de origen; se dibuja a 256 dp para que se lea bien.
-            val lado = 256.dp.toPx()
-            val centroX = size.width / 2
-            val centroY = size.height / 2
             teselas.forEach { (xy, imagen) ->
-                val izquierda = centroX + (xy.first - fx).toFloat() * lado
-                val arriba = centroY + (xy.second - fy).toFloat() * lado
+                val izquierda = mitadX + (xy.first - fx).toFloat() * lado + desplazamiento.x
+                val arriba = mitadY + (xy.second - fy).toFloat() * lado + desplazamiento.y
                 drawImage(
                     image = imagen,
                     dstOffset = IntOffset(izquierda.roundToInt(), arriba.roundToInt()),
@@ -108,8 +128,9 @@ actual fun Mapa(lugar: Ubicacion, conMarcador: Boolean, proveedor: Int, modifier
                 )
             }
             if (conMarcador) {
-                drawCircle(Color.White, radius = 12.dp.toPx(), center = Offset(centroX, centroY))
-                drawCircle(Color(0xFF1A73E8), radius = 9.dp.toPx(), center = Offset(centroX, centroY))
+                val punto = Offset(mitadX + desplazamiento.x, mitadY + desplazamiento.y)
+                drawCircle(Color.White, radius = 12.dp.toPx(), center = punto)
+                drawCircle(Color(0xFF1A73E8), radius = 9.dp.toPx(), center = punto)
             }
         }
         Text(

@@ -39,11 +39,9 @@ class Proveedor {
 const _arcgis = 'https://server.arcgisonline.com/ArcGIS/rest/services/';
 
 const proveedores = [
-  Proveedor('CARTO', 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-      subdominios: ['a', 'b', 'c', 'd']),
+  Proveedor('OpenStreetMap', 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'),
   Proveedor('Esri calles', '${_arcgis}World_Street_Map/MapServer/tile/{z}/{y}/{x}'),
   Proveedor('Esri satélite', '${_arcgis}World_Imagery/MapServer/tile/{z}/{y}/{x}'),
-  Proveedor('OpenStreetMap', 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'),
 ];
 
 class _PantallaMapaState extends State<PantallaMapa> {
@@ -114,7 +112,7 @@ class _PantallaMapaState extends State<PantallaMapa> {
                     ],
                   ),
                 const RichAttributionWidget(
-                  attributions: [TextSourceAttribution('OpenStreetMap contributors, CARTO y Esri')],
+                  attributions: [TextSourceAttribution('OpenStreetMap contributors y Esri')],
                 ),
               ],
             ),

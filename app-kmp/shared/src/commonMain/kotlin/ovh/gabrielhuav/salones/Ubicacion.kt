@@ -43,10 +43,9 @@ private const val ARCGIS = "https://server.arcgisonline.com/ArcGIS/rest/services
 
 /** Si uno no responde, el mapa pasa solo al siguiente; también se elige con los botones de arriba del mapa. */
 val PROVEEDORES = listOf(
-    Proveedor("CARTO", "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png", "© OpenStreetMap contributors © CARTO"),
+    Proveedor("OpenStreetMap", "https://tile.openstreetmap.org/{z}/{x}/{y}.png", "© OpenStreetMap contributors"),
     Proveedor("Esri calles", ARCGIS + "World_Street_Map/MapServer/tile/{z}/{y}/{x}", "Tiles © Esri"),
     Proveedor("Esri satélite", ARCGIS + "World_Imagery/MapServer/tile/{z}/{y}/{x}", "Tiles © Esri"),
-    Proveedor("OpenStreetMap", "https://tile.openstreetmap.org/{z}/{x}/{y}.png", "© OpenStreetMap contributors"),
 )
 
 /** Acercamiento del mapa: en 17 se distinguen los edificios del campus. */

@@ -20,9 +20,9 @@ En Windows: `gradlew.bat :shared:testAndroidHostTest`.
 
 | Archivo | Cambio |
 |---|---|
-| `shared/src/commonMain/.../Ubicacion.kt` | Nuevo: centro de la UAM, distancia, `describir`, los cuatro proveedores (CARTO, Esri calles, Esri satélite y OpenStreetMap) y el cálculo de teselas |
+| `shared/src/commonMain/.../Ubicacion.kt` | Nuevo: centro de la UAM, distancia, `describir`, los proveedores (OpenStreetMap, Esri calles y Esri satélite) y el cálculo de teselas |
 | `shared/src/commonMain/.../App.kt` | Pantalla compartida: mensaje, botón, selector de proveedor y `Mapa` (`expect`) |
-| `shared/src/androidMain/.../Mapa.android.kt` | Descarga las teselas y dibuja el mapa en un `Canvas` de Compose, sin WebView; si un proveedor no responde, prueba el siguiente y dice por qué |
+| `shared/src/androidMain/.../Mapa.android.kt` | Descarga las teselas y dibuja el mapa en un `Canvas` de Compose, sin WebView; se arrastra con el dedo; si un proveedor no responde, prueba el siguiente y dice por qué |
 | `shared/src/iosMain/.../Mapa.ios.kt` | Aviso: en iOS el mapa llega en el siguiente prototipo |
 | `androidApp/.../MainActivity.kt` | Permiso y ubicación con `FusedLocationProviderClient` |
 | `androidApp/build.gradle.kts` y `gradle/libs.versions.toml` | `play-services-location`; paquete `ovh.gabrielhuav.salones`, versión `0.1.0` |
