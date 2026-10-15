@@ -7,15 +7,15 @@ plugins {
 }
 
 android {
-    namespace = "ovh.gabrielhuav.holamundo"
+    namespace = "ovh.gabrielhuav.salones"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "ovh.gabrielhuav.holamundo"
+        applicationId = "ovh.gabrielhuav.salones"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
-        versionName = "1.0"
+        versionName = "0.1.0"
     }
 
     compileOptions {

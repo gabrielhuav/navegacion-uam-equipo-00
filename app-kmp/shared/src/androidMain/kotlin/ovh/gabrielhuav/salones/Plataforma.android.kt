@@ -1,4 +1,4 @@
-package ovh.gabrielhuav.holamundo
+package ovh.gabrielhuav.salones
 
 import android.os.Build
 

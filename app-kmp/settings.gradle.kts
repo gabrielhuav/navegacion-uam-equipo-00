@@ -1,4 +1,4 @@
-rootProject.name = "HolaMundoKMP"
+rootProject.name = "SalonesUAM"
 
 pluginManagement {
     repositories {
@@ -27,7 +27,7 @@ dependencyResolutionManagement {
     }
 }
 
-// `shared`: el código Kotlin + Compose que comparten Android e iOS (la pantalla de "Hola Mundo").
+// `shared`: el código Kotlin + Compose que comparten Android e iOS (la pantalla para buscar salones).
 // `androidApp`: la app de Android, que solo abre una Activity y dibuja la pantalla de `shared`.
 // La app de iOS no es un módulo de Gradle: es el proyecto Xcode de `iosApp/`.
 include(":shared")
