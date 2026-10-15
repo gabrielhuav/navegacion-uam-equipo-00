@@ -1,6 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Prototipo 1: descargar el mapa y leer la ubicación del teléfono. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <application
-        android:label="Hola Mundo Flutter"
+        android:label="Salones Flutter"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

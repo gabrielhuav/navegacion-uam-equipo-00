@@ -296,7 +296,7 @@
 					"-framework",
 					Shared,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ovh.gabrielhuav.holamundo;
+				PRODUCT_BUNDLE_IDENTIFIER = ovh.gabrielhuav.salones;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -335,7 +335,7 @@
 					"-framework",
 					Shared,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ovh.gabrielhuav.holamundo;
+				PRODUCT_BUNDLE_IDENTIFIER = ovh.gabrielhuav.salones;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;

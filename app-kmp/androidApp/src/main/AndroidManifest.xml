@@ -3,7 +3,7 @@
 
     <application
         android:allowBackup="true"
-        android:label="Hola Mundo KMP"
+        android:label="Salones KMP"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Material.Light.NoActionBar">
         <activity

@@ -1,109 +1,95 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 
-import 'plataforma.dart';
-import 'saludo.dart';
+import 'ubicacion.dart';
 
-/// Punto de entrada: Android e iOS arrancan AQUÍ, con el mismo código.
-void main() {
-  runApp(HolaMundoApp(plataforma: nombrePlataforma()));
-}
+/// Prototipo 1: abrir la app y ver en el mapa dónde estás dentro de la UAM.
+void main() => runApp(const SalonesApp());
 
-/// La app completa. Recibe el nombre de la plataforma como parámetro para
-/// que las pruebas puedan pasarle uno "de mentira" (ver test/widget_test.dart).
-class HolaMundoApp extends StatelessWidget {
-  const HolaMundoApp({super.key, required this.plataforma});
-
-  final String plataforma;
+class SalonesApp extends StatelessWidget {
+  const SalonesApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Hola Mundo Flutter',
+      title: 'Salones UAM',
       debugShowCheckedModeBanner: false,
-      // Tema claro u oscuro según el sistema del teléfono.
-      themeMode: ThemeMode.system,
-      theme: ThemeData(
-        colorSchemeSeed: Colors.deepPurple,
-        brightness: Brightness.light,
-      ),
-      darkTheme: ThemeData(
-        colorSchemeSeed: Colors.deepPurple,
-        brightness: Brightness.dark,
-      ),
-      home: PantallaInicio(plataforma: plataforma),
+      theme: ThemeData(colorSchemeSeed: Colors.deepPurple),
+      home: const PantallaMapa(),
     );
   }
 }
 
-/// La pantalla. Es `StatefulWidget` porque guarda un dato que cambia: el contador.
-class PantallaInicio extends StatefulWidget {
-  const PantallaInicio({super.key, required this.plataforma});
-
-  final String plataforma;
+class PantallaMapa extends StatefulWidget {
+  const PantallaMapa({super.key});
 
   @override
-  State<PantallaInicio> createState() => _PantallaInicioState();
+  State<PantallaMapa> createState() => _PantallaMapaState();
 }
 
-class _PantallaInicioState extends State<PantallaInicio> {
-  int _veces = 0;
+class _PantallaMapaState extends State<PantallaMapa> {
+  Ubicacion _ubicacion = const Ubicacion(null, 'Buscando tu ubicación…');
 
-  void _tocar() {
-    // setState avisa a Flutter que el estado cambió y que debe redibujar.
-    setState(() => _veces++);
+  @override
+  void initState() {
+    super.initState();
+    _ubicar();
+  }
+
+  Future<void> _ubicar() async {
+    final ubicacion = await obtenerUbicacion();
+    if (mounted) setState(() => _ubicacion = ubicacion);
   }
 
   @override
   Widget build(BuildContext context) {
-    final tema = Theme.of(context);
+    final yo = _ubicacion.punto;
+    final centro = yo ?? uamAzcapotzalco;
 
     return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
+      appBar: AppBar(title: const Text('Salones UAM · ¿Dónde estoy?')),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: Text(
+              _ubicacion.mensaje,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+          ),
+          Expanded(
+            child: FlutterMap(
+              // La clave cambia con el centro: así el mapa se recentra cuando llega la ubicación.
+              key: ValueKey(centro),
+              options: MapOptions(initialCenter: centro, initialZoom: 17),
               children: [
-                Text(
-                  '¡Hola, Mundo!',
-                  style: tema.textTheme.displaySmall?.copyWith(
-                    color: tema.colorScheme.primary,
+                TileLayer(
+                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  userAgentPackageName: 'com.example.salones_uam',
+                ),
+                if (yo != null)
+                  MarkerLayer(
+                    markers: [
+                      Marker(
+                        point: yo,
+                        width: 40,
+                        height: 40,
+                        child: const Icon(Icons.my_location, color: Colors.blue, size: 40),
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Flutter · Android + iOS',
-                  style: tema.textTheme.titleMedium,
-                ),
-                const SizedBox(height: 32),
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 16,
-                    ),
-                    child: Text(
-                      saludar(widget.plataforma),
-                      style: tema.textTheme.titleLarge,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 32),
-                FilledButton(
-                  onPressed: _tocar,
-                  child: const Text('Tócame'),
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  textoContador(_veces),
-                  style: tema.textTheme.bodyLarge,
-                  textAlign: TextAlign.center,
+                const RichAttributionWidget(
+                  attributions: [TextSourceAttribution('OpenStreetMap contributors')],
                 ),
               ],
             ),
           ),
-        ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _ubicar,
+        tooltip: 'Volver a ubicarme',
+        child: const Icon(Icons.gps_fixed),
       ),
     );
   }

@@ -9,9 +9,13 @@ plugins {
 
 kotlin {
     android {
-        namespace = "ovh.gabrielhuav.holamundo.shared"
+        namespace = "ovh.gabrielhuav.salones.shared"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
+
+        // Pruebas que corren en la JVM de la computadora (sin emulador).
+        // Tarea de Gradle: :shared:testAndroidHostTest
+        withHostTestBuilder {}
 
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
@@ -36,6 +40,10 @@ kotlin {
             implementation(libs.compose.foundation)
             implementation(libs.compose.ui)
             implementation(libs.compose.material3)
+        }
+        // Pruebas de la lógica compartida (Catalogo.kt): las mismas para Android e iOS.
+        commonTest.dependencies {
+            implementation(kotlin("test"))
         }
     }
 }
