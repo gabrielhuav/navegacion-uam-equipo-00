@@ -14,3 +14,6 @@ desktop.ini
 .vscode/
 *.iml
 *.log
+
+# Caché de Kotlin que crea Gradle al compilar (Android y KMP)
+.kotlin/
