@@ -9,7 +9,7 @@ on:
 
 jobs:
   flutter:
-    name: Flutter · análisis y pruebas
+    name: Flutter · análisis, pruebas y APK de Android
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -23,6 +23,7 @@ jobs:
       - run: flutter pub get
       - run: flutter analyze
       - run: flutter test
+      - run: flutter build apk --debug
 
   kmp:
     name: KMP · pruebas y APK de Android
