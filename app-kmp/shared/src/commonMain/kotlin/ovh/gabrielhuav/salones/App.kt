@@ -11,9 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
-/** Mapa centrado en el lugar, con un marcador. Cada plataforma lo dibuja a su manera. */
+/** Mapa centrado en el lugar (ver `paginaMapa`). Cada plataforma lo muestra en su visor web. */
 @Composable
-expect fun Mapa(lugar: Ubicacion, modifier: Modifier = Modifier)
+expect fun Mapa(lugar: Ubicacion, conMarcador: Boolean, modifier: Modifier = Modifier)
 
 /**
  * Pantalla del Prototipo 1, la misma en Android y en iOS: el mensaje y el mapa.
@@ -33,7 +33,7 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
                 Button(onClick = onUbicar, modifier = Modifier.padding(16.dp)) {
                     Text("Volver a ubicarme")
                 }
-                Mapa(ubicacion ?: UAM_AZCAPOTZALCO, Modifier.fillMaxSize())
+                Mapa(ubicacion ?: UAM_AZCAPOTZALCO, conMarcador = ubicacion != null, Modifier.fillMaxSize())
             }
         }
     }

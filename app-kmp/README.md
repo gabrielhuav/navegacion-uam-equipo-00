@@ -20,9 +20,9 @@ En Windows: `gradlew.bat :shared:testAndroidHostTest`.
 
 | Archivo | Cambio |
 |---|---|
-| `shared/src/commonMain/.../Ubicacion.kt` | Nuevo: centro de la UAM, distancia, `describir` y la dirección del mapa de OpenStreetMap |
+| `shared/src/commonMain/.../Ubicacion.kt` | Nuevo: centro de la UAM, distancia, `describir` y `paginaMapa`: una página con Leaflet y cuatro proveedores (CARTO, Esri calles, Esri satélite y OpenStreetMap); si uno falla, pasa solo al siguiente |
 | `shared/src/commonMain/.../App.kt` | Pantalla compartida: mensaje, botón y `Mapa` (`expect`) |
-| `shared/src/androidMain/.../Mapa.android.kt` | El mapa en un `WebView`, como en Kotlin-Maps-Example |
+| `shared/src/androidMain/.../Mapa.android.kt` | La página del mapa en un `WebView`, como en Kotlin-Maps-Example |
 | `shared/src/iosMain/.../Mapa.ios.kt` | El mapa en un `WKWebView` (no se verificó en iPhone) |
 | `androidApp/.../MainActivity.kt` | Permiso y ubicación con `FusedLocationProviderClient` |
 | `androidApp/build.gradle.kts` y `gradle/libs.versions.toml` | `play-services-location`; paquete `ovh.gabrielhuav.salones`, versión `0.1.0` |

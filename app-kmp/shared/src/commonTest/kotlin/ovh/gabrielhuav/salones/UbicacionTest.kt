@@ -19,7 +19,15 @@ class UbicacionTest {
     }
 
     @Test
-    fun laUrlDelMapaLlevaElMarcador() {
-        assertTrue(urlMapa(UAM_AZCAPOTZALCO).endsWith("marker=19.50306,-99.18694"))
+    fun laPaginaCentraElMapaYOfreceVariosProveedores() {
+        val pagina = paginaMapa(UAM_AZCAPOTZALCO, conMarcador = true)
+        assertTrue(pagina.contains("setView([19.50306, -99.18694], 17)"))
+        PROVEEDORES.forEach { assertTrue(pagina.contains("'${it.nombre}'")) }
+        assertTrue(pagina.contains("circleMarker"))
+    }
+
+    @Test
+    fun sinUbicacionNoHayMarcador() {
+        assertTrue(!paginaMapa(UAM_AZCAPOTZALCO, conMarcador = false).contains("circleMarker"))
     }
 }

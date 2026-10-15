@@ -44,19 +44,28 @@ class MainActivity : ComponentActivity() {
 
     @SuppressLint("MissingPermission") // solo se llama después de conceder el permiso
     private fun ubicar() {
-        LocationServices.getFusedLocationProviderClient(this)
-            .getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+        val cliente = LocationServices.getFusedLocationProviderClient(this)
+        cliente.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
             .addOnSuccessListener { lugar ->
-                if (lugar == null) {
-                    mensaje = "No se pudo leer la ubicación: el mapa muestra la UAM."
+                if (lugar != null) {
+                    mostrar(lugar.latitude, lugar.longitude)
                 } else {
-                    val yo = Ubicacion(lugar.latitude, lugar.longitude)
-                    ubicacion = yo
-                    mensaje = describir(yo)
+                    // Sin lectura nueva (pasa en el emulador): se usa la última conocida.
+                    cliente.lastLocation.addOnSuccessListener { ultima ->
+                        if (ultima != null) mostrar(ultima.latitude, ultima.longitude) else sinUbicacion()
+                    }
                 }
             }
-            .addOnFailureListener {
-                mensaje = "No se pudo leer la ubicación: el mapa muestra la UAM."
-            }
+            .addOnFailureListener { sinUbicacion() }
+    }
+
+    private fun mostrar(latitud: Double, longitud: Double) {
+        val yo = Ubicacion(latitud, longitud)
+        ubicacion = yo
+        mensaje = describir(yo)
+    }
+
+    private fun sinUbicacion() {
+        mensaje = "No se pudo leer la ubicación: el mapa muestra la UAM. En el emulador, fíjala en ⋯ → Location."
     }
 }

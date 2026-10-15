@@ -5,19 +5,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.UIKitView
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.NSURL
-import platform.Foundation.NSURLRequest
 import platform.WebKit.WKWebView
 
-/** En iOS, el mismo mapa de OpenStreetMap en un WKWebView. No se verificó en iPhone en este prototipo. */
+/** En iOS, la misma página del mapa en un WKWebView. No se verificó en iPhone en este prototipo. */
 @OptIn(ExperimentalForeignApi::class)
 @Composable
-actual fun Mapa(lugar: Ubicacion, modifier: Modifier) {
-    val url = urlMapa(lugar)
+actual fun Mapa(lugar: Ubicacion, conMarcador: Boolean, modifier: Modifier) {
+    val pagina = paginaMapa(lugar, conMarcador)
     UIKitView(
         factory = { WKWebView() },
         modifier = modifier,
-        update = { web ->
-            NSURL.URLWithString(url)?.let { web.loadRequest(NSURLRequest.requestWithURL(it)) }
-        },
+        update = { web -> web.loadHTMLString(pagina, baseURL = NSURL.URLWithString("https://salones.uam.mx/")) },
     )
 }
