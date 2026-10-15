@@ -9,8 +9,11 @@ activityCompose = "1.12.4"
 android-compileSdk = "36"
 android-targetSdk = "36"
 android-minSdk = "24"
+# Ubicación del teléfono en Android (FusedLocationProviderClient), como en Kotlin-Maps-Example.
+playServicesLocation = "21.3.0"
 
 [libraries]
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 # Compose Multiplatform. En Android el plugin los cambia por los `androidx.compose.*` de siempre.
 compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "composeMultiplatform" }

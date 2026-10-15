@@ -41,7 +41,7 @@ kotlin {
             implementation(libs.compose.ui)
             implementation(libs.compose.material3)
         }
-        // Pruebas de la lógica compartida (Catalogo.kt): las mismas para Android e iOS.
+        // Pruebas de la lógica compartida (Ubicacion.kt): las mismas para Android e iOS.
         commonTest.dependencies {
             implementation(kotlin("test"))
         }
