@@ -29,7 +29,7 @@ class UbicacionTest {
     fun laDireccionDeLaTeselaLlevaZoomXyY() {
         assertEquals(
             "https://tile.openstreetmap.org/17/1/2.png",
-            urlTesela(PROVEEDORES.last(), x = 1, y = 2),
+            urlTesela(PROVEEDORES.first { it.nombre == "OpenStreetMap" }, x = 1, y = 2),
         )
     }
 }
