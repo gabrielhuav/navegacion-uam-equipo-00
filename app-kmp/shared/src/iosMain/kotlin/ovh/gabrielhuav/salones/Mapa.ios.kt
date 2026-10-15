@@ -1,20 +1,16 @@
 package ovh.gabrielhuav.salones
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.viewinterop.UIKitView
-import kotlinx.cinterop.ExperimentalForeignApi
-import platform.Foundation.NSURL
-import platform.WebKit.WKWebView
+import androidx.compose.ui.unit.dp
 
-/** En iOS, la misma página del mapa en un WKWebView. No se verificó en iPhone en este prototipo. */
-@OptIn(ExperimentalForeignApi::class)
+/** En iOS el mapa todavía no se dibuja en este prototipo: solo se verifica Android. */
 @Composable
-actual fun Mapa(lugar: Ubicacion, conMarcador: Boolean, modifier: Modifier) {
-    val pagina = paginaMapa(lugar, conMarcador)
-    UIKitView(
-        factory = { WKWebView() },
-        modifier = modifier,
-        update = { web -> web.loadHTMLString(pagina, baseURL = NSURL.URLWithString("https://salones.uam.mx/")) },
-    )
+actual fun Mapa(lugar: Ubicacion, conMarcador: Boolean, proveedor: Int, modifier: Modifier) {
+    Box(modifier) {
+        Text("En iOS, el mapa llega en el siguiente prototipo.", Modifier.padding(16.dp))
+    }
 }

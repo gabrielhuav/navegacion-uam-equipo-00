@@ -19,15 +19,17 @@ class UbicacionTest {
     }
 
     @Test
-    fun laPaginaCentraElMapaYOfreceVariosProveedores() {
-        val pagina = paginaMapa(UAM_AZCAPOTZALCO, conMarcador = true)
-        assertTrue(pagina.contains("setView([19.50306, -99.18694], 17)"))
-        PROVEEDORES.forEach { assertTrue(pagina.contains("'${it.nombre}'")) }
-        assertTrue(pagina.contains("circleMarker"))
+    fun laUamCaeEnSuTeselaDelZoom17() {
+        val (x, y) = posicionEnTeselas(UAM_AZCAPOTZALCO)
+        assertEquals(29423, x.toInt())
+        assertEquals(58293, y.toInt())
     }
 
     @Test
-    fun sinUbicacionNoHayMarcador() {
-        assertTrue(!paginaMapa(UAM_AZCAPOTZALCO, conMarcador = false).contains("circleMarker"))
+    fun laDireccionDeLaTeselaLlevaZoomXyY() {
+        assertEquals(
+            "https://tile.openstreetmap.org/17/1/2.png",
+            urlTesela(PROVEEDORES.last(), x = 1, y = 2),
+        )
     }
 }

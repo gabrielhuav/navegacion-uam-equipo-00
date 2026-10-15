@@ -3,10 +3,12 @@ package ovh.gabrielhuav.salones
 import kotlin.math.PI
 import kotlin.math.asin
 import kotlin.math.cos
+import kotlin.math.ln
 import kotlin.math.pow
 import kotlin.math.roundToInt
 import kotlin.math.sin
 import kotlin.math.sqrt
+import kotlin.math.tan
 
 /** Un punto del mapa, en grados. */
 data class Ubicacion(val latitud: Double, val longitud: Double)
@@ -35,64 +37,33 @@ fun describir(yo: Ubicacion): String {
 }
 
 /** Un proveedor de mapas: nombre, plantilla de teselas y crédito. Ninguno necesita API key. */
-data class Proveedor(val nombre: String, val teselas: String, val credito: String, val subdominios: String = "")
+data class Proveedor(val nombre: String, val teselas: String, val credito: String)
 
 private const val ARCGIS = "https://server.arcgisonline.com/ArcGIS/rest/services/"
 
-/** Si uno no responde, el mapa pasa solo al siguiente; también se puede elegir con el botón de capas. */
+/** Si uno no responde, el mapa pasa solo al siguiente; también se elige con los botones de arriba del mapa. */
 val PROVEEDORES = listOf(
-    Proveedor("CARTO", "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
-        "&copy; OpenStreetMap contributors &copy; CARTO", "abcd"),
-    Proveedor("Esri calles", ARCGIS + "World_Street_Map/MapServer/tile/{z}/{y}/{x}", "Tiles &copy; Esri"),
-    Proveedor("Esri satélite", ARCGIS + "World_Imagery/MapServer/tile/{z}/{y}/{x}", "Tiles &copy; Esri"),
-    Proveedor("OpenStreetMap", "https://tile.openstreetmap.org/{z}/{x}/{y}.png", "&copy; OpenStreetMap contributors"),
+    Proveedor("CARTO", "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png", "© OpenStreetMap contributors © CARTO"),
+    Proveedor("Esri calles", ARCGIS + "World_Street_Map/MapServer/tile/{z}/{y}/{x}", "Tiles © Esri"),
+    Proveedor("Esri satélite", ARCGIS + "World_Imagery/MapServer/tile/{z}/{y}/{x}", "Tiles © Esri"),
+    Proveedor("OpenStreetMap", "https://tile.openstreetmap.org/{z}/{x}/{y}.png", "© OpenStreetMap contributors"),
 )
 
+/** Acercamiento del mapa: en 17 se distinguen los edificios del campus. */
+const val ZOOM = 17
+
 /**
- * Página con Leaflet: el mapa centrado en el lugar, el selector de proveedores y,
- * si hay ubicación, un círculo azul donde estás.
+ * Posición del lugar en teselas (cuadros de 256 px) con la proyección de todos los mapas web.
+ * La parte entera dice qué tesela; la fracción, en qué parte de ella cae el punto.
  */
-fun paginaMapa(lugar: Ubicacion, conMarcador: Boolean): String {
-    val capas = PROVEEDORES.joinToString(",\n") { p ->
-        "'${p.nombre}': L.tileLayer('${p.teselas}', {maxZoom: 19, subdomains: '${p.subdominios.ifEmpty { "abc" }}', attribution: '${p.credito}'})"
-    }
-    val marcador = if (conMarcador) {
-        "L.circleMarker([${lugar.latitud}, ${lugar.longitud}], {radius: 9, color: '#fff', weight: 3, " +
-            "fillColor: '#1a73e8', fillOpacity: 1}).addTo(mapa).bindPopup('Estás aquí');"
-    } else {
-        ""
-    }
-    return """
-<!DOCTYPE html>
-<html><head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<style>html, body, #mapa { height: 100%; margin: 0; }</style>
-</head><body>
-<div id="mapa"></div>
-<script>
-var mapa = L.map('mapa').setView([${lugar.latitud}, ${lugar.longitud}], 17);
-var capas = {
-$capas
-};
-var nombres = Object.keys(capas);
-capas[nombres[0]].addTo(mapa);
-L.control.layers(capas).addTo(mapa);
-// Si un proveedor falla varias veces seguidas, se pasa al siguiente.
-var errores = 0;
-nombres.forEach(function (nombre, i) {
-  capas[nombre].on('tileload', function () { errores = 0; });
-  capas[nombre].on('tileerror', function () {
-    if (!mapa.hasLayer(capas[nombre]) || ++errores < 4) return;
-    errores = 0;
-    mapa.removeLayer(capas[nombre]);
-    capas[nombres[(i + 1) % nombres.length]].addTo(mapa);
-  });
-});
-$marcador
-</script>
-</body></html>
-""".trimIndent()
+fun posicionEnTeselas(lugar: Ubicacion, zoom: Int = ZOOM): Pair<Double, Double> {
+    val n = 2.0.pow(zoom)
+    val x = (lugar.longitud + 180) / 360 * n
+    val latRad = lugar.latitud * PI / 180
+    val y = (1 - ln(tan(latRad) + 1 / cos(latRad)) / PI) / 2 * n
+    return x to y
 }
+
+/** Dirección de una tesela de un proveedor. */
+fun urlTesela(proveedor: Proveedor, x: Int, y: Int, zoom: Int = ZOOM): String =
+    proveedor.teselas.replace("{z}", "$zoom").replace("{x}", "$x").replace("{y}", "$y")
