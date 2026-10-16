@@ -3,7 +3,7 @@ package ovh.gabrielhuav.salones
 import android.graphics.BitmapFactory
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,10 +30,11 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.math.floor
+import kotlin.math.log2
+import kotlin.math.pow
 import kotlin.math.roundToInt
 
 /** Descarga una tesela; si falla, lanza la excepción con el motivo. */
@@ -53,59 +55,44 @@ private fun descargar(url: String): ImageBitmap {
 
 /**
  * En Android, el mapa se arma con las teselas del proveedor y se dibuja en un Canvas de Compose,
- * sin WebView ni JavaScript. Se arrastra con el dedo, en vertical o en horizontal.
- * Si el proveedor elegido no responde, prueba los siguientes y dice por qué.
+ * sin WebView ni JavaScript. Se arrastra con un dedo y se acerca o aleja con dos, como en Flutter.
+ * Pasado el zoom máximo del proveedor, se agrandan las teselas de su último nivel.
  *
  * Imagen aérea del campus (siguiente paso): en el Canvas, en lugar de `teselas.forEach`, se dibuja
- * una sola imagen; sus esquinas (latitud y longitud) se pasan a pantalla con `posicionEnTeselas`,
- * igual que aquí se calcula `izquierda` y `arriba` de cada tesela. El marcador y el arrastre no cambian.
+ * una sola imagen; sus esquinas (latitud y longitud) se pasan a pantalla con `posicionEnTeselas`
+ * y `enPantalla`, igual que cada tesela. El marcador, el arrastre y el zoom no cambian.
  */
 @Composable
 actual fun Mapa(lugar: Ubicacion, conMarcador: Boolean, proveedor: Int, centrar: Int, modifier: Modifier) {
-    val (fx, fy) = posicionEnTeselas(lugar)
-    val lado = with(LocalDensity.current) { 256.dp.toPx() } // la tesela de 256 px se dibuja a 256 dp
+    val p = PROVEEDORES[proveedor]
     var tamano by remember { mutableStateOf(IntSize.Zero) }
-    var desplazamiento by remember(lugar, centrar) { mutableStateOf(Offset.Zero) }
-    val teselas = remember(lugar, proveedor) { mutableStateMapOf<Pair<Int, Int>, ImageBitmap>() }
-    var activo by remember(lugar, proveedor) { mutableStateOf<Proveedor?>(null) }
-    var aviso by remember(lugar, proveedor) { mutableStateOf("Cargando el mapa…") }
+    var zoom by remember(centrar) { mutableStateOf(ZOOM.toFloat()) }
+    var desplazamiento by remember(lugar, centrar) { mutableStateOf(Offset.Zero) } // del lugar respecto al centro
+    val teselas = remember(proveedor) { mutableStateMapOf<Triple<Int, Int, Int>, ImageBitmap>() }
+    val pedidas = remember(proveedor) { mutableSetOf<Triple<Int, Int, Int>>() }
+    var falla by remember(proveedor) { mutableStateOf(false) }
+    val alcance = rememberCoroutineScope()
 
-    // 1. Elegir el proveedor: el primero, empezando por el elegido, cuya tesela central sí llega.
-    LaunchedEffect(lugar, proveedor) {
-        var motivo = ""
-        for (k in PROVEEDORES.indices) {
-            val p = PROVEEDORES[(proveedor + k) % PROVEEDORES.size]
-            aviso = "Cargando ${p.nombre}…"
-            val x = floor(fx).toInt()
-            val y = floor(fy).toInt()
-            val centro = runCatching { withContext(Dispatchers.IO) { descargar(urlTesela(p, x, y)) } }
-            if (centro.isSuccess) {
-                teselas[x to y] = centro.getOrThrow()
-                activo = p
-                aviso = p.credito
-                return@LaunchedEffect
-            }
-            motivo = "${p.nombre}: ${centro.exceptionOrNull()?.message ?: "sin respuesta"}"
-        }
-        aviso = "No se pudo descargar el mapa ($motivo). Revisa que el teléfono o el emulador tenga internet."
-    }
+    // Nivel de teselas que se descarga y a qué tamaño se dibuja cada una con el zoom actual.
+    val nivel = zoom.roundToInt().coerceAtMost(p.zoomMaximo)
+    val lado = with(LocalDensity.current) { 256.dp.toPx() } * 2f.pow(zoom - nivel)
+    val (fx, fy) = posicionEnTeselas(lugar, nivel)
+    val centro = Offset(tamano.width / 2f, tamano.height / 2f) + desplazamiento
+    fun enPantalla(x: Double, y: Double) = centro + Offset(((x - fx) * lado).toFloat(), ((y - fy) * lado).toFloat())
 
-    // 2. Las teselas que se ven en pantalla (cambian al arrastrar o al girar el teléfono).
-    val mitadX = tamano.width / 2f
-    val mitadY = tamano.height / 2f
+    // Las teselas que se ven; cada una se descarga una sola vez.
+    val n = 1 shl nivel
     val visibles = if (tamano == IntSize.Zero) emptyList() else {
-        val x0 = floor(fx + (-mitadX - desplazamiento.x) / lado).toInt()
-        val x1 = floor(fx + (mitadX - desplazamiento.x) / lado).toInt()
-        val y0 = floor(fy + (-mitadY - desplazamiento.y) / lado).toInt()
-        val y1 = floor(fy + (mitadY - desplazamiento.y) / lado).toInt()
-        (x0..x1).flatMap { x -> (y0..y1).map { y -> x to y } }
+        val xs = floor(fx - centro.x / lado).toInt()..floor(fx + (tamano.width - centro.x) / lado).toInt()
+        val ys = floor(fy - centro.y / lado).toInt()..floor(fy + (tamano.height - centro.y) / lado).toInt()
+        xs.flatMap { x -> ys.map { y -> Triple(nivel, x, y) } }.filter { it.second in 0 until n && it.third in 0 until n }
     }
-    LaunchedEffect(activo, visibles) {
-        val p = activo ?: return@LaunchedEffect
-        visibles.filter { it !in teselas }.forEach { xy ->
-            launch(Dispatchers.IO) {
-                runCatching { descargar(urlTesela(p, xy.first, xy.second)) }
-                    .onSuccess { teselas[xy] = it }
+    LaunchedEffect(proveedor, visibles) {
+        visibles.filter { pedidas.add(it) }.forEach { t ->
+            alcance.launch(Dispatchers.IO) {
+                runCatching { descargar(urlTesela(p, t.second, t.third, t.first)) }
+                    .onSuccess { teselas[t] = it }
+                    .onFailure { falla = true }
             }
         }
     }
@@ -114,31 +101,31 @@ actual fun Mapa(lugar: Ubicacion, conMarcador: Boolean, proveedor: Int, centrar:
         modifier
             .background(Color(0xFFE8E8E8))
             .onSizeChanged { tamano = it }
-            .pointerInput(lugar) {
-                detectDragGestures { cambio, arrastre ->
-                    cambio.consume()
-                    desplazamiento += arrastre
+            .pointerInput(lugar, centrar) {
+                detectTransformGestures { _, arrastre, escala, _ ->
+                    val nuevo = (zoom + log2(escala)).coerceIn(3f, 19f)
+                    desplazamiento = desplazamiento * 2f.pow(nuevo - zoom) + arrastre // acerca hacia el centro de la pantalla
+                    zoom = nuevo
                 }
             },
     ) {
         Canvas(Modifier.fillMaxSize()) {
-            teselas.forEach { (xy, imagen) ->
-                val izquierda = mitadX + (xy.first - fx).toFloat() * lado + desplazamiento.x
-                val arriba = mitadY + (xy.second - fy).toFloat() * lado + desplazamiento.y
+            teselas.forEach { (t, imagen) ->
+                if (t.first != nivel) return@forEach
+                val esquina = enPantalla(t.second.toDouble(), t.third.toDouble())
                 drawImage(
                     image = imagen,
-                    dstOffset = IntOffset(izquierda.roundToInt(), arriba.roundToInt()),
+                    dstOffset = IntOffset(esquina.x.roundToInt(), esquina.y.roundToInt()),
                     dstSize = IntSize(lado.roundToInt() + 1, lado.roundToInt() + 1),
                 )
             }
             if (conMarcador) {
-                val punto = Offset(mitadX + desplazamiento.x, mitadY + desplazamiento.y)
-                drawCircle(Color.White, radius = 12.dp.toPx(), center = punto)
-                drawCircle(Color(0xFF1A73E8), radius = 9.dp.toPx(), center = punto)
+                drawCircle(Color.White, radius = 12.dp.toPx(), center = centro)
+                drawCircle(Color(0xFF1A73E8), radius = 9.dp.toPx(), center = centro)
             }
         }
         Text(
-            aviso,
+            if (falla) "${p.nombre} no carga: elige otro mapa." else p.credito,
             modifier = Modifier.align(Alignment.BottomStart).background(Color(0xCCFFFFFF)).padding(6.dp),
         )
     }

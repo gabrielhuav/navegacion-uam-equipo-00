@@ -36,16 +36,25 @@ fun describir(yo: Ubicacion): String {
     return "Estás a $km km de la UAM."
 }
 
-/** Un proveedor de mapas: nombre, plantilla de teselas y crédito. Ninguno necesita API key. */
-data class Proveedor(val nombre: String, val teselas: String, val credito: String)
+/** Un proveedor de mapas: nombre, plantilla de teselas, crédito y el zoom más alto que tiene. Ninguno pide API key. */
+data class Proveedor(val nombre: String, val teselas: String, val credito: String, val zoomMaximo: Int = 19)
 
 private const val ARCGIS = "https://server.arcgisonline.com/ArcGIS/rest/services/"
 
-/** Si uno no responde, el mapa pasa solo al siguiente; también se elige con los botones de arriba del mapa. */
+/**
+ * Los mismos que en Flutter (lib/main.dart). Si uno no carga, se elige otro en el menú «Mapa».
+ * CARTO ya pide API key y Google no permite usar sus teselas así: por eso no están.
+ */
 val PROVEEDORES = listOf(
     Proveedor("OpenStreetMap", "https://tile.openstreetmap.org/{z}/{x}/{y}.png", "© OpenStreetMap contributors"),
-    Proveedor("Esri calles", ARCGIS + "World_Street_Map/MapServer/tile/{z}/{y}/{x}", "Tiles © Esri"),
+    Proveedor("OSM Humanitario", "https://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", "© OpenStreetMap · HOT"),
+    Proveedor("CyclOSM", "https://a.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png", "© OpenStreetMap · CyclOSM", 18),
+    Proveedor("OpenTopoMap", "https://a.tile.opentopomap.org/{z}/{x}/{y}.png", "© OpenStreetMap · OpenTopoMap", 17),
+    Proveedor("Esri calles", ARCGIS + "World_Street_Map/MapServer/tile/{z}/{y}/{x}", "Tiles © Esri", 18),
     Proveedor("Esri satélite", ARCGIS + "World_Imagery/MapServer/tile/{z}/{y}/{x}", "Tiles © Esri"),
+    Proveedor("Esri topográfico", ARCGIS + "World_Topo_Map/MapServer/tile/{z}/{y}/{x}", "Tiles © Esri", 18),
+    Proveedor("Esri gris claro", ARCGIS + "Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}", "Tiles © Esri", 16),
+    Proveedor("Esri gris oscuro", ARCGIS + "Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}", "Tiles © Esri", 16),
 )
 
 /** Acercamiento del mapa: en 17 se distinguen los edificios del campus. */

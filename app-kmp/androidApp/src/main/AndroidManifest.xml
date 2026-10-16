@@ -11,8 +11,10 @@
         android:label="Salones KMP"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Material.Light.NoActionBar">
+        <!-- configChanges: al girar no se recrea la pantalla y el mapa conserva zoom y posición, como en Flutter. -->
         <activity
             android:name=".MainActivity"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
