@@ -26,9 +26,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
-/** Mapa centrado en el lugar, con las teselas del proveedor elegido (índice en PROVEEDORES). */
+/**
+ * Mapa centrado en el lugar, con las teselas del proveedor elegido (índice en PROVEEDORES).
+ * Cada vez que `centrar` cambia, el mapa vuelve al lugar aunque se haya arrastrado.
+ */
 @Composable
-expect fun Mapa(lugar: Ubicacion, conMarcador: Boolean, proveedor: Int, modifier: Modifier = Modifier)
+expect fun Mapa(lugar: Ubicacion, conMarcador: Boolean, proveedor: Int, centrar: Int, modifier: Modifier = Modifier)
 
 /**
  * Pantalla del Prototipo 1, la misma en Android y en iOS: el mapa a pantalla completa,
@@ -39,8 +42,9 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
     MaterialTheme {
         // rememberSaveable: el proveedor elegido no se pierde al girar el teléfono.
         var proveedor by rememberSaveable { mutableStateOf(0) }
+        var centrar by rememberSaveable { mutableStateOf(0) }
         Box(Modifier.fillMaxSize()) {
-            Mapa(ubicacion ?: UAM_AZCAPOTZALCO, conMarcador = ubicacion != null, proveedor, Modifier.fillMaxSize())
+            Mapa(ubicacion ?: UAM_AZCAPOTZALCO, conMarcador = ubicacion != null, proveedor, centrar, Modifier.fillMaxSize())
 
             // En horizontal la tarjeta no ocupa todo el ancho, para que se vea el mapa.
             Column(Modifier.safeDrawingPadding().padding(12.dp).widthIn(max = 480.dp)) {
@@ -65,7 +69,7 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
             }
 
             ExtendedFloatingActionButton(
-                onClick = onUbicar,
+                onClick = { centrar++; onUbicar() },
                 modifier = Modifier.align(Alignment.BottomEnd).safeDrawingPadding().padding(16.dp).padding(bottom = 32.dp),
             ) {
                 Text("Ubicarme")

@@ -61,11 +61,11 @@ private fun descargar(url: String): ImageBitmap {
  * igual que aquí se calcula `izquierda` y `arriba` de cada tesela. El marcador y el arrastre no cambian.
  */
 @Composable
-actual fun Mapa(lugar: Ubicacion, conMarcador: Boolean, proveedor: Int, modifier: Modifier) {
+actual fun Mapa(lugar: Ubicacion, conMarcador: Boolean, proveedor: Int, centrar: Int, modifier: Modifier) {
     val (fx, fy) = posicionEnTeselas(lugar)
     val lado = with(LocalDensity.current) { 256.dp.toPx() } // la tesela de 256 px se dibuja a 256 dp
     var tamano by remember { mutableStateOf(IntSize.Zero) }
-    var desplazamiento by remember(lugar) { mutableStateOf(Offset.Zero) }
+    var desplazamiento by remember(lugar, centrar) { mutableStateOf(Offset.Zero) }
     val teselas = remember(lugar, proveedor) { mutableStateMapOf<Pair<Int, Int>, ImageBitmap>() }
     var activo by remember(lugar, proveedor) { mutableStateOf<Proveedor?>(null) }
     var aviso by remember(lugar, proveedor) { mutableStateOf("Cargando el mapa…") }
