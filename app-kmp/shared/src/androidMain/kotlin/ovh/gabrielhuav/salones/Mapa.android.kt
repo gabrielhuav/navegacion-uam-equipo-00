@@ -55,6 +55,10 @@ private fun descargar(url: String): ImageBitmap {
  * En Android, el mapa se arma con las teselas del proveedor y se dibuja en un Canvas de Compose,
  * sin WebView ni JavaScript. Se arrastra con el dedo, en vertical o en horizontal.
  * Si el proveedor elegido no responde, prueba los siguientes y dice por qué.
+ *
+ * Imagen aérea del campus (siguiente paso): en el Canvas, en lugar de `teselas.forEach`, se dibuja
+ * una sola imagen; sus esquinas (latitud y longitud) se pasan a pantalla con `posicionEnTeselas`,
+ * igual que aquí se calcula `izquierda` y `arriba` de cada tesela. El marcador y el arrastre no cambian.
  */
 @Composable
 actual fun Mapa(lugar: Ubicacion, conMarcador: Boolean, proveedor: Int, modifier: Modifier) {

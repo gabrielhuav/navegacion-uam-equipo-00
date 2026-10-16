@@ -2,6 +2,7 @@ package ovh.gabrielhuav.salones
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -21,6 +22,10 @@ class MainActivity : ComponentActivity() {
 
     private val pedirPermiso =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permisos ->
+            if (permisos.isEmpty()) {
+                // Petición cancelada (p. ej. se giró el teléfono con el diálogo abierto): no es un «no».
+                return@registerForActivityResult
+            }
             if (permisos.values.any { it }) {
                 ubicar()
             } else {
@@ -33,8 +38,16 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         // `App()` es la pantalla compartida de `:shared` (commonMain): la misma que ve iOS.
         setContent { App(ubicacion, mensaje, onUbicar = { pedirUbicacion() }) }
-        pedirUbicacion()
+        when {
+            tienePermiso() -> ubicar()
+            // Al girar, Android recrea la actividad; el diálogo sigue abierto y no se pide dos veces.
+            savedInstanceState == null -> pedirUbicacion()
+        }
     }
+
+    private fun tienePermiso() =
+        checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+            checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
 
     private fun pedirUbicacion() {
         pedirPermiso.launch(
