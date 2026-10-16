@@ -17,7 +17,7 @@ La primera vez, la app pide permiso de ubicación. En el emulador, la ubicación
 | Archivo | Cambio |
 |---|---|
 | `lib/ubicacion.dart` | Nuevo: pedir permiso, leer la ubicación con `geolocator` y decir si estás en la UAM |
-| `lib/main.dart` | `PantallaMapa`: mapa con `flutter_map`, un marcador en tu posición y el botón de capas para elegir proveedor (OpenStreetMap, Esri calles o Esri satélite) |
+| `lib/main.dart` | `PantallaMapa`: mapa con `flutter_map`, un marcador en tu posición y el menú «Mapa» con 9 proveedores sin API key, zoom con dos dedos y «Ubicarme»; la misma pantalla que KMP |
 | `test/ubicacion_test.dart` | Pruebas de `describir` |
 | `pubspec.yaml` | `geolocator`, `flutter_map` y `latlong2`; nombre `salones_uam`, versión `0.1.0+1` |
 | `android/app/src/main/AndroidManifest.xml` | Permisos de internet y ubicación; nombre `Salones Flutter` |
