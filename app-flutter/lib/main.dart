@@ -47,6 +47,7 @@ const proveedores = [
 class _PantallaMapaState extends State<PantallaMapa> {
   Ubicacion _ubicacion = const Ubicacion(null, 'Buscando tu ubicación…');
   Proveedor _proveedor = proveedores.first;
+  final _mapa = MapController();
 
   @override
   void initState() {
@@ -56,7 +57,10 @@ class _PantallaMapaState extends State<PantallaMapa> {
 
   Future<void> _ubicar() async {
     final ubicacion = await obtenerUbicacion();
-    if (mounted) setState(() => _ubicacion = ubicacion);
+    if (!mounted) return;
+    setState(() => _ubicacion = ubicacion);
+    // Si el mapa se arrastró, «Ubicarme» lo vuelve a centrar.
+    _mapa.move(ubicacion.punto ?? uamAzcapotzalco, 17);
   }
 
   @override
@@ -90,8 +94,7 @@ class _PantallaMapaState extends State<PantallaMapa> {
           ),
           Expanded(
             child: FlutterMap(
-              // La clave cambia con el centro: así el mapa se recentra cuando llega la ubicación.
-              key: ValueKey(centro),
+              mapController: _mapa,
               options: MapOptions(initialCenter: centro, initialZoom: 17),
               children: [
                 TileLayer(
@@ -112,6 +115,8 @@ class _PantallaMapaState extends State<PantallaMapa> {
                     ],
                   ),
                 const RichAttributionWidget(
+                  // A la izquierda, para que el botón de ubicarme no la tape.
+                  alignment: AttributionAlignment.bottomLeft,
                   attributions: [TextSourceAttribution('OpenStreetMap contributors y Esri')],
                 ),
               ],

@@ -1,6 +1,7 @@
 /// Ubicación del teléfono para el Prototipo 1: ¿dónde estoy dentro de la UAM?
 library;
 
+import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -32,12 +33,23 @@ Future<Ubicacion> obtenerUbicacion() async {
     return const Ubicacion(null, 'Sin permiso de ubicación: el mapa muestra la UAM.');
   }
   try {
-    final posicion = await Geolocator.getCurrentPosition();
+    final posicion = await Geolocator.getCurrentPosition(locationSettings: _ajustes())
+        .catchError((_) async => (await Geolocator.getLastKnownPosition())!);
     final punto = LatLng(posicion.latitude, posicion.longitude);
     return Ubicacion(punto, describir(punto));
-  } catch (_) {
+  } catch (e) {
+    debugPrint('Ubicación: $e');
     return const Ubicacion(null, 'No se pudo leer la ubicación: el mapa muestra la UAM.');
   }
+}
+
+/// En Android se lee el GPS del sistema (LocationManager). Con el proveedor de Google,
+/// geolocator abre el diálogo «Location Accuracy» y, si el usuario dice que no, falla.
+LocationSettings _ajustes() {
+  if (defaultTargetPlatform == TargetPlatform.android) {
+    return AndroidSettings(forceLocationManager: true, timeLimit: const Duration(seconds: 15));
+  }
+  return const LocationSettings(timeLimit: Duration(seconds: 15));
 }
 
 /// Dice si el punto está en la UAM o a cuántos kilómetros queda.
