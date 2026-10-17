@@ -27,12 +27,26 @@ private val motor: Engine by lazy {
 private class Visor(val modelo: ModelViewer, val camara: Manipulator, val arriba: Bookmark, val inclinada: Bookmark) {
     /** Hasta cuándo dibujar (System.nanoTime). Sin animaciones, basta dibujar un momento después de cada cambio. */
     @Volatile var dibujarHasta = 0L
+
+    /** Última posición de cámara por encima del suelo: si un arrastre la baja de más, se regresa a ella. */
+    private var ultimaBuena = camara.currentBookmark
+    private val ojo = FloatArray(3)
+    private val centro = FloatArray(3)
+    private val haciaArriba = FloatArray(3)
+    fun noBajarDelSuelo() {
+        camara.getLookAt(ojo, centro, haciaArriba)
+        // Al menos ~12° sobre el horizonte: la altura del ojo contra su distancia al centro.
+        val dx = ojo[0] - centro[0]
+        val dz = ojo[2] - centro[2]
+        if (ojo[1] - centro[1] < 0.2f * kotlin.math.sqrt(dx * dx + dz * dz)) camara.jumpToBookmark(ultimaBuena)
+        else ultimaBuena = camara.currentBookmark
+    }
     fun avisarCambio() { dibujarHasta = System.nanoTime() + 1_500_000_000L }
 }
 
 /**
  * El GLB que exporta el editor web (campus/UAM_Azcapotzalco.glb), dibujado con Filament.
- * Un dedo lo gira alrededor; dos dedos acercan o desplazan: lo hace ModelViewer.
+ * Un dedo lo gira (a los lados) y lo inclina (arriba y abajo); dos dedos acercan o desplazan: lo hace ModelViewer.
  *
  * El modelo se carga una sola vez y no se libera al salir de 3D: liberarlo y volverlo a cargar
  * hacía fallar a Filament (asyncCancelLoad). Oculto, no se dibuja; visible, solo un momento después de tocarlo.
@@ -51,7 +65,7 @@ actual fun Campus3D(visible: Boolean, inclinada: Boolean, modifier: Modifier) {
                 fun camara(altura: Float, alSur: Float) = Manipulator.Builder()
                     .targetPosition(0f, 0f, -4f)
                     .orbitHomePosition(-nx * alSur, altura, -4f - nz * alSur)
-                    .orbitSpeed(0.01f, 0f) // arrastrar solo gira alrededor del campus: nunca queda debajo del suelo
+                    .orbitSpeed(0.01f, 0.006f) // a los lados gira; arriba y abajo inclina (con tope: noBajarDelSuelo)
                     .build(Manipulator.Mode.ORBIT)
                 val desdeArriba = camara(altura = 2.8f, alSur = 0.5f)
                 val deLado = camara(altura = 1.3f, alSur = 1.6f)
@@ -91,7 +105,10 @@ actual fun Campus3D(visible: Boolean, inclinada: Boolean, modifier: Modifier) {
             override fun doFrame(tiempo: Long) {
                 reloj.postFrameCallback(this)
                 val v = visor[0] ?: return
-                if (System.nanoTime() < v.dibujarHasta) v.modelo.render(tiempo)
+                if (System.nanoTime() < v.dibujarHasta) {
+                    v.noBajarDelSuelo()
+                    v.modelo.render(tiempo)
+                }
             }
         }
         if (visible) {
