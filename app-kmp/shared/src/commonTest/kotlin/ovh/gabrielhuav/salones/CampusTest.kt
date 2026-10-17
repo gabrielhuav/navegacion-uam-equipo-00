@@ -3,6 +3,7 @@ package ovh.gabrielhuav.salones
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertTrue
 
 /** La lectura de campus/georreferencia.json, la misma que hace Flutter. */
 class CampusTest {
@@ -31,6 +32,14 @@ class CampusTest {
     fun sinUnaEsquinaAvisaCualFalta() {
         val error = assertFailsWith<IllegalStateException> { leerGeorreferencia("""{"ancho": 1, "alto": 1}""") }
         assertEquals("Falta superiorIzquierda en georreferencia.json", error.message)
+    }
+
+    @Test
+    fun elNorteDelModeloEsCasiMasZ() {
+        // El plano está casi de cabeza en el mapa: su borde de abajo (+z) apunta al norte, girado unos 6°.
+        val (x, z) = norteEnModelo(leerGeorreferencia(json))
+        assertTrue(z > 0.98, "z = $z")
+        assertTrue(x > 0.05 && x < 0.2, "x = $x")
     }
 
     @Test

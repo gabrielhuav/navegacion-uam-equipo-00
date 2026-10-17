@@ -68,7 +68,7 @@ private data class PlanoCampus(val imagen: ImageBitmap, val geo: Georreferencia)
  * con `posicionEnTeselas` y `enPantalla`, igual que cada tesela, y se gira y escala para que quepa entre ellas.
  */
 @Composable
-actual fun Mapa(lugar: Ubicacion, conMarcador: Boolean, proveedor: Int, centrar: Int, conTeselas: Boolean, modifier: Modifier) {
+actual fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar: Int, conTeselas: Boolean, modifier: Modifier) {
     val activos = LocalContext.current.assets
     val plano = remember {
         runCatching {
@@ -81,7 +81,7 @@ actual fun Mapa(lugar: Ubicacion, conMarcador: Boolean, proveedor: Int, centrar:
     val p = PROVEEDORES[proveedor]
     var tamano by remember { mutableStateOf(IntSize.Zero) }
     var zoom by remember(centrar) { mutableStateOf(ZOOM.toFloat()) }
-    var desplazamiento by remember(lugar, centrar) { mutableStateOf(Offset.Zero) } // del lugar respecto al centro
+    var desplazamiento by remember(centro, centrar) { mutableStateOf(Offset.Zero) } // del centro del mapa respecto al de la pantalla
     val teselas = remember(proveedor) { mutableStateMapOf<Triple<Int, Int, Int>, ImageBitmap>() }
     val pedidas = remember(proveedor) { mutableSetOf<Triple<Int, Int, Int>>() }
     var falla by remember(proveedor) { mutableStateOf(false) }
@@ -90,16 +90,16 @@ actual fun Mapa(lugar: Ubicacion, conMarcador: Boolean, proveedor: Int, centrar:
     // Nivel de teselas que se descarga y a qué tamaño se dibuja cada una con el zoom actual.
     val nivel = zoom.roundToInt().coerceAtMost(p.zoomMaximo)
     val lado = with(LocalDensity.current) { 256.dp.toPx() } * 2f.pow(zoom - nivel)
-    val (fx, fy) = posicionEnTeselas(lugar, nivel)
-    val centro = Offset(tamano.width / 2f, tamano.height / 2f) + desplazamiento
-    fun enPantalla(x: Double, y: Double) = centro + Offset(((x - fx) * lado).toFloat(), ((y - fy) * lado).toFloat())
+    val (fx, fy) = posicionEnTeselas(centro, nivel)
+    val enMedio = Offset(tamano.width / 2f, tamano.height / 2f) + desplazamiento
+    fun enPantalla(x: Double, y: Double) = enMedio + Offset(((x - fx) * lado).toFloat(), ((y - fy) * lado).toFloat())
     fun enPantalla(u: Ubicacion) = posicionEnTeselas(u, nivel).let { (x, y) -> enPantalla(x, y) }
 
     // Las teselas que se ven; cada una se descarga una sola vez.
     val n = 1 shl nivel
     val visibles = if (tamano == IntSize.Zero || !conTeselas) emptyList() else {
-        val xs = floor(fx - centro.x / lado).toInt()..floor(fx + (tamano.width - centro.x) / lado).toInt()
-        val ys = floor(fy - centro.y / lado).toInt()..floor(fy + (tamano.height - centro.y) / lado).toInt()
+        val xs = floor(fx - enMedio.x / lado).toInt()..floor(fx + (tamano.width - enMedio.x) / lado).toInt()
+        val ys = floor(fy - enMedio.y / lado).toInt()..floor(fy + (tamano.height - enMedio.y) / lado).toInt()
         xs.flatMap { x -> ys.map { y -> Triple(nivel, x, y) } }.filter { it.second in 0 until n && it.third in 0 until n }
     }
     LaunchedEffect(proveedor, visibles) {
@@ -116,7 +116,7 @@ actual fun Mapa(lugar: Ubicacion, conMarcador: Boolean, proveedor: Int, centrar:
         modifier
             .background(if (conTeselas) Color(0xFFE8E8E8) else Color(0xFFEDF1ED))
             .onSizeChanged { tamano = it }
-            .pointerInput(lugar, centrar) {
+            .pointerInput(centro, centrar) {
                 detectTransformGestures { _, arrastre, escala, _ ->
                     val nuevo = (zoom + log2(escala)).coerceIn(3f, 19f)
                     desplazamiento = desplazamiento * 2f.pow(nuevo - zoom) + arrastre // acerca hacia el centro de la pantalla
@@ -146,9 +146,10 @@ actual fun Mapa(lugar: Ubicacion, conMarcador: Boolean, proveedor: Int, centrar:
                     drawImage(imagen, alpha = if (conTeselas) 0.85f else 1f)
                 }
             }
-            if (conMarcador) {
-                drawCircle(Color.White, radius = 12.dp.toPx(), center = centro)
-                drawCircle(Color(0xFF1A73E8), radius = 9.dp.toPx(), center = centro)
+            marcador?.let {
+                val punto = enPantalla(it)
+                drawCircle(Color.White, radius = 12.dp.toPx(), center = punto)
+                drawCircle(Color(0xFF1A73E8), radius = 9.dp.toPx(), center = punto)
             }
         }
         Text(

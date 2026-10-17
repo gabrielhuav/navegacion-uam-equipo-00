@@ -1,6 +1,7 @@
 package ovh.gabrielhuav.salones
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,16 +30,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 /**
- * Mapa centrado en el lugar, con las teselas del proveedor elegido (índice en PROVEEDORES)
+ * Mapa centrado en `centro`, con las teselas del proveedor elegido (índice en PROVEEDORES)
  * y el plano 2D del campus encima. Sin teselas queda solo el plano, como el «Plano superior» del editor web.
- * Cada vez que `centrar` cambia, el mapa vuelve al lugar y al zoom inicial.
+ * El punto azul marca `marcador` (tu ubicación), esté o no en el centro.
+ * Cada vez que `centrar` cambia, el mapa vuelve al centro y al zoom inicial.
  */
 @Composable
-expect fun Mapa(lugar: Ubicacion, conMarcador: Boolean, proveedor: Int, centrar: Int, conTeselas: Boolean, modifier: Modifier = Modifier)
+expect fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar: Int, conTeselas: Boolean, modifier: Modifier = Modifier)
 
 /**
  * Pantalla del Prototipo 2, la misma en Android y en iOS, y la misma que la de Flutter:
- * el campus a pantalla completa (Mapa, 2D o 3D), una tarjeta con el mensaje y el menú «Mapa», y el botón «Ubicarme».
+ * el campus a pantalla completa (Mapa, 2D o 3D), una tarjeta con el mensaje y el menú «Mapa»,
+ * y los botones «UAM» y «Ubicarme» (en 3D, «Inclinar» o «Desde arriba»).
  */
 @Composable
 fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
@@ -46,12 +49,16 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
         var proveedor by rememberSaveable { mutableStateOf(0) }
         var centrar by rememberSaveable { mutableStateOf(0) }
         var vista by rememberSaveable { mutableStateOf(Vista.MAPA) }
+        var enLaUam by rememberSaveable { mutableStateOf(false) } // «UAM» centra el campus; «Ubicarme», a ti
+        var inclinada by rememberSaveable { mutableStateOf(false) }
+        // El modelo 3D se carga la primera vez que se pide y ya no se libera: solo se oculta y deja de dibujarse.
+        var con3D by rememberSaveable { mutableStateOf(false) }
+        if (vista == Vista.TRES_D) con3D = true
         Box(Modifier.fillMaxSize()) {
-            if (vista == Vista.TRES_D) {
-                Campus3D(Modifier.fillMaxSize())
-            } else {
-                val lugar = ubicacion ?: UAM_AZCAPOTZALCO
-                Mapa(lugar, conMarcador = ubicacion != null, proveedor, centrar, conTeselas = vista == Vista.MAPA, Modifier.fillMaxSize())
+            if (con3D) Campus3D(visible = vista == Vista.TRES_D, inclinada, Modifier.fillMaxSize())
+            if (vista != Vista.TRES_D) {
+                val centro = if (enLaUam || ubicacion == null) UAM_AZCAPOTZALCO else ubicacion
+                Mapa(centro, ubicacion, proveedor, centrar, conTeselas = vista == Vista.MAPA, Modifier.fillMaxSize())
             }
 
             Card(Modifier.safeDrawingPadding().padding(12.dp).widthIn(max = 480.dp).fillMaxWidth()) {
@@ -86,12 +93,18 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
                 }
             }
 
-            if (vista != Vista.TRES_D) {
-                ExtendedFloatingActionButton(
-                    onClick = { centrar++; onUbicar() },
-                    modifier = Modifier.align(Alignment.BottomEnd).safeDrawingPadding().padding(16.dp),
-                ) {
-                    Text("Ubicarme")
+            Column(
+                Modifier.align(Alignment.BottomEnd).safeDrawingPadding().padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                horizontalAlignment = Alignment.End,
+            ) {
+                if (vista == Vista.TRES_D) {
+                    ExtendedFloatingActionButton(onClick = { inclinada = !inclinada }) {
+                        Text(if (inclinada) "Desde arriba" else "Inclinar")
+                    }
+                } else {
+                    ExtendedFloatingActionButton(onClick = { enLaUam = true; centrar++ }) { Text("UAM") }
+                    ExtendedFloatingActionButton(onClick = { enLaUam = false; centrar++; onUbicar() }) { Text("Ubicarme") }
                 }
             }
         }

@@ -2,6 +2,9 @@ package ovh.gabrielhuav.salones
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sqrt
 
 /** Las tres formas de ver el campus. Por defecto, el mapa real con el plano 2D encima. */
 enum class Vista(val nombre: String) { MAPA("Mapa"), PLANO("2D"), TRES_D("3D") }
@@ -37,6 +40,31 @@ fun leerGeorreferencia(json: String): Georreferencia {
     )
 }
 
-/** El modelo 3D del campus. En Android se dibuja con Filament; en iOS, todavía no. */
+/**
+ * Hacia dónde queda el norte en el modelo, como vector unitario (x, z) del suelo.
+ * El borde superior del plano va hacia +x y el izquierdo hacia +z; sus esquinas en el mapa dicen cómo está girado.
+ */
+fun norteEnModelo(geo: Georreferencia): Pair<Double, Double> {
+    val cosLat = cos(geo.superiorIzquierda.latitud * PI / 180)
+    // Cuánto avanza un píxel del plano (este, norte); la escala común no importa.
+    fun porPixel(u: Ubicacion, pixeles: Int) = Pair(
+        (u.longitud - geo.superiorIzquierda.longitud) * cosLat / pixeles,
+        (u.latitud - geo.superiorIzquierda.latitud) / pixeles,
+    )
+    val (ax, ay) = porPixel(geo.superiorDerecha, geo.ancho)  // hacia +x
+    val (bx, by) = porPixel(geo.inferiorIzquierda, geo.alto) // hacia +z
+    // norte = x·(ax, ay) + z·(bx, by) con este = 0 y norte = 1 (regla de Cramer).
+    val det = ax * by - ay * bx
+    val x = -bx / det
+    val z = ax / det
+    val largo = sqrt(x * x + z * z)
+    return Pair(x / largo, z / largo)
+}
+
+/**
+ * El modelo 3D del campus. Empieza visto desde arriba con el norte hacia arriba, como el mapa;
+ * con `inclinada` la cámara baja para verlo de lado. En Android se dibuja con Filament; en iOS, todavía no.
+ * Mientras `visible` es falso no se dibuja: así no gasta batería.
+ */
 @Composable
-expect fun Campus3D(modifier: Modifier = Modifier)
+expect fun Campus3D(visible: Boolean, inclinada: Boolean, modifier: Modifier = Modifier)
