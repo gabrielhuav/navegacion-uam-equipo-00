@@ -1,6 +1,6 @@
 [versions]
 # Misma combinación que PolitecnicoOpenWorld, que ya compila en Windows (Android) y en el Mac (iOS).
-agp = "9.3.0"
+agp = "9.4.1"
 kotlin = "2.3.21"
 composeMultiplatform = "1.11.1"
 # Material 3 multiplataforma lleva su propia numeración: 1.9.0 es la que corresponde a Compose 1.11.1.
