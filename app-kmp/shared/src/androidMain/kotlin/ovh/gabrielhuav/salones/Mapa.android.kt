@@ -23,7 +23,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
@@ -32,6 +34,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.net.HttpURLConnection
 import java.net.URL
+import kotlin.math.atan2
 import kotlin.math.floor
 import kotlin.math.log2
 import kotlin.math.pow
@@ -53,17 +56,28 @@ private fun descargar(url: String): ImageBitmap {
     }
 }
 
+/** El plano 2D del campus y dónde va, leídos de los assets que copia Gradle desde campus/. */
+private data class PlanoCampus(val imagen: ImageBitmap, val geo: Georreferencia)
+
 /**
  * En Android, el mapa se arma con las teselas del proveedor y se dibuja en un Canvas de Compose,
  * sin WebView ni JavaScript. Se arrastra con un dedo y se acerca o aleja con dos, como en Flutter.
  * Pasado el zoom máximo del proveedor, se agrandan las teselas de su último nivel.
  *
- * Imagen aérea del campus (siguiente paso): en el Canvas, en lugar de `teselas.forEach`, se dibuja
- * una sola imagen; sus esquinas (latitud y longitud) se pasan a pantalla con `posicionEnTeselas`
- * y `enPantalla`, igual que cada tesela. El marcador, el arrastre y el zoom no cambian.
+ * El plano del campus es una sola imagen: sus esquinas (latitud y longitud) se pasan a pantalla
+ * con `posicionEnTeselas` y `enPantalla`, igual que cada tesela, y se gira y escala para que quepa entre ellas.
  */
 @Composable
-actual fun Mapa(lugar: Ubicacion, conMarcador: Boolean, proveedor: Int, centrar: Int, modifier: Modifier) {
+actual fun Mapa(lugar: Ubicacion, conMarcador: Boolean, proveedor: Int, centrar: Int, conTeselas: Boolean, modifier: Modifier) {
+    val activos = LocalContext.current.assets
+    val plano = remember {
+        runCatching {
+            PlanoCampus(
+                activos.open("campus/plano_2d.png").use { BitmapFactory.decodeStream(it).asImageBitmap() },
+                leerGeorreferencia(activos.open("campus/georreferencia.json").use { it.readBytes().decodeToString() }),
+            )
+        }.getOrNull()
+    }
     val p = PROVEEDORES[proveedor]
     var tamano by remember { mutableStateOf(IntSize.Zero) }
     var zoom by remember(centrar) { mutableStateOf(ZOOM.toFloat()) }
@@ -79,10 +93,11 @@ actual fun Mapa(lugar: Ubicacion, conMarcador: Boolean, proveedor: Int, centrar:
     val (fx, fy) = posicionEnTeselas(lugar, nivel)
     val centro = Offset(tamano.width / 2f, tamano.height / 2f) + desplazamiento
     fun enPantalla(x: Double, y: Double) = centro + Offset(((x - fx) * lado).toFloat(), ((y - fy) * lado).toFloat())
+    fun enPantalla(u: Ubicacion) = posicionEnTeselas(u, nivel).let { (x, y) -> enPantalla(x, y) }
 
     // Las teselas que se ven; cada una se descarga una sola vez.
     val n = 1 shl nivel
-    val visibles = if (tamano == IntSize.Zero) emptyList() else {
+    val visibles = if (tamano == IntSize.Zero || !conTeselas) emptyList() else {
         val xs = floor(fx - centro.x / lado).toInt()..floor(fx + (tamano.width - centro.x) / lado).toInt()
         val ys = floor(fy - centro.y / lado).toInt()..floor(fy + (tamano.height - centro.y) / lado).toInt()
         xs.flatMap { x -> ys.map { y -> Triple(nivel, x, y) } }.filter { it.second in 0 until n && it.third in 0 until n }
@@ -99,7 +114,7 @@ actual fun Mapa(lugar: Ubicacion, conMarcador: Boolean, proveedor: Int, centrar:
 
     Box(
         modifier
-            .background(Color(0xFFE8E8E8))
+            .background(if (conTeselas) Color(0xFFE8E8E8) else Color(0xFFEDF1ED))
             .onSizeChanged { tamano = it }
             .pointerInput(lugar, centrar) {
                 detectTransformGestures { _, arrastre, escala, _ ->
@@ -110,7 +125,7 @@ actual fun Mapa(lugar: Ubicacion, conMarcador: Boolean, proveedor: Int, centrar:
             },
     ) {
         Canvas(Modifier.fillMaxSize()) {
-            teselas.forEach { (t, imagen) ->
+            if (conTeselas) teselas.forEach { (t, imagen) ->
                 if (t.first != nivel) return@forEach
                 val esquina = enPantalla(t.second.toDouble(), t.third.toDouble())
                 drawImage(
@@ -119,13 +134,29 @@ actual fun Mapa(lugar: Ubicacion, conMarcador: Boolean, proveedor: Int, centrar:
                     dstSize = IntSize(lado.roundToInt() + 1, lado.roundToInt() + 1),
                 )
             }
+            plano?.let { (imagen, geo) ->
+                val esquina = enPantalla(geo.superiorIzquierda)
+                val derecha = enPantalla(geo.superiorDerecha) - esquina
+                val abajo = enPantalla(geo.inferiorIzquierda) - esquina
+                withTransform({
+                    translate(esquina.x, esquina.y)
+                    rotate(Math.toDegrees(atan2(derecha.y, derecha.x).toDouble()).toFloat(), pivot = Offset.Zero)
+                    scale(derecha.getDistance() / geo.ancho, abajo.getDistance() / geo.alto, pivot = Offset.Zero)
+                }) {
+                    drawImage(imagen, alpha = if (conTeselas) 0.85f else 1f)
+                }
+            }
             if (conMarcador) {
                 drawCircle(Color.White, radius = 12.dp.toPx(), center = centro)
                 drawCircle(Color(0xFF1A73E8), radius = 9.dp.toPx(), center = centro)
             }
         }
         Text(
-            if (falla) "${p.nombre} no carga: elige otro mapa." else p.credito,
+            when {
+                !conTeselas -> "Plano 2D aproximado del campus"
+                falla -> "${p.nombre} no carga: elige otro mapa."
+                else -> p.credito
+            },
             modifier = Modifier.align(Alignment.BottomStart).background(Color(0xCCFFFFFF)).padding(6.dp),
         )
     }

@@ -14,8 +14,8 @@ android {
         applicationId = "ovh.gabrielhuav.salones"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = 2
+        versionName = "0.2.0"
     }
 
     compileOptions {
@@ -31,6 +31,34 @@ android {
 kotlin {
     compilerOptions {
         jvmTarget.set(JvmTarget.JVM_11)
+    }
+}
+
+// El diseño del campus vive en ../campus y lo edita el visor web. Al compilar, Gradle copia a la app
+// solo lo que usa (modelo 3D, plano 2D y su georreferencia): la web y el celular comparten los mismos archivos.
+abstract class CopiarCampus : DefaultTask() {
+    @get:InputFiles
+    abstract val archivos: ConfigurableFileCollection
+
+    @get:OutputDirectory
+    abstract val destino: DirectoryProperty
+
+    @TaskAction
+    fun copiar() {
+        val carpeta = destino.get().asFile.resolve("campus")
+        carpeta.deleteRecursively()
+        carpeta.mkdirs()
+        archivos.forEach { it.copyTo(carpeta.resolve(it.name)) }
+    }
+}
+
+val copiarCampus = tasks.register<CopiarCampus>("copiarCampus") {
+    archivos.from(listOf("UAM_Azcapotzalco.glb", "plano_2d.png", "georreferencia.json").map { rootProject.file("../campus/$it") })
+}
+
+androidComponents {
+    onVariants { variante ->
+        variante.sources.assets?.addGeneratedSourceDirectory(copiarCampus, CopiarCampus::destino)
     }
 }
 

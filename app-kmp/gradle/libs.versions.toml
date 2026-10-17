@@ -6,13 +6,19 @@ composeMultiplatform = "1.11.1"
 # Material 3 multiplataforma lleva su propia numeración: 1.9.0 es la que corresponde a Compose 1.11.1.
 composeMaterial3 = "1.9.0"
 activityCompose = "1.12.4"
-android-compileSdk = "36"
+# Filament 1.77 pide compilar contra Android 37; la app sigue apuntando (targetSdk) a 36.
+android-compileSdk = "37"
 android-targetSdk = "36"
 android-minSdk = "24"
 # Ubicación del teléfono en Android (FusedLocationProviderClient), como en Kotlin-Maps-Example.
 playServicesLocation = "21.3.0"
+# Filament (Google) dibuja el modelo 3D del campus (GLB) en Android, sin WebView.
+filament = "1.77.1"
 
 [libraries]
+filament-android = { module = "com.google.android.filament:filament-android", version.ref = "filament" }
+filament-gltfio = { module = "com.google.android.filament:gltfio-android", version.ref = "filament" }
+filament-utils = { module = "com.google.android.filament:filament-utils-android", version.ref = "filament" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 # Compose Multiplatform. En Android el plugin los cambia por los `androidx.compose.*` de siempre.
