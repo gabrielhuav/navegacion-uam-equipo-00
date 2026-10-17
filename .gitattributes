@@ -1,2 +1,13 @@
-# Auto detect text files and perform LF normalization
+# Saltos de línea normalizados en el repositorio y convertidos al sistema de cada quien al clonar.
 * text=auto
+
+# Los scripts conservan SIEMPRE su formato: un gradlew con CRLF deja de funcionar en Mac,
+# Linux y GitHub Actions; un .bat con LF da problemas en algunas versiones de Windows.
+gradlew text eol=lf
+*.sh text eol=lf
+*.bat text eol=crlf
+
+# Binarios: que Git no intente convertirlos.
+*.jar binary
+*.png binary
+*.jpg binary

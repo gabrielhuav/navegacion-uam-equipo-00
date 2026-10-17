@@ -1,0 +1,19 @@
+# Cada app trae su propio .gitignore (app-flutter/ y app-kmp/).
+# Aquí sólo va lo que ningún integrante debe subir, sea cual sea su sistema o editor.
+
+# Secretos: se versiona .env.example, nunca .env
+.env
+
+# Sistemas operativos
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.idea/
+.vscode/
+*.iml
+*.log
+
+# Caché de Kotlin que crea Gradle al compilar (Android y KMP)
+.kotlin/
