@@ -71,6 +71,23 @@ function sculptureG(spec){
  for(let i=0;i<3;i++){const shape=new THREE.Shape();shape.moveTo(-.65,0);shape.lineTo(.65,0);shape.bezierCurveTo(.3,1.2,1.4,2.2,.65,3.3);shape.bezierCurveTo(.1,3.7,.6,4.3,.15,4.8);shape.lineTo(-.5,4.8);shape.bezierCurveTo(-.1,3.1,-1.1,2.5,-.65,0);const plate=new THREE.Mesh(new THREE.ExtrudeGeometry(shape,{depth:.16,bevelEnabled:false}),material('#673b2b'));plate.name='Placa_abstracta_aproximada';plate.position.set((i-1)*1.35,.63,(i%2)*1.05-.5);plate.rotation.y=(i-1)*.6;plate.castShadow=true;group.add(plate);}
 }
 
+
+// Marca que pertenece a la maqueta y viaja en GLB; bandera persistente en JSON.
+function copyrightEnabled(){return data.showCopyright!==false;}
+function syncCopyright(){const enabled=copyrightEnabled();const node=world?.getObjectByName('Marca_copyright_modelo');if(node)node.visible=enabled;$('copyrightToggle').checked=enabled;$('watermark').hidden=!enabled;}
+function addCopyrightToModel(){
+ const group=new THREE.Group();group.name='Marca_copyright_modelo';group.userData={presentation:true,flag:'showCopyright',text:'copyright @gabrielhuav'};world.add(group);
+ const xs=data.site.map(p=>X(p[0])),zs=data.site.map(p=>Z(p[1]));
+ const xmin=Math.min(...xs),xmax=Math.max(...xs),zmin=Math.min(...zs),zmax=Math.max(...zs),width=Math.min(450,(xmax-xmin)*.88);
+ const canvas=document.createElement('canvas');canvas.width=1536;canvas.height=192;const ctx=canvas.getContext('2d');ctx.textAlign='center';ctx.textBaseline='middle';ctx.font='bold 112px sans-serif';ctx.lineWidth=9;ctx.strokeStyle='#fff8e9';ctx.strokeText('copyright @gabrielhuav',768,96,1470);ctx.fillStyle='#842941';ctx.fillText('copyright @gabrielhuav',768,96,1470);
+ const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;
+ const mat=new THREE.MeshBasicMaterial({map:texture,transparent:true,opacity:.62,side:THREE.DoubleSide,depthWrite:false});
+ const height=Math.max(...data.buildings.map(b=>b.floors*data.storeyHeight))+4;
+ for(let i=0;i<3;i++){const mesh=new THREE.Mesh(new THREE.PlaneGeometry(width,width/8),mat);mesh.name='Copyright_integrado_'+i;mesh.rotation.x=-Math.PI/2;mesh.position.set((xmin+xmax)/2,height,zmin+(zmax-zmin)*(.24+i*.26));mesh.renderOrder=5;mesh.userData.disposeCopyrightMaterial=i===0;group.add(mesh);}
+ syncCopyright();
+}
+$('copyrightToggle').onchange=()=>{if(isSaving)return;rememberEdit();data.showCopyright=$('copyrightToggle').checked;syncCopyright();updateSaveState();message(copyrightEnabled()?'Marca integrada activada. Guarda cambios para actualizar GLB y PNG.':'Marca desactivada. Guarda cambios para exportar sin ella.');};
+
 function building(b){const g=new THREE.Group();g.name='Edificio_'+b.id;g.userData={id:b.id,name:b.name||b.id,floors:b.floors,approximate:true};g.position.set(b.offsetX||0,0,b.offsetZ||0);world.add(g);buildingGroups.set(b.id,g);const h=b.height??b.floors*data.storeyHeight;
  for(const [idx,r] of b.rects.entries()){
   // La caja de referencia de un pabellón es la envolvente del rombo ya girado.
@@ -278,7 +295,7 @@ function generate(){
  for(const px of [715,877])for(let py=436;py<565;py+=48){if(data.cosei&&px>760&&py>=480)continue;if(!data.sculpture||Math.hypot(px-data.sculpture.position[0],py-data.sculpture.position[1])>18)tree(px,py,.6);}
  label('Eje 5 Norte · Montevideo',X(870),2,Z(743),'place');label('Av. San Pablo',X(-8),2,Z(400),'place');
  vegetation.visible=$('trees').checked;labelLayer.hidden=!$('names').checked;
- world.updateMatrixWorld(true);selectBuilding(selected);refreshEditor();
+ addCopyrightToModel();world.updateMatrixWorld(true);selectBuilding(selected);refreshEditor();
 }
 const raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2();let down;
 renderer.domElement.addEventListener('pointerdown',e=>down=[e.clientX,e.clientY]);
@@ -414,6 +431,7 @@ renderer.domElement.addEventListener('pointercancel',e=>endEditDrag(e,true),true
 document.addEventListener('keydown',e=>{if(!editMode||/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))return;if(e.key==='Escape'){resetDraw();message('Dibujo cancelado.');}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();$(e.shiftKey?'editRedo':'editUndo').click();}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='y'){e.preventDefault();$('editRedo').click();}});
 window.addEventListener('beforeunload',e=>{if(savedData&&JSON.stringify(data)!==savedData){e.preventDefault();e.returnValue='';}});
 function validateCampus(d){
+ if(d?.showCopyright!==undefined&&typeof d.showCopyright!=='boolean')throw Error('showCopyright debe ser true o false');
  const rect=r=>Array.isArray(r)&&r.length===4&&r.every(Number.isFinite)&&r[2]>r[0]&&r[3]>r[1];
  if(!d||!Array.isArray(d.buildings)||!Array.isArray(d.site)||!(d.metersPerPixel>0)||!Number.isFinite(d.storeyHeight)||!d.buildings.every(b=>typeof b.id==='string'&&Number.isInteger(b.floors)&&b.floors>=1&&b.floors<=8&&Array.isArray(b.rects)&&b.rects.every(rect))||!['plazas','paths','parking','gates'].every(k=>Array.isArray(d[k]))||!d.parking.every(rect)||!d.paths.every(rect)||!d.plazas.every(p=>rect(p.rect)))throw Error('Datos de campus inválidos');
  if(d.extraParking!==undefined&&(!Array.isArray(d.extraParking)||d.extraParking.length>500||!d.extraParking.every(p=>typeof p.id==='string'&&/^parking_new_[a-z0-9_]+$/.test(p.id)&&rect(p.rect))))throw Error('Estacionamientos inválidos');
@@ -425,6 +443,7 @@ function validateCampus(d){
 // La app lo coloca sobre el mapa real con georreferencia.json; estos límites (m) deben coincidir con los de ahí.
 // Marca temporal sobre la imagen, nunca sobre la geometría exportada.
 function drawWatermark(ctx){
+ if(!copyrightEnabled())return;
  const text='copyright @gabrielhuav',margin=12,size=14;ctx.save();ctx.font='500 '+size+'px system-ui, sans-serif';ctx.textAlign='right';ctx.textBaseline='bottom';const width=ctx.measureText(text).width;
  ctx.fillStyle='rgba(255,255,255,.78)';ctx.fillRect(ctx.canvas.width-margin-width-8,ctx.canvas.height-margin-size-6,width+16,size+12);ctx.fillStyle='rgba(32,43,39,.78)';ctx.fillText(text,ctx.canvas.width-margin,ctx.canvas.height-margin);ctx.restore();
 }
@@ -443,7 +462,7 @@ async function planoBlob(){
  finally{for(const o of ocultos)o.node.visible=o.visible;vegetation.visible=was;scene.fog=fog;grid.visible=g;r.dispose();}
 }
 async function saveEditorChanges(withModel=true){
- if(isSaving)return;isSaving=true;resetDraw();updateSaveState();const buttons=['saveChanges','saveglb','savejson','apply','applyObject','deleteObject','resetObject','loadjson','toggleEdit','editUndo','editRedo'];for(const id of buttons)$(id).disabled=true;
+ if(isSaving)return;isSaving=true;resetDraw();updateSaveState();const buttons=['copyrightToggle','saveChanges','saveglb','savejson','apply','applyObject','deleteObject','resetObject','loadjson','toggleEdit','editUndo','editRedo'];for(const id of buttons)$(id).disabled=true;
  const snapshot=JSON.stringify(data);try{
   if(withModel){const was=vegetation.visible;vegetation.visible=true;try{const result=await new GLTFExporter().parseAsync(world,{binary:true,onlyVisible:true});await save(new Blob([result],{type:'model/gltf-binary'}),'glb','UAM_Azcapotzalco.glb');}finally{vegetation.visible=was;}await save(await planoBlob(),'plano','plano_2d.png');}
   await save(new Blob([JSON.stringify(JSON.parse(snapshot),null,2)],{type:'application/json'}),'json','campus_editado.json');savedData=snapshot;message(withModel?'Cambios y modelo 3D guardados. Puedes avisarme para crear el checkpoint.':'Datos guardados. El botón Guardar cambios también actualiza el modelo 3D.');

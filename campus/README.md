@@ -29,3 +29,12 @@ Leer ../MEMORIA_COMPARTIDA_CAMPUS.md. Google Maps/Plano superior del visor web u
 ## Marca temporal
 
 El visor y plano_2d.png llevan copyright @gabrielhuav en una esquina. Es capa de UI/canvas y no se exporta al GLB. No cambió el PNG de 1560×640 ni su encuadre/orientación/georreferencia. Al retirar la marca después, conservar esas dimensiones y límites.
+
+
+## Copyright integrado y bandera
+
+La marca «copyright @gabrielhuav» ahora pertenece a la maqueta: tres franjas grandes semitransparentes sobre el campus, exportadas dentro del GLB como grupo `Marca_copyright_modelo`. Se mantiene también el rótulo de esquina. Esta revisión sustituye las notas anteriores que excluían la marca del GLB.
+
+En Capas, «Copyright en la maqueta» activa o quita todas las marcas. Pulsa Guardar cambios para actualizar JSON, GLB y PNG. La bandera persistente es `showCopyright`: `true` muestra la marca; `false` la retira, también de las imágenes y del GLB exportado. Si falta la propiedad en datos antiguos, se activa por defecto. Cambiar solo el JSON no modifica un GLB ya exportado: vuelve a abrir el visor y guarda. Deshacer/rehacer también conserva esta opción.
+
+Para Claude: las apps pueden usar el GLB con el grupo integrado o regenerarlo con la bandera desactivada. Ocultar el grupo en un visor GLB requiere controlar el nodo `Marca_copyright_modelo`; este trabajo no modifica las apps. Huellas, niveles y georreferencia conservados; encuadre/tamaño de PNG sin cambios.

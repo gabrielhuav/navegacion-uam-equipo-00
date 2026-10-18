@@ -17,6 +17,8 @@ for(const slug of ['cuajimalpa','iztapalapa']){
  const png=await read(dir+'plano_2d.png');assert.equal(png.subarray(1,4).toString(),'PNG');assert.equal(png.readUInt32BE(16),g.ancho);assert.equal(png.readUInt32BE(20),g.alto);
  const binary=await read(dir+d.unit.glb);assert.equal(binary.subarray(0,4).toString(),'glTF');assert.equal(binary.readUInt32LE(4),2);assert.equal(binary.readUInt32LE(8),binary.length);
  const gltf=JSON.parse(binary.subarray(20,20+binary.readUInt32LE(12)).toString());
+ assert.equal(d.showCopyright,true);assert.ok(gltf.nodes.some(n=>n.name==='Marca_copyright_modelo'));
+ assert.equal(gltf.nodes.filter(n=>/^Copyright_integrado_\d$/.test(n.name||'')).length,3);
  for(const b of d.buildings){const node=gltf.nodes.find(n=>n.name==='Edificio_'+b.id);assert.ok(node,'Falta '+b.id);assert.equal(node.extras.floors,b.floors);}
  if(slug==='cuajimalpa'){
   assert.equal(d.architecture.integratedComplex,true);
@@ -53,9 +55,12 @@ for(const slug of ['cuajimalpa','iztapalapa']){
  console.log(d.unit.name+': contrato, GLB, PNG, atribución, controles y calibración correctos.');
 }
 const repo=new URL('.',root).pathname.replace(/^\/(\w:)/,'$1');
-for(const file of ['georreferencia.json','UAM_Azcapotzalco.glb']){
+for(const file of ['georreferencia.json']){
  const previous=execFileSync('git',['show','feature/p3-temas:campus/'+file],{cwd:repo,maxBuffer:20e6});assert.equal(hash(await read('campus/'+file)),hash(previous),'Se alteró Azcapotzalco: '+file);
 }
 const png=await read('campus/plano_2d.png');assert.equal(png.readUInt32BE(16),1560);assert.equal(png.readUInt32BE(20),640);
 assert.equal(execFileSync('git',['diff','feature/p3-temas','--','app-kmp/','app-flutter/'],{cwd:repo}).length,0,'Hay cambios en las apps');
-console.log('Azcapotzalco conserva GLB/georreferencia y PNG 1560×640; apps sin cambios.');
+const azBinary=await read('campus/UAM_Azcapotzalco.glb'),azGltf=JSON.parse(azBinary.subarray(20,20+azBinary.readUInt32LE(12)).toString());
+assert.ok(azGltf.nodes.some(n=>n.name==='Marca_copyright_modelo'));
+assert.equal((await json('campus/campus_editado.json')).showCopyright,true);
+console.log('Azcapotzalco conserva georreferencia y PNG 1560×640; GLB con marca integrada; apps sin cambios.');

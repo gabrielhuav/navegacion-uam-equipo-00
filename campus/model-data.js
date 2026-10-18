@@ -1,6 +1,7 @@
 // Huellas trazadas manualmente sobre el plano v7 aprobado (coordenadas de imagen).
 // Una unidad del modelo representa un metro aproximado. Sin levantamiento topográfico.
 export const ORIGINAL={
+ showCopyright:true,
  version:8,reference:'v7 y referencias fotográficas; plaza COSEI, biblioteca I, asta y desnivel',metersPerPixel:740/1670,storeyHeight:3.3,
  site:[[60,80],[1575,224],[1730,700],[60,700]],
  buildings:[

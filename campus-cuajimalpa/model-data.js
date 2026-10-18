@@ -435,5 +435,6 @@ export const ORIGINAL={
       "sector de canchas",
       "sede principal"
     ]
-  }
+  },
+  "showCopyright": true
 };

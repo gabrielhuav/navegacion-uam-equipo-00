@@ -1253,5 +1253,6 @@ export const ORIGINAL={
       "trace": "calibracion/trazo-T.json",
       "facades": "Retícula clara de concreto y ventanales; detalles aproximados"
     }
-  }
+  },
+  "showCopyright": true
 };
