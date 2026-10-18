@@ -42,8 +42,8 @@ function textPanel(parent,name,text,width,height,x,y,z,vertical=false){
 const CU_FRAME={x:863,z:423,angle:-Math.atan2(.553,.833)};
 function cuajimalpaEntrance(){
  const g=new THREE.Group();g.name='Porteria_Cuajimalpa_aproximada';
- const candidate=data.architecture?.entrance?.localPosition,anchor=Array.isArray(candidate)&&candidate.length===2&&candidate.every(n=>Number.isFinite(n)&&Math.abs(n)<250)?candidate:[-20,82],p=new THREE.Vector3(anchor[0],0,anchor[1]).applyAxisAngle(new THREE.Vector3(0,1,0),CU_FRAME.angle);
- g.position.set(X(CU_FRAME.x)+p.x,0,Z(CU_FRAME.z)+p.z);g.rotation.y=CU_FRAME.angle;world.add(g);
+ const candidate=data.architecture?.entrance?.localPosition,anchor=Array.isArray(candidate)&&candidate.length===2&&candidate.every(n=>Number.isFinite(n)&&Math.abs(n)<250)?candidate:[-23,-173],p=new THREE.Vector3(anchor[0],0,anchor[1]).applyAxisAngle(new THREE.Vector3(0,1,0),CU_FRAME.angle);
+ g.position.set(X(CU_FRAME.x)+p.x,0,Z(CU_FRAME.z)+p.z);g.rotation.y=CU_FRAME.angle+Math.PI;world.add(g);
  g.userData.approximate=true;g.userData.placementPending=true;
  box(g,'Explanada_porteria',2,.18,0,32,.24,13,'#a5a69b');
  box(g,'Torre_porteria_terracota',-11,7,0,2.3,14,1.7,'#a47c66');
@@ -66,6 +66,17 @@ function cuajimalpaEntrance(){
  box(g,'Ventana_caseta',14,1.8,.55,3,1.1,.08,'#637d7c');
  registerEditable('porteria_cuajimalpa','Portería · posición aproximada','landmark',g);
  if(g.parent)label('Acceso · aproximado',g.position.x,16,g.position.z,'place');
+}
+function cuajimalpaAccessPath(){
+ // Orden contrastado con la referencia: Vasco de Quiroga → acceso → canchas → sede.
+ // Andador esquemático junto a las canchas; no es una ruta accesible certificada.
+ const entrance=editables.get('porteria_cuajimalpa');if(!entrance)return;
+ const route=new THREE.Group();route.name='Andador_acceso_lado_canchas';route.position.set(X(CU_FRAME.x),0,Z(CU_FRAME.z));route.rotation.y=CU_FRAME.angle;route.userData.approximate=true;world.add(route);
+ const candidate=data.architecture?.accessPath,points=structuredClone(Array.isArray(candidate)&&candidate.length>=2&&candidate.every(p=>Array.isArray(p)&&p.length===2&&p.every(n=>Number.isFinite(n)&&Math.abs(n)<250))?candidate:[[-23,-167],[-43,-155],[-43,-72],[-20,-55],[0,-44]]);
+ const start=entrance.node.localToWorld(new THREE.Vector3(0,0,-6)).sub(route.position).applyAxisAngle(new THREE.Vector3(0,1,0),-CU_FRAME.angle);points[0]=[start.x,start.z];
+ for(let i=1;i<points.length;i++){const [ax,az]=points[i-1],[bx,bz]=points[i],dx=bx-ax,dz=bz-az;const m=box(route,'Andador_peatonal_aproximado',(ax+bx)/2,.25,(az+bz)/2,3,.24,Math.hypot(dx,dz),'#c0b9a6');m.rotation.y=Math.atan2(dx,dz);}
+ const north=new THREE.Vector3(-23,0,-222).applyAxisAngle(new THREE.Vector3(0,1,0),CU_FRAME.angle);label('Vasco de Quiroga',X(CU_FRAME.x)+north.x,2,Z(CU_FRAME.z)+north.z,'place');
+ const courts=new THREE.Vector3(0,0,-117).applyAxisAngle(new THREE.Vector3(0,1,0),CU_FRAME.angle);label('Sector de canchas',X(CU_FRAME.x)+courts.x,3,Z(CU_FRAME.z)+courts.z,'place');
 }
 function cuajimalpaFacades(parent,height){
  const g=new THREE.Group();g.name='Fachadas_integradas_Cuajimalpa';
@@ -176,6 +187,7 @@ function generate(){
  for(const [i,r]of data.parking.entries())parkingArea(r,'parking_'+i,'Estacionamiento '+(i+1));for(const [i,p]of(data.extraParking||[]).entries())parkingArea(p.rect,p.id,'Estacionamiento nuevo '+(i+1));
  for(const b of data.buildings)building(b);
  cuajimalpaEntrance();
+ cuajimalpaAccessPath();
  let seed=1729;const rand=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};
  for(let n=0;n<120;n++){const px=895+p.xMin+rand()*(p.xMax-p.xMin),py=390+p.zMin+rand()*(p.zMax-p.zMin);if(inside(px,py,data.site)&&!excluded(px,py))tree(px,py,.6);}
  vegetation.visible=$('trees').checked;labelLayer.hidden=!$('names').checked;world.updateMatrixWorld(true);selectBuilding(selected);refreshEditor();
@@ -206,12 +218,13 @@ function campusNorth(geo){
  if(Math.abs(det)<1e-18)return null;
  const x=-bx/det,z=ax/det,length=Math.hypot(x,z);return {x:x/length,z:z/length};
 }
-function view(mode){topMode=mode==='top';focusMode=['approved','glass','entrance'].includes(mode);focusSpan=65;minFocusDistance=175;camera=topMode?ortho:perspective;controls.object=camera;controls.enableRotate=!topMode;controls.target.set(0,0,0);camera.zoom=1;camera.up.set(0,1,0);const north=campusNorth(georeference)||{x:0,z:-1};
+function view(mode){topMode=mode==='top';focusMode=['approved','glass','entrance','access'].includes(mode);focusSpan=65;minFocusDistance=175;camera=topMode?ortho:perspective;controls.object=camera;controls.enableRotate=!topMode;controls.target.set(0,0,0);camera.zoom=1;camera.up.set(0,1,0);const north=campusNorth(georeference)||{x:0,z:-1};
  if(topMode){camera.position.set(0,1000,0);camera.up.set(north.x,0,north.z);}else camera.position.set(-north.x*630,580,-north.z*630);
  if(focusMode){const b=data.buildings.find(b=>b.id==='TORRE_III'),center=new THREE.Vector3(X(CU_FRAME.x)+(b.offsetX||0),10,Z(CU_FRAME.z)+(b.offsetZ||0));controls.target.copy(center);const delta=mode==='glass'?new THREE.Vector3(65,55,-150):new THREE.Vector3(155,58,65);delta.applyAxisAngle(new THREE.Vector3(0,1,0),CU_FRAME.angle);camera.position.copy(center).add(delta);}
  if(mode==='entrance'){focusSpan=20;minFocusDistance=48;const entrance=editables.get('porteria_cuajimalpa');controls.target.copy(entrance?.node.position||new THREE.Vector3());controls.target.y=5;const delta=new THREE.Vector3(20,12,48).applyAxisAngle(new THREE.Vector3(0,1,0),entrance?.node.rotation.y??CU_FRAME.angle);camera.position.copy(controls.target).add(delta);}
- camera.lookAt(controls.target);camera.updateProjectionMatrix();controls.update();for(const id of ['approved','glass','entrance','maps','top'])$(id).classList.toggle('active',id===mode);resize();}
-for(const mode of ['approved','glass','entrance','maps','top'])$(mode).onclick=()=>view(mode);
+ if(mode==='access'){focusSpan=135;minFocusDistance=350;const target=new THREE.Vector3(0,0,-65).applyAxisAngle(new THREE.Vector3(0,1,0),CU_FRAME.angle);controls.target.set(X(CU_FRAME.x)+target.x,3,Z(CU_FRAME.z)+target.z);const delta=new THREE.Vector3(150,290,100).applyAxisAngle(new THREE.Vector3(0,1,0),CU_FRAME.angle);camera.position.copy(controls.target).add(delta);}
+ camera.lookAt(controls.target);camera.updateProjectionMatrix();controls.update();for(const id of ['approved','glass','entrance','access','maps','top'])$(id).classList.toggle('active',id===mode);resize();}
+for(const mode of ['approved','glass','entrance','access','maps','top'])$(mode).onclick=()=>view(mode);
 $('spin').onclick=()=>{if(topMode)view('maps');controls.autoRotate=!controls.autoRotate;$('spin').classList.toggle('active',controls.autoRotate);};
 $('trees').onchange=()=>vegetation.visible=$('trees').checked;$('names').onchange=()=>labelLayer.hidden=!$('names').checked;$('grid').onchange=()=>grid.visible=$('grid').checked;
 function message(text){$('status').textContent=text;clearTimeout(message.timer);message.timer=setTimeout(()=>$('status').textContent='',6500);}

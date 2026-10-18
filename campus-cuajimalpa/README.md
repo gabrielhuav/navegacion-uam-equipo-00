@@ -13,6 +13,12 @@ Segunda revisión, con foto frontal de la entrada y toma aérea: cubierta roja c
 
 «Portería» acerca la cámara. Para ajustar su posición provisional: Activar modo edición → Mostrar elementos: Portería → Elemento: Portería · posición aproximada → arrastrar o cambiar X/Z/giro → Guardar cambios. Es un solo grupo independiente, ID estable `porteria_cuajimalpa`; sus cambios viajan en `elementEdits`, GLB y PNG. No cambia el conteo de edificios. Se puede deshacer. La foto frontal no fija su posición geográfica: el anclaje provisional `architecture.entrance.localPosition` está expresado en el marco local `CU_FRAME`. Confirmar posición y orientación con referencia cenital antes de usarla para navegación precisa.
 
+### Corrección del acceso con referencia cenital
+
+La portería anterior en [-20,82] era incorrecta y queda sustituida por [-23,-173], al extremo de Vasco de Quiroga, con las canchas entre la entrada y la sede. Se gira 180° para mirar hacia la calle. Referencias nuevas de Gabriel: captura de Maps y foto aérea del edificio con canchas, tomadas desde ángulos diferentes. Se contrastó el orden relativo de los elementos; el punto exacto de la portería sigue siendo aproximado. No se giró el campus ni se alteró la georreferencia.
+
+«Acceso y canchas» muestra la relación completa. Un andador esquemático recorre el lateral de las canchas hacia el edificio; su primer tramo sigue la portería si se mueve/gira y desaparece si se retira. No representa un itinerario medido. `architecture.accessOrder` y `accessPath` documentan el orden y el trazo aproximado. Las dos huellas de canchas previas se conservan; su detalle sigue pendiente. El plano 2D se vuelve a exportar con el nuevo acceso y conserva su encuadre.
+
 ## Abrir
 Con Node.js instalado: Abrir_visor.cmd o node server.mjs. Abrir http://127.0.0.1:8769/Visor_UAM_autonomo.html.
 Las bibliotecas locales están en vendor/; no se requiere instalar paquetes.

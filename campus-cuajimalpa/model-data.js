@@ -382,8 +382,8 @@ export const ORIGINAL={
   "note": "Huellas y niveles aproximados. Perímetro OSM orientativo, no catastral. Nombres auxiliares provisionales. Mejorar con fotografías y observación del alumnado. Los auxiliares sur/poniente son externos: no se incluyen como edificios UAM.",
   "license": "Geometría derivada de OpenStreetMap contributors, ODbL 1.0; ver FUENTES.md.",
   "architecture": {
-    "revision": "2026-10-18-porteria-y-aerea",
-    "reference": "Cinco imágenes aportadas por Gabriel: tres fachadas y, en esta revisión, portería y vista aérea del conjunto.",
+    "revision": "2026-10-18-acceso-vasco-de-quiroga",
+    "reference": "Cinco imágenes aportadas por Gabriel: tres fachadas y, en esta revisión, portería y vista aérea del conjunto. Corrección de acceso con captura Maps y vista aérea adicionales de Gabriel (ángulos distintos).",
     "mainBuilding": "TORRE_III",
     "integratedComplex": true,
     "dimensions": "Detalles visuales aproximados; se conserva la huella OSM y 3.3 m por nivel.",
@@ -399,12 +399,41 @@ export const ORIGINAL={
     ],
     "entrance": {
       "localPosition": [
-        -20,
-        82
+        -23,
+        -173
       ],
       "positionApproximate": true,
       "editableId": "porteria_cuajimalpa",
-      "note": "Posición provisional en el extremo del predio; foto frontal sin amarre geográfico. Ajustar desde el editor."
-    }
+      "note": "Extremo de Vasco de Quiroga, al otro lado de las canchas respecto a la sede. Ubicación relativa corregida con captura Maps y foto aérea de Gabriel; punto exacto por afinar.",
+      "facing": "Vasco de Quiroga; giro de 180° respecto a la portería anterior."
+    },
+    "accessPath": [
+      [
+        -23,
+        -167
+      ],
+      [
+        -43,
+        -155
+      ],
+      [
+        -43,
+        -72
+      ],
+      [
+        -20,
+        -55
+      ],
+      [
+        0,
+        -44
+      ]
+    ],
+    "accessOrder": [
+      "Vasco de Quiroga",
+      "portería",
+      "sector de canchas",
+      "sede principal"
+    ]
   }
 };

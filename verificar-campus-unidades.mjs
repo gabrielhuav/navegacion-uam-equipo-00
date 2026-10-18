@@ -24,6 +24,12 @@ for(const slug of ['cuajimalpa','iztapalapa']){
   for(const name of ['Fachadas_integradas_Cuajimalpa','Celosia_pliegues_claros','Atrio_central_vidrio','Lucernario_vidrio','Rampa_acceso_aproximada'])assert.ok(gltf.nodes.some(n=>n.name===name),'Falta detalle: '+name);
   for(const name of ['Porteria_Cuajimalpa_aproximada','Marquesina_porteria','Tirante_marquesina_superior','Cubierta_elevada_verde','Ventana_modular_lateral_nivel_7'])assert.ok(gltf.nodes.some(n=>n.name===name),'Falta detalle de referencia aérea/acceso: '+name);
   const gate=gltf.nodes.find(n=>n.name==='Porteria_Cuajimalpa_aproximada');assert.equal(gate.extras.editableId,'porteria_cuajimalpa');assert.equal(gate.extras.placementPending,true);
+  const [gu,gv]=d.architecture.entrance.localPosition,cv=d.courts.flat().map(([x,z])=>-(x-863)*.553+(z-423)*.833);
+  assert.ok(gv<Math.min(...cv)-10,'La portería debe estar al otro lado de TODAS las canchas respecto a la sede');
+  const angle=-Math.atan2(.553,.833),expected=[863-895+gu*Math.cos(angle)+gv*Math.sin(angle),0,423-390-gu*Math.sin(angle)+gv*Math.cos(angle)];
+  const position=gate.translation||gate.matrix?.slice(12,15)||[0,0,0];
+  for(let i=0;i<3;i++)assert.ok(Math.abs(position[i]-expected[i])<.02,'Portería GLB fuera de la posición guardada');
+  assert.ok(gltf.nodes.some(n=>n.name==='Andador_acceso_lado_canchas'));
   const before=JSON.parse(execFileSync('git',['show','6dbf995:campus-cuajimalpa/campus_editado.json'],{cwd:new URL('.',root).pathname.replace(/^\/(\w:)/,'$1')}).toString());
   assert.deepEqual(d.buildings.map(b=>b.polygons),before.buildings.map(b=>b.polygons),'Se alteró la huella al detallar las fachadas');
   assert.equal(hash(await read(dir+'georreferencia.json')),hash(execFileSync('git',['show','6dbf995:'+dir+'georreferencia.json'],{cwd:new URL('.',root).pathname.replace(/^\/(\w:)/,'$1')})));
