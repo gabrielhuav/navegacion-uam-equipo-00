@@ -18,7 +18,7 @@ for(const slug of ['cuajimalpa','iztapalapa']){
  const binary=await read(dir+d.unit.glb);assert.equal(binary.subarray(0,4).toString(),'glTF');assert.equal(binary.readUInt32LE(4),2);assert.equal(binary.readUInt32LE(8),binary.length);
  const gltf=JSON.parse(binary.subarray(20,20+binary.readUInt32LE(12)).toString());
  assert.equal(d.showCopyright,true);assert.ok(gltf.nodes.some(n=>n.name==='Marca_copyright_modelo'));
- assert.equal(gltf.nodes.filter(n=>/^Copyright_integrado_\d$/.test(n.name||'')).length,3);
+ const {copyrightPanelsForSite}=await import('./'+dir+'copyright-layout.js');assert.equal(gltf.nodes.filter(n=>/^Copyright_integrado_\d+$/.test(n.name||'')).length,copyrightPanelsForSite(d.site,d.metersPerPixel,d.copyrightStyle).length);
  for(const b of d.buildings){const node=gltf.nodes.find(n=>n.name==='Edificio_'+b.id);assert.ok(node,'Falta '+b.id);assert.equal(node.extras.floors,b.floors);}
  if(slug==='cuajimalpa'){
   assert.equal(d.architecture.integratedComplex,true);

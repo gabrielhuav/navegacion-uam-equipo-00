@@ -1,4 +1,4 @@
-export const ORIGINAL={
+export const ORIGINAL = {
   "version": 8,
   "unit": {
     "name": "Cuajimalpa",
@@ -436,5 +436,30 @@ export const ORIGINAL={
       "sede principal"
     ]
   },
-  "showCopyright": true
+  "showCopyright": true,
+  "copyrightStyle": {
+    "version": 2,
+    "color": "#F08200",
+    "opacity": 0.84,
+    "layout": "tiled-site",
+    "rowSpacing": 32,
+    "maxWidth": 160,
+    "largePanels": [
+      {
+        "x": 8.481000000000051,
+        "z": -76.33212,
+        "width": 228.32128000000003
+      },
+      {
+        "x": 8.481000000000051,
+        "z": -0.27250000000000796,
+        "width": 228.32128000000003
+      },
+      {
+        "x": 8.481000000000051,
+        "z": 75.78711999999999,
+        "width": 228.32128000000003
+      }
+    ]
+  }
 };

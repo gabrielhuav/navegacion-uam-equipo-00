@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {ORIGINAL} from './campus-xochimilco/model-data.js';
+import {copyrightPanelsForSite} from './campus-xochimilco/copyright-layout.js';
 const root=new URL('./campus-xochimilco/',import.meta.url),read=async name=>fs.readFile(new URL(name,root)),json=async name=>JSON.parse(await read(name));
 const data=await json('campus_editado.json'),base=await json('campus_base.json'),geo=await json('georreferencia.json');
 assert.deepEqual(data,ORIGINAL);assert.deepEqual(base,ORIGINAL);
@@ -23,7 +24,7 @@ assert(gltf.nodes.some(n=>n.name==='Copa_jacaranda'));
 assert(gltf.nodes.some(n=>n.name==='Marco_azul_nivel_3'));
 assert.equal(data.jacarandas.length,21);
 for(const b of data.buildings){const nodes=gltf.nodes.filter(n=>n.name==='Edificio_'+b.id);assert.equal(nodes.length,1,b.id);assert.equal(nodes[0].extras.floors,b.floors);}
-const mark=gltf.nodes.find(n=>n.name==='Marca_copyright_modelo');assert.equal(data.showCopyright,true);assert.equal(mark.children.length,3);assert.equal(mark.extras.flag,'showCopyright');
+const mark=gltf.nodes.find(n=>n.name==='Marca_copyright_modelo');assert.equal(data.showCopyright,true);assert.equal(mark.children.length,copyrightPanelsForSite(data.site,data.metersPerPixel,data.copyrightStyle).length);assert.equal(mark.extras.flag,'showCopyright');
 const sources=await json('calibracion/huellas-osm.geojson');assert.equal(sources.features.length,33);assert(sources.features.every(f=>f.properties.osmWay));
 const points=await json('calibracion/puntos.json');assert.equal(points.length,11);assert.equal(geo.calibracion.independiente,false);assert(geo.calibracion.rmsMetros<5);assert(geo.calibracion.maximoMetros<10);
 for(const p of points)assert(p.latLon[0]>19.299&&p.latLon[0]<19.31&&p.latLon[1]>-99.106&&p.latLon[1]<-99.10);

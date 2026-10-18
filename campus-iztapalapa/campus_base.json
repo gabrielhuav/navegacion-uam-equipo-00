@@ -1254,5 +1254,30 @@
       "facades": "Retícula clara de concreto y ventanales; detalles aproximados"
     }
   },
-  "showCopyright": true
+  "showCopyright": true,
+  "copyrightStyle": {
+    "version": 2,
+    "color": "#57A519",
+    "opacity": 0.84,
+    "layout": "tiled-site",
+    "rowSpacing": 32,
+    "maxWidth": 160,
+    "largePanels": [
+      {
+        "x": -1.7799999999999727,
+        "z": -260.87804,
+        "width": 354.11024000000015
+      },
+      {
+        "x": -1.7799999999999727,
+        "z": -32.551499999999976,
+        "width": 354.11024000000015
+      },
+      {
+        "x": -1.7799999999999727,
+        "z": 195.77504000000005,
+        "width": 354.11024000000015
+      }
+    ]
+  }
 }

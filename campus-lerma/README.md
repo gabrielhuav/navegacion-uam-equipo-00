@@ -33,3 +33,7 @@ Seleccionar un edificio permite ajustar niveles y desplazamiento. El modo edici�
 `app.js` contiene editor, cámara, guardado y marca. `architecture.js` genera las características de Lerma, las fachadas, el arco y el entorno. `build.mjs` integra ambos y las dependencias locales en un HTML autónomo. Sin servidor, el HTML usa la base embebida y descarga los archivos al guardar; para escribir directamente aquí, usar el servidor local.
 
 La integración en KMP/Flutter sigue a cargo de Claude. Copiar únicamente GLB (como modelo.glb), PNG y georreferencia con el contrato de las otras unidades; sustituir el placeholder de Lerma. Esta entrega no modifica las apps.
+
+## Marca de agua repetida · cinco unidades
+
+El checkpoint del 18 octubre 2026 combina tres bandas grandes con repeticiones distribuidas por la maqueta, en el color oficial de esta unidad y con opacidad 0,84. Se conserva la casilla `showCopyright`; Guardar cambios actualiza GLB, PNG y JSON. Configuración en `copyrightStyle`; distribución en `copyright-layout.js`. Detalles, colores, pruebas e instrucciones para móvil en `../COPYRIGHT_CAMPUS.md`. No cambia la georreferencia, escala ni encuadre del plano.

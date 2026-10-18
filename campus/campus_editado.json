@@ -811,5 +811,30 @@
     "side": "estacionamiento",
     "approximate": true,
     "reference": "Dos imágenes aportadas por Gabriel: Serpentina II frente a H, cara del estacionamiento; posición exacta por afinar."
+  },
+  "copyrightStyle": {
+    "version": 2,
+    "color": "#CD032E",
+    "opacity": 0.84,
+    "layout": "tiled-site",
+    "rowSpacing": 32,
+    "maxWidth": 160,
+    "largePanels": [
+      {
+        "x": 0,
+        "z": -71.42994011976049,
+        "width": 450
+      },
+      {
+        "x": 0,
+        "z": 0,
+        "width": 450
+      },
+      {
+        "x": 0,
+        "z": 71.42994011976049,
+        "width": 450
+      }
+    ]
   }
 }

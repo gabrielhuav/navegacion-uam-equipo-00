@@ -4,6 +4,7 @@ import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import * as THREE from './campus-lerma/vendor/three.module.js';
 import {ORIGINAL} from './campus-lerma/model-data.js';
+import {copyrightPanelsForSite} from './campus-lerma/copyright-layout.js';
 const root=new URL('./campus-lerma/',import.meta.url),read=n=>fs.readFile(new URL(n,root)),json=async n=>JSON.parse(await read(n));
 const data=await json('campus_editado.json'),geo=await json('georreferencia.json');assert.deepEqual(data,ORIGINAL);assert.deepEqual(await json('campus_base.json'),data);
 assert.equal(data.unit.slug,'lerma');assert.equal(data.buildings.length,20);
@@ -13,7 +14,8 @@ const get=id=>data.buildings.find(b=>b.id===id);assert.equal(get('G').legacyId,'
 for(const b of data.buildings.filter(b=>/^[AB][1-7]$/.test(b.id)))assert.equal(b.floors,1,b.id);
 const frame=data.unit.plan;assert.equal(geo.ancho,1800);assert.equal(geo.alto,1240);assert.equal((frame.xMax-frame.xMin)*frame.pxPorMetro,geo.ancho);assert.equal((frame.zMax-frame.zMin)*frame.pxPorMetro,geo.alto);
 function inside(x,z,poly){let hit=false;for(let i=0,j=poly.length-1;i<poly.length;j=i++){const a=poly[i],b=poly[j];if((a[1]>z)!==(b[1]>z)&&x<(b[0]-a[0])*(z-a[1])/(b[1]-a[1])+a[0])hit=!hit;}return hit;}
-for(const p of data.copyrightPanels)for(const dx of [-p.width/2,p.width/2])for(const dz of [-p.width/16,p.width/16])assert(inside(p.x+dx+895,p.z+dz+390,data.site),'Marca fuera del predio en L');
+const panels=copyrightPanelsForSite(data.site,data.metersPerPixel,data.copyrightStyle);
+for(const p of panels)for(const dx of [-p.width/2,p.width/2])for(const dz of [-p.width/16,p.width/16])assert(inside(p.x+dx+895,p.z+dz+390,data.site),'Marca fuera del predio en L');
 for(const m of data.landmarks)assert(inside(...m.point,data.site),'Hito fuera del predio: '+m.id);
 for(const poly of [data.site,data.nature.polygon,...data.buildings.flatMap(b=>b.polygons)])for(const [x,z]of poly)assert(x-895>=frame.xMin&&x-895<=frame.xMax&&z-390>=frame.zMin&&z-390<=frame.zMax,'Recorte en límite PNG');
 // La prolongación natural debe estar al sur; no reducir el mapa al área de aulas.
@@ -30,7 +32,7 @@ for(const key of ['unit','site','parking','landmarks'])assert.deepEqual(data[key
 for(const b of data.buildings){const old=previous.buildings.find(o=>o.id===b.id);for(const key of ['polygons','rects','floors','offsetX','offsetZ'])assert.deepEqual(b[key],old[key],b.id+' '+key);}
 assert.deepEqual(await read('georreferencia.json'),execFileSync('git',['show','6a6c342:campus-lerma/georreferencia.json']));
 for(const b of data.buildings.filter(b=>['F','G'].includes(b.id)))for(const a of b.architecture.roofAccents){const r=a.rect;assert(inside((r[0]+r[2])/2,(r[1]+r[3])/2,b.polygons[0]),'Remate fuera de su huella');}
-const mark=gltf.nodes.find(n=>n.name==='Marca_copyright_modelo');assert.equal(data.showCopyright,true);assert.equal(mark.children.length,3);assert.equal(mark.extras.flag,'showCopyright');
+const mark=gltf.nodes.find(n=>n.name==='Marca_copyright_modelo');assert.equal(data.showCopyright,true);assert.equal(mark.children.length,panels.length);assert.equal(mark.extras.flag,'showCopyright');
 // Alturas físicas en el GLB: verificar el modelo exportado, no solo sus etiquetas.
 function bounds(name){
  const id=gltf.nodes.findIndex(n=>n.name===name),out=new THREE.Box3();

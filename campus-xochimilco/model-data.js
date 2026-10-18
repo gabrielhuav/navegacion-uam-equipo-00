@@ -2998,5 +2998,30 @@ export const ORIGINAL = {
       "details": "Concreto gris, aletas, ventanales y marcos azules; cubiertas rojas y lucernario curvo central; jacarandas en arbolado existente, especialmente junto a estacionamientos. Interpretación simplificada.",
       "limits": "No se alteran huellas, niveles, orientación ni calibración. La torre con gráfico azul de la foto cercana no se asigna a un edificio sin confirmar su identidad. Especies y dimensiones de detalles aproximadas."
     }
+  },
+  "copyrightStyle": {
+    "version": 2,
+    "color": "#0072CE",
+    "opacity": 0.84,
+    "layout": "tiled-site",
+    "rowSpacing": 32,
+    "maxWidth": 160,
+    "largePanels": [
+      {
+        "x": -0.47249999999996817,
+        "z": -246.67332,
+        "width": 275.25256
+      },
+      {
+        "x": -0.47249999999996817,
+        "z": -0.3734999999999786,
+        "width": 275.25256
+      },
+      {
+        "x": -0.47249999999996817,
+        "z": 245.9263200000001,
+        "width": 275.25256
+      }
+    ]
   }
 };

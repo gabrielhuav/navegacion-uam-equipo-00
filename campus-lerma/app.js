@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import {OrbitControls} from 'orbit';
 import {GLTFExporter} from 'exporter';
 import {ORIGINAL} from 'model-data';
+import {copyrightPanelsForSite} from 'copyright-layout';
 import {createLermaArchitecture} from 'lerma-architecture';
 let lermaArchitecture,focusBounds=null;
 
@@ -34,17 +35,18 @@ function meshPoly(parent,points,y,color,name){const shape=new THREE.Shape();poin
 function line(parent,points,color='#eeeee0',width=.22,y=.5){for(let i=1;i<points.length;i++){let a=points[i-1],b=points[i],dx=b[0]-a[0],dz=b[1]-a[1];let o=box(parent,'Línea', (a[0]+b[0])/2,y,(a[1]+b[1])/2,width,.04,Math.hypot(dx,dz),color);o.rotation.y=Math.atan2(dx,dz);}}
 function label(text,x,y,z,cls=''){const el=document.createElement('div');el.className='label '+cls;el.textContent=text;labelLayer.append(el);labels.push({el,p:new THREE.Vector3(x,y,z)});}
 // Marca que pertenece a la maqueta y viaja en GLB; bandera persistente en JSON.
+function copyrightStyle(){return data.copyrightStyle||ORIGINAL.copyrightStyle;}
 function copyrightEnabled(){return data.showCopyright!==false;}
-function syncCopyright(){const enabled=copyrightEnabled();const node=world?.getObjectByName('Marca_copyright_modelo');if(node)node.visible=enabled;$('copyrightToggle').checked=enabled;$('watermark').hidden=!enabled;}
+function syncCopyright(){const enabled=copyrightEnabled();const node=world?.getObjectByName('Marca_copyright_modelo');if(node)node.visible=enabled;$('copyrightToggle').checked=enabled;$('watermark').hidden=!enabled;$('watermark').style.color=copyrightStyle().color;}
 function addCopyrightToModel(){
  const group=new THREE.Group();group.name='Marca_copyright_modelo';group.userData={presentation:true,flag:'showCopyright',text:'copyright @gabrielhuav'};world.add(group);
- const xs=data.site.map(p=>X(p[0])),zs=data.site.map(p=>Z(p[1]));
- const xmin=Math.min(...xs),xmax=Math.max(...xs),zmin=Math.min(...zs),zmax=Math.max(...zs),width=Math.min(450,(xmax-xmin)*.88);
- const canvas=document.createElement('canvas');canvas.width=1536;canvas.height=192;const ctx=canvas.getContext('2d');ctx.textAlign='center';ctx.textBaseline='middle';ctx.font='bold 112px sans-serif';ctx.lineWidth=9;ctx.strokeStyle='#fff8e9';ctx.strokeText('copyright @gabrielhuav',768,96,1470);ctx.fillStyle='#842941';ctx.fillText('copyright @gabrielhuav',768,96,1470);
+ const style=copyrightStyle();group.userData.color=style.color;group.userData.pattern='tiled-site';
+ const canvas=document.createElement('canvas');canvas.width=1536;canvas.height=192;const ctx=canvas.getContext('2d');ctx.textAlign='center';ctx.textBaseline='middle';ctx.font='bold 112px sans-serif';ctx.lineWidth=9;ctx.strokeStyle='#fff8e9';ctx.strokeText('copyright @gabrielhuav',768,96,1470);ctx.fillStyle=style.color;ctx.fillText('copyright @gabrielhuav',768,96,1470);
  const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;
- const mat=new THREE.MeshBasicMaterial({map:texture,transparent:true,opacity:.62,side:THREE.DoubleSide,depthWrite:false});
+ const mat=new THREE.MeshBasicMaterial({map:texture,transparent:true,opacity:style.opacity,fog:false,toneMapped:false,side:THREE.DoubleSide,depthWrite:false});
  const height=Math.max(...data.buildings.map(b=>b.floors*data.storeyHeight))+4;
- const panels=data.copyrightPanels||Array.from({length:3},(_,i)=>({x:(xmin+xmax)/2,z:zmin+(zmax-zmin)*(.24+i*.26),width}));
+ const panels=copyrightPanelsForSite(data.site,data.metersPerPixel,style);
+ group.userData.panelCount=panels.length;
  for(const [i,p]of panels.entries()){const mesh=new THREE.Mesh(new THREE.PlaneGeometry(p.width,p.width/8),mat);mesh.name='Copyright_integrado_'+i;mesh.rotation.x=-Math.PI/2;mesh.position.set(p.x,height,p.z);mesh.renderOrder=5;mesh.userData.disposeCopyrightMaterial=i===0;group.add(mesh);}
  syncCopyright();
 }
@@ -238,7 +240,7 @@ function validateCampus(d){
 function drawWatermark(ctx){
  if(!copyrightEnabled())return;
  const text='copyright @gabrielhuav',margin=12,size=14;ctx.save();ctx.font='500 '+size+'px system-ui, sans-serif';ctx.textAlign='right';ctx.textBaseline='bottom';const width=ctx.measureText(text).width;
- ctx.fillStyle='rgba(255,255,255,.78)';ctx.fillRect(ctx.canvas.width-margin-width-8,ctx.canvas.height-margin-size-6,width+16,size+12);ctx.fillStyle='rgba(32,43,39,.78)';ctx.fillText(text,ctx.canvas.width-margin,ctx.canvas.height-margin);ctx.restore();
+ ctx.fillStyle='rgba(255,255,255,.78)';ctx.fillRect(ctx.canvas.width-margin-width-8,ctx.canvas.height-margin-size-6,width+16,size+12);ctx.fillStyle=copyrightStyle().color;ctx.fillText(text,ctx.canvas.width-margin,ctx.canvas.height-margin);ctx.restore();
 }
 async function watermarkedPlan(source){
  const canvas=document.createElement('canvas');canvas.width=source.width;canvas.height=source.height;const ctx=canvas.getContext('2d');ctx.drawImage(source,0,0);drawWatermark(ctx);return await new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(Error('No se pudo crear el plano PNG.')),'image/png'));

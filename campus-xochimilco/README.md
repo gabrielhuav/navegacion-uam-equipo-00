@@ -28,3 +28,7 @@ Fuentes, ambigüedades y precisión: `FUENTES.md`. Recalcular: `node calibracion
 `node build.mjs` reconstruye el HTML autónomo y `campus_base.json` desde `app.js`, `index.html`, `model-data.js` y `vendor/`. Después abrir el visor y pulsar «Guardar cambios» para regenerar GLB/PNG. El HTML puede abrirse sin servidor, pero en ese caso descarga los archivos y usa la base embebida; para persistir directamente en esta carpeta, usar el servidor local.
 
 Integración móvil pendiente de Claude: copiar esta carpeta con el mismo contrato de las otras unidades y sustituir el mapa provisional de Xochimilco. No se modificaron las apps en esta entrega.
+
+## Marca de agua repetida · cinco unidades
+
+El checkpoint del 18 octubre 2026 combina tres bandas grandes con repeticiones distribuidas por la maqueta, en el color oficial de esta unidad y con opacidad 0,84. Se conserva la casilla `showCopyright`; Guardar cambios actualiza GLB, PNG y JSON. Configuración en `copyrightStyle`; distribución en `copyright-layout.js`. Detalles, colores, pruebas e instrucciones para móvil en `../COPYRIGHT_CAMPUS.md`. No cambia la georreferencia, escala ni encuadre del plano.

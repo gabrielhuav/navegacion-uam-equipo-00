@@ -1478,21 +1478,29 @@
       "limits": "Referencias de aspecto; no modifican huellas, niveles ni georreferencia. Remates y proporciones estimados, pendientes de medición."
     }
   },
-  "copyrightPanels": [
-    {
-      "x": -10,
-      "z": -160,
-      "width": 650
-    },
-    {
-      "x": 238,
-      "z": 40,
-      "width": 230
-    },
-    {
-      "x": 238,
-      "z": 180,
-      "width": 230
-    }
-  ]
+  "copyrightStyle": {
+    "version": 2,
+    "color": "#AD25A8",
+    "opacity": 0.84,
+    "layout": "tiled-site",
+    "rowSpacing": 32,
+    "maxWidth": 160,
+    "largePanels": [
+      {
+        "x": -10,
+        "z": -160,
+        "width": 650
+      },
+      {
+        "x": 238,
+        "z": 40,
+        "width": 230
+      },
+      {
+        "x": 238,
+        "z": 180,
+        "width": 230
+      }
+    ]
+  }
 }
