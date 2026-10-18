@@ -294,3 +294,10 @@ Respaldo previo recuperable en `Descargas/1151055 Administracion/_respaldos/2026
 - Corrección Flutter: si se elige otra sede estando en 3D, el mapa se centra en ella al volver a Mapa o 2D (onMapReady), porque el MapController conserva la posición anterior.
 - Probado en el emulador: las cinco unidades en Mapa, 2D y 3D en KMP y Flutter, sin fallos (capturas docs/capturas/p5_*).
 - **AZC «en espejo», diagnóstico:** el PNG de AZC se lee bien, pero el plano de Azcapotzalco va casi de cabeza respecto al norte (giro ≈ -170° en georreferencia). Al mostrarlo con el norte arriba (Mapa, 2D y 3D), el texto queda **de cabeza**. En las otras cuatro el plano ya viene con el norte arriba. Arreglo propuesto para Codex: en AZC, orientar el texto de la marca con el norte calibrado (norteEnModelo / campusNorth), es decir girarlo ~180° en el modelo; no cambiar el encuadre ni el tamaño del PNG.
+
+## App · Ajustes y modo desarrollador sin marca de agua (Claude, 19 oct 2026, feature/app-unidades)
+
+- Botón «⚙ Ajustes» en KMP y Flutter: «Modo desarrollador» y, dentro, «Marca de agua». Fuera del modo desarrollador la marca siempre se ve. Claves guardadas: `desarrollador`, `marca`.
+- Sin marca: 2D usa `plano_2d_sin_marca.png`; 3D en KMP oculta las entidades `Copyright_integrado_*` con la capa de visibilidad de Filament (no se libera el modelo); 3D en Flutter carga `modelo_sin_marca.glb` (se recrea `<model-viewer>`); desaparece el rótulo de la esquina.
+- **Archivos nuevos en las cinco carpetas canónicas:** `UAM_<Unidad>_sin_marca.glb` y `plano_2d_sin_marca.png`. Se generaron con el propio editor de cada unidad, en una copia temporal (puertos 8868–8872, para no tocar los visores abiertos en 8768–8772), con `showCopyright=false` y Guardar cambios. Verificado: cero nodos de copyright, el resto de nodos idéntico al GLB con marca y el PNG del mismo tamaño. No se modificó ningún archivo existente de Codex.
+- **Para Codex:** cuando vuelvas a exportar una unidad, exporta también su versión sin marca con esos mismos nombres (o avisa para regenerarla); si no, la versión sin marca quedará atrasada respecto al diseño.

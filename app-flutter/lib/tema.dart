@@ -72,6 +72,8 @@ class AjustesTema {
     this.unidad = Unidad.azcapotzalco,
     this.iluminacion = Iluminacion.automatica,
     this.sede = Unidad.azcapotzalco,
+    this.desarrollador = false,
+    this.marca = true,
   });
 
   final bool oscuro;
@@ -81,11 +83,25 @@ class AjustesTema {
   /// La unidad cuyo campus se ve; puede ser otra que la del color (se pregunta al cambiar de unidad).
   final Unidad sede;
 
-  AjustesTema copyWith({bool? oscuro, Unidad? unidad, Iluminacion? iluminacion, Unidad? sede}) => AjustesTema(
+  /// Ajustes: el modo desarrollador permite quitar la marca de agua; fuera de él, siempre se ve.
+  final bool desarrollador;
+  final bool marca;
+  bool get conMarca => !desarrollador || marca;
+
+  AjustesTema copyWith({
+    bool? oscuro,
+    Unidad? unidad,
+    Iluminacion? iluminacion,
+    Unidad? sede,
+    bool? desarrollador,
+    bool? marca,
+  }) => AjustesTema(
     oscuro: oscuro ?? this.oscuro,
     unidad: unidad ?? this.unidad,
     iluminacion: iluminacion ?? this.iluminacion,
     sede: sede ?? this.sede,
+    desarrollador: desarrollador ?? this.desarrollador,
+    marca: marca ?? this.marca,
   );
 }
 
@@ -103,6 +119,8 @@ Future<void> cargarAjustesTema() async {
     unidad: elegido(Unidad.values, 'unidad', Unidad.azcapotzalco),
     iluminacion: elegido(Iluminacion.values, 'iluminacion', Iluminacion.automatica),
     sede: elegido(Unidad.values, 'sede', Unidad.azcapotzalco),
+    desarrollador: p.getBool('desarrollador') ?? false,
+    marca: p.getBool('marca') ?? true,
   );
   ajustesTema.addListener(() {
     final a = ajustesTema.value;
@@ -110,6 +128,8 @@ Future<void> cargarAjustesTema() async {
     p.setString('unidad', a.unidad.name);
     p.setString('iluminacion', a.iluminacion.name);
     p.setString('sede', a.sede.name);
+    p.setBool('desarrollador', a.desarrollador);
+    p.setBool('marca', a.marca);
   });
 }
 
@@ -156,3 +176,37 @@ class MenuTema extends StatelessWidget {
     );
   }
 }
+
+/// «⚙ Ajustes»: activar el modo desarrollador y, ya dentro de él, quitar la marca de agua
+/// «copyright @gabrielhuav» por completo: del plano 2D, de la maqueta 3D y de la esquina de la app.
+/// Igual que Configuracion.kt. Las dos opciones se recuerdan al cerrar la app.
+Future<void> mostrarAjustes(BuildContext context) => showDialog<void>(
+  context: context,
+  builder: (context) => ValueListenableBuilder(
+    valueListenable: ajustesTema,
+    builder: (context, a, _) => AlertDialog(
+      title: const Text('Ajustes'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Modo desarrollador'),
+            subtitle: const Text('Opciones para quien desarrolla la app.'),
+            value: a.desarrollador,
+            onChanged: (v) => ajustesTema.value = a.copyWith(desarrollador: v),
+          ),
+          if (a.desarrollador)
+            SwitchListTile(
+              contentPadding: EdgeInsets.zero,
+              title: const Text('Marca de agua'),
+              subtitle: const Text('«copyright @gabrielhuav» en el plano, el 3D y la app.'),
+              value: a.marca,
+              onChanged: (v) => ajustesTema.value = a.copyWith(marca: v),
+            ),
+        ],
+      ),
+      actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text('Listo'))],
+    ),
+  ),
+);

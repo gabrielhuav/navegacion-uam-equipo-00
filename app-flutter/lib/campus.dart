@@ -10,8 +10,11 @@ import 'package:latlong2/latlong.dart';
 import 'tema.dart';
 
 /// Archivos del campus de una unidad con croquis (Gradle copia cada una a `assets/campus/<carpeta>/`).
-String planoDe(Unidad u) => 'assets/campus/${u.carpeta}/plano_2d.png';
-String modeloDe(Unidad u) => 'assets/campus/${u.carpeta}/modelo.glb';
+/// Sin marca (modo desarrollador): las versiones que el editor exportó sin «copyright @gabrielhuav».
+String planoDe(Unidad u, {bool conMarca = true}) =>
+    'assets/campus/${u.carpeta}/${conMarca ? 'plano_2d.png' : 'plano_2d_sin_marca.png'}';
+String modeloDe(Unidad u, {bool conMarca = true}) =>
+    'assets/campus/${u.carpeta}/${conMarca ? 'modelo.glb' : 'modelo_sin_marca.glb'}';
 String georreferenciaDe(Unidad u) => 'assets/campus/${u.carpeta}/georreferencia.json';
 
 /// Las tres formas de ver el campus. Por defecto, el mapa real con el plano 2D encima.

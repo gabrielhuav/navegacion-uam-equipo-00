@@ -60,8 +60,10 @@ val copiarCampus by tasks.registering(Copy::class) {
         "campus-xochimilco" to "xochimilco",
     ).forEach { (origen, carpeta) ->
             from(rootProject.file("../../$origen")) {
-                include("UAM_*.glb", "plano_2d.png", "georreferencia.json")
-                rename("UAM_.*\\.glb", "modelo.glb")
+                // Con y sin marca de agua: la segunda la usa el modo desarrollador.
+                include("UAM_*.glb", "plano_2d.png", "plano_2d_sin_marca.png", "georreferencia.json")
+                rename("UAM_.*_sin_marca\\.glb", "modelo_sin_marca.glb")
+                rename("UAM_[^_]*\\.glb", "modelo.glb")
                 into(carpeta)
             }
         }

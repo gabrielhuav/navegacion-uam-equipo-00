@@ -202,6 +202,7 @@ class _PantallaMapaState extends State<PantallaMapa> {
     final yo = _ubicacion.punto;
     final texto = Theme.of(context).textTheme;
     final colores = Theme.of(context).colorScheme;
+    final conMarca = ajustesTema.value.conMarca;
     final sede = _sede;
     final geo = _geo[sede];
     if (_vista == Vista.tresD && sede.carpeta != null && !_con3D.contains(sede)) _con3D.add(sede);
@@ -214,10 +215,11 @@ class _PantallaMapaState extends State<PantallaMapa> {
           for (final u in _con3D)
             if (_geo[u] case final g?)
               Offstage(
-                key: ValueKey(u),
+                // Con o sin marca son dos GLB: al cambiar, <model-viewer> se vuelve a crear con el otro.
+                key: ValueKey((u, conMarca)),
                 offstage: _vista != Vista.tresD || u != sede,
                 child: ModelViewer(
-                  src: modeloDe(u),
+                  src: modeloDe(u, conMarca: conMarca),
                   alt: 'Modelo 3D aproximado del campus UAM ${u.nombre}',
                   backgroundColor: colores.surfaceContainer,
                   cameraControls: true,
@@ -228,7 +230,10 @@ class _PantallaMapaState extends State<PantallaMapa> {
                   // Como en KMP y en la web: nunca menos de 12° sobre el horizonte.
                   minCameraOrbit: 'auto 0deg auto',
                   maxCameraOrbit: 'auto 78deg auto',
-                  onWebViewCreated: (c) => _visor3D[u] = c,
+                  onWebViewCreated: (c) {
+                    _visor3D[u] = c;
+                    _aplicado3D.remove(u);
+                  },
                 ),
               ),
           if (_vista == Vista.tresD && sede.carpeta == null) _EnDesarrollo(sede),
@@ -274,7 +279,7 @@ class _PantallaMapaState extends State<PantallaMapa> {
                           bottomLeftCorner: geo.inferiorIzquierda,
                           bottomRightCorner: geo.inferiorDerecha,
                           opacity: _vista == Vista.mapa ? 0.85 : 1,
-                          imageProvider: AssetImage(planoDe(sede)),
+                          imageProvider: AssetImage(planoDe(sede, conMarca: conMarca)),
                         ),
                       ],
                     ),
@@ -349,6 +354,7 @@ class _PantallaMapaState extends State<PantallaMapa> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             const MenuTema(),
+                            TextButton(onPressed: () => mostrarAjustes(context), child: const Text('⚙ Ajustes')),
                             PopupMenuButton<Proveedor>(
                               position: PopupMenuPosition.under,
                               onSelected: (p) => setState(() {
@@ -376,17 +382,18 @@ class _PantallaMapaState extends State<PantallaMapa> {
               ),
             ),
           ),
-          // Marca de agua temporal: el autor del proyecto.
-          Positioned(
-            left: 8,
-            bottom: 40,
-            child: SafeArea(
-              child: Text(
-                '© @gabrielhuav',
-                style: texto.labelMedium?.copyWith(color: colores.onSurface.withValues(alpha: 0.55)),
+          // Marca de agua temporal: el autor del proyecto (se quita en Ajustes → modo desarrollador).
+          if (conMarca)
+            Positioned(
+              left: 8,
+              bottom: 40,
+              child: SafeArea(
+                child: Text(
+                  '© @gabrielhuav',
+                  style: texto.labelMedium?.copyWith(color: colores.onSurface.withValues(alpha: 0.55)),
+                ),
               ),
             ),
-          ),
           if (_vista != Vista.tresD)
             Positioned(
               left: 0,
