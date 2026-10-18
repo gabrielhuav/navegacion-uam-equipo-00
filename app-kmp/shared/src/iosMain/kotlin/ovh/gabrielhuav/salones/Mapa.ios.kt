@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
 
 /** En iOS el mapa todavía no se dibuja en este prototipo: solo se verifica Android. */
 @Composable
-actual fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar: Int, conTeselas: Boolean, noche: Boolean, sede: Unidad, modifier: Modifier) {
+actual fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar: Int, conTeselas: Boolean, noche: Boolean, sede: Unidad, conMarca: Boolean, modifier: Modifier) {
     Box(modifier) {
         Text("En iOS, el mapa llega en el siguiente prototipo.", Modifier.padding(16.dp))
     }

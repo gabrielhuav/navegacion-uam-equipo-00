@@ -26,6 +26,15 @@ private val motor: Engine by lazy {
 
 /** El visor y sus dos posiciones de cámara: desde arriba (como el mapa) e inclinada. */
 private class Visor(val modelo: ModelViewer, val camara: Manipulator, val arriba: Bookmark, val inclinada: Bookmark) {
+    /** Las piezas de la marca de agua («Copyright_integrado_*», hijas de «Marca_copyright_modelo»). */
+    val marca: List<Int> = modelo.asset?.let { a -> a.entities.filter { a.getName(it)?.startsWith("Copyright_integrado") == true } }.orEmpty()
+
+    /** Se ocultan con la capa de visibilidad (no se quitan de la escena: así no se libera nada del modelo). */
+    fun mostrarMarca(si: Boolean) {
+        val rm = modelo.engine.renderableManager
+        marca.forEach { e -> rm.getInstance(e).takeIf { it != 0 }?.let { rm.setLayerMask(it, 0xff, if (si) 0xff else 0) } }
+    }
+
     /** Hasta cuándo dibujar (System.nanoTime). Sin animaciones, basta dibujar un momento después de cada cambio. */
     @Volatile var dibujarHasta = 0L
 
@@ -53,7 +62,7 @@ private class Visor(val modelo: ModelViewer, val camara: Manipulator, val arriba
  * hacía fallar a Filament (asyncCancelLoad). Oculto, no se dibuja; visible, solo un momento después de tocarlo.
  */
 @Composable
-actual fun Campus3D(sede: Unidad, visible: Boolean, inclinada: Boolean, noche: Boolean, modifier: Modifier) {
+actual fun Campus3D(sede: Unidad, visible: Boolean, inclinada: Boolean, noche: Boolean, conMarca: Boolean, modifier: Modifier) {
     val visor = remember { arrayOfNulls<Visor>(1) }
     AndroidView(
         factory = { contexto ->
@@ -96,6 +105,13 @@ actual fun Campus3D(sede: Unidad, visible: Boolean, inclinada: Boolean, noche: B
     LaunchedEffect(inclinada) {
         visor[0]?.let {
             it.camara.jumpToBookmark(if (inclinada) it.inclinada else it.arriba)
+            it.avisarCambio()
+        }
+    }
+    // Modo desarrollador: con o sin la marca de agua.
+    LaunchedEffect(conMarca, visor[0]) {
+        visor[0]?.let {
+            it.mostrarMarca(conMarca)
             it.avisarCambio()
         }
     }

@@ -14,8 +14,8 @@ android {
         applicationId = "ovh.gabrielhuav.salones"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 5
-        versionName = "0.5.0"
+        versionCode = 6
+        versionName = "0.5.1"
     }
 
     compileOptions {
@@ -50,7 +50,11 @@ abstract class CopiarCampus : DefaultTask() {
         raiz.deleteRecursively()
         archivos.forEach { f ->
             val carpeta = f.parentFile.name.removePrefix("campus-").let { if (it == "campus") "azcapotzalco" else it }
-            val nombre = if (f.extension == "glb") "modelo.glb" else f.name
+            val nombre = when {
+                f.name.endsWith("_sin_marca.glb") -> "modelo_sin_marca.glb"
+                f.extension == "glb" -> "modelo.glb"
+                else -> f.name
+            }
             f.copyTo(raiz.resolve("$carpeta/$nombre").also { it.parentFile.mkdirs() })
         }
     }
@@ -64,7 +68,12 @@ val copiarCampus = tasks.register<CopiarCampus>("copiarCampus") {
         "campus-lerma" to "UAM_Lerma.glb",
         "campus-xochimilco" to "UAM_Xochimilco.glb",
     ).forEach { (carpeta, glb) ->
-        archivos.from(listOf(glb, "plano_2d.png", "georreferencia.json").map { rootProject.file("../$carpeta/$it") })
+        // Con y sin marca de agua: la segunda la usa el modo desarrollador.
+        val sinMarca = glb.removeSuffix(".glb") + "_sin_marca.glb"
+        archivos.from(
+            listOf(glb, sinMarca, "plano_2d.png", "plano_2d_sin_marca.png", "georreferencia.json")
+                .map { rootProject.file("../$carpeta/$it") },
+        )
     }
 }
 

@@ -45,7 +45,7 @@ import kotlinx.coroutines.delay
  * Cada vez que `centrar` cambia, el mapa vuelve al centro y al zoom inicial.
  */
 @Composable
-expect fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar: Int, conTeselas: Boolean, noche: Boolean, sede: Unidad, modifier: Modifier = Modifier)
+expect fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar: Int, conTeselas: Boolean, noche: Boolean, sede: Unidad, conMarca: Boolean, modifier: Modifier = Modifier)
 
 /**
  * Pantalla del Prototipo 3, la misma en Android y en iOS, y la misma que la de Flutter:
@@ -65,6 +65,11 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
     // La unidad cuyo campus se ve; puede ser otra que la del color (se pregunta al cambiar de unidad).
     var sede by rememberSaveable { mutableStateOf(Preferencias.leerEnum("sede", Unidad.AZCAPOTZALCO)) }
     var preguntar by remember { mutableStateOf<Unidad?>(null) }
+    // Configuración: el modo desarrollador permite quitar la marca de agua del plano, del 3D y de la app.
+    var desarrollador by rememberSaveable { mutableStateOf(Preferencias.leer("desarrollador")?.toBoolean() ?: false) }
+    var marcaPedida by rememberSaveable { mutableStateOf(Preferencias.leer("marca")?.toBoolean() ?: true) }
+    var configurando by remember { mutableStateOf(false) }
+    val conMarca = !desarrollador || marcaPedida
     var hora by remember { mutableStateOf(horaLocal()) }
     LaunchedEffect(Unit) {
         while (true) { // revisa la hora cada minuto: al dar las 19:00 el campus se hace de noche
@@ -88,12 +93,12 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
         if (vista == Vista.TRES_D && sede.carpeta != null && sede !in con3D) con3D.add(sede)
         Box(Modifier.fillMaxSize()) {
             con3D.forEach { s ->
-                key(s) { Campus3D(s, visible = vista == Vista.TRES_D && s == sede, inclinada, noche, Modifier.fillMaxSize()) }
+                key(s) { Campus3D(s, visible = vista == Vista.TRES_D && s == sede, inclinada, noche, conMarca, Modifier.fillMaxSize()) }
             }
             if (vista == Vista.TRES_D && sede.carpeta == null) EnDesarrollo(sede, Modifier.fillMaxSize())
             if (vista != Vista.TRES_D) {
                 val centro = if (enLaUam || ubicacion == null) sede.centro else ubicacion
-                Mapa(centro, ubicacion, proveedor, centrar, conTeselas = vista == Vista.MAPA, noche, sede, Modifier.fillMaxSize())
+                Mapa(centro, ubicacion, proveedor, centrar, conTeselas = vista == Vista.MAPA, noche, sede, conMarca, Modifier.fillMaxSize())
             }
 
             Card(Modifier.safeDrawingPadding().padding(12.dp).widthIn(max = 480.dp).fillMaxWidth()) {
@@ -125,6 +130,7 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
                             onOscuro = { oscuro = it; Preferencias.guardar("oscuro", it.toString()) },
                             onIluminacion = { iluminacion = it; Preferencias.guardar("iluminacion", it.name) },
                         )
+                        TextButton(onClick = { configurando = true }) { Text("⚙ Ajustes") }
                         Box {
                             var abierto by remember { mutableStateOf(false) }
                             TextButton(onClick = { abierto = true }) { Text("Mapa ▾") }
@@ -141,8 +147,8 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
                 }
             }
 
-            // Marca de agua temporal: el autor del proyecto.
-            Text(
+            // Marca de agua temporal: el autor del proyecto (se quita en Ajustes → modo desarrollador).
+            if (conMarca) Text(
                 "© @gabrielhuav",
                 Modifier.align(Alignment.BottomStart).safeDrawingPadding().padding(start = 8.dp, bottom = 40.dp),
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.55f),
@@ -162,6 +168,15 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
                     ExtendedFloatingActionButton(onClick = { enLaUam = true; centrar++ }) { Text("UAM") }
                     ExtendedFloatingActionButton(onClick = { enLaUam = false; centrar++; onUbicar() }) { Text("Ubicarme") }
                 }
+            }
+
+            if (configurando) {
+                Configuracion(
+                    desarrollador, marcaPedida,
+                    onDesarrollador = { desarrollador = it; Preferencias.guardar("desarrollador", it.toString()) },
+                    onMarca = { marcaPedida = it; Preferencias.guardar("marca", it.toString()) },
+                    onCerrar = { configurando = false },
+                )
             }
 
             // Al cambiar de unidad en «Tema ▾»: ¿ir también a su campus?

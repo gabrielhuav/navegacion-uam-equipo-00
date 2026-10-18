@@ -80,13 +80,14 @@ private data class PlanoCampus(val imagen: ImageBitmap, val geo: Georreferencia)
  * con `posicionEnTeselas` y `enPantalla`, igual que cada tesela, y se gira y escala para que quepa entre ellas.
  */
 @Composable
-actual fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar: Int, conTeselas: Boolean, noche: Boolean, sede: Unidad, modifier: Modifier) {
+actual fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar: Int, conTeselas: Boolean, noche: Boolean, sede: Unidad, conMarca: Boolean, modifier: Modifier) {
     val activos = LocalContext.current.assets
     // El plano de la unidad; sin carpeta (aún sin croquis) no hay plano y se dibuja el cuadro «En desarrollo…».
-    val plano = remember(sede) {
+    // Sin marca (modo desarrollador): el plano que el editor exportó sin «copyright @gabrielhuav».
+    val plano = remember(sede, conMarca) {
         if (sede.carpeta == null) null else runCatching {
             PlanoCampus(
-                activos.open("campus/${sede.carpeta}/plano_2d.png").use { BitmapFactory.decodeStream(it).asImageBitmap() },
+                activos.open("campus/${sede.carpeta}/" + if (conMarca) "plano_2d.png" else "plano_2d_sin_marca.png").use { BitmapFactory.decodeStream(it).asImageBitmap() },
                 leerGeorreferencia(activos.open("campus/${sede.carpeta}/georreferencia.json").use { it.readBytes().decodeToString() }),
             )
         }.getOrNull()
