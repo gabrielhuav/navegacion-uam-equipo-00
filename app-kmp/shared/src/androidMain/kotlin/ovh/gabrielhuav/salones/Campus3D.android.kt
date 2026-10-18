@@ -53,7 +53,7 @@ private class Visor(val modelo: ModelViewer, val camara: Manipulator, val arriba
  * hacía fallar a Filament (asyncCancelLoad). Oculto, no se dibuja; visible, solo un momento después de tocarlo.
  */
 @Composable
-actual fun Campus3D(visible: Boolean, inclinada: Boolean, modifier: Modifier) {
+actual fun Campus3D(visible: Boolean, inclinada: Boolean, noche: Boolean, modifier: Modifier) {
     val visor = remember { arrayOfNulls<Visor>(1) }
     AndroidView(
         factory = { contexto ->
@@ -96,6 +96,17 @@ actual fun Campus3D(visible: Boolean, inclinada: Boolean, modifier: Modifier) {
     LaunchedEffect(inclinada) {
         visor[0]?.let {
             it.camara.jumpToBookmark(if (inclinada) it.inclinada else it.arriba)
+            it.avisarCambio()
+        }
+    }
+    // De día o de noche: el sol y la luz ambiental bajan y se vuelven azulados.
+    LaunchedEffect(noche, visor[0]) {
+        visor[0]?.let {
+            val luces = motor.lightManager
+            val sol = luces.getInstance(it.modelo.light)
+            luces.setIntensity(sol, if (noche) 8_000f else 100_000f)
+            if (noche) luces.setColor(sol, 0.6f, 0.7f, 1f) else luces.setColor(sol, 1f, 0.97f, 0.9f)
+            it.modelo.scene.indirectLight?.intensity = if (noche) 6_000f else 30_000f
             it.avisarCambio()
         }
     }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_map/flutter_map.dart';
@@ -5,9 +7,11 @@ import 'package:model_viewer_plus/model_viewer_plus.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'campus.dart';
+import 'tema.dart';
 import 'ubicacion.dart';
 
-/// Prototipo 2: el campus de la UAM en el mapa real, en 2D y en 3D.
+/// Prototipo 3: el campus de la UAM en el mapa real, en 2D y en 3D, con modo claro u oscuro,
+/// el color de cada unidad y el campus de día o de noche.
 void main() => runApp(const SalonesApp());
 
 class SalonesApp extends StatelessWidget {
@@ -15,11 +19,15 @@ class SalonesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Salones UAM',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(), // el morado de Material 3 por omisión, igual que en KMP
-      home: const PantallaMapa(),
+    // Cuando cambia el tema, toda la app se vuelve a dibujar con sus colores.
+    return ValueListenableBuilder(
+      valueListenable: ajustesTema,
+      builder: (context, a, _) => MaterialApp(
+        title: 'Salones UAM',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(colorScheme: esquemaDeColor(a.unidad, oscuro: a.oscuro)),
+        home: const PantallaMapa(),
+      ),
     );
   }
 }
@@ -48,7 +56,12 @@ const _arcgis = 'https://server.arcgisonline.com/ArcGIS/rest/services/';
 const proveedores = [
   Proveedor('OpenStreetMap', 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', '© OpenStreetMap contributors'),
   Proveedor('OSM Humanitario', 'https://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', '© OpenStreetMap · HOT'),
-  Proveedor('CyclOSM', 'https://a.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png', '© OpenStreetMap · CyclOSM', 18),
+  Proveedor(
+    'CyclOSM',
+    'https://a.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png',
+    '© OpenStreetMap · CyclOSM',
+    18,
+  ),
   Proveedor('OpenTopoMap', 'https://a.tile.opentopomap.org/{z}/{x}/{y}.png', '© OpenStreetMap · OpenTopoMap', 17),
   Proveedor('Esri calles', '${_arcgis}World_Street_Map/MapServer/tile/{z}/{y}/{x}', 'Tiles © Esri', 18),
   Proveedor('Esri satélite', '${_arcgis}World_Imagery/MapServer/tile/{z}/{y}/{x}', 'Tiles © Esri'),
@@ -69,6 +82,16 @@ class _PantallaMapaState extends State<PantallaMapa> {
   Georreferencia? _geo;
   WebViewController? _visor3D;
   final _mapa = MapController();
+  int _hora = DateTime.now().hour;
+  Timer? _reloj;
+  String _aplicado3D = '';
+
+  /// De noche según la hora del teléfono, o lo que se eligió a mano en «Tema ▾».
+  bool get _noche => switch (ajustesTema.value.iluminacion) {
+    Iluminacion.automatica => esDeNoche(_hora),
+    Iluminacion.dia => false,
+    Iluminacion.noche => true,
+  };
 
   @override
   void initState() {
@@ -77,6 +100,28 @@ class _PantallaMapaState extends State<PantallaMapa> {
       if (mounted) setState(() => _geo = leerGeorreferencia(json));
     });
     _ubicar();
+    // Revisa la hora cada minuto: al dar las 19:00 el campus se hace de noche.
+    _reloj = Timer.periodic(const Duration(minutes: 1), (_) {
+      if (DateTime.now().hour != _hora) setState(() => _hora = DateTime.now().hour);
+    });
+  }
+
+  @override
+  void dispose() {
+    _reloj?.cancel();
+    super.dispose();
+  }
+
+  /// Fondo y luz del 3D sin recargar el modelo: de noche baja la exposición.
+  void _actualizar3D(Color fondo) {
+    final c = fondo.toARGB32().toRadixString(16).padLeft(8, '0').substring(2);
+    final js =
+        "const mv = document.querySelector('model-viewer');"
+        "mv.exposure = ${_noche ? 0.35 : 1};"
+        "mv.style.backgroundColor = '#$c'; document.body.style.backgroundColor = '#$c';";
+    if (js == _aplicado3D || _visor3D == null) return;
+    _aplicado3D = js;
+    _visor3D!.runJavaScript(js).catchError((_) => _aplicado3D = ''); // aún cargando: se reintenta al dibujar
   }
 
   Future<void> _ubicar() async {
@@ -88,7 +133,8 @@ class _PantallaMapaState extends State<PantallaMapa> {
   }
 
   /// Posición de la cámara 3D: casi encima con el norte arriba, como el mapa; o inclinada.
-  String _orbita(Georreferencia geo) => '${giroConNorteArriba(geo)}deg ${_inclinada ? 55 : 8}deg ${_inclinada ? 520 : 600}m';
+  String _orbita(Georreferencia geo) =>
+      '${giroConNorteArriba(geo)}deg ${_inclinada ? 55 : 8}deg ${_inclinada ? 520 : 600}m';
 
   void _inclinar() {
     setState(() => _inclinada = !_inclinada);
@@ -105,6 +151,8 @@ class _PantallaMapaState extends State<PantallaMapa> {
     final colores = Theme.of(context).colorScheme;
     final geo = _geo;
     if (_vista == Vista.tresD) _con3D = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) => _actualizar3D(colores.surfaceContainer));
+    final noche = _noche;
 
     return Scaffold(
       body: Stack(
@@ -120,6 +168,7 @@ class _PantallaMapaState extends State<PantallaMapa> {
                 disableTap: true,
                 interactionPrompt: InteractionPrompt.none,
                 cameraOrbit: _orbita(geo),
+                exposure: noche ? 0.35 : 1,
                 // Como en KMP y en la web: nunca menos de 12° sobre el horizonte.
                 minCameraOrbit: 'auto 0deg auto',
                 maxCameraOrbit: 'auto 78deg auto',
@@ -150,18 +199,26 @@ class _PantallaMapaState extends State<PantallaMapa> {
                     },
                   ),
                 // El plano del campus, girado y escalado para caer en sus esquinas reales.
+                // De noche se oscurece con un tono azul, igual que en KMP.
                 if (geo != null)
-                  OverlayImageLayer(overlayImages: [
-                    RotatedOverlayImage(
-                      topLeftCorner: geo.superiorIzquierda,
-                      bottomLeftCorner: geo.inferiorIzquierda,
-                      bottomRightCorner: geo.inferiorDerecha,
-                      opacity: _vista == Vista.mapa ? 0.85 : 1,
-                      imageProvider: const AssetImage(planoCampus),
+                  ColorFiltered(
+                    colorFilter: ColorFilter.mode(noche ? const Color(0xFF4A5680) : Colors.white, BlendMode.modulate),
+                    child: OverlayImageLayer(
+                      overlayImages: [
+                        RotatedOverlayImage(
+                          topLeftCorner: geo.superiorIzquierda,
+                          bottomLeftCorner: geo.inferiorIzquierda,
+                          bottomRightCorner: geo.inferiorDerecha,
+                          opacity: _vista == Vista.mapa ? 0.85 : 1,
+                          imageProvider: const AssetImage(planoCampus),
+                        ),
+                      ],
                     ),
-                  ]),
+                  ),
                 if (yo != null)
-                  MarkerLayer(markers: [Marker(point: yo, width: 24, height: 24, child: const _Punto())]),
+                  MarkerLayer(
+                    markers: [Marker(point: yo, width: 24, height: 24, child: const _Punto())],
+                  ),
               ],
             ),
           SafeArea(
@@ -185,28 +242,40 @@ class _PantallaMapaState extends State<PantallaMapa> {
                               const SizedBox(height: 8),
                               // Mapa real con el plano encima, solo el plano, o el modelo 3D.
                               SegmentedButton<Vista>(
-                                segments: [for (final v in Vista.values) ButtonSegment(value: v, label: Text(v.nombre))],
+                                segments: [
+                                  for (final v in Vista.values) ButtonSegment(value: v, label: Text(v.nombre)),
+                                ],
                                 selected: {_vista},
                                 onSelectionChanged: (s) => setState(() => _vista = s.first),
                               ),
                             ],
                           ),
                         ),
-                        // Si un proveedor no carga, se elige otro aquí.
-                        PopupMenuButton<Proveedor>(
-                          position: PopupMenuPosition.under,
-                          onSelected: (p) => setState(() {
-                            _proveedor = p;
-                            _falla = false;
-                          }),
-                          itemBuilder: (context) => [
-                            for (final p in proveedores)
-                              PopupMenuItem(value: p, child: Text('${p == _proveedor ? '✓  ' : '     '}${p.nombre}')),
+                        // Tema arriba; si un proveedor no carga, se elige otro abajo.
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            const MenuTema(),
+                            PopupMenuButton<Proveedor>(
+                              position: PopupMenuPosition.under,
+                              onSelected: (p) => setState(() {
+                                _proveedor = p;
+                                _falla = false;
+                              }),
+                              itemBuilder: (context) => [
+                                for (final p in proveedores)
+                                  PopupMenuItem(
+                                    value: p,
+                                    child: Text('${p == _proveedor ? '✓  ' : '     '}${p.nombre}'),
+                                  ),
+                              ],
+                              child: Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: Text('Mapa ▾', style: TextStyle(color: colores.primary)),
+                              ),
+                            ),
                           ],
-                          child: Padding(
-                            padding: const EdgeInsets.all(12),
-                            child: Text('Mapa ▾', style: TextStyle(color: colores.primary)),
-                          ),
                         ),
                       ],
                     ),

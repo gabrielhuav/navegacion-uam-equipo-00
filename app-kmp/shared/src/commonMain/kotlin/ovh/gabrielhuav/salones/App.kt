@@ -21,6 +21,7 @@ import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 
 /**
  * Mapa centrado en `centro`, con las teselas del proveedor elegido (índice en PROVEEDORES)
@@ -37,19 +39,33 @@ import androidx.compose.ui.unit.dp
  * Cada vez que `centrar` cambia, el mapa vuelve al centro y al zoom inicial.
  */
 @Composable
-expect fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar: Int, conTeselas: Boolean, modifier: Modifier = Modifier)
+expect fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar: Int, conTeselas: Boolean, noche: Boolean, modifier: Modifier = Modifier)
 
 /**
  * Pantalla del Prototipo 3, la misma en Android y en iOS, y la misma que la de Flutter:
  * el campus a pantalla completa (Mapa, 2D o 3D), una tarjeta con el mensaje y el menú «Mapa»,
  * y los botones «UAM» y «Ubicarme» (en 3D, «Inclinar» o «Desde arriba»).
- * Con «Tema ▾» se elige modo claro u oscuro y el color de una de las cinco unidades de la UAM.
+ * Con «Tema ▾» se elige modo claro u oscuro, el color de una de las cinco unidades de la UAM
+ * y si el campus se ve de día o de noche (por defecto, según la hora del teléfono).
  */
 @Composable
 fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
     val sistemaOscuro = isSystemInDarkTheme()
     var oscuro by rememberSaveable { mutableStateOf(sistemaOscuro) } // empieza como el teléfono
     var unidad by rememberSaveable { mutableStateOf(Unidad.AZCAPOTZALCO) }
+    var iluminacion by rememberSaveable { mutableStateOf(Iluminacion.AUTOMATICA) }
+    var hora by remember { mutableStateOf(horaLocal()) }
+    LaunchedEffect(Unit) {
+        while (true) { // revisa la hora cada minuto: al dar las 19:00 el campus se hace de noche
+            delay(60_000)
+            hora = horaLocal()
+        }
+    }
+    val noche = when (iluminacion) {
+        Iluminacion.AUTOMATICA -> esDeNoche(hora)
+        Iluminacion.DIA -> false
+        Iluminacion.NOCHE -> true
+    }
     MaterialTheme(colorScheme = esquemaDeColor(unidad, oscuro)) {
         var proveedor by rememberSaveable { mutableStateOf(0) }
         var centrar by rememberSaveable { mutableStateOf(0) }
@@ -60,10 +76,10 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
         var con3D by rememberSaveable { mutableStateOf(false) }
         if (vista == Vista.TRES_D) con3D = true
         Box(Modifier.fillMaxSize()) {
-            if (con3D) Campus3D(visible = vista == Vista.TRES_D, inclinada, Modifier.fillMaxSize())
+            if (con3D) Campus3D(visible = vista == Vista.TRES_D, inclinada, noche, Modifier.fillMaxSize())
             if (vista != Vista.TRES_D) {
                 val centro = if (enLaUam || ubicacion == null) UAM_AZCAPOTZALCO else ubicacion
-                Mapa(centro, ubicacion, proveedor, centrar, conTeselas = vista == Vista.MAPA, Modifier.fillMaxSize())
+                Mapa(centro, ubicacion, proveedor, centrar, conTeselas = vista == Vista.MAPA, noche, Modifier.fillMaxSize())
             }
 
             Card(Modifier.safeDrawingPadding().padding(12.dp).widthIn(max = 480.dp).fillMaxWidth()) {
@@ -84,7 +100,7 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
                     }
                     // Tema arriba; si un proveedor no carga, se elige otro abajo.
                     Column(horizontalAlignment = Alignment.End) {
-                        MenuTema(unidad, oscuro, onUnidad = { unidad = it }, onOscuro = { oscuro = it })
+                        MenuTema(unidad, oscuro, iluminacion, onUnidad = { unidad = it }, onOscuro = { oscuro = it }, onIluminacion = { iluminacion = it })
                         Box {
                             var abierto by remember { mutableStateOf(false) }
                             TextButton(onClick = { abierto = true }) { Text("Mapa ▾") }

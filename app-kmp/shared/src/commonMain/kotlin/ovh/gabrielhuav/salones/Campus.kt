@@ -6,6 +6,15 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sqrt
 
+/** Iluminación del campus en 2D y 3D. Por defecto sigue la hora del teléfono; también se fija a mano. */
+enum class Iluminacion(val nombre: String) { AUTOMATICA("Según la hora"), DIA("Día"), NOCHE("Noche") }
+
+/** De noche entre las 19:00 y las 6:59. */
+fun esDeNoche(hora: Int): Boolean = hora < 7 || hora >= 19
+
+/** La hora (0 a 23) del reloj del teléfono. */
+expect fun horaLocal(): Int
+
 /** Las tres formas de ver el campus. Por defecto, el mapa real con el plano 2D encima. */
 enum class Vista(val nombre: String) { MAPA("Mapa"), PLANO("2D"), TRES_D("3D") }
 
@@ -64,7 +73,7 @@ fun norteEnModelo(geo: Georreferencia): Pair<Double, Double> {
 /**
  * El modelo 3D del campus. Empieza visto desde arriba con el norte hacia arriba, como el mapa;
  * con `inclinada` la cámara baja para verlo de lado. En Android se dibuja con Filament; en iOS, todavía no.
- * Mientras `visible` es falso no se dibuja: así no gasta batería.
+ * Mientras `visible` es falso no se dibuja: así no gasta batería. Con `noche`, el sol y la luz ambiental bajan.
  */
 @Composable
-expect fun Campus3D(visible: Boolean, inclinada: Boolean, modifier: Modifier = Modifier)
+expect fun Campus3D(visible: Boolean, inclinada: Boolean, noche: Boolean, modifier: Modifier = Modifier)

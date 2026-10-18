@@ -61,9 +61,16 @@ fun esquemaDeColor(unidad: Unidad, oscuro: Boolean): ColorScheme {
     }
 }
 
-/** Botón «Tema ▾»: elegir modo claro u oscuro y el color de una unidad. */
+/** Botón «Tema ▾»: modo claro u oscuro, color de una unidad y día o noche en el campus. */
 @Composable
-fun MenuTema(unidad: Unidad, oscuro: Boolean, onUnidad: (Unidad) -> Unit, onOscuro: (Boolean) -> Unit) {
+fun MenuTema(
+    unidad: Unidad,
+    oscuro: Boolean,
+    iluminacion: Iluminacion,
+    onUnidad: (Unidad) -> Unit,
+    onOscuro: (Boolean) -> Unit,
+    onIluminacion: (Iluminacion) -> Unit,
+) {
     Box {
         var abierto by remember { mutableStateOf(false) }
         TextButton(onClick = { abierto = true }) { Text("Tema ▾") }
@@ -78,6 +85,10 @@ fun MenuTema(unidad: Unidad, oscuro: Boolean, onUnidad: (Unidad) -> Unit, onOscu
                     leadingIcon = { Box(Modifier.size(16.dp).background(u.color, CircleShape)) },
                     onClick = { onUnidad(u); abierto = false },
                 )
+            }
+            HorizontalDivider()
+            Iluminacion.entries.forEach { i ->
+                DropdownMenuItem(text = { Text(marca(i == iluminacion) + i.nombre) }, onClick = { onIluminacion(i); abierto = false })
             }
         }
     }

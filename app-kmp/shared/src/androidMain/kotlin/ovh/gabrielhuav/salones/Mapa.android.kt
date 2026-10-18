@@ -20,7 +20,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
@@ -57,6 +59,9 @@ private fun descargar(url: String): ImageBitmap {
     }
 }
 
+/** Tinte del plano de noche: multiplica cada color por un azul oscuro. */
+private val NOCHE = ColorFilter.tint(Color(0xFF4A5680), BlendMode.Modulate)
+
 /** El plano 2D del campus y dónde va, leídos de los assets que copia Gradle desde campus/. */
 private data class PlanoCampus(val imagen: ImageBitmap, val geo: Georreferencia)
 
@@ -69,7 +74,7 @@ private data class PlanoCampus(val imagen: ImageBitmap, val geo: Georreferencia)
  * con `posicionEnTeselas` y `enPantalla`, igual que cada tesela, y se gira y escala para que quepa entre ellas.
  */
 @Composable
-actual fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar: Int, conTeselas: Boolean, modifier: Modifier) {
+actual fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar: Int, conTeselas: Boolean, noche: Boolean, modifier: Modifier) {
     val activos = LocalContext.current.assets
     val plano = remember {
         runCatching {
@@ -144,7 +149,8 @@ actual fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar
                     rotate(Math.toDegrees(atan2(derecha.y, derecha.x).toDouble()).toFloat(), pivot = Offset.Zero)
                     scale(derecha.getDistance() / geo.ancho, abajo.getDistance() / geo.alto, pivot = Offset.Zero)
                 }) {
-                    drawImage(imagen, alpha = if (conTeselas) 0.85f else 1f)
+                    // De noche, el plano se oscurece con un tono azul.
+                    drawImage(imagen, alpha = if (conTeselas) 0.85f else 1f, colorFilter = if (noche) NOCHE else null)
                 }
             }
             marcador?.let {

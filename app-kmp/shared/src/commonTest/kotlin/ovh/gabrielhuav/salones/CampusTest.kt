@@ -52,3 +52,21 @@ class CampusTest {
         assertEquals("Estás en la UAM Azcapotzalco.", describir(centro))
     }
 }
+
+/** Día o noche según la hora del teléfono. */
+class IluminacionTest {
+    @Test
+    fun deSieteASieteEsDeDia() {
+        assertEquals(false, esDeNoche(7))
+        assertEquals(false, esDeNoche(13))
+        assertEquals(false, esDeNoche(18))
+    }
+
+    @Test
+    fun desdeLasDiecinueveYAntesDeLasSieteEsDeNoche() {
+        assertEquals(true, esDeNoche(19))
+        assertEquals(true, esDeNoche(23))
+        assertEquals(true, esDeNoche(0))
+        assertEquals(true, esDeNoche(6))
+    }
+}
