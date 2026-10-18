@@ -3,6 +3,7 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Las cinco unidades de la UAM y su color distintivo oficial (Pantone y su equivalente HEX), según
 /// «Reglas para la Aplicación de los Elementos de Identidad Institucional», UAM, Comunicación Social.
@@ -75,10 +76,27 @@ class AjustesTema {
   );
 }
 
-/// Empieza en claro u oscuro como el teléfono.
-final ajustesTema = ValueNotifier(
-  AjustesTema(oscuro: WidgetsBinding.instance.platformDispatcher.platformBrightness == Brightness.dark),
-);
+/// Lo que se eligió en «Tema ▾». Antes de abrir la app se carga con [cargarAjustesTema].
+final ajustesTema = ValueNotifier(const AjustesTema(oscuro: false));
+
+/// Lee lo último que se eligió (la primera vez, claro u oscuro como el teléfono)
+/// y, desde entonces, guarda cada cambio: al volver a abrir la app sigue igual. Igual que Preferencias.kt.
+Future<void> cargarAjustesTema() async {
+  final p = await SharedPreferences.getInstance();
+  T elegido<T extends Enum>(List<T> valores, String clave, T omision) =>
+      valores.where((v) => v.name == p.getString(clave)).firstOrNull ?? omision;
+  ajustesTema.value = AjustesTema(
+    oscuro: p.getBool('oscuro') ?? WidgetsBinding.instance.platformDispatcher.platformBrightness == Brightness.dark,
+    unidad: elegido(Unidad.values, 'unidad', Unidad.azcapotzalco),
+    iluminacion: elegido(Iluminacion.values, 'iluminacion', Iluminacion.automatica),
+  );
+  ajustesTema.addListener(() {
+    final a = ajustesTema.value;
+    p.setBool('oscuro', a.oscuro);
+    p.setString('unidad', a.unidad.name);
+    p.setString('iluminacion', a.iluminacion.name);
+  });
+}
 
 /// Elemento del menú «Tema ▾»: un valor que se aplica al elegirlo.
 typedef OpcionTema = AjustesTema Function(AjustesTema);

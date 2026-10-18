@@ -36,6 +36,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+        Preferencias.iniciar(this) // el tema y la unidad que se eligieron la última vez
         // `App()` es la pantalla compartida de `:shared` (commonMain): la misma que ve iOS.
         setContent { App(ubicacion, mensaje, onUbicar = { pedirUbicacion() }) }
         when {

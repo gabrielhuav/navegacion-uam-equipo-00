@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:salones_uam/tema.dart';
 
@@ -26,5 +27,19 @@ void main() {
     final s = esquemaDeColor(Unidad.iztapalapa, oscuro: true);
     expect(s.brightness, Brightness.dark);
     expect(s.primary.computeLuminance(), greaterThan(Unidad.iztapalapa.color.computeLuminance()));
+  });
+
+  test('recuerda lo elegido y lo vuelve a cargar al abrir', () async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    SharedPreferences.setMockInitialValues({'oscuro': true, 'unidad': 'lerma', 'iluminacion': 'noche'});
+    await cargarAjustesTema();
+    expect(ajustesTema.value.oscuro, isTrue);
+    expect(ajustesTema.value.unidad, Unidad.lerma);
+    expect(ajustesTema.value.iluminacion, Iluminacion.noche);
+
+    ajustesTema.value = ajustesTema.value.copyWith(unidad: Unidad.cuajimalpa, oscuro: false);
+    final p = await SharedPreferences.getInstance();
+    expect(p.getString('unidad'), 'cuajimalpa');
+    expect(p.getBool('oscuro'), isFalse);
   });
 }

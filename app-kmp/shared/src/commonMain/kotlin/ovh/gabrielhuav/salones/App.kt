@@ -51,9 +51,10 @@ expect fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar
 @Composable
 fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
     val sistemaOscuro = isSystemInDarkTheme()
-    var oscuro by rememberSaveable { mutableStateOf(sistemaOscuro) } // empieza como el teléfono
-    var unidad by rememberSaveable { mutableStateOf(Unidad.AZCAPOTZALCO) }
-    var iluminacion by rememberSaveable { mutableStateOf(Iluminacion.AUTOMATICA) }
+    // Lo último que se eligió en «Tema ▾»; la primera vez, claro u oscuro como el teléfono.
+    var oscuro by rememberSaveable { mutableStateOf(Preferencias.leer("oscuro")?.toBoolean() ?: sistemaOscuro) }
+    var unidad by rememberSaveable { mutableStateOf(Preferencias.leerEnum("unidad", Unidad.AZCAPOTZALCO)) }
+    var iluminacion by rememberSaveable { mutableStateOf(Preferencias.leerEnum("iluminacion", Iluminacion.AUTOMATICA)) }
     var hora by remember { mutableStateOf(horaLocal()) }
     LaunchedEffect(Unit) {
         while (true) { // revisa la hora cada minuto: al dar las 19:00 el campus se hace de noche
@@ -100,7 +101,13 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
                     }
                     // Tema arriba; si un proveedor no carga, se elige otro abajo.
                     Column(horizontalAlignment = Alignment.End) {
-                        MenuTema(unidad, oscuro, iluminacion, onUnidad = { unidad = it }, onOscuro = { oscuro = it }, onIluminacion = { iluminacion = it })
+                        // Cada elección se guarda: al volver a abrir la app sigue igual.
+                        MenuTema(
+                            unidad, oscuro, iluminacion,
+                            onUnidad = { unidad = it; Preferencias.guardar("unidad", it.name) },
+                            onOscuro = { oscuro = it; Preferencias.guardar("oscuro", it.toString()) },
+                            onIluminacion = { iluminacion = it; Preferencias.guardar("iluminacion", it.name) },
+                        )
                         Box {
                             var abierto by remember { mutableStateOf(false) }
                             TextButton(onClick = { abierto = true }) { Text("Mapa ▾") }

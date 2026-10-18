@@ -12,7 +12,11 @@ import 'ubicacion.dart';
 
 /// Prototipo 3: el campus de la UAM en el mapa real, en 2D y en 3D, con modo claro u oscuro,
 /// el color de cada unidad y el campus de día o de noche.
-void main() => runApp(const SalonesApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await cargarAjustesTema(); // tema, unidad y día o noche de la última vez
+  runApp(const SalonesApp());
+}
 
 class SalonesApp extends StatelessWidget {
   const SalonesApp({super.key});

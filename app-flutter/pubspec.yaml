@@ -41,6 +41,7 @@ dependencies:
   # Modelo 3D (GLB) con <model-viewer> de Google dentro de un WebView: Flutter no trae 3D estable propio.
   model_viewer_plus: ^1.10.0
   webview_flutter: ^4.13.0 # para mover la cámara 3D sin recargar el modelo
+  shared_preferences: ^2.5.6
 
 dev_dependencies:
   flutter_test:
