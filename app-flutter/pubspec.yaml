@@ -1,5 +1,5 @@
 name: salones_uam
-description: "Salones UAM · Prototipo 1: tu ubicación en el mapa de la UAM (Flutter, Android + iOS)"
+description: "Salones UAM · Prototipo 2: el campus en Mapa, 2D y 3D (Flutter, Android + iOS)"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 0.1.0+1
+version: 0.2.0+2
 
 environment:
   sdk: ^3.8.0
@@ -38,6 +38,9 @@ dependencies:
   geolocator: ^14.0.0
   flutter_map: ^8.2.0
   latlong2: ^0.9.1
+  # Modelo 3D (GLB) con <model-viewer> de Google dentro de un WebView: Flutter no trae 3D estable propio.
+  model_viewer_plus: ^1.10.0
+  webview_flutter: ^4.13.0 # para mover la cámara 3D sin recargar el modelo
 
 dev_dependencies:
   flutter_test:
@@ -60,6 +63,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  # El campus es el mismo de KMP y del editor web: Gradle lo copia de ../campus al compilar.
+  assets:
+    - assets/campus/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

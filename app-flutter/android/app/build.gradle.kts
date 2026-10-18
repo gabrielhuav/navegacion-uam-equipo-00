@@ -47,3 +47,14 @@ kotlin {
 flutter {
     source = "../.."
 }
+
+// El diseño del campus vive en ../campus (lo edita el visor web). Antes de compilar, Gradle copia a
+// assets/campus solo lo que usa la app; esa carpeta no se versiona. Así web, KMP y Flutter comparten archivos.
+val copiarCampus by tasks.registering(Copy::class) {
+    from(rootProject.file("../../campus")) {
+        include("UAM_Azcapotzalco.glb", "plano_2d.png", "georreferencia.json")
+    }
+    into(rootProject.file("../assets/campus"))
+}
+tasks.named("preBuild") { dependsOn(copiarCampus) }
+tasks.matching { it.name.startsWith("compileFlutterBuild") }.configureEach { dependsOn(copiarCampus) }

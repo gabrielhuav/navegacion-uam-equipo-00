@@ -55,3 +55,7 @@ Pendientes de la sesión: tocar edificio para centrar en 2D/3D; modo de interfaz
 Codex leyó la sesión abierta mediante la interfaz de Claude, comparó el código y confirmó que JSON/GLB/huellas eran idénticos entre copias. Recuperó la exportación PNG y georreferencia que faltaban en Descargas. Añadió norte calibrado y límite de cámara al visor web; estableció réplica comprobada y esta memoria. No se modificó el código móvil, no se hizo merge/push ni se enviaron mensajes a Claude.
 
 La exportación planoBlob oculta también los contornos de selección de objetos/edificios, para que no aparezcan en el PNG móvil, y restaura su visibilidad al terminar.
+
+## Flutter · Prototipo 2 (18 oct 2026, feature/p2-campus)
+
+app-flutter tiene la misma pantalla que KMP: Mapa (teselas + plano con RotatedOverlayImage de flutter_map), 2D, 3D, «UAM», «Ubicarme» e «Inclinar». El 3D usa model_viewer_plus (`<model-viewer>` de Google en un WebView; no es el editor web): abre casi encima con el norte arriba (giro de norteEnModelo), limita la cámara a 78° (12° sobre el horizonte) e «Inclinar» cambia cameraOrbit por JavaScript sin recargar. Flutter no empaqueta assets fuera del proyecto: Gradle (android/app/build.gradle.kts, copiarCampus) copia GLB, PNG y georreferencia de ../campus a app-flutter/assets/campus/ al compilar; esa carpeta no se versiona salvo su LEEME. El manifiesto permite tráfico http local porque model_viewer_plus sirve el modelo desde 127.0.0.1. Probado en el emulador; iOS no tiene paso de copia todavía.
