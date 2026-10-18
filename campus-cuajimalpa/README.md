@@ -27,7 +27,7 @@ Las bibliotecas locales están en vendor/; no se requiere instalar paquetes.
 - campus_editado.json: estado editable que se carga primero.
 - model-data.js: base alternativa; campus_base.json es su copia generada.
 - UAM_Cuajimalpa.glb: geometría 3D, sin marca ni herramientas.
-- plano_2d.png: transparente, 1040×1000, marca temporal © @gabrielhuav en esquina.
+- plano_2d.png: transparente, 1040×1000, marca temporal copyright @gabrielhuav en esquina.
 - georreferencia.json: tres esquinas lat/lon, RMS y procedencia.
 - index.html/app.js: interfaz y generador. node build.mjs recompone el HTML autónomo; no exporta GLB/PNG.
 

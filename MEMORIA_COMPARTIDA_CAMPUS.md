@@ -138,3 +138,11 @@ Gabriel señaló correctamente que se había omitido T: el croquis tenía AT, pe
 Huella T simplificada trazada visualmente sobre el raster Esri ya utilizado. `campus-iztapalapa/calibracion/trazo-T.json` conserva puntos píxel, extensión y polígono en coordenadas del modelo obtenido por inversión de la matriz afín existente. No es una medición independiente y no cambia el RMS; incertidumbre visual orientativa 5–15 m, detalles y dimensiones por validar. Sin cambios a georreferencia ni tamaño/encuadre/orientación del PNG 1920×2000. Se exportaron GLB/PNG/JSON. Los otros 17 edificios y las demás unidades/apps conservan sus datos.
 
 Checkpoint: Descargas/1151055 Administracion/_respaldos/2026-10-18_iztapalapa_antes_edificio_T (carpeta completa y memoria en d4d4358, SHA256). Pruebas: cámara cercana y exportación, verificar-campus-unidades.mjs ampliado para exigir T y AT distintos, cuatro niveles de T y conservación de los otros 17 edificios. Rama feature/campus-unidades; Claude integra este nuevo commit.
+
+## Marca visible en AZC, IZT y CUAJ · 18 oct 2026
+
+Gabriel aclaró que desea el texto literal «copyright @gabrielhuav» en los tres mapas. Sustituye la marca anterior «© @gabrielhuav» en los tres visores y exportadores de PNG. Capa fija respecto al viewport, por encima del HUD, con fondo claro y texto de mayor contraste; se mantiene visible al girar, acercar, cambiar cámara o ampliar. Se reexportan los tres planos 2D con la marca nueva, sin alterar dimensiones, encuadre ni georreferencia. Guardar imagen de esta vista también la incorpora.
+
+La marca es de presentación en visor/imagen, no geometría GLB. Las apps siguen a cargo de Claude y aquí no se modifican: para que aparezca siempre al desplazar el mapa o girar el GLB en móvil, Claude debe conservar una capa fija con este mismo texto en AZC, IZT y CUAJ. Los créditos OSM/ODbL siguen presentes.
+
+Checkpoint previo: Descargas/1151055 Administracion/_respaldos/2026-10-18_antes_copyright_tres_unidades (tres carpetas completas y memoria en 90e9e82). Pruebas: inspección de los tres visores, exportación de tres PNG, comprobación visual en vista ampliada y contratos/georreferencias/modelos sin cambios. Esta sección prevalece sobre las notas históricas del texto de la marca.

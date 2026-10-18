@@ -47,7 +47,7 @@ for(const slug of ['cuajimalpa','iztapalapa']){
  assert.ok(gltf.nodes.some(n=>n.extras?.dataLicense?.includes('OpenStreetMap')));
  assert.ok(!gltf.nodes.some(n=>/Selección_editor|Vista_previa_estacionamiento|gabrielhuav/.test(n.name||'')));
  const app=(await read(dir+'app.js')).toString(),html=(await read(dir+'Visor_UAM_autonomo.html')).toString();
- assert.ok(app.includes('watermarkedPlan(r.domElement)'));assert.ok(html.includes('© @gabrielhuav'));assert.ok(!html.includes('Eje 5 Norte;'));
+ assert.ok(app.includes('watermarkedPlan(r.domElement)'));assert.ok(html.includes('copyright @gabrielhuav'));assert.ok(app.includes("const text='copyright @gabrielhuav'"));assert.ok(!html.includes('Eje 5 Norte;'));
  assert.equal((d.extraParking||[]).length,0);assert.deepEqual(d.elementEdits||{},{});
  execFileSync(process.execPath,[new URL(dir+'calibracion/recalcular.mjs',root).pathname.replace(/^\/(\w:)/,'$1')],{stdio:'pipe'});
  console.log(d.unit.name+': contrato, GLB, PNG, atribución, controles y calibración correctos.');

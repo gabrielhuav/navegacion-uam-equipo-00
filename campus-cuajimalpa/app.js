@@ -335,7 +335,7 @@ function validateCampus(d){
 // La app lo coloca sobre el mapa real con georreferencia.json; estos límites (m) deben coincidir con los de ahí.
 // Marca temporal sobre la imagen, nunca sobre la geometría exportada.
 function drawWatermark(ctx){
- const text='© @gabrielhuav',margin=12,size=14;ctx.save();ctx.font='500 '+size+'px system-ui, sans-serif';ctx.textAlign='right';ctx.textBaseline='bottom';const width=ctx.measureText(text).width;
+ const text='copyright @gabrielhuav',margin=12,size=14;ctx.save();ctx.font='500 '+size+'px system-ui, sans-serif';ctx.textAlign='right';ctx.textBaseline='bottom';const width=ctx.measureText(text).width;
  ctx.fillStyle='rgba(255,255,255,.78)';ctx.fillRect(ctx.canvas.width-margin-width-8,ctx.canvas.height-margin-size-6,width+16,size+12);ctx.fillStyle='rgba(32,43,39,.78)';ctx.fillText(text,ctx.canvas.width-margin,ctx.canvas.height-margin);ctx.restore();
 }
 async function watermarkedPlan(source){
