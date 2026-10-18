@@ -10,7 +10,7 @@ for(const slug of ['cuajimalpa','iztapalapa']){
  const dir='campus-'+slug+'/',d=await json(dir+'campus_editado.json'),g=await json(dir+'georreferencia.json'),p=await json(dir+'calibracion/puntos.json');
  assert.equal(d.unit.slug,slug);assert.equal(d.unit.glb,'UAM_'+d.unit.name+'.glb');
  assert.equal(new Set(d.buildings.map(b=>b.id)).size,d.buildings.length);
- assert.equal(d.buildings.length,slug==='cuajimalpa'?2:17);
+ assert.equal(d.buildings.length,slug==='cuajimalpa'?2:18);
  for(const b of d.buildings){assert.ok(Number.isInteger(b.floors)&&b.floors>0&&b.floors<=8);assert.equal(b.levelsApproximate,true);assert.ok(b.polygons.every(poly=>poly.length>=3&&poly.every(p=>p.length===2&&p.every(Number.isFinite))));}
  assert.equal(p.length,g.calibracion.numeroPuntos);assert.ok(g.calibracion.volumenes>=4);assert.equal(g.calibracion.independiente,false);
  for(const key of ['superiorIzquierda','superiorDerecha','inferiorIzquierda']){assert.equal(g[key].length,2);assert.ok(g[key][0]>19.3&&g[key][0]<19.4&&g[key][1]>-99.30&&g[key][1]<-99.06);}
@@ -38,7 +38,10 @@ for(const slug of ['cuajimalpa','iztapalapa']){
   for(const name of ['Biblioteca_L_detalle','Biblioteca_cuerpo_con_portico','Biblioteca_dintel','Biblioteca_mural_interpretativo','Biblioteca_montante','Biblioteca_plaza'])assert.ok(gltf.nodes.some(n=>n.name===name),'Falta detalle de biblioteca: '+name);
   assert.equal(gltf.nodes.find(n=>n.name==='Biblioteca_mural_interpretativo').extras.notOriginalArtwork,true);
   const cwd=new URL('.',root).pathname.replace(/^\/(\w:)/,'$1'),before=JSON.parse(execFileSync('git',['show','450744a:'+dir+'campus_editado.json'],{cwd}).toString());
-  assert.deepEqual(d.buildings,before.buildings,'Se alteraron edificios al detallar la biblioteca');
+  assert.deepEqual(d.buildings.filter(b=>b.id!=='T'),before.buildings,'Se alteraron edificios existentes al añadir T');
+  const t=d.buildings.find(b=>b.id==='T'),at=d.buildings.find(b=>b.id==='AT');assert.ok(t&&at);assert.equal(t.floors,4);assert.notDeepEqual(t.polygons,at.polygons);
+  assert.ok(gltf.nodes.some(n=>n.name==='T_reticula_concreto_y_ventanales'));assert.ok(gltf.nodes.some(n=>n.name==='T_ventanal_nivel_3'));
+  const trace=await json(dir+'calibracion/trazo-T.json');assert.deepEqual(t.polygons,trace.polygons);
   assert.deepEqual(g,JSON.parse(execFileSync('git',['show','450744a:'+dir+'georreferencia.json'],{cwd}).toString()),'Se alteró la georreferencia de Iztapalapa');
  }
  assert.ok(gltf.nodes.some(n=>n.extras?.dataLicense?.includes('OpenStreetMap')));

@@ -653,6 +653,42 @@ export const ORIGINAL={
       ]
     },
     {
+      "id": "T",
+      "name": "T · Carlos Graef · CBI",
+      "floors": 4,
+      "levelsApproximate": true,
+      "polygons": [
+        [
+          [
+            751.465,
+            489.662
+          ],
+          [
+            831.663,
+            511.738
+          ],
+          [
+            823.803,
+            536.452
+          ],
+          [
+            743.597,
+            514.987
+          ]
+        ]
+      ],
+      "rects": [
+        [
+          743.597,
+          489.662,
+          831.663,
+          536.452
+        ]
+      ],
+      "source": "Plano CSE UAM Iztapalapa + trazo visual aproximado sobre Esri; ver calibracion/trazo-T.json",
+      "roof": "#b8bcae"
+    },
+    {
       "id": "AT",
       "name": "AT · Anexo CBI",
       "floors": 5,
@@ -1209,6 +1245,13 @@ export const ORIGINAL={
     "approximate": true,
     "orientationPending": true,
     "mural": "Alusión cromática propia; no reproducción del mural original ni de los textos sobreimpresos.",
-    "dimensions": "Huellas y niveles aproximados previos conservados; proporciones de fachada pendientes de campo."
+    "dimensions": "Huellas y niveles aproximados previos conservados; proporciones de fachada pendientes de campo.",
+    "edificioT": {
+      "reference": "Foto de Gabriel + plano oficial CSE",
+      "floors": "PB + 3 pisos, aproximados",
+      "footprint": "Trazo visual de envolvente sobre raster Esri, no levantamiento",
+      "trace": "calibracion/trazo-T.json",
+      "facades": "Retícula clara de concreto y ventanales; detalles aproximados"
+    }
   }
 };

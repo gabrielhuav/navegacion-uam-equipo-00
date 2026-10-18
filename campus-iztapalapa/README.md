@@ -8,7 +8,13 @@ Referencia: fotografía aportada por Gabriel, codex-clipboard-f843c4a8-cb60-425d
 
 JSON/base documentan la revisión en `architecture`; geometría y textura se regeneran desde app.js. Guardar cambios exporta el GLB y el plano con estos detalles. Se mantienen tamaño 1920×2000, encuadre/orientación del PNG y georreferencia. El resto de edificios sigue siendo un croquis básico por perfeccionar.
 
-17 volúmenes aproximados; revisar huellas, nombres y niveles con el alumnado. No topográfico.
+18 volúmenes aproximados; revisar huellas, nombres y niveles con el alumnado. No topográfico.
+
+## Edificio T · Carlos Graef · CBI
+
+Se corrigió su omisión: T y AT son edificios diferentes. El plano oficial de CSE ubica T entre el sector de biblioteca/posgrado y su anexo AT; el directorio institucional identifica el nombre Carlos Graef. T tiene PB + 3 pisos aproximados, con retícula clara de concreto y ventanales basada en la foto de Gabriel. «T · CBI» acerca la cámara. Se mantienen el identificador AT y sus datos.
+
+Su envolvente se trazó visualmente sobre el raster Esri ya usado: `calibracion/trazo-T.json` conserva cuatro puntos píxel, extensión, transformación y polígono resultante. Conversión mediante inversa de la calibración afín existente; no agrega controles ni mejora el RMS. Es una huella simplificada, pendiente de levantamiento; incertidumbre visual orientativa 5–15 m. No se cambian los otros 17 edificios, el PNG 1920×2000 ni la georreferencia. El detalle se genera en `buildingTDetails()` y forma parte del GLB exportado.
 
 
 ## Abrir

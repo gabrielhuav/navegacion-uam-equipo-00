@@ -31,6 +31,24 @@ function slab(parent,r,color,y=.18,height=.25,name='Superficie'){return box(pare
 function meshPoly(parent,points,y,color,name){const shape=new THREE.Shape();points.forEach((p,i)=>i?shape.lineTo(X(p[0]),-Z(p[1])):shape.moveTo(X(p[0]),-Z(p[1])));shape.closePath();const mesh=new THREE.Mesh(new THREE.ShapeGeometry(shape),material(color));mesh.rotation.x=-Math.PI/2;mesh.position.y=y;mesh.receiveShadow=true;mesh.name=name;parent.add(mesh);return mesh;}
 function line(parent,points,color='#eeeee0',width=.22,y=.5){for(let i=1;i<points.length;i++){let a=points[i-1],b=points[i],dx=b[0]-a[0],dz=b[1]-a[1];let o=box(parent,'Línea', (a[0]+b[0])/2,y,(a[1]+b[1])/2,width,.04,Math.hypot(dx,dz),color);o.rotation.y=Math.atan2(dx,dz);}}
 function label(text,x,y,z,cls=''){const el=document.createElement('div');el.className='label '+cls;el.textContent=text;labelLayer.append(el);labels.push({el,p:new THREE.Vector3(x,y,z)});}
+function buildingTDetails(parent,b,height){
+ const group=new THREE.Group();group.name='T_reticula_concreto_y_ventanales';group.userData={approximate:true,reference:'Foto de Gabriel: estructura clara, PB + 3 pisos; medidas y reparto de ventanas aproximados'};parent.add(group);
+ const poly=b.polygons[0];
+ for(let i=0;i<poly.length;i++){
+  const a=poly[i],q=poly[(i+1)%poly.length],dx=X(q[0])-X(a[0]),dz=Z(q[1])-Z(a[1]),length=Math.hypot(dx,dz),face=new THREE.Group();face.name='T_fachada_'+i;face.position.set((X(a[0])+X(q[0]))/2,0,(Z(a[1])+Z(q[1]))/2);face.rotation.y=Math.atan2(dx,dz);group.add(face);
+  const bays=Math.max(1,Math.round(length/6.5)),bay=length/bays;
+  for(let f=0;f<b.floors;f++){
+   for(let n=0;n<bays;n++){
+    const z=-length/2+(n+.5)*bay;
+    box(face,'T_ventanal_nivel_'+f,.16,.25+f*data.storeyHeight+1.85,z,.16,2,bay-.55,'#79908e');
+    for(const shift of [-bay/6,bay/6])box(face,'T_parteluz',.28,.25+f*data.storeyHeight+1.85,z+shift,.12,2,.07,'#bbc5bf');
+   }
+   box(face,'T_trabe_horizontal',.43,.25+(f+1)*data.storeyHeight-.2,0,.8,.6,length,'#d3d5c9');
+  }
+  for(let n=0;n<=bays;n++)box(face,'T_columna_concreto',.43,height/2+.25,-length/2+n*bay,.85,height,.55,'#d3d5c9');
+  box(face,'T_pretil',.4,height+.55,0,.8,.65,length,'#ced1c5');
+ }
+}
 const LIBRARY={x:836,z:464,angle:-Math.atan2(.298,.954)};
 function libraryLocal(p){return [(p[0]-LIBRARY.x)*.954+(p[1]-LIBRARY.z)*.298,-(p[0]-LIBRARY.x)*.298+(p[1]-LIBRARY.z)*.954];}
 function libraryWorld([u,v]){const c=Math.cos(LIBRARY.angle),s=Math.sin(LIBRARY.angle);return [LIBRARY.x+u*c+v*s,LIBRARY.z-u*s+v*c];}
@@ -71,11 +89,12 @@ function building(b){
    const local=poly.map(libraryLocal),left=clipLibrary(local,0,7,true),rear=clipLibrary(clipLibrary(local,0,7,false),1,8,true);
    for(const points of [left,rear]){if(points.length<3)continue;const s=new THREE.Shape();points.map(libraryWorld).forEach((p,i)=>i?s.lineTo(X(p[0]),-Z(p[1])):s.moveTo(X(p[0]),-Z(p[1])));s.closePath();volume('Biblioteca_cuerpo_con_portico',.25,height*.68,'#a49b85',s);}
    volume('Biblioteca_dintel',height*.68+.25,height*.32,'#a49b85');
-  }else volume('Cuerpo_aproximado',.25,height,'#d6d3c5');
+  }else volume('Cuerpo_aproximado',.25,height,b.id==='T'?'#bdc1b6':'#d6d3c5');
   volume('Azotea',height+.25,.35,b.roof||'#b8c0b6');
-  if(b.id!=='L')for(let f=0;f<b.floors;f++)for(let i=0;i<poly.length;i++){const a=poly[i],q=poly[(i+1)%poly.length],dx=X(q[0])-X(a[0]),dz=Z(q[1])-Z(a[1]),length=Math.hypot(dx,dz);if(length<1)continue;const pane=box(g,'Ventana_nivel_'+f,(X(a[0])+X(q[0]))/2,f*data.storeyHeight+2,(Z(a[1])+Z(q[1]))/2,.14,1.1,length,'#526d70');pane.rotation.y=Math.atan2(dx,dz);}
+  if(!['L','T'].includes(b.id))for(let f=0;f<b.floors;f++)for(let i=0;i<poly.length;i++){const a=poly[i],q=poly[(i+1)%poly.length],dx=X(q[0])-X(a[0]),dz=Z(q[1])-Z(a[1]),length=Math.hypot(dx,dz);if(length<1)continue;const pane=box(g,'Ventana_nivel_'+f,(X(a[0])+X(q[0]))/2,f*data.storeyHeight+2,(Z(a[1])+Z(q[1]))/2,.14,1.1,length,'#526d70');pane.rotation.y=Math.atan2(dx,dz);}
  }
  if(b.id==='L')libraryDetails(g,height);
+ if(b.id==='T')buildingTDetails(g,b,height);
  const points=polys.flat(),cx=points.reduce((a,p)=>a+X(p[0]),0)/points.length,cz=points.reduce((a,p)=>a+Z(p[1]),0)/points.length;label(b.id,cx+g.position.x,height+4,cz+g.position.z);return g;
 }
 function tree(px,py,size=1,palm=false,elevation=0){
@@ -126,11 +145,12 @@ function campusNorth(geo){
  if(Math.abs(det)<1e-18)return null;
  const x=-bx/det,z=ax/det,length=Math.hypot(x,z);return {x:x/length,z:z/length};
 }
-function view(mode){topMode=mode==='top';focusMode=mode==='library';camera=topMode?ortho:perspective;controls.object=camera;controls.enableRotate=!topMode;controls.target.set(0,0,0);camera.zoom=1;camera.up.set(0,1,0);const north=campusNorth(georeference)||{x:0,z:-1};
+function view(mode){topMode=mode==='top';focusMode=['library','towerT'].includes(mode);camera=topMode?ortho:perspective;controls.object=camera;controls.enableRotate=!topMode;controls.target.set(0,0,0);camera.zoom=1;camera.up.set(0,1,0);const north=campusNorth(georeference)||{x:0,z:-1};
  if(topMode){camera.position.set(0,1000,0);camera.up.set(north.x,0,north.z);}else camera.position.set(-north.x*630,580,-north.z*630);
- if(focusMode){const b=data.buildings.find(b=>b.id==='L');controls.target.set(X(LIBRARY.x)+(b.offsetX||0),5,Z(LIBRARY.z)+(b.offsetZ||0));const delta=new THREE.Vector3(30,24,115).applyAxisAngle(new THREE.Vector3(0,1,0),LIBRARY.angle);camera.position.copy(controls.target).add(delta);}
- camera.lookAt(controls.target);camera.updateProjectionMatrix();controls.update();for(const id of ['approved','library','maps','top'])$(id).classList.toggle('active',id===mode);resize();}
-for(const mode of ['approved','library','maps','top'])$(mode).onclick=()=>view(mode);
+ if(mode==='library'){const b=data.buildings.find(b=>b.id==='L');controls.target.set(X(LIBRARY.x)+(b.offsetX||0),5,Z(LIBRARY.z)+(b.offsetZ||0));const delta=new THREE.Vector3(30,24,115).applyAxisAngle(new THREE.Vector3(0,1,0),LIBRARY.angle);camera.position.copy(controls.target).add(delta);}
+ if(mode==='towerT'){const b=data.buildings.find(b=>b.id==='T'),r=b.rects[0];controls.target.set(X((r[0]+r[2])/2)+(b.offsetX||0),5,Z((r[1]+r[3])/2)+(b.offsetZ||0));camera.position.copy(controls.target).add(new THREE.Vector3(-75,40,-100));}
+ camera.lookAt(controls.target);camera.updateProjectionMatrix();controls.update();for(const id of ['approved','library','towerT','maps','top'])$(id).classList.toggle('active',id===mode);resize();}
+for(const mode of ['approved','library','towerT','maps','top'])$(mode).onclick=()=>view(mode);
 $('spin').onclick=()=>{if(topMode)view('maps');controls.autoRotate=!controls.autoRotate;$('spin').classList.toggle('active',controls.autoRotate);};
 $('trees').onchange=()=>vegetation.visible=$('trees').checked;$('names').onchange=()=>labelLayer.hidden=!$('names').checked;$('grid').onchange=()=>grid.visible=$('grid').checked;
 function message(text){$('status').textContent=text;clearTimeout(message.timer);message.timer=setTimeout(()=>$('status').textContent='',6500);}
