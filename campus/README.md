@@ -21,3 +21,7 @@ node server.mjs
 y abrir http://127.0.0.1:8768/Visor_UAM_autonomo.html. **Guardar cambios** actualiza `campus_editado.json`, el GLB y `plano_2d.png` aquí mismo; la app los copia al compilar. Si cambias `index.html`, `app.js` o `model-data.js`, corre `node build.mjs` para reconstruir el visor autónomo.
 
 Si mueves o agrandas el campus completo, hay que recalibrar `georreferencia.json`. Las medidas son aproximadas: no es un levantamiento topográfico. Detalle técnico en `GUIA_PARA_CLAUDE.md` e historial en `LEEME.md`. Three.js: licencia MIT en `vendor/LICENSE_three.txt`.
+
+## Memoria y réplica
+
+Leer ../MEMORIA_COMPARTIDA_CAMPUS.md. Google Maps/Plano superior del visor web usan el norte de georreferencia.json. El límite de cámara web es 12° sobre el horizonte. Para actualizar la réplica de Descargas: node sincronizar-replica.mjs; se detiene si hay cambios locales divergentes. Guardar la web no actualiza una app ya instalada.

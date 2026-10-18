@@ -34,6 +34,7 @@ import {ORIGINAL} from 'model-data';
 const $=id=>document.getElementById(id);
 const editables=new Map();
 let editMode=false,editSelected='',undoHistory=[],redoHistory=[],savedData='',isSaving=false,drawStart=null,drawPreview=null,dragEdit=null;
+let georeference=null;
 let data=structuredClone(ORIGINAL), world, vegetation, buildingGroups=new Map(), labels=[], selected='', topMode=false,focusMode=false;
 const mount=$('viewport'), labelLayer=$('labels');
 const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});
@@ -44,7 +45,7 @@ const scene=new THREE.Scene();scene.fog=new THREE.Fog('#edf1ed',1400,2300);
 scene.add(new THREE.HemisphereLight('#fff6e6','#4b6750',2.3));
 const sun=new THREE.DirectionalLight('#fff3de',3);sun.position.set(-280,550,320);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);Object.assign(sun.shadow.camera,{left:-500,right:500,top:500,bottom:-500,near:1,far:1200});sun.shadow.bias=-.0003;sun.shadow.normalBias=.5;scene.add(sun);
 const perspective=new THREE.PerspectiveCamera(42,1,1,3000), ortho=new THREE.OrthographicCamera(-460,460,270,-270,1,2500);let camera=perspective;
-const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.dampingFactor=.08;controls.minDistance=30;controls.maxDistance=1500;controls.maxPolarAngle=Math.PI/2-.025;controls.target.set(0,0,10);
+const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.dampingFactor=.08;controls.minDistance=30;controls.maxDistance=1500;controls.maxPolarAngle=THREE.MathUtils.degToRad(78);controls.target.set(0,0,10);
 const grid=new THREE.GridHelper(1000,100,'#6f8f80','#b9c9bc');grid.position.y=.3;grid.visible=false;scene.add(grid);
 const matCache=new Map();
 function material(color){if(!matCache.has(color))matCache.set(color,new THREE.MeshStandardMaterial({color,roughness:.88}));return matCache.get(color);}
@@ -324,14 +325,23 @@ $('apply').onclick=()=>{const b=data.buildings.find(b=>b.id===selected);if(!b)re
 function resize(){const w=mount.clientWidth,h=mount.clientHeight;renderer.setSize(w,h);perspective.aspect=w/h;perspective.updateProjectionMatrix();const span=480;ortho.left=-span;ortho.right=span;ortho.top=span*h/w;ortho.bottom=-span*h/w;ortho.updateProjectionMatrix();if(!topMode&&!focusMode){const distance=Math.max(850,420/(Math.tan(THREE.MathUtils.degToRad(perspective.fov/2))*perspective.aspect));perspective.position.sub(controls.target).normalize().multiplyScalar(distance).add(controls.target);controls.update();}}
 window.addEventListener('resize',resize);
 $('expand').onclick=()=>{const panel=document.querySelector('aside');panel.hidden=!panel.hidden;mount.style.left=panel.hidden?'0px':'';$('expand').textContent=panel.hidden?'Mostrar controles':'Ampliar vista';resize();};
+// Misma transformación de norte que Campus.kt; no escala la geometría ni aplica dos veces la calibración.
+function campusNorth(geo){
+ if(!geo)return null;
+ const ul=geo.superiorIzquierda,ur=geo.superiorDerecha,ll=geo.inferiorIzquierda;
+ if(![ul,ur,ll].every(p=>Array.isArray(p)&&p.length===2&&p.every(Number.isFinite))||!(geo.ancho>0&&geo.alto>0))return null;
+ const cosLat=Math.cos(ul[0]*Math.PI/180),ax=(ur[1]-ul[1])*cosLat/geo.ancho,ay=(ur[0]-ul[0])/geo.ancho,bx=(ll[1]-ul[1])*cosLat/geo.alto,by=(ll[0]-ul[0])/geo.alto,det=ax*by-ay*bx;
+ if(Math.abs(det)<1e-18)return null;
+ const x=-bx/det,z=ax/det,length=Math.hypot(x,z);return {x:x/length,z:z/length};
+}
 function view(mode){topMode=mode==='top';focusMode=['plaza','pavilions','cosei','gdetail','parking'].includes(mode);camera=topMode?ortho:perspective;controls.object=camera;controls.enableRotate=!topMode;controls.target.set(0,0,0);camera.zoom=1;camera.up.set(0,1,0);
  if(mode==='plaza'){controls.target.set(X(563.5),3,Z(486.5));camera.position.copy(controls.target).add(new THREE.Vector3(35,115,155));}
  else if(mode==='pavilions'){controls.target.set(X(824),6,Z(337));camera.position.copy(controls.target).add(new THREE.Vector3(-45,90,-140));}
  else if(mode==='cosei'){controls.target.set(X(817),4,Z(540));camera.position.copy(controls.target).add(new THREE.Vector3(-15,80,-145));}
  else if(mode==='gdetail'){controls.target.set(X(670),5,Z(526));camera.position.copy(controls.target).add(new THREE.Vector3(120,48,30));}
  else if(mode==='parking'){controls.target.set(X(790),3,Z(255));camera.position.copy(controls.target).add(new THREE.Vector3(-80,170,-200));}
- else if(mode==='maps')camera.position.set(-70,580,-630);
- else if(mode==='top'){camera.position.set(0,1000,0);camera.up.set(.17,0,.985);}
+ else if(mode==='maps'){const north=campusNorth(georeference);camera.position.set(north?-north.x*630:-70,580,north?-north.z*630:-630);}
+ else if(mode==='top'){camera.position.set(0,1000,0);const north=campusNorth(georeference);if(north)camera.up.set(north.x,0,north.z);else camera.up.set(.17,0,.985);}
  else camera.position.set(0,580,630);
  camera.lookAt(controls.target);camera.updateProjectionMatrix();controls.update();for(const id of ['approved','maps','top','plaza','pavilions','cosei','gdetail','parking'])$(id).classList.toggle('active',id===mode);resize();}
 for(const mode of ['approved','maps','top','plaza','pavilions','cosei','gdetail','parking'])$(mode).onclick=()=>view(mode);
@@ -447,10 +457,10 @@ async function planoBlob(){
  const r=new THREE.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:true});r.setSize(w,h,false);r.setClearColor(0,0);
  r.outputColorSpace=renderer.outputColorSpace;r.toneMapping=renderer.toneMapping;r.toneMappingExposure=renderer.toneMappingExposure;
  const cam=new THREE.OrthographicCamera(PLANO.xMin,PLANO.xMax,-PLANO.zMin,-PLANO.zMax,1,2500);cam.position.set(0,1000,0);cam.up.set(0,0,-1);cam.lookAt(0,0,0);
- const ocultos=['Base maqueta','Eje_5_Norte_Montevideo','Av_San_Pablo'].map(n=>world.getObjectByName(n)).filter(Boolean),was=vegetation.visible,fog=scene.fog,g=grid.visible;
- for(const o of ocultos)o.visible=false;vegetation.visible=true;scene.fog=null;grid.visible=false;
+ const ocultos=[...['Base maqueta','Eje_5_Norte_Montevideo','Av_San_Pablo'].map(n=>world.getObjectByName(n)),editHelper,highlight].filter(Boolean).map(node=>({node,visible:node.visible})),was=vegetation.visible,fog=scene.fog,g=grid.visible;
+ for(const o of ocultos)o.node.visible=false;vegetation.visible=true;scene.fog=null;grid.visible=false;
  try{r.render(scene,cam);return await new Promise(ok=>r.domElement.toBlob(ok,'image/png'));}
- finally{for(const o of ocultos)o.visible=true;vegetation.visible=was;scene.fog=fog;grid.visible=g;r.dispose();}
+ finally{for(const o of ocultos)o.node.visible=o.visible;vegetation.visible=was;scene.fog=fog;grid.visible=g;r.dispose();}
 }
 async function saveEditorChanges(withModel=true){
  if(isSaving)return;isSaving=true;resetDraw();updateSaveState();const buttons=['saveChanges','saveglb','savejson','apply','applyObject','deleteObject','resetObject','loadjson','toggleEdit','editUndo','editRedo'];for(const id of buttons)$(id).disabled=true;
@@ -462,6 +472,7 @@ async function saveEditorChanges(withModel=true){
 $('saveChanges').onclick=()=>saveEditorChanges(true);
 
 async function startCampus(){
+ if(location.protocol==='http:'){try{const geo=await fetch('./georreferencia.json',{cache:'no-store'});if(geo.ok){const candidate=await geo.json();if(campusNorth(candidate))georeference=candidate;}}catch{ /* El visor portátil mantiene su orientación de reserva. */ }}
  let notice='Listo: gira el modelo con el ratón.';
  if(location.protocol==='http:'&&['localhost','127.0.0.1'].includes(location.hostname)){
   try{const response=await fetch('./campus_editado.json',{cache:'no-store'});if(response.ok){data=validateCampus(await response.json());notice='Se cargaron tus últimos cambios guardados.';}}

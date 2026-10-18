@@ -1,3 +1,5 @@
+> Actualización 18 oct 2026: la fuente vigente está en C:/dev/navegacion-uam-equipo-00/campus y la memoria en ../MEMORIA_COMPARTIDA_CAMPUS.md. El visor guarda también plano_2d.png y existe georreferencia.json calibrada por Claude. Las menciones inferiores a ausencia de georreferencia describen la entrega original v8.
+
 # Entrega técnica para Claude: campus UAM Azcapotzalco
 
 Estado: visor y editor versión 8. Esta guía describe los archivos existentes; no incluye una integración Android/Flutter.
