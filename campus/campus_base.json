@@ -379,6 +379,24 @@
       "id": "T",
       "floors": 2,
       "noStreetExit": true,
+      "facadeReference": {
+        "revision": "2026-10-18",
+        "photos": [
+          "codex-clipboard-b41829a0-6ea4-41a0-a505-d2042bb84073.png",
+          "codex-clipboard-6cb75c1c-904c-4e28-bf1f-b13534662887.png"
+        ],
+        "details": [
+          "escalera exterior al patio",
+          "muro inclinado terracota",
+          "barandales rojos",
+          "PB retranqueada",
+          "galería y marquesina",
+          "rótulo t rojo"
+        ],
+        "approximate": true,
+        "orientationPending": true,
+        "noStreetExit": true
+      },
       "rects": [
         [
           918,

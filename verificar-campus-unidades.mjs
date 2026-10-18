@@ -63,4 +63,7 @@ assert.equal(execFileSync('git',['diff','feature/p3-temas','--','app-kmp/','app-
 const azBinary=await read('campus/UAM_Azcapotzalco.glb'),azGltf=JSON.parse(azBinary.subarray(20,20+azBinary.readUInt32LE(12)).toString());
 assert.ok(azGltf.nodes.some(n=>n.name==='Marca_copyright_modelo'));
 assert.equal((await json('campus/campus_editado.json')).showCopyright,true);
+const azData=await json('campus/campus_editado.json'),azT=azData.buildings.find(b=>b.id==='T');assert.equal(azT.noStreetExit,true);
+for(const name of ['T_AZC_fachada_y_escalera','T_muro_inclinado_terracota','T_pasamanos_rojo_escalera','T_rotulo_rojo'])assert.ok(azGltf.nodes.some(n=>n.name===name),'Falta detalle del T AZC: '+name);
+assert.equal(azGltf.nodes.filter(n=>n.name==='T_peldano_exterior').length,18);
 console.log('Azcapotzalco conserva georreferencia y PNG 1560×640; GLB con marca integrada; apps sin cambios.');

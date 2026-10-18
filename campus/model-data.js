@@ -29,7 +29,7 @@ export const ORIGINAL={
  {id:'Q',floors:1,rects:[[1603,520,1648,576]]},
  {id:'R',floors:3,rects:[[1308,233,1427,319]]},
  {id:'S',floors:2,rects:[[1194,534,1280,568]]},
- {id:'T',floors:2,noStreetExit:true,rects:[[918,619,1035,655]]},
+ {id:'T',floors:2,noStreetExit:true,facadeReference:{"revision":"2026-10-18","photos":["codex-clipboard-b41829a0-6ea4-41a0-a505-d2042bb84073.png","codex-clipboard-6cb75c1c-904c-4e28-bf1f-b13534662887.png"],"details":["escalera exterior al patio","muro inclinado terracota","barandales rojos","PB retranqueada","galería y marquesina","rótulo t rojo"],"approximate":true,"orientationPending":true,"noStreetExit":true},rects:[[918,619,1035,655]]},
  {id:'W',floors:3,rects:[[1187,258,1288,334]]}
  ],
  // Cuerpos de unión integrados en PB y pisos 1 y 2; no son puentes aislados.

@@ -170,3 +170,21 @@ Gabriel pide conservar este estado como checkpoint y vuelve con Claude al desarr
 - Pruebas ya realizadas: `node verificar-campus-unidades.mjs`, sintaxis de generadores, exportaciones de las tres unidades, inspecciones visuales; prueba real de exportación sin marca y reactivación en CUAJ. JSON de diseño idénticos al respaldo previo salvo `showCopyright`; georreferencias intactas y PNG con dimensiones originales. Solo se actualiza la documentación en este checkpoint; no se repiten exportaciones.
 
 Pendientes para Claude/alumnado: integración y prueba móvil KMP/Flutter; afinar huellas, orientación de fachadas, niveles y accesos con evidencia adicional. Las calibraciones siguen siendo aproximadas y sus RMS internos no equivalen a exactitud absoluta. Actualizar esta memoria con las decisiones móviles para conservar el diseño común. No se hizo push ni merge en esta entrega; los commits están disponibles localmente.
+
+## AZC · mejora fotográfica del edificio T posterior al checkpoint · 18 oct 2026
+
+Gabriel retoma Azcapotzalco y aporta dos fotos del T: escalera exterior, muro lateral inclinado terracota, barandales rojos, galería, marquesina y concreto claro. Generador específico `azcBuildingT()` en campus/app.js, sin aplicar el diseño del T de Iztapalapa. Nuevo botón «T · Escalera exterior». Se conserva ID T, rectángulo de referencia, dos niveles del croquis y `noStreetExit: true`. Fotos parciales: dimensiones y orientación exacta de fachada quedan pendientes de campo, no se infiere altura total nueva.
+
+Escalera de 18 peldaños hacia el patio interior (-Z), situada en el tramo de T libre junto al L, sin atravesar L ni abrir salida a Eje 5 Norte. Muro inclinado, barandales, PB retranqueada, galería y rótulo rojo, con explanada esquemática. La zona inmediata se excluye de vegetación aleatoria. Detalles hijos de Edificio_T, siguen altura/desplazamiento. Metadata en buildings[T].facadeReference, también en base. Se libera la textura del rótulo y la de copyright al regenerar para evitar acumular recursos.
+
+Checkpoint previo preservado: Descargas/1151055 Administracion/_respaldos/2026-10-18_azc_antes_detalle_T (campus completo, memoria, commit 0acee64 y SHA256). El checkpoint etiquetado anterior sigue intacto. Se reexportaron GLB/PNG/JSON de AZC con copyright activo; se ocultó temporalmente solo para revisión/captura de fachada y se reactivó antes de guardar. Georreferencia, encuadre/tamaño de PNG y los otros edificios conservados. CUAJ/IZT/apps sin cambios. Pruebas: sintaxis, verificadores del campus y contrato de tres unidades, presencia de escalera/muro/barandales y 18 peldaños en GLB. Claude debe incluir este commit posterior al checkpoint si desea la nueva fachada en móvil.
+
+## App · cinco unidades (Claude, 19 oct 2026, rama feature/app-unidades desde feature/campus-unidades)
+
+- KMP y Flutter copian al compilar campus/, campus-cuajimalpa/ y campus-iztapalapa/ a assets campus/<azcapotzalco|cuajimalpa|iztapalapa>/ con modelo.glb (renombrado), plano_2d.png y georreferencia.json. No se tocaron las carpetas campus*.
+- En «Tema ▾», elegir otra unidad pregunta «¿Ir a la UAM X?»: «Ir» cambia la sede (Mapa, 2D y 3D de esa unidad); «Sólo el color» no. La sede se guarda (clave `sede`). Un 3D por unidad visitada, cargado una vez y nunca liberado (lección del crash de Filament).
+- Lerma (19.291425, -99.499548, OSM) y Xochimilco (19.3025, -99.1035, aprox. entre OSM y el mapa de la UAMX) no tienen croquis: cuadro de 240 m de su color con «En desarrollo…» sobre el mapa, y cuadro equivalente en 3D. Centros de CUAJ/IZT = centro de su plano.
+- Marca de agua temporal «© @gabrielhuav» en la esquina inferior izquierda de la app, además de la horneada en GLB/PNG.
+- Probado en el emulador en KMP y Flutter (capturas docs/capturas/p4_*).
+- Para Codex: en el 3D de Azcapotzalco visto desde arriba con el norte hacia arriba, el texto «copyright @gabrielhuav» del GLB se ve en espejo; en CUAJ e IZT se lee bien. Probablemente la cara del texto apunta hacia abajo o la cámara la ve por detrás.
+- Las apps empaquetan lo que haya en campus/ al compilar: el APK de prueba incluyó los cambios de Azcapotzalco que Codex tenía sin commit en ese momento.

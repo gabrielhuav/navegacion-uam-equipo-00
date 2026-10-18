@@ -1,5 +1,11 @@
 # Campus UAM Azcapotzalco · modelo 2D/3D
 
+## Edificio T · referencia fotográfica del 18 octubre
+
+`azcBuildingT()` en app.js interpreta las dos fotos aportadas por Gabriel: PB retranqueada con ventanales, cuerpo superior de concreto, galería y marquesina esquemática, escalera exterior de 18 peldaños con muro inclinado terracota y barandales rojos, rótulo rojo «t». El botón «T · Escalera exterior» acerca la cámara. El detalle forma parte de Edificio_T y sigue sus desplazamientos y altura; no altera su envolvente de referencia. La escalera se proyecta hacia el interior del campus, en el tramo libre junto a L, y se excluye esa zona del arbolado aleatorio. Se conserva `noStreetExit: true`, sin crear accesos hacia Eje 5 Norte.
+
+Dimensiones de escalera y reparto de fachada son aproximados; las fotos parciales no determinan altura total ni orientación exacta. Se conservan los dos niveles existentes del croquis, el resto de edificios y la georreferencia. La referencia queda en `buildings[T].facadeReference` de los JSON/base. GLB y PNG 1560×640 reexportados con copyright activo; para inspeccionar los detalles puede desactivarse temporalmente desde Capas.
+
 Fuente única del diseño del campus. La versión web (visor y editor) y la app móvil usan los mismos archivos:
 
 | Archivo | Lo usa |
