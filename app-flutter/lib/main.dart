@@ -9,6 +9,7 @@ import 'package:model_viewer_plus/model_viewer_plus.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'campus.dart';
+import 'rutas.dart';
 import 'tema.dart';
 import 'ubicacion.dart';
 
@@ -90,6 +91,9 @@ class _PantallaMapaState extends State<PantallaMapa> {
   final _aplicado3D = <Unidad, String>{};
   late Unidad _unidadAnterior = ajustesTema.value.unidad;
   bool _irALaSede = false; // «UAM» o «Ir» centran el mapa en la sede; «Ubicarme», en ti
+  Red? _red; // Prototipo 6: la red de caminos de Azcapotzalco (campus/rutas.json)
+  Ruta? _ruta;
+  String _rutaTexto = '';
   LatLng? _centrarAlVolver; // si se eligió otra sede estando en 3D, el mapa se mueve al volver a Mapa o 2D
   final _mapa = MapController();
   int _hora = DateTime.now().hour;
@@ -110,6 +114,9 @@ class _PantallaMapaState extends State<PantallaMapa> {
         if (mounted) setState(() => _geo[u] = leerGeorreferencia(json));
       });
     }
+    rootBundle.loadString('assets/campus/azcapotzalco/rutas.json').then((json) {
+      if (mounted) setState(() => _red = leerRed(json));
+    }, onError: (_) {}); // sin red, no hay botón «Ruta»
     ajustesTema.addListener(_alCambiarTema);
     _ubicar();
     // Revisa la hora cada minuto: al dar las 19:00 el campus se hace de noche.
@@ -157,6 +164,32 @@ class _PantallaMapaState extends State<PantallaMapa> {
         _centrarAlVolver = u.centro;
       }
     });
+  }
+
+  /// Elegir origen y destino, y trazar la ruta más corta.
+  Future<void> _pedirRuta(LatLng? yo) async {
+    final red = _red;
+    if (red == null) return;
+    final elegido = await elegirRuta(context, red, conUbicacion: yo != null);
+    if (elegido == null || !mounted) return;
+    final (desde, hasta) = elegido;
+    final calculada = desde == null
+        ? red.rutaDesde(yo!, hasta)
+        : switch (red.rutaMasCorta(desde.nodo, hasta.nodo)) {
+            final r? => (r, false),
+            null => null,
+          };
+    setState(() {
+      _ruta = calculada?.$1;
+      _rutaTexto = switch (calculada) {
+        (final r, final porAcceso) =>
+          'Ruta a ${hasta.nombre}: ${r.metros.round()} m · ${r.minutos} min a pie'
+              '${porAcceso ? ' (desde el acceso más cercano)' : ''}',
+        null => 'No hay camino hacia ${hasta.nombre}.',
+      };
+      _irALaSede = true;
+    });
+    _mapa.move(Unidad.azcapotzalco.centro, 17);
   }
 
   /// Fondo y luz del 3D sin recargar el modelo: de noche baja la exposición.
@@ -312,6 +345,32 @@ class _PantallaMapaState extends State<PantallaMapa> {
                     ],
                   ),
                 ],
+                // La ruta: una línea gruesa del color de la app con borde blanco; inicio verde.
+                if (_ruta case final r? when sede == Unidad.azcapotzalco && r.puntos.length >= 2) ...[
+                  PolylineLayer(
+                    polylines: [
+                      Polyline(
+                        points: r.puntos,
+                        strokeWidth: 6,
+                        color: colores.primary,
+                        borderStrokeWidth: 3,
+                        borderColor: Colors.white,
+                      ),
+                    ],
+                  ),
+                  CircleLayer(
+                    circles: [
+                      CircleMarker(point: r.puntos.first, radius: 7, color: const Color(0xFF2E7D32)),
+                      CircleMarker(
+                        point: r.puntos.last,
+                        radius: 8,
+                        color: colores.primary,
+                        borderColor: Colors.white,
+                        borderStrokeWidth: 2,
+                      ),
+                    ],
+                  ),
+                ],
                 if (yo != null)
                   MarkerLayer(
                     markers: [Marker(point: yo, width: 24, height: 24, child: const _Punto())],
@@ -336,6 +395,8 @@ class _PantallaMapaState extends State<PantallaMapa> {
                             children: [
                               Text('Campus UAM', style: texto.titleLarge),
                               Text(yo != null ? describir(yo, sede) : _ubicacion.mensaje, style: texto.bodyMedium),
+                              if (_ruta != null && sede == Unidad.azcapotzalco)
+                                Text(_rutaTexto, style: texto.bodyMedium?.copyWith(color: colores.primary)),
                               const SizedBox(height: 8),
                               // Mapa real con el plano encima, solo el plano, o el modelo 3D.
                               SegmentedButton<Vista>(
@@ -423,6 +484,13 @@ class _PantallaMapaState extends State<PantallaMapa> {
                 ),
               ]
             : [
+                // Rutas: sólo en Azcapotzalco, mientras las otras unidades no tienen red de caminos.
+                if (_red != null && sede == Unidad.azcapotzalco)
+                  FloatingActionButton.extended(
+                    heroTag: 'ruta',
+                    onPressed: _ruta != null ? () => setState(() => _ruta = null) : () => _pedirRuta(yo),
+                    label: Text(_ruta == null ? 'Ruta' : 'Quitar ruta'),
+                  ),
                 FloatingActionButton.extended(
                   heroTag: 'uam',
                   onPressed: () {

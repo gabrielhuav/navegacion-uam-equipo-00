@@ -61,7 +61,8 @@ val copiarCampus by tasks.registering(Copy::class) {
     ).forEach { (origen, carpeta) ->
             from(rootProject.file("../../$origen")) {
                 // Con y sin marca de agua: la segunda la usa el modo desarrollador.
-                include("UAM_*.glb", "plano_2d.png", "plano_2d_sin_marca.png", "georreferencia.json")
+                // rutas.json: por ahora sólo existe en Azcapotzalco (Prototipo 6).
+                include("UAM_*.glb", "plano_2d.png", "plano_2d_sin_marca.png", "georreferencia.json", "rutas.json")
                 rename("UAM_.*_sin_marca\\.glb", "modelo_sin_marca.glb")
                 rename("UAM_[^_]*\\.glb", "modelo.glb")
                 into(carpeta)
