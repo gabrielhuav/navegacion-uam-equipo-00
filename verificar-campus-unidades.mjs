@@ -18,6 +18,14 @@ for(const slug of ['cuajimalpa','iztapalapa']){
  const binary=await read(dir+d.unit.glb);assert.equal(binary.subarray(0,4).toString(),'glTF');assert.equal(binary.readUInt32LE(4),2);assert.equal(binary.readUInt32LE(8),binary.length);
  const gltf=JSON.parse(binary.subarray(20,20+binary.readUInt32LE(12)).toString());
  for(const b of d.buildings){const node=gltf.nodes.find(n=>n.name==='Edificio_'+b.id);assert.ok(node,'Falta '+b.id);assert.equal(node.extras.floors,b.floors);}
+ if(slug==='cuajimalpa'){
+  assert.equal(d.architecture.integratedComplex,true);
+  assert.equal(gltf.nodes.filter(n=>n.name==='Edificio_TORRE_III').length,1);
+  for(const name of ['Fachadas_integradas_Cuajimalpa','Celosia_pliegues_claros','Atrio_central_vidrio','Lucernario_vidrio','Rampa_acceso_aproximada'])assert.ok(gltf.nodes.some(n=>n.name===name),'Falta detalle: '+name);
+  const before=JSON.parse(execFileSync('git',['show','6dbf995:campus-cuajimalpa/campus_editado.json'],{cwd:new URL('.',root).pathname.replace(/^\/(\w:)/,'$1')}).toString());
+  assert.deepEqual(d.buildings.map(b=>b.polygons),before.buildings.map(b=>b.polygons),'Se alteró la huella al detallar las fachadas');
+  assert.equal(hash(await read(dir+'georreferencia.json')),hash(execFileSync('git',['show','6dbf995:'+dir+'georreferencia.json'],{cwd:new URL('.',root).pathname.replace(/^\/(\w:)/,'$1')})));
+ }
  assert.ok(gltf.nodes.some(n=>n.extras?.dataLicense?.includes('OpenStreetMap')));
  assert.ok(!gltf.nodes.some(n=>/Selección_editor|Vista_previa_estacionamiento|gabrielhuav/.test(n.name||'')));
  const app=(await read(dir+'app.js')).toString(),html=(await read(dir+'Visor_UAM_autonomo.html')).toString();

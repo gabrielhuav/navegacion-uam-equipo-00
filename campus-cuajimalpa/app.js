@@ -31,14 +31,90 @@ function slab(parent,r,color,y=.18,height=.25,name='Superficie'){return box(pare
 function meshPoly(parent,points,y,color,name){const shape=new THREE.Shape();points.forEach((p,i)=>i?shape.lineTo(X(p[0]),-Z(p[1])):shape.moveTo(X(p[0]),-Z(p[1])));shape.closePath();const mesh=new THREE.Mesh(new THREE.ShapeGeometry(shape),material(color));mesh.rotation.x=-Math.PI/2;mesh.position.y=y;mesh.receiveShadow=true;mesh.name=name;parent.add(mesh);return mesh;}
 function line(parent,points,color='#eeeee0',width=.22,y=.5){for(let i=1;i<points.length;i++){let a=points[i-1],b=points[i],dx=b[0]-a[0],dz=b[1]-a[1];let o=box(parent,'Línea', (a[0]+b[0])/2,y,(a[1]+b[1])/2,width,.04,Math.hypot(dx,dz),color);o.rotation.y=Math.atan2(dx,dz);}}
 function label(text,x,y,z,cls=''){const el=document.createElement('div');el.className='label '+cls;el.textContent=text;labelLayer.append(el);labels.push({el,p:new THREE.Vector3(x,y,z)});}
+// Detalle interpretativo sobre la huella existente: las fotos no son un levantamiento.
+const CU_FRAME={x:863,z:423,angle:-Math.atan2(.553,.833)};
+function cuajimalpaFacades(parent,height){
+ const g=new THREE.Group();g.name='Fachadas_integradas_Cuajimalpa';
+ g.position.set(X(CU_FRAME.x),.25,Z(CU_FRAME.z));g.rotation.y=CU_FRAME.angle;parent.add(g);
+ g.userData={reference:'Fotografías aportadas por Gabriel, 2026-10-18',approximate:true,orientationPending:true};
+ const terra='#b47e63',seam='#926651',glass='#668b91',dark='#303c3c',concrete='#bfc3b9';
+ // Despiece sobrio de los paneles terracota; una sola masa, sin torres independientes.
+ for(const side of [-1,1]){
+  for(let y=0;y<height;y+=3.3)for(let x=-35;x<31;x+=5.5)
+   box(g,'Junta_panel_terracota',x,y,side<0?-39.85:41.45,.045,3.2,.035,seam);
+  for(let y=3.3;y<height;y+=3.3)box(g,'Junta_horizontal',-2,y,side<0?-39.85:41.45,70,.045,.035,seam);
+ }
+ // Fachada acristalada opuesta: bandas de corredores retranqueados y atrio central.
+ for(let f=0;f<data.buildings.find(b=>b.id==='TORRE_III').floors;f++){
+  const y=f*data.storeyHeight;
+  box(g,'Corredor_acristalado_nivel_'+f,-2,y+1.7,-40,47,2.15,.2,dark);
+  box(g,'Vidrio_corredores_nivel_'+f,-2,y+1.8,-40.15,43,1.55,.12,glass);
+  box(g,'Borde_losa_nivel_'+f,-2,y+.45,-40.45,47,.42,.9,concrete);
+  for(let x=-24;x<23;x+=3.8)box(g,'Barandal_montante',x,y+1,-40.6,.055,1.1,.06,'#c3cdca');
+  box(g,'Barandal_horizontal',-2,y+1.45,-40.6,47,.065,.06,'#c3cdca');
+ }
+ box(g,'Atrio_central_vidrio',-2,height/2,-40.8,15,height-.6,.16,'#6b939b');
+ for(let x=-9.5;x<6;x+=2.5)box(g,'Montante_atrio',x,height/2,-40.94,.09,height,.1,'#bccbc8');
+ for(let y=0;y<height;y+=1.65)box(g,'Travesano_atrio',-2,y,-40.94,15,.09,.1,'#bac7c3');
+ for(let f=0;f<data.buildings.find(b=>b.id==='TORRE_III').floors;f++){
+  const y=f*data.storeyHeight+1.85;
+  box(g,'Ventanas_lateral_nivel_'+f,-38.9,y,2,.12,1.2,54,glass);
+  box(g,'Ventanas_patio_retranqueado_nivel_'+f,-.6,y,33.75,30,1.2,.12,glass);
+  for(const x of [-27,24])box(g,'Ventanas_extremo_nivel_'+f,x,y,41.55,10,1.2,.12,glass);
+ }
+ // Celosía en la cara lateral del acceso: paño oscuro continuo con pliegues claros.
+ const screenBottom=Math.min(2.8,height*.15),screenHeight=Math.max(.8,height-screenBottom-1.6);
+ box(g,'Celosia_fondo_oscuro',35.18,screenBottom+screenHeight/2,0,.18,screenHeight,45,dark);
+ const vertices=[];
+ function ribbon(a,b,width){const dy=b[1]-a[1],dz=b[2]-a[2],len=Math.hypot(dy,dz),oy=-dz/len*width/2,oz=dy/len*width/2;
+  const p=[[a[0],a[1]+oy,a[2]+oz],[a[0],a[1]-oy,a[2]-oz],[b[0],b[1]-oy,b[2]-oz],[b[0],b[1]+oy,b[2]+oz]];
+  for(const i of [0,1,2,0,2,3])vertices.push(...p[i]);
+ }
+ for(let z=-21.8;z<22;z+=1.15)for(let y=screenBottom+.6;y<screenBottom+screenHeight-.7;y+=1.55){
+  ribbon([35.35,y-.55,z-.34],[35.35,y,z+.32],.22);
+  ribbon([35.35,y,z+.32],[35.35,y+.55,z-.2],.22);
+ }
+ const geom=new THREE.BufferGeometry();geom.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));geom.computeVertexNormals();
+ const screenMat=new THREE.MeshStandardMaterial({color:'#d9d8cc',roughness:.7,side:THREE.DoubleSide});
+ const screen=new THREE.Mesh(geom,screenMat);screen.name='Celosia_pliegues_claros';screen.userData.disposeMaterial=true;g.add(screen);
+ // Torres de circulación y zócalo sostienen visualmente el gran paño.
+ for(const z of [-31,31]){
+  box(g,'Macizo_terracota_acceso',38,height/2,z,8,height,11,terra);
+  for(let y=2;y<height;y+=3.3)for(let t=0;t<3;t++){
+   const hole=new THREE.Mesh(new THREE.CircleGeometry(.14,8),material('#3e3d36'));hole.rotation.y=Math.PI/2;hole.position.set(42.05,y,z-1+t*.7);hole.name='Perforacion_circulacion';g.add(hole);
+  }
+ }
+ box(g,'Portico_acceso',37,2,-27,10,4,7,'#454945');
+ // Dos lucernarios longitudinales y pretiles, visibles también en el plano 2D.
+ for(const x of [-16,15]){
+  box(g,'Lucernario_zocalo',x,height+.55,0,8,.55,46,'#5d6260');
+  box(g,'Lucernario_vidrio',x,height+.92,0,6.7,.18,44,'#89a5a3');
+  for(let z=-21;z<=21;z+=3.5)box(g,'Lucernario_travesano',x,height+1.04,z,6.9,.07,.08,'#d3d8cf');
+ }
+ // Plaza y rampas son esquemáticas; no alteran la georreferencia ni la huella.
+ box(g,'Plaza_acceso',51,.08,0,18,.16,61,'#b8ada0');
+ const signCanvas=document.createElement('canvas');signCanvas.width=512;signCanvas.height=128;
+ const signCtx=signCanvas.getContext('2d');signCtx.font='bold 83px sans-serif';signCtx.fillStyle='#fffdf3';signCtx.textAlign='center';signCtx.fillText('SOY UAM',256,96);
+ const signTexture=new THREE.CanvasTexture(signCanvas);signTexture.colorSpace=THREE.SRGBColorSpace;
+ const sign=new THREE.Mesh(new THREE.PlaneGeometry(13,3.25),new THREE.MeshStandardMaterial({map:signTexture,transparent:true,side:THREE.DoubleSide,roughness:.8}));
+ sign.name='Rotulo_SOY_UAM_interpretativo';sign.userData.disposeMaterial=true;sign.position.set(46,1.9,4);sign.rotation.y=Math.PI/2;g.add(sign);
+ box(g,'Base_rotulo_SOY_UAM',46,.42,4,.9,.55,13.5,'#c37943');
+ for(let z=-20;z<22;z+=4){box(g,'Pavimento_naranja',51,.18,z,14,.04,.18,'#c17743');box(g,'Pavimento_naranja',47,.18,z, .18,.04,3.8,'#c17743');}
+ const ramp=box(g,'Rampa_acceso_aproximada',62,-.35,12,5,.25,30,'#989b93');ramp.rotation.x=.045;
+ for(const x of [59.4,64.6])box(g,'Pretil_rampa',x,.6,12,.25,1.2,30,'#c9cbc1');
+ // Cubiertas y alturas editables siguen perteneciendo al mismo edificio.
+ g.userData.details=['terracota','celosia','atrio_acristalado','corredores','lucernarios'];
+}
 function building(b){
  const g=new THREE.Group();g.name='Edificio_'+b.id;g.userData={id:b.id,name:b.name||b.id,floors:b.floors,approximate:true,source:b.source};g.position.set(b.offsetX||0,0,b.offsetZ||0);world.add(g);buildingGroups.set(b.id,g);const height=b.floors*data.storeyHeight;
  const polys=b.polygons||b.rects.map(r=>[[r[0],r[1]],[r[2],r[1]],[r[2],r[3]],[r[0],r[3]]]);
  for(const poly of polys){const shape=new THREE.Shape();poly.forEach((p,i)=>i?shape.lineTo(X(p[0]),-Z(p[1])):shape.moveTo(X(p[0]),-Z(p[1])));shape.closePath();
   function volume(name,y,h,color){const m=new THREE.Mesh(new THREE.ExtrudeGeometry(shape,{depth:h,bevelEnabled:false}),material(color));m.rotation.x=-Math.PI/2;m.position.y=y;m.name=name;m.castShadow=true;m.receiveShadow=true;g.add(m);}
-  volume('Cuerpo_aproximado',.25,height,'#d6d3c5');volume('Azotea',height+.25,.35,b.roof||'#b8c0b6');
-  for(let f=0;f<b.floors;f++)for(let i=0;i<poly.length;i++){const a=poly[i],q=poly[(i+1)%poly.length],dx=X(q[0])-X(a[0]),dz=Z(q[1])-Z(a[1]),length=Math.hypot(dx,dz);if(length<1)continue;const pane=box(g,'Ventana_nivel_'+f,(X(a[0])+X(q[0]))/2,f*data.storeyHeight+2,(Z(a[1])+Z(q[1]))/2,.14,1.1,length,'#526d70');pane.rotation.y=Math.atan2(dx,dz);}
+  const main=b.id==='TORRE_III';
+  volume('Cuerpo_aproximado',.25,height,main?'#b47e63':'#d6d3c5');volume('Azotea',height+.25,.35,main?'#a56e58':b.roof||'#b8c0b6');
+  if(!main)for(let f=0;f<b.floors;f++)for(let i=0;i<poly.length;i++){const a=poly[i],q=poly[(i+1)%poly.length],dx=X(q[0])-X(a[0]),dz=Z(q[1])-Z(a[1]),length=Math.hypot(dx,dz);if(length<1)continue;const pane=box(g,'Ventana_nivel_'+f,(X(a[0])+X(q[0]))/2,f*data.storeyHeight+2,(Z(a[1])+Z(q[1]))/2,.14,1.1,length,'#526d70');pane.rotation.y=Math.atan2(dx,dz);}
  }
+ if(b.id==='TORRE_III')cuajimalpaFacades(g,height);
  const points=polys.flat(),cx=points.reduce((a,p)=>a+X(p[0]),0)/points.length,cz=points.reduce((a,p)=>a+Z(p[1]),0)/points.length;label(b.id,cx+g.position.x,height+4,cz+g.position.z);return g;
 }
 function tree(px,py,size=1,palm=false,elevation=0){
@@ -51,7 +127,7 @@ function tree(px,py,size=1,palm=false,elevation=0){
 function inside(px,py,poly){let v=false;for(let i=0,j=poly.length-1;i<poly.length;j=i++){let a=poly[i],b=poly[j];if((a[1]>py)!=(b[1]>py)&&px<(b[0]-a[0])*(py-a[1])/(b[1]-a[1])+a[0])v=!v;}return v;}
 function excluded(x,y){const rects=[...data.buildings.flatMap(b=>b.rects),...data.plazas.map(p=>p.rect),...data.parking,...data.paths];return rects.some(r=>x>r[0]-10&&x<r[2]+10&&y>r[1]-10&&y<r[3]+10);}
 function generate(){
- if(world){scene.remove(world);world.traverse(o=>{if(o.geometry&&![cube,cylinder,crown].includes(o.geometry))o.geometry.dispose();});}
+ if(world){scene.remove(world);world.traverse(o=>{if(o.geometry&&![cube,cylinder,crown].includes(o.geometry))o.geometry.dispose();if(o.userData.disposeMaterial){o.material.map?.dispose();o.material.dispose();}});}
  clearEditSelection();labelLayer.replaceChildren();labels=[];buildingGroups.clear();editables.clear();world=new THREE.Group();world.name='UAM_'+UNIT.name;world.userData={units:'meters',approximate:true,reference:data.reference,unit:UNIT.name,dataLicense:data.license};scene.add(world);
  vegetation=new THREE.Group();vegetation.name='Vegetación';world.add(vegetation);const p=UNIT.plan;
  box(world,'Base maqueta',(p.xMin+p.xMax)/2,-2,(p.zMin+p.zMax)/2,p.xMax-p.xMin,4,p.zMax-p.zMin,'#bbc3b5');meshPoly(world,data.site,.1,'#90aa81','Predio_aproximado');
@@ -77,7 +153,7 @@ function selectBuilding(id){selected=id||'';$('building').value=selected;if(high
 for(const b of data.buildings){const option=document.createElement('option');option.value=b.id;option.textContent=b.name||'Edificio '+b.id;$('building').append(option);}
 $('building').onchange=e=>selectBuilding(e.target.value);
 $('apply').onclick=()=>{const b=data.buildings.find(b=>b.id===selected);if(!b)return;const n=Number($('floors').value),ox=Number($('offsetX').value),oz=Number($('offsetZ').value);if(!Number.isInteger(n)||n<1||n>8||![ox,oz].every(Number.isFinite)){message('Introduce niveles entre 1 y 8 y desplazamientos válidos.');return;}rememberEdit();b.floors=n;delete b.height;b.offsetX=ox;b.offsetZ=oz;generate();updateSaveState();message('Edificio actualizado. Guarda datos y GLB para conservar el cambio.');};
-function resize(){const w=mount.clientWidth,h=mount.clientHeight;renderer.setSize(w,h);perspective.aspect=w/h;perspective.updateProjectionMatrix();const span=Math.max((UNIT.plan.xMax-UNIT.plan.xMin)/2,(UNIT.plan.zMax-UNIT.plan.zMin)/2*w/h)*1.1;ortho.left=-span;ortho.right=span;ortho.top=span*h/w;ortho.bottom=-span*h/w;ortho.updateProjectionMatrix();if(!topMode&&!focusMode){const distance=Math.max((UNIT.plan.zMax-UNIT.plan.zMin)*.9,(UNIT.plan.xMax-UNIT.plan.xMin)*.6/(Math.tan(THREE.MathUtils.degToRad(perspective.fov/2))*perspective.aspect));perspective.position.sub(controls.target).normalize().multiplyScalar(distance).add(controls.target);controls.update();}}
+function resize(){const w=mount.clientWidth,h=mount.clientHeight;renderer.setSize(w,h);perspective.aspect=w/h;perspective.updateProjectionMatrix();const span=Math.max((UNIT.plan.xMax-UNIT.plan.xMin)/2,(UNIT.plan.zMax-UNIT.plan.zMin)/2*w/h)*1.1;ortho.left=-span;ortho.right=span;ortho.top=span*h/w;ortho.bottom=-span*h/w;ortho.updateProjectionMatrix();if(!topMode){const distance=focusMode?Math.max(175,65/(Math.tan(THREE.MathUtils.degToRad(perspective.fov/2))*perspective.aspect)):Math.max((UNIT.plan.zMax-UNIT.plan.zMin)*.9,(UNIT.plan.xMax-UNIT.plan.xMin)*.6/(Math.tan(THREE.MathUtils.degToRad(perspective.fov/2))*perspective.aspect));perspective.position.sub(controls.target).normalize().multiplyScalar(distance).add(controls.target);controls.update();}}
 window.addEventListener('resize',resize);
 $('expand').onclick=()=>{const panel=document.querySelector('aside');panel.hidden=!panel.hidden;mount.style.left=panel.hidden?'0px':'';$('expand').textContent=panel.hidden?'Mostrar controles':'Ampliar vista';resize();};
 // Misma transformación de norte que Campus.kt; no escala la geometría ni aplica dos veces la calibración.
@@ -89,10 +165,11 @@ function campusNorth(geo){
  if(Math.abs(det)<1e-18)return null;
  const x=-bx/det,z=ax/det,length=Math.hypot(x,z);return {x:x/length,z:z/length};
 }
-function view(mode){topMode=mode==='top';focusMode=false;camera=topMode?ortho:perspective;controls.object=camera;controls.enableRotate=!topMode;controls.target.set(0,0,0);camera.zoom=1;camera.up.set(0,1,0);const north=campusNorth(georeference)||{x:0,z:-1};
+function view(mode){topMode=mode==='top';focusMode=['approved','glass'].includes(mode);camera=topMode?ortho:perspective;controls.object=camera;controls.enableRotate=!topMode;controls.target.set(0,0,0);camera.zoom=1;camera.up.set(0,1,0);const north=campusNorth(georeference)||{x:0,z:-1};
  if(topMode){camera.position.set(0,1000,0);camera.up.set(north.x,0,north.z);}else camera.position.set(-north.x*630,580,-north.z*630);
- camera.lookAt(controls.target);camera.updateProjectionMatrix();controls.update();for(const id of ['approved','maps','top'])$(id).classList.toggle('active',id===mode);resize();}
-for(const mode of ['approved','maps','top'])$(mode).onclick=()=>view(mode);
+ if(focusMode){const b=data.buildings.find(b=>b.id==='TORRE_III'),center=new THREE.Vector3(X(CU_FRAME.x)+(b.offsetX||0),10,Z(CU_FRAME.z)+(b.offsetZ||0));controls.target.copy(center);const delta=mode==='glass'?new THREE.Vector3(65,55,-150):new THREE.Vector3(155,58,65);delta.applyAxisAngle(new THREE.Vector3(0,1,0),CU_FRAME.angle);camera.position.copy(center).add(delta);}
+ camera.lookAt(controls.target);camera.updateProjectionMatrix();controls.update();for(const id of ['approved','glass','maps','top'])$(id).classList.toggle('active',id===mode);resize();}
+for(const mode of ['approved','glass','maps','top'])$(mode).onclick=()=>view(mode);
 $('spin').onclick=()=>{if(topMode)view('maps');controls.autoRotate=!controls.autoRotate;$('spin').classList.toggle('active',controls.autoRotate);};
 $('trees').onchange=()=>vegetation.visible=$('trees').checked;$('names').onchange=()=>labelLayer.hidden=!$('names').checked;$('grid').onchange=()=>grid.visible=$('grid').checked;
 function message(text){$('status').textContent=text;clearTimeout(message.timer);message.timer=setTimeout(()=>$('status').textContent='',6500);}

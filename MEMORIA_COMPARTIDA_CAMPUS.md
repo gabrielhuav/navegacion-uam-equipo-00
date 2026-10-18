@@ -94,3 +94,13 @@ Respaldo nuevo verificado: Descargas/1151055 Administracion/_respaldos/2026-10-1
 Pendientes: alumnos deben confirmar nombres auxiliares, niveles, fachadas, plantas bajo terreno, accesos y límites; croquis sin topografía detallada. La incorporación en las apps y cualquier prueba física quedan fuera de esta rama. Claude integra los commits locales; no se hizo push ni merge.
 
 Commit de los croquis: 4d37d4b. El siguiente commit de la misma rama incluye la marca de Azcapotzalco, verificadores y esta memoria.
+
+## Cuajimalpa · corrección visual del conjunto integrado · 18 oct 2026
+
+Gabriel señaló que el croquis no se parecía al edificio real y aportó tres fotos: gran celosía del acceso, fachada acristalada con corredores y vista desde portería. Se mantiene una sola Torre III principal, más el pequeño auxiliar norte provisional. La mejora en campus-cuajimalpa/app.js usa cuajimalpaFacades(): terracota, celosía geométrica oscura con pliegues claros, atrio central de vidrio, bandas por nivel, lucernarios y plaza/rampa esquemáticas con rótulo. Todos los detalles son hijos de Edificio_TORRE_III y siguen sus desplazamientos y niveles editables. Dos cámaras cercanas permiten reconocer las fachadas; el contexto completo sigue disponible.
+
+No se deducen medidas exactas ni orientación comprobada de estas fotos: la asignación de los frentes y la rampa es interpretativa y queda pendiente de campo. No se modificaron polígonos, calibración, tres esquinas geográficas ni dimensiones/orientación del plano 1040×1000. JSON/base incluyen metadatos architecture; app.js genera los detalles, que ya están incluidos en el GLB y el PNG exportados. Se mantiene la marca temporal. No se tocó Iztapalapa, Azcapotzalco ni las apps.
+
+Checkpoint previo: Descargas/1151055 Administracion/_respaldos/2026-10-18_cuajimalpa_antes_fachadas (carpeta Cuajimalpa completa, memoria previa, commit y manifiesto SHA256). No se eliminaron respaldos completos del curso.
+
+Verificación: inspección de ambos frentes en el visor, exportación mediante Guardar cambios y verificar-campus-unidades.mjs. El verificador comprueba detalles reconocibles dentro del GLB, un único nodo principal, huellas y georreferencia idénticas al commit 6dbf995, contrato y PNG del tamaño original. Pendiente la validación de semejanza por Gabriel y orientación/proporciones en campo. Rama feature/campus-unidades; integración móvil sigue a cargo de Claude.

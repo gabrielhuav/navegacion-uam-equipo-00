@@ -3,6 +3,12 @@
 2 volúmenes aproximados; revisar huellas, nombres y niveles con el alumnado. No topográfico.
 Torre III es un conjunto integrado (ocho niveles según informe UAM). Auxiliar norte es de uso por confirmar. Los controles exteriores no son instalaciones del campus.
 
+## Fachadas · revisión 18 octubre
+
+El conjunto principal tiene un generador propio en `cuajimalpaFacades()` de app.js: terracota, gran celosía oscura con pliegues claros, atrio de vidrio, bandas de corredores, dos lucernarios y plaza/rampa esquemáticas. Los detalles se exportan como parte de Edificio_TORRE_III, sin dividirlo en edificios separados. «Acceso · celosía» y «Fachada de vidrio» acercan la cámara; «Campus completo» recupera el contexto del predio.
+
+Referencia: tres fotografías aportadas por Gabriel en la conversación (acceso con «Soy UAM», frente acristalado, entrada desde portería). Son una interpretación visual: dimensiones de fachadas, reparto interior, posición de rampa y orientación de cada frente deben confirmarse en campo. Las fotos no mejoran la precisión geográfica. Se conservan exactamente los polígonos originales, la georreferencia y el encuadre del PNG. Las alturas siguen suponiendo 3.3 m por nivel. `architecture` en los JSON documenta esta revisión; el detalle geométrico se regenera desde app.js.
+
 ## Abrir
 Con Node.js instalado: Abrir_visor.cmd o node server.mjs. Abrir http://127.0.0.1:8769/Visor_UAM_autonomo.html.
 Las bibliotecas locales están en vendor/; no se requiere instalar paquetes.

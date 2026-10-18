@@ -286,7 +286,7 @@ export const ORIGINAL={
         ]
       ],
       "source": "https://www.openstreetmap.org/way/391848539",
-      "roof": "#d6d8cd",
+      "roof": "#a56e58",
       "rects": [
         [
           808.004,
@@ -380,5 +380,21 @@ export const ORIGINAL={
     ]
   ],
   "note": "Huellas y niveles aproximados. Perímetro OSM orientativo, no catastral. Nombres auxiliares provisionales. Mejorar con fotografías y observación del alumnado. Los auxiliares sur/poniente son externos: no se incluyen como edificios UAM.",
-  "license": "Geometría derivada de OpenStreetMap contributors, ODbL 1.0; ver FUENTES.md."
+  "license": "Geometría derivada de OpenStreetMap contributors, ODbL 1.0; ver FUENTES.md.",
+  "architecture": {
+    "revision": "2026-10-18-fachadas",
+    "reference": "Tres fotografías aportadas por Gabriel: acceso con celosía, fachada acristalada y vista desde portería.",
+    "mainBuilding": "TORRE_III",
+    "integratedComplex": true,
+    "dimensions": "Detalles visuales aproximados; se conserva la huella OSM y 3.3 m por nivel.",
+    "orientation": "Asignación de fachadas interpretativa, por confirmar en campo.",
+    "details": [
+      "terracota",
+      "celosia",
+      "atrio acristalado",
+      "corredores",
+      "lucernarios",
+      "plaza y rampa esquemáticas"
+    ]
+  }
 };
