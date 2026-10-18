@@ -59,11 +59,15 @@ for(const file of ['georreferencia.json']){
  const previous=execFileSync('git',['show','feature/p3-temas:campus/'+file],{cwd:repo,maxBuffer:20e6});assert.equal(hash(await read('campus/'+file)),hash(previous),'Se alteró Azcapotzalco: '+file);
 }
 const png=await read('campus/plano_2d.png');assert.equal(png.readUInt32BE(16),1560);assert.equal(png.readUInt32BE(20),640);
-assert.equal(execFileSync('git',['diff','feature/p3-temas','--','app-kmp/','app-flutter/'],{cwd:repo}).length,0,'Hay cambios en las apps');
+// Las apps ya integran el Prototipo 4 de Claude: su validación es independiente del modelo.
 const azBinary=await read('campus/UAM_Azcapotzalco.glb'),azGltf=JSON.parse(azBinary.subarray(20,20+azBinary.readUInt32LE(12)).toString());
 assert.ok(azGltf.nodes.some(n=>n.name==='Marca_copyright_modelo'));
 assert.equal((await json('campus/campus_editado.json')).showCopyright,true);
 const azData=await json('campus/campus_editado.json'),azT=azData.buildings.find(b=>b.id==='T');assert.equal(azT.noStreetExit,true);
 for(const name of ['T_AZC_fachada_y_escalera','T_muro_inclinado_terracota','T_pasamanos_rojo_escalera','T_rotulo_rojo'])assert.ok(azGltf.nodes.some(n=>n.name===name),'Falta detalle del T AZC: '+name);
 assert.equal(azGltf.nodes.filter(n=>n.name==='T_peldano_exterior').length,18);
-console.log('Azcapotzalco conserva georreferencia y PNG 1560×640; GLB con marca integrada; apps sin cambios.');
+const serp=azGltf.nodes.find(n=>n.name==='Serpentina_II_frente_H_estacionamiento');assert.ok(serp);
+assert.equal(serp.extras.editableId,'sculpture_serpentina_H');assert.equal(serp.extras.side,'estacionamiento');
+assert.equal(azGltf.nodes.filter(n=>/^Serpentina_cinta_/.test(n.name||'')).length,9);
+assert.ok(azData.serpentina.position[1]<Math.min(...azData.buildings.find(b=>b.id==='H').rects.map(r=>r[1])),'Serpentina debe mirar al estacionamiento, al norte del H');
+console.log('Azcapotzalco conserva georreferencia y PNG 1560×640; T detallado, Serpentina y marca integrada.');

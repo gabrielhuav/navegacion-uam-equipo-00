@@ -1,5 +1,11 @@
 # Campus UAM Azcapotzalco · modelo 2D/3D
 
+## Serpentina II · frente al H, lado estacionamiento
+
+Escultura esquemática basada en las dos imágenes de Gabriel: tronco y dos brazos con nueve cintas helicoidales rojas, claras y oscuras, ejes metálicos y plazoleta circular con anillos claros. `serpentinaH()` genera el grupo `Serpentina_II_frente_H_estacionamiento`. Su posición inicial `[824,265]` está frente al H del lado del estacionamiento, opuesto a COSEI; punto y medidas aproximados. No sustituye a la escultura de G.
+
+Botón «Serpentina II · H» para acercar la cámara. Para acomodarla: Activar modo edición → Mostrar elementos: Escultura → Serpentina II · H / estacionamiento → mover/girar → Guardar cambios. ID estable `sculpture_serpentina_H`; posición inicial en `data.serpentina`, ajustes en `elementEdits`. Se exporta en GLB y PNG. El copyright conserva su bandera independiente. Su forma es una interpretación simplificada, no una réplica medida de la obra.
+
 ## Edificio T · referencia fotográfica del 18 octubre
 
 `azcBuildingT()` en app.js interpreta las dos fotos aportadas por Gabriel: PB retranqueada con ventanales, cuerpo superior de concreto, galería y marquesina esquemática, escalera exterior de 18 peldaños con muro inclinado terracota y barandales rojos, rótulo rojo «t». El botón «T · Escalera exterior» acerca la cámara. El detalle forma parte de Edificio_T y sigue sus desplazamientos y altura; no altera su envolvente de referencia. La escalera se proyecta hacia el interior del campus, en el tramo libre junto a L, y se excluye esa zona del arbolado aleatorio. Se conserva `noStreetExit: true`, sin crear accesos hacia Eje 5 Norte.

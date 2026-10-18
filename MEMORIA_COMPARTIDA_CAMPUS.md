@@ -188,3 +188,13 @@ Checkpoint previo preservado: Descargas/1151055 Administracion/_respaldos/2026-1
 - Probado en el emulador en KMP y Flutter (capturas docs/capturas/p4_*).
 - Para Codex: en el 3D de Azcapotzalco visto desde arriba con el norte hacia arriba, el texto «copyright @gabrielhuav» del GLB se ve en espejo; en CUAJ e IZT se lee bien. Probablemente la cara del texto apunta hacia abajo o la cámara la ve por detrás.
 - Las apps empaquetan lo que haya en campus/ al compilar: el APK de prueba incluyó los cambios de Azcapotzalco que Codex tenía sin commit en ese momento.
+
+## AZC · T terminado y Serpentina II · 18 oct 2026
+
+Se cerró el trabajo del T en commit `974aa33`. Mientras Codex trabajaba, Claude completó la integración móvil y dejó el repositorio en `feature/app-unidades` (commits ae6ab86 y ba3a0c2); el commit del T quedó en esa rama. Se conserva esa rama y los avances de Claude; este trabajo no modifica apps. Las notas anteriores de entrega que decían que aún no se copiaban CUAJ/IZT son históricas: prevalece la sección de Claude de Prototipo 4. El asunto del texto AZC en espejo comunicado por Claude sigue pendiente de diagnóstico y no se da por resuelto aquí.
+
+Gabriel pidió después Serpentina II frente a H por el estacionamiento, no por COSEI, con foto cercana y captura Maps. Se añade `data.serpentina` con posición inicial [824,265], escala 1 y side estacionamiento. Punto y dimensiones aproximados. Generador `serpentinaH()`: base/plazoleta circular con anillos claros, ejes metálicos en Y y nueve cintas helicoidales rojas, claras y oscuras. Grupo GLB `Serpentina_II_frente_H_estacionamiento`; elemento editable `sculpture_serpentina_H`. No se sustituye la escultura G / COSEI ni se cambian edificios, estacionamientos o georreferencia. Cada brazo y cinta es geometría ligera; no se incrustan fotos.
+
+Nueva cámara «Serpentina II · H», con rótulos lejanos filtrados solo en esa vista. Herramientas → Escultura permiten mover/girar y guardar el conjunto completo. Ajustes persistidos en elementEdits. GLB/PNG/JSON de AZC reexportados con copyright activo, PNG 1560×640 y encuadre conservados. CUAJ/IZT sin cambios.
+
+Checkpoint previo a la escultura: Descargas/1151055 Administracion/_respaldos/2026-10-18_azc_antes_serpentina (campus y memoria en 974aa33, SHA256). Pruebas: mover escultura y deshacer, cámara cercana, exportación, verificadores del editor/campus y contrato de unidades (exige nueve cintas, ID editable y lado norte del H). Se retira del verificador de modelos la antigua restricción de comparar apps con feature/p3-temas, incompatible con la integración legítima de Claude; las pruebas de apps son independientes. Persisten los pendientes de medir posición/dimensiones y validar la semejanza visual con Gabriel.

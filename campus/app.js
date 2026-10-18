@@ -70,6 +70,37 @@ function sculptureG(spec){
  box(group,'Base_escultura',0,.48,0,5.5,.3,4.6,'#9a9b8e');
  for(let i=0;i<3;i++){const shape=new THREE.Shape();shape.moveTo(-.65,0);shape.lineTo(.65,0);shape.bezierCurveTo(.3,1.2,1.4,2.2,.65,3.3);shape.bezierCurveTo(.1,3.7,.6,4.3,.15,4.8);shape.lineTo(-.5,4.8);shape.bezierCurveTo(-.1,3.1,-1.1,2.5,-.65,0);const plate=new THREE.Mesh(new THREE.ExtrudeGeometry(shape,{depth:.16,bevelEnabled:false}),material('#673b2b'));plate.name='Placa_abstracta_aproximada';plate.position.set((i-1)*1.35,.63,(i%2)*1.05-.5);plate.rotation.y=(i-1)*.6;plate.castShadow=true;group.add(plate);}
 }
+function serpentinaH(spec){
+ const group=new THREE.Group();group.name='Serpentina_II_frente_H_estacionamiento';group.userData={building:'H',side:'estacionamiento',approximate:true,reference:'Fotos y captura Maps aportadas por Gabriel'};group.position.set(X(spec.position[0]),0,Z(spec.position[1]));group.scale.setScalar(spec.scale||1);world.add(group);
+ registerEditable('sculpture_serpentina_H','Serpentina II · H / estacionamiento','sculpture',group);
+ function disc(name,r,h,y,color){const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,48),material(color));m.name=name;m.position.y=y;m.receiveShadow=true;group.add(m);}
+ function ring(name,inner,outer,y,color){const m=new THREE.Mesh(new THREE.RingGeometry(inner,outer,64),material(color));m.name=name;m.rotation.x=-Math.PI/2;m.position.y=y;m.receiveShadow=true;group.add(m);}
+ disc('Serpentina_plazoleta_circular',4,.16,.44,'#555d58');
+ ring('Serpentina_anillo_claro_exterior',3.5,3.8,.53,'#c7c6b4');
+ ring('Serpentina_anillo_claro_interior',1.7,2,.54,'#c7c6b4');
+ disc('Serpentina_isleta_central',1.65,.12,.56,'#72815c');
+ disc('Serpentina_base',.65,.16,.67,'#797d71');
+ const palettes=['#ad252b','#dddcd2','#33383a'];
+ const ribbons=palettes.map(color=>new THREE.MeshStandardMaterial({color,metalness:.48,roughness:.4,side:THREE.DoubleSide}));
+ function branch(name,points,turns,radius,hand=1){
+  const curve=new THREE.CatmullRomCurve3(points.map(p=>new THREE.Vector3(...p))),segments=80,frames=curve.computeFrenetFrames(segments,false);
+  const rod=new THREE.Mesh(new THREE.TubeGeometry(curve,48,.11,8,false),material('#333c3d'));rod.name='Serpentina_eje_'+name;rod.castShadow=true;group.add(rod);
+  for(let color=0;color<3;color++){
+   const vertices=[],indices=[];
+   for(let i=0;i<=segments;i++){
+    const t=i/segments,theta=hand*t*turns*Math.PI*2+color*Math.PI*2/3,radial=frames.normals[i].clone().multiplyScalar(Math.cos(theta)).addScaledVector(frames.binormals[i],Math.sin(theta)),center=curve.getPointAt(t),r=radius*(.88+.12*Math.sin(Math.PI*t));
+    for(const side of [-1,1]){const p=center.clone().addScaledVector(radial,r+side*.2);vertices.push(p.x,p.y,p.z);}
+    if(i<segments){const k=i*2;indices.push(k,k+1,k+2,k+1,k+3,k+2);}
+   }
+   const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));geometry.setIndex(indices);geometry.computeVertexNormals();
+   const ribbon=new THREE.Mesh(geometry,ribbons[color]);ribbon.name='Serpentina_cinta_'+name+'_'+color;ribbon.castShadow=true;ribbon.userData.disposeMaterial=name==='tronco';group.add(ribbon);
+  }
+ }
+ branch('tronco',[[0,.75,0],[0,1.6,0],[0,2.8,0]],1.6,.65);
+ branch('brazo_izquierdo',[[0,2.6,0],[-1.4,3.8,0],[-3.1,4.6,0],[-4.5,5.7,0]],2.5,.68,-1);
+ branch('brazo_derecho',[[0,2.6,0],[1.4,3.8,0],[3.1,4.6,0],[4.5,5.7,0]],2.5,.68,1);
+ if(group.parent)label('Serpentina II',group.position.x,7,group.position.z,'place');
+}
 
 
 // Marca que pertenece a la maqueta y viaja en GLB; bandera persistente en JSON.
@@ -313,6 +344,7 @@ function generate(){
  slab(world,[1441,265,1498,369],'#697470',.2,.3,'Pista');
  for(const b of data.buildings)building(b);
  if(data.sculpture)sculptureG(data.sculpture);
+ if(data.serpentina)serpentinaH(data.serpentina);
  for(const spec of data.bridges||[])bridge(spec);
  for(const spec of data.integratedLinks||[])integratedLink(spec);
  for(const spec of data.corridors||[])corridor(spec);
@@ -347,7 +379,7 @@ function selectBuilding(id){selected=id||'';$('building').value=selected;if(high
 for(const b of data.buildings){const option=document.createElement('option');option.value=b.id;option.textContent=b.name||'Edificio '+b.id;$('building').append(option);}
 $('building').onchange=e=>selectBuilding(e.target.value);
 $('apply').onclick=()=>{const b=data.buildings.find(b=>b.id===selected);if(!b)return;const n=Number($('floors').value),ox=Number($('offsetX').value),oz=Number($('offsetZ').value);if(!Number.isInteger(n)||n<1||n>8||![ox,oz].every(Number.isFinite)){message('Introduce niveles entre 1 y 8 y desplazamientos válidos.');return;}rememberEdit();b.floors=n;delete b.height;b.offsetX=ox;b.offsetZ=oz;generate();updateSaveState();message('Edificio actualizado. Guarda datos y GLB para conservar el cambio.');};
-function resize(){const w=mount.clientWidth,h=mount.clientHeight;renderer.setSize(w,h);perspective.aspect=w/h;perspective.updateProjectionMatrix();const span=480;ortho.left=-span;ortho.right=span;ortho.top=span*h/w;ortho.bottom=-span*h/w;ortho.updateProjectionMatrix();if(!topMode&&focusMode&&$('tdetail').classList.contains('active')){const distance=Math.max(48,20/(Math.tan(THREE.MathUtils.degToRad(perspective.fov/2))*perspective.aspect));perspective.position.sub(controls.target).normalize().multiplyScalar(distance).add(controls.target);controls.update();}else if(!topMode&&!focusMode){const distance=Math.max(850,420/(Math.tan(THREE.MathUtils.degToRad(perspective.fov/2))*perspective.aspect));perspective.position.sub(controls.target).normalize().multiplyScalar(distance).add(controls.target);controls.update();}}
+function resize(){const w=mount.clientWidth,h=mount.clientHeight;renderer.setSize(w,h);perspective.aspect=w/h;perspective.updateProjectionMatrix();const span=480;ortho.left=-span;ortho.right=span;ortho.top=span*h/w;ortho.bottom=-span*h/w;ortho.updateProjectionMatrix();if(!topMode&&focusMode&&$('serpentina').classList.contains('active')){const distance=Math.max(34,7/(Math.tan(THREE.MathUtils.degToRad(perspective.fov/2))*perspective.aspect));perspective.position.sub(controls.target).normalize().multiplyScalar(distance).add(controls.target);controls.update();}else if(!topMode&&focusMode&&$('tdetail').classList.contains('active')){const distance=Math.max(48,20/(Math.tan(THREE.MathUtils.degToRad(perspective.fov/2))*perspective.aspect));perspective.position.sub(controls.target).normalize().multiplyScalar(distance).add(controls.target);controls.update();}else if(!topMode&&!focusMode){const distance=Math.max(850,420/(Math.tan(THREE.MathUtils.degToRad(perspective.fov/2))*perspective.aspect));perspective.position.sub(controls.target).normalize().multiplyScalar(distance).add(controls.target);controls.update();}}
 window.addEventListener('resize',resize);
 $('expand').onclick=()=>{const panel=document.querySelector('aside');panel.hidden=!panel.hidden;mount.style.left=panel.hidden?'0px':'';$('expand').textContent=panel.hidden?'Mostrar controles':'Ampliar vista';resize();};
 // Misma transformación de norte que Campus.kt; no escala la geometría ni aplica dos veces la calibración.
@@ -359,8 +391,9 @@ function campusNorth(geo){
  if(Math.abs(det)<1e-18)return null;
  const x=-bx/det,z=ax/det,length=Math.hypot(x,z);return {x:x/length,z:z/length};
 }
-function view(mode){topMode=mode==='top';focusMode=['plaza','pavilions','cosei','gdetail','parking','tdetail'].includes(mode);camera=topMode?ortho:perspective;controls.object=camera;controls.enableRotate=!topMode;controls.target.set(0,0,0);camera.zoom=1;camera.up.set(0,1,0);
- if(mode==='tdetail'){const b=data.buildings.find(b=>b.id==='T'),r=b.rects[0];controls.target.set(X((r[0]+r[2])/2)+(b.offsetX||0)-(r[2]-r[0])*S()*.27,2.5,Z(r[1])+(b.offsetZ||0)-3);camera.position.copy(controls.target).add(new THREE.Vector3(-12,12,-45));}
+function view(mode){topMode=mode==='top';focusMode=['plaza','pavilions','cosei','gdetail','parking','tdetail','serpentina'].includes(mode);camera=topMode?ortho:perspective;controls.object=camera;controls.enableRotate=!topMode;controls.target.set(0,0,0);camera.zoom=1;camera.up.set(0,1,0);
+ if(mode==='serpentina'){const node=editables.get('sculpture_serpentina_H')?.node;controls.target.copy(node?.position||new THREE.Vector3(X(824),0,Z(265)));controls.target.y=3.4;camera.position.copy(controls.target).add(new THREE.Vector3(-8,6,-23));}
+ else if(mode==='tdetail'){const b=data.buildings.find(b=>b.id==='T'),r=b.rects[0];controls.target.set(X((r[0]+r[2])/2)+(b.offsetX||0)-(r[2]-r[0])*S()*.27,2.5,Z(r[1])+(b.offsetZ||0)-3);camera.position.copy(controls.target).add(new THREE.Vector3(-12,12,-45));}
  else if(mode==='plaza'){controls.target.set(X(563.5),3,Z(486.5));camera.position.copy(controls.target).add(new THREE.Vector3(35,115,155));}
  else if(mode==='pavilions'){controls.target.set(X(824),6,Z(337));camera.position.copy(controls.target).add(new THREE.Vector3(-45,90,-140));}
  else if(mode==='cosei'){controls.target.set(X(817),4,Z(540));camera.position.copy(controls.target).add(new THREE.Vector3(-15,80,-145));}
@@ -369,8 +402,8 @@ function view(mode){topMode=mode==='top';focusMode=['plaza','pavilions','cosei',
  else if(mode==='maps'){const north=campusNorth(georeference);camera.position.set(north?-north.x*630:-70,580,north?-north.z*630:-630);}
  else if(mode==='top'){camera.position.set(0,1000,0);const north=campusNorth(georeference);if(north)camera.up.set(north.x,0,north.z);else camera.up.set(.17,0,.985);}
  else camera.position.set(0,580,630);
- camera.lookAt(controls.target);camera.updateProjectionMatrix();controls.update();for(const id of ['approved','maps','top','plaza','pavilions','cosei','gdetail','parking','tdetail'])$(id).classList.toggle('active',id===mode);resize();}
-for(const mode of ['approved','maps','top','plaza','pavilions','cosei','gdetail','parking','tdetail'])$(mode).onclick=()=>view(mode);
+ camera.lookAt(controls.target);camera.updateProjectionMatrix();controls.update();for(const id of ['approved','maps','top','plaza','pavilions','cosei','gdetail','parking','tdetail','serpentina'])$(id).classList.toggle('active',id===mode);resize();}
+for(const mode of ['approved','maps','top','plaza','pavilions','cosei','gdetail','parking','tdetail','serpentina'])$(mode).onclick=()=>view(mode);
 $('spin').onclick=()=>{if(topMode)view('maps');controls.autoRotate=!controls.autoRotate;$('spin').classList.toggle('active',controls.autoRotate);};
 $('trees').onchange=()=>vegetation.visible=$('trees').checked;$('names').onchange=()=>labelLayer.hidden=!$('names').checked;$('grid').onchange=()=>grid.visible=$('grid').checked;
 function message(text){$('status').textContent=text;clearTimeout(message.timer);message.timer=setTimeout(()=>$('status').textContent='',6500);}
@@ -468,6 +501,7 @@ renderer.domElement.addEventListener('pointercancel',e=>endEditDrag(e,true),true
 document.addEventListener('keydown',e=>{if(!editMode||/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))return;if(e.key==='Escape'){resetDraw();message('Dibujo cancelado.');}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();$(e.shiftKey?'editRedo':'editUndo').click();}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='y'){e.preventDefault();$('editRedo').click();}});
 window.addEventListener('beforeunload',e=>{if(savedData&&JSON.stringify(data)!==savedData){e.preventDefault();e.returnValue='';}});
 function validateCampus(d){
+ if(d?.serpentina&&(!Array.isArray(d.serpentina.position)||d.serpentina.position.length!==2||!d.serpentina.position.every(Number.isFinite)||(d.serpentina.scale!==undefined&&(!Number.isFinite(d.serpentina.scale)||d.serpentina.scale<.2||d.serpentina.scale>4))))throw Error('Serpentina inválida');
  if(d?.showCopyright!==undefined&&typeof d.showCopyright!=='boolean')throw Error('showCopyright debe ser true o false');
  const rect=r=>Array.isArray(r)&&r.length===4&&r.every(Number.isFinite)&&r[2]>r[0]&&r[3]>r[1];
  if(!d||!Array.isArray(d.buildings)||!Array.isArray(d.site)||!(d.metersPerPixel>0)||!Number.isFinite(d.storeyHeight)||!d.buildings.every(b=>typeof b.id==='string'&&Number.isInteger(b.floors)&&b.floors>=1&&b.floors<=8&&Array.isArray(b.rects)&&b.rects.every(rect))||!['plazas','paths','parking','gates'].every(k=>Array.isArray(d[k]))||!d.parking.every(rect)||!d.paths.every(rect)||!d.plazas.every(p=>rect(p.rect)))throw Error('Datos de campus inválidos');
@@ -517,7 +551,7 @@ async function startCampus(){
  data.version=8;savedData=JSON.stringify(data);generate();view('approved');resize();updateSaveState();message(notice);
 }
 startCampus();
-const v=new THREE.Vector3();function animate(){requestAnimationFrame(animate);controls.update();renderer.render(scene,camera);const w=mount.clientWidth,h=mount.clientHeight;for(const l of labels){v.copy(l.p).project(camera);l.el.style.display=v.z<1&&v.z>-1&&Math.abs(v.x)<1.1&&Math.abs(v.y)<1.1?'':'none';l.el.style.left=((v.x+1)*w/2)+'px';l.el.style.top=((-v.y+1)*h/2)+'px';}
+const v=new THREE.Vector3();function animate(){requestAnimationFrame(animate);controls.update();renderer.render(scene,camera);const w=mount.clientWidth,h=mount.clientHeight;for(const l of labels){v.copy(l.p).project(camera);l.el.style.display=(!focusMode||!$('serpentina').classList.contains('active')||['H','Serpentina II'].includes(l.el.textContent))&&v.z<1&&v.z>-1&&Math.abs(v.x)<1.1&&Math.abs(v.y)<1.1?'':'none';l.el.style.left=((v.x+1)*w/2)+'px';l.el.style.top=((-v.y+1)*h/2)+'px';}
  // Escala local en el plano del suelo: varía con cámara y perspectiva.
  const a=new THREE.Vector3(0,0,0).project(camera),b=new THREE.Vector3(50,0,0).project(camera);const px=Math.abs(b.x-a.x)*w/2;mount.querySelector('.scale').style.width=Math.max(2,px)+'px';$('scaleText').textContent='50 m aprox. · Referencia local en el centro del terreno';}
 animate();

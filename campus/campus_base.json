@@ -761,6 +761,17 @@
     "side": "COSEI",
     "building": "G"
   },
+  "serpentina": {
+    "position": [
+      824,
+      265
+    ],
+    "scale": 1,
+    "building": "H",
+    "side": "estacionamiento",
+    "approximate": true,
+    "reference": "Dos imágenes aportadas por Gabriel: Serpentina II frente a H, cara del estacionamiento; posición exacta por afinar."
+  },
   "gates": [
     {
       "id": "V1",

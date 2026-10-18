@@ -56,6 +56,7 @@ export const ORIGINAL={
  parking:[[75,110,224,437],[246,127,740,233],[901,185,1174,365],[80,577,383,677],[400,606,640,677],[224,180,246,233],[740,180,901,270]],
  driveAisles:[[100,193,1120,211]],
  sculpture:{position:[715,526],side:'COSEI',building:'G'},
+ serpentina:{"position":[824,265],"scale":1,"building":"H","side":"estacionamiento","approximate":true,"reference":"Dos imágenes aportadas por Gabriel: Serpentina II frente a H, cara del estacionamiento; posición exacta por afinar."},
  gates:[{id:'V1',type:'vehicle',x:66,y:220},{id:'V2',type:'vehicle',x:66,y:626},{id:'V3',type:'vehicle',x:1485,y:235},{id:'P1',type:'pedestrian',x:66,y:482},{id:'P2',type:'pedestrian',x:66,y:574},{id:'P3',type:'pedestrian',x:1335,y:695}],
  note:'H, HO y HP: cuatro niveles. Uniones HO/HP con H en PB, 1 y 2. Nivel 3 de los pabellones con cubierta translúcida y estructura amarilla aproximada. W/P: tres niveles. Pasillo P–K–H–E–C integrado. Materiales y medidas ilustrativos.'
 };
