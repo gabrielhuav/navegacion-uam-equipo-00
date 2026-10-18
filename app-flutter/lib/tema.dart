@@ -3,20 +3,28 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Las cinco unidades de la UAM y su color distintivo oficial (Pantone y su equivalente HEX), según
 /// «Reglas para la Aplicación de los Elementos de Identidad Institucional», UAM, Comunicación Social.
+///
+/// [carpeta]: dónde están su modelo 3D, su plano y su georreferencia en assets/campus/ (los copia Gradle desde
+/// campus/, campus-cuajimalpa/ y campus-iztapalapa/). Sin carpeta, la unidad aún no tiene croquis: el mapa va a
+/// su [centro] y muestra un cuadro «En desarrollo…». [radio]: hasta dónde se dice «Estás en la UAM». Igual que Tema.kt.
 enum Unidad {
-  azcapotzalco('Azcapotzalco', Color(0xFFCD032E)), // Pantone 186 C
-  cuajimalpa('Cuajimalpa', Color(0xFFF08200)), // Pantone 144 C
-  iztapalapa('Iztapalapa', Color(0xFF57A519)), // Pantone 369 C
-  lerma('Lerma', Color(0xFFAD25A8)), // Pantone 253 C
-  xochimilco('Xochimilco', Color(0xFF0072CE)); // Pantone 285 C
+  azcapotzalco('Azcapotzalco', Color(0xFFCD032E), 'azcapotzalco', LatLng(19.50306, -99.18694), 350), // Pantone 186 C
+  cuajimalpa('Cuajimalpa', Color(0xFFF08200), 'cuajimalpa', LatLng(19.351945, -99.282701), 250), // Pantone 144 C
+  iztapalapa('Iztapalapa', Color(0xFF57A519), 'iztapalapa', LatLng(19.361775, -99.072597), 450), // Pantone 369 C
+  lerma('Lerma', Color(0xFFAD25A8), null, LatLng(19.291425, -99.499548), 300), // Pantone 253 C
+  xochimilco('Xochimilco', Color(0xFF0072CE), null, LatLng(19.3025, -99.1035), 400); // Pantone 285 C
 
-  const Unidad(this.nombre, this.color);
+  const Unidad(this.nombre, this.color, this.carpeta, this.centro, this.radio);
   final String nombre;
   final Color color;
+  final String? carpeta;
+  final LatLng centro;
+  final double radio;
 }
 
 /// Iluminación del campus en 2D y 3D. Por defecto sigue la hora del teléfono; también se fija a mano.
@@ -63,16 +71,21 @@ class AjustesTema {
     required this.oscuro,
     this.unidad = Unidad.azcapotzalco,
     this.iluminacion = Iluminacion.automatica,
+    this.sede = Unidad.azcapotzalco,
   });
 
   final bool oscuro;
   final Unidad unidad;
   final Iluminacion iluminacion;
 
-  AjustesTema copyWith({bool? oscuro, Unidad? unidad, Iluminacion? iluminacion}) => AjustesTema(
+  /// La unidad cuyo campus se ve; puede ser otra que la del color (se pregunta al cambiar de unidad).
+  final Unidad sede;
+
+  AjustesTema copyWith({bool? oscuro, Unidad? unidad, Iluminacion? iluminacion, Unidad? sede}) => AjustesTema(
     oscuro: oscuro ?? this.oscuro,
     unidad: unidad ?? this.unidad,
     iluminacion: iluminacion ?? this.iluminacion,
+    sede: sede ?? this.sede,
   );
 }
 
@@ -89,12 +102,14 @@ Future<void> cargarAjustesTema() async {
     oscuro: p.getBool('oscuro') ?? WidgetsBinding.instance.platformDispatcher.platformBrightness == Brightness.dark,
     unidad: elegido(Unidad.values, 'unidad', Unidad.azcapotzalco),
     iluminacion: elegido(Iluminacion.values, 'iluminacion', Iluminacion.automatica),
+    sede: elegido(Unidad.values, 'sede', Unidad.azcapotzalco),
   );
   ajustesTema.addListener(() {
     final a = ajustesTema.value;
     p.setBool('oscuro', a.oscuro);
     p.setString('unidad', a.unidad.name);
     p.setString('iluminacion', a.iluminacion.name);
+    p.setString('sede', a.sede.name);
   });
 }
 

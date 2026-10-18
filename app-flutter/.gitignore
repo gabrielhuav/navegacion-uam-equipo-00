@@ -51,5 +51,6 @@ app.*.map.json
 .codex-tmp/
 
 # Copia del campus que hace Gradle al compilar (la fuente es ../campus)
-assets/campus/*
-!assets/campus/LEEME.md
+assets/campus/**/*.glb
+assets/campus/**/*.png
+assets/campus/**/*.json

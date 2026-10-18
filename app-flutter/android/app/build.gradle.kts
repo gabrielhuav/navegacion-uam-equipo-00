@@ -48,12 +48,18 @@ flutter {
     source = "../.."
 }
 
-// El diseño del campus vive en ../campus (lo edita el visor web). Antes de compilar, Gradle copia a
-// assets/campus solo lo que usa la app; esa carpeta no se versiona. Así web, KMP y Flutter comparten archivos.
+// El diseño de cada campus vive en ../campus (Azcapotzalco), ../campus-cuajimalpa y ../campus-iztapalapa, y lo
+// edita su visor web. Antes de compilar, Gradle copia a assets/campus/<carpeta>/ sólo lo que usa la app (el GLB
+// como modelo.glb); esas copias no se versionan. Así web, KMP y Flutter comparten los mismos archivos.
 val copiarCampus by tasks.registering(Copy::class) {
-    from(rootProject.file("../../campus")) {
-        include("UAM_Azcapotzalco.glb", "plano_2d.png", "georreferencia.json")
-    }
+    listOf("campus" to "azcapotzalco", "campus-cuajimalpa" to "cuajimalpa", "campus-iztapalapa" to "iztapalapa")
+        .forEach { (origen, carpeta) ->
+            from(rootProject.file("../../$origen")) {
+                include("UAM_*.glb", "plano_2d.png", "georreferencia.json")
+                rename("UAM_.*\\.glb", "modelo.glb")
+                into(carpeta)
+            }
+        }
     into(rootProject.file("../assets/campus"))
 }
 tasks.named("preBuild") { dependsOn(copiarCampus) }

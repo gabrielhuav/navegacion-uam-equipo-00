@@ -7,9 +7,12 @@ import 'dart:math';
 
 import 'package:latlong2/latlong.dart';
 
-const planoCampus = 'assets/campus/plano_2d.png';
-const modeloCampus = 'assets/campus/UAM_Azcapotzalco.glb';
-const georreferenciaCampus = 'assets/campus/georreferencia.json';
+import 'tema.dart';
+
+/// Archivos del campus de una unidad con croquis (Gradle copia cada una a `assets/campus/<carpeta>/`).
+String planoDe(Unidad u) => 'assets/campus/${u.carpeta}/plano_2d.png';
+String modeloDe(Unidad u) => 'assets/campus/${u.carpeta}/modelo.glb';
+String georreferenciaDe(Unidad u) => 'assets/campus/${u.carpeta}/georreferencia.json';
 
 /// Las tres formas de ver el campus. Por defecto, el mapa real con el plano 2D encima.
 enum Vista {
@@ -33,9 +36,9 @@ class Georreferencia {
 
   /// La cuarta esquina: el plano es un paralelogramo.
   LatLng get inferiorDerecha => LatLng(
-        superiorDerecha.latitude + inferiorIzquierda.latitude - superiorIzquierda.latitude,
-        superiorDerecha.longitude + inferiorIzquierda.longitude - superiorIzquierda.longitude,
-      );
+    superiorDerecha.latitude + inferiorIzquierda.latitude - superiorIzquierda.latitude,
+    superiorDerecha.longitude + inferiorIzquierda.longitude - superiorIzquierda.longitude,
+  );
 }
 
 /// Lee georreferencia.json; si falta una clave, dice cuál.
@@ -60,9 +63,9 @@ Georreferencia leerGeorreferencia(String json) {
 (double, double) norteEnModelo(Georreferencia geo) {
   final cosLat = cos(geo.superiorIzquierda.latitude * pi / 180);
   (double, double) porPixel(LatLng u, int pixeles) => (
-        (u.longitude - geo.superiorIzquierda.longitude) * cosLat / pixeles,
-        (u.latitude - geo.superiorIzquierda.latitude) / pixeles,
-      );
+    (u.longitude - geo.superiorIzquierda.longitude) * cosLat / pixeles,
+    (u.latitude - geo.superiorIzquierda.latitude) / pixeles,
+  );
   final (ax, ay) = porPixel(geo.superiorDerecha, geo.ancho); // hacia +x
   final (bx, by) = porPixel(geo.inferiorIzquierda, geo.alto); // hacia +z
   final det = ax * by - ay * bx;

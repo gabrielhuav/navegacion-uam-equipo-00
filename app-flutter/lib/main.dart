@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -10,7 +12,7 @@ import 'campus.dart';
 import 'tema.dart';
 import 'ubicacion.dart';
 
-/// Prototipo 3: el campus de la UAM en el mapa real, en 2D y en 3D, con modo claro u oscuro,
+/// Prototipo 4: el campus de cada unidad de la UAM en el mapa real, en 2D y en 3D, con modo claro u oscuro,
 /// el color de cada unidad y el campus de día o de noche.
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -82,13 +84,15 @@ class _PantallaMapaState extends State<PantallaMapa> {
   bool _falla = false;
   Vista _vista = Vista.mapa;
   bool _inclinada = false;
-  bool _con3D = false; // el 3D se crea la primera vez que se pide y luego solo se oculta
-  Georreferencia? _geo;
-  WebViewController? _visor3D;
+  final _con3D = <Unidad>[]; // cada 3D se crea la primera vez que se pide y luego sólo se oculta
+  final _geo = <Unidad, Georreferencia>{};
+  final _visor3D = <Unidad, WebViewController>{};
+  final _aplicado3D = <Unidad, String>{};
+  late Unidad _unidadAnterior = ajustesTema.value.unidad;
+  bool _irALaSede = false; // «UAM» o «Ir» centran el mapa en la sede; «Ubicarme», en ti
   final _mapa = MapController();
   int _hora = DateTime.now().hour;
   Timer? _reloj;
-  String _aplicado3D = '';
 
   /// De noche según la hora del teléfono, o lo que se eligió a mano en «Tema ▾».
   bool get _noche => switch (ajustesTema.value.iluminacion) {
@@ -100,9 +104,12 @@ class _PantallaMapaState extends State<PantallaMapa> {
   @override
   void initState() {
     super.initState();
-    rootBundle.loadString(georreferenciaCampus).then((json) {
-      if (mounted) setState(() => _geo = leerGeorreferencia(json));
-    });
+    for (final u in Unidad.values.where((u) => u.carpeta != null)) {
+      rootBundle.loadString(georreferenciaDe(u)).then((json) {
+        if (mounted) setState(() => _geo[u] = leerGeorreferencia(json));
+      });
+    }
+    ajustesTema.addListener(_alCambiarTema);
     _ubicar();
     // Revisa la hora cada minuto: al dar las 19:00 el campus se hace de noche.
     _reloj = Timer.periodic(const Duration(minutes: 1), (_) {
@@ -113,27 +120,63 @@ class _PantallaMapaState extends State<PantallaMapa> {
   @override
   void dispose() {
     _reloj?.cancel();
+    ajustesTema.removeListener(_alCambiarTema);
     super.dispose();
+  }
+
+  Unidad get _sede => ajustesTema.value.sede;
+
+  /// Al elegir otra unidad en «Tema ▾»: ¿ir también a su campus?
+  void _alCambiarTema() {
+    final u = ajustesTema.value.unidad;
+    if (u == _unidadAnterior) return;
+    _unidadAnterior = u;
+    if (u == _sede || !mounted) return;
+    showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('¿Ir a la UAM ${u.nombre}?'),
+        content: Text(
+          u.carpeta != null
+              ? 'El mapa, el plano 2D y el modelo 3D cambian a esa unidad.'
+              : 'Su croquis todavía está en desarrollo: el mapa irá a la unidad y marcará dónde está.',
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Sólo el color')),
+          TextButton(onPressed: () => Navigator.pop(context, true), child: const Text('Ir')),
+        ],
+      ),
+    ).then((ir) {
+      if (ir != true || !mounted) return;
+      ajustesTema.value = ajustesTema.value.copyWith(sede: u);
+      setState(() => _irALaSede = true);
+      if (_vista != Vista.tresD) _mapa.move(u.centro, 17);
+    });
   }
 
   /// Fondo y luz del 3D sin recargar el modelo: de noche baja la exposición.
   void _actualizar3D(Color fondo) {
+    final visor = _visor3D[_sede];
     final c = fondo.toARGB32().toRadixString(16).padLeft(8, '0').substring(2);
     final js =
         "const mv = document.querySelector('model-viewer');"
         "mv.exposure = ${_noche ? 0.35 : 1};"
         "mv.style.backgroundColor = '#$c'; document.body.style.backgroundColor = '#$c';";
-    if (js == _aplicado3D || _visor3D == null) return;
-    _aplicado3D = js;
-    _visor3D!.runJavaScript(js).catchError((_) => _aplicado3D = ''); // aún cargando: se reintenta al dibujar
+    if (js == _aplicado3D[_sede] || visor == null) return;
+    final sede = _sede;
+    _aplicado3D[sede] = js;
+    visor.runJavaScript(js).catchError((_) => _aplicado3D.remove(sede)); // aún cargando: se reintenta al dibujar
   }
 
   Future<void> _ubicar() async {
     final ubicacion = await obtenerUbicacion();
     if (!mounted) return;
-    setState(() => _ubicacion = ubicacion);
+    setState(() {
+      _ubicacion = ubicacion;
+      _irALaSede = false;
+    });
     // Si el mapa se arrastró o se acercó, «Ubicarme» lo regresa al lugar y al zoom 17.
-    if (_vista != Vista.tresD) _mapa.move(ubicacion.punto ?? uamAzcapotzalco, 17);
+    if (_vista != Vista.tresD) _mapa.move(ubicacion.punto ?? _sede.centro, 17);
   }
 
   /// Posición de la cámara 3D: casi encima con el norte arriba, como el mapa; o inclinada.
@@ -142,10 +185,11 @@ class _PantallaMapaState extends State<PantallaMapa> {
 
   void _inclinar() {
     setState(() => _inclinada = !_inclinada);
-    final geo = _geo;
-    if (geo == null) return;
     // Sin recargar el modelo: se cambia la cámara de <model-viewer> desde Dart.
-    _visor3D?.runJavaScript("document.querySelector('model-viewer').cameraOrbit = '${_orbita(geo)}';");
+    for (final MapEntry(key: u, value: visor) in _visor3D.entries) {
+      final geo = _geo[u];
+      if (geo != null) visor.runJavaScript("document.querySelector('model-viewer').cameraOrbit = '${_orbita(geo)}';");
+    }
   }
 
   @override
@@ -153,37 +197,41 @@ class _PantallaMapaState extends State<PantallaMapa> {
     final yo = _ubicacion.punto;
     final texto = Theme.of(context).textTheme;
     final colores = Theme.of(context).colorScheme;
-    final geo = _geo;
-    if (_vista == Vista.tresD) _con3D = true;
+    final sede = _sede;
+    final geo = _geo[sede];
+    if (_vista == Vista.tresD && sede.carpeta != null && !_con3D.contains(sede)) _con3D.add(sede);
     WidgetsBinding.instance.addPostFrameCallback((_) => _actualizar3D(colores.surfaceContainer));
     final noche = _noche;
 
     return Scaffold(
       body: Stack(
         children: [
-          if (_con3D && geo != null)
-            Offstage(
-              offstage: _vista != Vista.tresD,
-              child: ModelViewer(
-                src: modeloCampus,
-                alt: 'Modelo 3D aproximado del campus UAM Azcapotzalco',
-                backgroundColor: colores.surfaceContainer,
-                cameraControls: true,
-                disableTap: true,
-                interactionPrompt: InteractionPrompt.none,
-                cameraOrbit: _orbita(geo),
-                exposure: noche ? 0.35 : 1,
-                // Como en KMP y en la web: nunca menos de 12° sobre el horizonte.
-                minCameraOrbit: 'auto 0deg auto',
-                maxCameraOrbit: 'auto 78deg auto',
-                onWebViewCreated: (c) => _visor3D = c,
+          for (final u in _con3D)
+            if (_geo[u] case final g?)
+              Offstage(
+                key: ValueKey(u),
+                offstage: _vista != Vista.tresD || u != sede,
+                child: ModelViewer(
+                  src: modeloDe(u),
+                  alt: 'Modelo 3D aproximado del campus UAM ${u.nombre}',
+                  backgroundColor: colores.surfaceContainer,
+                  cameraControls: true,
+                  disableTap: true,
+                  interactionPrompt: InteractionPrompt.none,
+                  cameraOrbit: _orbita(g),
+                  exposure: noche ? 0.35 : 1,
+                  // Como en KMP y en la web: nunca menos de 12° sobre el horizonte.
+                  minCameraOrbit: 'auto 0deg auto',
+                  maxCameraOrbit: 'auto 78deg auto',
+                  onWebViewCreated: (c) => _visor3D[u] = c,
+                ),
               ),
-            ),
+          if (_vista == Vista.tresD && sede.carpeta == null) _EnDesarrollo(sede),
           if (_vista != Vista.tresD)
             FlutterMap(
               mapController: _mapa,
               options: MapOptions(
-                initialCenter: yo ?? uamAzcapotzalco,
+                initialCenter: _irALaSede ? sede.centro : (yo ?? sede.centro),
                 initialZoom: 17,
                 minZoom: 3,
                 maxZoom: 19,
@@ -214,11 +262,39 @@ class _PantallaMapaState extends State<PantallaMapa> {
                           bottomLeftCorner: geo.inferiorIzquierda,
                           bottomRightCorner: geo.inferiorDerecha,
                           opacity: _vista == Vista.mapa ? 0.85 : 1,
-                          imageProvider: const AssetImage(planoCampus),
+                          imageProvider: AssetImage(planoDe(sede)),
                         ),
                       ],
                     ),
                   ),
+                // Unidad aún sin croquis: un cuadro de su color, de 240 m de lado, con «En desarrollo…».
+                if (sede.carpeta == null) ...[
+                  PolygonLayer(
+                    polygons: [
+                      Polygon(
+                        points: _cuadro(sede.centro, 120),
+                        color: sede.color.withValues(alpha: 0.18),
+                        borderColor: sede.color,
+                        borderStrokeWidth: 3,
+                      ),
+                    ],
+                  ),
+                  MarkerLayer(
+                    markers: [
+                      Marker(
+                        point: sede.centro,
+                        width: 220,
+                        height: 40,
+                        child: Center(
+                          child: Text(
+                            'En desarrollo…',
+                            style: TextStyle(color: sede.color, fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
                 if (yo != null)
                   MarkerLayer(
                     markers: [Marker(point: yo, width: 24, height: 24, child: const _Punto())],
@@ -242,7 +318,7 @@ class _PantallaMapaState extends State<PantallaMapa> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text('Campus UAM', style: texto.titleLarge),
-                              Text(_ubicacion.mensaje, style: texto.bodyMedium),
+                              Text(yo != null ? describir(yo, sede) : _ubicacion.mensaje, style: texto.bodyMedium),
                               const SizedBox(height: 8),
                               // Mapa real con el plano encima, solo el plano, o el modelo 3D.
                               SegmentedButton<Vista>(
@@ -288,6 +364,17 @@ class _PantallaMapaState extends State<PantallaMapa> {
               ),
             ),
           ),
+          // Marca de agua temporal: el autor del proyecto.
+          Positioned(
+            left: 8,
+            bottom: 40,
+            child: SafeArea(
+              child: Text(
+                '© @gabrielhuav',
+                style: texto.labelMedium?.copyWith(color: colores.onSurface.withValues(alpha: 0.55)),
+              ),
+            ),
+          ),
           if (_vista != Vista.tresD)
             Positioned(
               left: 0,
@@ -319,11 +406,51 @@ class _PantallaMapaState extends State<PantallaMapa> {
             : [
                 FloatingActionButton.extended(
                   heroTag: 'uam',
-                  onPressed: () => _mapa.move(uamAzcapotzalco, 17),
+                  onPressed: () {
+                    setState(() => _irALaSede = true);
+                    _mapa.move(sede.centro, 17);
+                  },
                   label: const Text('UAM'),
                 ),
                 FloatingActionButton.extended(heroTag: 'ubicarme', onPressed: _ubicar, label: const Text('Ubicarme')),
               ],
+      ),
+    );
+  }
+}
+
+/// Las cuatro esquinas de un cuadro de `medio` metros a cada lado del centro.
+List<LatLng> _cuadro(LatLng c, double medio) {
+  final dLat = medio / 111320, dLon = medio / (111320 * cos(c.latitude * pi / 180));
+  return [
+    LatLng(c.latitude + dLat, c.longitude - dLon),
+    LatLng(c.latitude + dLat, c.longitude + dLon),
+    LatLng(c.latitude - dLat, c.longitude + dLon),
+    LatLng(c.latitude - dLat, c.longitude - dLon),
+  ];
+}
+
+/// En lugar del 3D, mientras la unidad no tiene croquis: un cuadro de su color con «En desarrollo…».
+class _EnDesarrollo extends StatelessWidget {
+  const _EnDesarrollo(this.sede);
+
+  final Unidad sede;
+
+  @override
+  Widget build(BuildContext context) {
+    return ColoredBox(
+      color: Theme.of(context).colorScheme.surfaceContainer,
+      child: Center(
+        child: Container(
+          width: 220,
+          height: 220,
+          decoration: BoxDecoration(
+            color: sede.color.withValues(alpha: 0.18),
+            border: Border.all(color: sede.color, width: 3),
+          ),
+          alignment: Alignment.center,
+          child: Text('En desarrollo…', style: TextStyle(color: sede.color, fontSize: 22)),
+        ),
       ),
     );
   }
