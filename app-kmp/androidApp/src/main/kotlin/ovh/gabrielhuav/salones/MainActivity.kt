@@ -38,7 +38,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         Preferencias.iniciar(this) // el tema y la unidad que se eligieron la última vez
         // `App()` es la pantalla compartida de `:shared` (commonMain): la misma que ve iOS.
-        setContent { App(ubicacion, mensaje, onUbicar = { pedirUbicacion() }) }
+        // Prototipo 6: la red de caminos de Azcapotzalco (campus/rutas.json, copiada por Gradle).
+        val red = runCatching { assets.open("campus/azcapotzalco/rutas.json").use { it.readBytes().decodeToString() } }.getOrNull()
+        setContent { App(ubicacion, mensaje, onUbicar = { pedirUbicacion() }, redAzcapotzalco = red) }
         when {
             tienePermiso() -> ubicar()
             // Al girar, Android recrea la actividad; el diálogo sigue abierto y no se pide dos veces.

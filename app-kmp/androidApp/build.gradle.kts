@@ -14,8 +14,8 @@ android {
         applicationId = "ovh.gabrielhuav.salones"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 6
-        versionName = "0.5.1"
+        versionCode = 7
+        versionName = "0.6.0"
     }
 
     compileOptions {
@@ -71,8 +71,9 @@ val copiarCampus = tasks.register<CopiarCampus>("copiarCampus") {
         // Con y sin marca de agua: la segunda la usa el modo desarrollador.
         val sinMarca = glb.removeSuffix(".glb") + "_sin_marca.glb"
         archivos.from(
-            listOf(glb, sinMarca, "plano_2d.png", "plano_2d_sin_marca.png", "georreferencia.json")
-                .map { rootProject.file("../$carpeta/$it") },
+            listOf(glb, sinMarca, "plano_2d.png", "plano_2d_sin_marca.png", "georreferencia.json", "rutas.json")
+                .map { rootProject.file("../$carpeta/$it") }
+                .filter { it.exists() }, // rutas.json: por ahora sólo Azcapotzalco
         )
     }
 }

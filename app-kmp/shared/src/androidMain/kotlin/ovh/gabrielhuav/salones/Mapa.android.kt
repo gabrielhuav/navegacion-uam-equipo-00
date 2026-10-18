@@ -23,6 +23,9 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.geometry.Size
@@ -80,8 +83,9 @@ private data class PlanoCampus(val imagen: ImageBitmap, val geo: Georreferencia)
  * con `posicionEnTeselas` y `enPantalla`, igual que cada tesela, y se gira y escala para que quepa entre ellas.
  */
 @Composable
-actual fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar: Int, conTeselas: Boolean, noche: Boolean, sede: Unidad, conMarca: Boolean, modifier: Modifier) {
+actual fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar: Int, conTeselas: Boolean, noche: Boolean, sede: Unidad, conMarca: Boolean, ruta: Ruta?, modifier: Modifier) {
     val activos = LocalContext.current.assets
+    val colorRuta = MaterialTheme.colorScheme.primary
     // El plano de la unidad; sin carpeta (aún sin croquis) no hay plano y se dibuja el cuadro «En desarrollo…».
     // Sin marca (modo desarrollador): el plano que el editor exportó sin «copyright @gabrielhuav».
     val plano = remember(sede, conMarca) {
@@ -178,6 +182,17 @@ actual fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar
                 }
                 val medio = (esquina + opuesta) / 2f
                 drawContext.canvas.nativeCanvas.drawText("En desarrollo…", medio.x, medio.y, pincel)
+            }
+            // La ruta: una línea gruesa del color de la app con borde blanco; inicio verde y destino del color de la app.
+            ruta?.takeIf { it.puntos.size >= 2 }?.let { r ->
+                val camino = Path().apply {
+                    r.puntos.map { enPantalla(it) }.forEachIndexed { i, p -> if (i == 0) moveTo(p.x, p.y) else lineTo(p.x, p.y) }
+                }
+                drawPath(camino, Color.White, style = Stroke(9.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round))
+                drawPath(camino, colorRuta, style = Stroke(6.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round))
+                drawCircle(Color(0xFF2E7D32), radius = 7.dp.toPx(), center = enPantalla(r.puntos.first()))
+                drawCircle(Color.White, radius = 9.dp.toPx(), center = enPantalla(r.puntos.last()))
+                drawCircle(colorRuta, radius = 7.dp.toPx(), center = enPantalla(r.puntos.last()))
             }
             marcador?.let {
                 val punto = enPantalla(it)

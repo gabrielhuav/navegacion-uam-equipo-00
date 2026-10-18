@@ -45,7 +45,7 @@ import kotlinx.coroutines.delay
  * Cada vez que `centrar` cambia, el mapa vuelve al centro y al zoom inicial.
  */
 @Composable
-expect fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar: Int, conTeselas: Boolean, noche: Boolean, sede: Unidad, conMarca: Boolean, modifier: Modifier = Modifier)
+expect fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar: Int, conTeselas: Boolean, noche: Boolean, sede: Unidad, conMarca: Boolean, ruta: Ruta? = null, modifier: Modifier = Modifier)
 
 /**
  * Pantalla del Prototipo 3, la misma en Android y en iOS, y la misma que la de Flutter:
@@ -56,7 +56,7 @@ expect fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar
  * Al elegir otra unidad, la app pregunta si quieres ir a ella: las cinco tienen croquis (Mapa, 2D y 3D).
  */
 @Composable
-fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
+fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}, redAzcapotzalco: String? = null) {
     val sistemaOscuro = isSystemInDarkTheme()
     // Lo último que se eligió en «Tema ▾»; la primera vez, claro u oscuro como el teléfono.
     var oscuro by rememberSaveable { mutableStateOf(Preferencias.leer("oscuro")?.toBoolean() ?: sistemaOscuro) }
@@ -70,6 +70,11 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
     var marcaPedida by rememberSaveable { mutableStateOf(Preferencias.leer("marca")?.toBoolean() ?: true) }
     var configurando by remember { mutableStateOf(false) }
     val conMarca = !desarrollador || marcaPedida
+    // Prototipo 6: rutas en Azcapotzalco (la red viene de campus/rutas.json).
+    val red = remember(redAzcapotzalco) { redAzcapotzalco?.let { runCatching { leerRed(it) }.getOrNull() } }
+    var eligiendoRuta by remember { mutableStateOf(false) }
+    var ruta by remember { mutableStateOf<Ruta?>(null) }
+    var rutaTexto by remember { mutableStateOf("") }
     var hora by remember { mutableStateOf(horaLocal()) }
     LaunchedEffect(Unit) {
         while (true) { // revisa la hora cada minuto: al dar las 19:00 el campus se hace de noche
@@ -98,7 +103,7 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
             if (vista == Vista.TRES_D && sede.carpeta == null) EnDesarrollo(sede, Modifier.fillMaxSize())
             if (vista != Vista.TRES_D) {
                 val centro = if (enLaUam || ubicacion == null) sede.centro else ubicacion
-                Mapa(centro, ubicacion, proveedor, centrar, conTeselas = vista == Vista.MAPA, noche, sede, conMarca, Modifier.fillMaxSize())
+                Mapa(centro, ubicacion, proveedor, centrar, conTeselas = vista == Vista.MAPA, noche, sede, conMarca, ruta.takeIf { sede == Unidad.AZCAPOTZALCO }, Modifier.fillMaxSize())
             }
 
             Card(Modifier.safeDrawingPadding().padding(12.dp).widthIn(max = 480.dp).fillMaxWidth()) {
@@ -106,6 +111,9 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
                     Column(Modifier.weight(1f)) {
                         Text("Campus UAM", style = MaterialTheme.typography.titleLarge)
                         Text(ubicacion?.let { describir(it, sede) } ?: mensaje, style = MaterialTheme.typography.bodyMedium)
+                        if (ruta != null && sede == Unidad.AZCAPOTZALCO) {
+                            Text(rutaTexto, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.primary)
+                        }
                         // Mapa real con el plano encima, solo el plano, o el modelo 3D.
                         SingleChoiceSegmentedButtonRow(Modifier.padding(top = 8.dp)) {
                             Vista.entries.forEachIndexed { i, v ->
@@ -165,8 +173,30 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
                         Text(if (inclinada) "Desde arriba" else "Inclinar")
                     }
                 } else {
+                    // Rutas: sólo en Azcapotzalco, mientras las otras unidades no tienen red de caminos.
+                    if (red != null && sede == Unidad.AZCAPOTZALCO) {
+                        ExtendedFloatingActionButton(onClick = { if (ruta == null) eligiendoRuta = true else ruta = null }) {
+                            Text(if (ruta == null) "Ruta" else "Quitar ruta")
+                        }
+                    }
                     ExtendedFloatingActionButton(onClick = { enLaUam = true; centrar++ }) { Text("UAM") }
                     ExtendedFloatingActionButton(onClick = { enLaUam = false; centrar++; onUbicar() }) { Text("Ubicarme") }
+                }
+            }
+
+            if (eligiendoRuta && red != null) {
+                ElegirRuta(red, conUbicacion = ubicacion != null, onCerrar = { eligiendoRuta = false }) { desde, hasta ->
+                    eligiendoRuta = false
+                    val calculada = if (desde == null) ubicacion?.let { red.rutaDesde(it, hasta) }
+                                    else red.rutaMasCorta(desde.nodo, hasta.nodo)?.let { it to false }
+                    ruta = calculada?.first
+                    rutaTexto = calculada?.let { (r, porAcceso) ->
+                        "Ruta a ${hasta.nombre}: ${r.metros.toInt()} m · ${r.minutos} min a pie" +
+                            if (porAcceso) " (desde el acceso más cercano)" else ""
+                    } ?: "No hay camino hacia ${hasta.nombre}."
+                    if (vista == Vista.TRES_D) vista = Vista.MAPA
+                    enLaUam = true
+                    centrar++
                 }
             }
 

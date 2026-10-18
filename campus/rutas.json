@@ -1,0 +1,1264 @@
+{
+ "version": 1,
+ "unidad": "azcapotzalco",
+ "provisional": true,
+ "nota": "Red PROVISIONAL de Claude para probar la app; la reemplaza la red que dibuje Codex en el visor.",
+ "nodos": [
+  {
+   "id": "a0_0",
+   "lat": 19.5028762,
+   "lon": -99.1835535,
+   "x": -362.02,
+   "z": 30.8,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a0_1",
+   "lat": 19.5029176,
+   "lon": -99.1838214,
+   "x": -335.88,
+   "z": 30.8,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a0_2",
+   "lat": 19.5029591,
+   "lon": -99.1840893,
+   "x": -309.74,
+   "z": 30.8,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a0_3",
+   "lat": 19.5030005,
+   "lon": -99.1843571,
+   "x": -283.59,
+   "z": 30.8,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a0_4",
+   "lat": 19.503042,
+   "lon": -99.184625,
+   "x": -257.45,
+   "z": 30.8,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a0_5",
+   "lat": 19.5030835,
+   "lon": -99.1848929,
+   "x": -231.31,
+   "z": 30.8,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a0_6",
+   "lat": 19.5031249,
+   "lon": -99.1851607,
+   "x": -205.16,
+   "z": 30.8,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a1_0",
+   "lat": 19.5020468,
+   "lon": -99.1844277,
+   "x": -292.68,
+   "z": -66.47,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a1_1",
+   "lat": 19.5022683,
+   "lon": -99.1843891,
+   "x": -292.68,
+   "z": -43.54,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a1_2",
+   "lat": 19.5024897,
+   "lon": -99.1843506,
+   "x": -292.68,
+   "z": -20.6,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a1_3",
+   "lat": 19.5027112,
+   "lon": -99.184312,
+   "x": -292.68,
+   "z": 2.33,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a1_4",
+   "lat": 19.5029326,
+   "lon": -99.1842734,
+   "x": -292.68,
+   "z": 25.26,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a2_0",
+   "lat": 19.5022582,
+   "lon": -99.1858223,
+   "x": -156.64,
+   "z": -66.91,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a2_1",
+   "lat": 19.5025493,
+   "lon": -99.1857716,
+   "x": -156.64,
+   "z": -36.78,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a2_2",
+   "lat": 19.5028403,
+   "lon": -99.1857209,
+   "x": -156.64,
+   "z": -6.65,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a3_0",
+   "lat": 19.5024062,
+   "lon": -99.18675,
+   "x": -66.02,
+   "z": -66.47,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a3_1",
+   "lat": 19.5026602,
+   "lon": -99.1867057,
+   "x": -66.02,
+   "z": -40.18,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a3_2",
+   "lat": 19.5029141,
+   "lon": -99.1866615,
+   "x": -66.02,
+   "z": -13.88,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a3_3",
+   "lat": 19.503168,
+   "lon": -99.1866173,
+   "x": -66.02,
+   "z": 12.41,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a4_0",
+   "lat": 19.5032794,
+   "lon": -99.1873369,
+   "x": 4.21,
+   "z": 12.41,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a4_1",
+   "lat": 19.5035561,
+   "lon": -99.1872887,
+   "x": 4.21,
+   "z": 41.06,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a4_2",
+   "lat": 19.5038329,
+   "lon": -99.1872405,
+   "x": 4.21,
+   "z": 69.72,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a4_3",
+   "lat": 19.5041096,
+   "lon": -99.1871922,
+   "x": 4.21,
+   "z": 98.37,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a5_0",
+   "lat": 19.5033275,
+   "lon": -99.1876479,
+   "x": 34.56,
+   "z": 12.41,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a5_1",
+   "lat": 19.5036057,
+   "lon": -99.1875994,
+   "x": 34.56,
+   "z": 41.21,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a5_2",
+   "lat": 19.5038838,
+   "lon": -99.187551,
+   "x": 34.56,
+   "z": 70.01,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a5_3",
+   "lat": 19.504162,
+   "lon": -99.1875025,
+   "x": 34.56,
+   "z": 98.81,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a6_0",
+   "lat": 19.5042042,
+   "lon": -99.186199,
+   "x": -88.62,
+   "z": 123.41,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a6_1",
+   "lat": 19.5042428,
+   "lon": -99.1864487,
+   "x": -64.25,
+   "z": 123.41,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a6_2",
+   "lat": 19.5042815,
+   "lon": -99.1866984,
+   "x": -39.88,
+   "z": 123.41,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a6_3",
+   "lat": 19.5043201,
+   "lon": -99.1869481,
+   "x": -15.51,
+   "z": 123.41,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a6_4",
+   "lat": 19.5043588,
+   "lon": -99.1871978,
+   "x": 8.86,
+   "z": 123.41,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a7_0",
+   "lat": 19.5042359,
+   "lon": -99.188548,
+   "x": 135.15,
+   "z": 89.95,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a7_1",
+   "lat": 19.5042816,
+   "lon": -99.1888431,
+   "x": 163.95,
+   "z": 89.95,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a7_2",
+   "lat": 19.5043273,
+   "lon": -99.1891382,
+   "x": 192.75,
+   "z": 89.95,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a8_0",
+   "lat": 19.5042384,
+   "lon": -99.1892167,
+   "x": 198.74,
+   "z": 79.76,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a8_1",
+   "lat": 19.5044973,
+   "lon": -99.1891716,
+   "x": 198.74,
+   "z": 106.57,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "a8_2",
+   "lat": 19.5047562,
+   "lon": -99.1891265,
+   "x": 198.74,
+   "z": 133.38,
+   "nivel": 0,
+   "tipo": "cruce"
+  },
+  {
+   "id": "acceso_P1",
+   "lat": 19.502964,
+   "lon": -99.1834823,
+   "x": -367.34,
+   "z": 40.77,
+   "nivel": 0,
+   "tipo": "acceso"
+  },
+  {
+   "id": "acceso_P2",
+   "lat": 19.5033577,
+   "lon": -99.1834137,
+   "x": -367.34,
+   "z": 81.53,
+   "nivel": 0,
+   "tipo": "acceso"
+  },
+  {
+   "id": "acceso_P3",
+   "lat": 19.5047673,
+   "lon": -99.1890849,
+   "x": 194.97,
+   "z": 135.15,
+   "nivel": 0,
+   "tipo": "acceso"
+  },
+  {
+   "id": "e_A",
+   "lat": 19.5026263,
+   "lon": -99.184026,
+   "x": -321.26,
+   "z": -1.77,
+   "nivel": 0,
+   "tipo": "entrada"
+  },
+  {
+   "id": "e_B",
+   "lat": 19.5031473,
+   "lon": -99.184581,
+   "x": -259.89,
+   "z": 42.1,
+   "nivel": 0,
+   "tipo": "entrada"
+  },
+  {
+   "id": "e_C",
+   "lat": 19.5031539,
+   "lon": -99.1852629,
+   "x": -194.97,
+   "z": 32.13,
+   "nivel": 0,
+   "tipo": "entrada"
+  },
+  {
+   "id": "e_D",
+   "lat": 19.5024163,
+   "lon": -99.1851257,
+   "x": -220.23,
+   "z": -40.1,
+   "nivel": 0,
+   "tipo": "entrada"
+  },
+  {
+   "id": "e_E",
+   "lat": 19.5029696,
+   "lon": -99.1860457,
+   "x": -123.63,
+   "z": 1.33,
+   "nivel": 0,
+   "tipo": "entrada"
+  },
+  {
+   "id": "e_F",
+   "lat": 19.5037416,
+   "lon": -99.1856664,
+   "x": -146.89,
+   "z": 85.08,
+   "nivel": 0,
+   "tipo": "entrada"
+  },
+  {
+   "id": "e_G",
+   "lat": 19.5036024,
+   "lon": -99.1861872,
+   "x": -99.7,
+   "z": 62.92,
+   "nivel": 0,
+   "tipo": "entrada"
+  },
+  {
+   "id": "e_H",
+   "lat": 19.502705,
+   "lon": -99.1870616,
+   "x": -31.46,
+   "z": -41.21,
+   "nivel": 0,
+   "tipo": "entrada"
+  },
+  {
+   "id": "e_HO",
+   "lat": 19.5028035,
+   "lon": -99.1865479,
+   "x": -78.65,
+   "z": -23.26,
+   "nivel": 0,
+   "tipo": "entrada"
+  },
+  {
+   "id": "e_HP",
+   "lat": 19.5029339,
+   "lon": -99.1875043,
+   "x": 14.4,
+   "z": -25.04,
+   "nivel": 0,
+   "tipo": "entrada"
+  },
+  {
+   "id": "e_I",
+   "lat": 19.5039602,
+   "lon": -99.1868942,
+   "x": -26.59,
+   "z": 87.96,
+   "nivel": 0,
+   "tipo": "entrada"
+  },
+  {
+   "id": "e_J",
+   "lat": 19.5037341,
+   "lon": -99.1873929,
+   "x": 17.06,
+   "z": 57.38,
+   "nivel": 0,
+   "tipo": "entrada"
+  },
+  {
+   "id": "e_K",
+   "lat": 19.503272,
+   "lon": -99.1879,
+   "x": 57.6,
+   "z": 2.88,
+   "nivel": 0,
+   "tipo": "entrada"
+  },
+  {
+   "id": "e_L",
+   "lat": 19.5038299,
+   "lon": -99.1879404,
+   "x": 70.68,
+   "z": 58.49,
+   "nivel": 0,
+   "tipo": "entrada"
+  },
+  {
+   "id": "e_M",
+   "lat": 19.5044148,
+   "lon": -99.1884539,
+   "x": 129.17,
+   "z": 109.45,
+   "nivel": 0,
+   "tipo": "entrada"
+  },
+  {
+   "id": "e_O",
+   "lat": 19.5036674,
+   "lon": -99.1888639,
+   "x": 155.75,
+   "z": 27.69,
+   "nivel": 0,
+   "tipo": "entrada"
+  },
+  {
+   "id": "e_P",
+   "lat": 19.5034457,
+   "lon": -99.1891216,
+   "x": 176.58,
+   "z": 1.33,
+   "nivel": 0,
+   "tipo": "entrada"
+  },
+  {
+   "id": "e_P1",
+   "lat": 19.5037715,
+   "lon": -99.1885147,
+   "x": 124.29,
+   "z": 43.65,
+   "nivel": 0,
+   "tipo": "entrada"
+  },
+  {
+   "id": "e_P2",
+   "lat": 19.503859,
+   "lon": -99.1890799,
+   "x": 179.46,
+   "z": 43.65,
+   "nivel": 0,
+   "tipo": "entrada"
+  },
+  {
+   "id": "e_P3",
+   "lat": 19.5039363,
+   "lon": -99.1895793,
+   "x": 228.2,
+   "z": 43.65,
+   "nivel": 0,
+   "tipo": "entrada"
+  },
+  {
+   "id": "e_P4",
+   "lat": 19.5038834,
+   "lon": -99.1893228,
+   "x": 202.95,
+   "z": 42.32,
+   "nivel": 0,
+   "tipo": "entrada"
+  },
+  {
+   "id": "e_Q",
+   "lat": 19.5043424,
+   "lon": -99.1905134,
+   "x": 323.69,
+   "z": 70.01,
+   "nivel": 0,
+   "tipo": "entrada"
+  },
+  {
+   "id": "e_R",
+   "lat": 19.502997,
+   "lon": -99.1895448,
+   "x": 209.37,
+   "z": -50.51,
+   "nivel": 0,
+   "tipo": "entrada"
+  },
+  {
+   "id": "e_S",
+   "lat": 19.5040822,
+   "lon": -99.1887473,
+   "x": 151.54,
+   "z": 71.34,
+   "nivel": 0,
+   "tipo": "entrada"
+  },
+  {
+   "id": "e_T",
+   "lat": 19.5042672,
+   "lon": -99.1875005,
+   "x": 36.11,
+   "z": 109.45,
+   "nivel": 0,
+   "tipo": "entrada"
+  },
+  {
+   "id": "e_W",
+   "lat": 19.5029913,
+   "lon": -99.1889397,
+   "x": 151.77,
+   "z": -41.65,
+   "nivel": 0,
+   "tipo": "entrada"
+  }
+ ],
+ "aristas": [
+  {
+   "de": "a0_0",
+   "a": "a0_1",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 26.1
+  },
+  {
+   "de": "a0_0",
+   "a": "a1_4",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 69.6
+  },
+  {
+   "de": "a0_0",
+   "a": "acceso_P1",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 11.3
+  },
+  {
+   "de": "a0_0",
+   "a": "acceso_P2",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 51.0
+  },
+  {
+   "de": "a0_1",
+   "a": "a0_2",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 26.1
+  },
+  {
+   "de": "a0_2",
+   "a": "a0_3",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 26.1
+  },
+  {
+   "de": "a0_3",
+   "a": "a0_4",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 26.1
+  },
+  {
+   "de": "a0_3",
+   "a": "a1_0",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 97.7
+  },
+  {
+   "de": "a0_3",
+   "a": "a1_4",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 10.6
+  },
+  {
+   "de": "a0_4",
+   "a": "a0_5",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 26.1
+  },
+  {
+   "de": "a0_4",
+   "a": "e_B",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 11.6
+  },
+  {
+   "de": "a0_5",
+   "a": "a0_6",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 26.1
+  },
+  {
+   "de": "a0_6",
+   "a": "a2_2",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 61.3
+  },
+  {
+   "de": "a0_6",
+   "a": "e_C",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 10.3
+  },
+  {
+   "de": "a1_0",
+   "a": "a1_1",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 22.9
+  },
+  {
+   "de": "a1_1",
+   "a": "a1_2",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 22.9
+  },
+  {
+   "de": "a1_2",
+   "a": "a1_3",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 22.9
+  },
+  {
+   "de": "a1_3",
+   "a": "a1_4",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 22.9
+  },
+  {
+   "de": "a1_3",
+   "a": "e_A",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 28.9
+  },
+  {
+   "de": "a2_0",
+   "a": "a2_1",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 30.1
+  },
+  {
+   "de": "a2_0",
+   "a": "a3_0",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 90.6
+  },
+  {
+   "de": "a2_1",
+   "a": "a2_2",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 30.1
+  },
+  {
+   "de": "a2_1",
+   "a": "e_D",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 63.7
+  },
+  {
+   "de": "a2_2",
+   "a": "e_E",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 34.0
+  },
+  {
+   "de": "a3_0",
+   "a": "a3_1",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 26.3
+  },
+  {
+   "de": "a3_1",
+   "a": "a3_2",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 26.3
+  },
+  {
+   "de": "a3_1",
+   "a": "e_H",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 34.6
+  },
+  {
+   "de": "a3_2",
+   "a": "a3_3",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 26.3
+  },
+  {
+   "de": "a3_2",
+   "a": "e_HO",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 15.7
+  },
+  {
+   "de": "a3_3",
+   "a": "a4_0",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 70.2
+  },
+  {
+   "de": "a3_3",
+   "a": "e_G",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 60.7
+  },
+  {
+   "de": "a4_0",
+   "a": "a4_1",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 28.7
+  },
+  {
+   "de": "a4_0",
+   "a": "a5_0",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 30.4
+  },
+  {
+   "de": "a4_0",
+   "a": "e_HP",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 38.8
+  },
+  {
+   "de": "a4_1",
+   "a": "a4_2",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 28.7
+  },
+  {
+   "de": "a4_2",
+   "a": "a4_3",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 28.7
+  },
+  {
+   "de": "a4_2",
+   "a": "e_J",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 17.8
+  },
+  {
+   "de": "a4_3",
+   "a": "a5_3",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 30.4
+  },
+  {
+   "de": "a4_3",
+   "a": "a6_0",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 96.1
+  },
+  {
+   "de": "a4_3",
+   "a": "a6_4",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 25.5
+  },
+  {
+   "de": "a4_3",
+   "a": "e_I",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 32.5
+  },
+  {
+   "de": "a5_0",
+   "a": "a5_1",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 28.8
+  },
+  {
+   "de": "a5_0",
+   "a": "e_K",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 24.9
+  },
+  {
+   "de": "a5_0",
+   "a": "e_W",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 129.1
+  },
+  {
+   "de": "a5_1",
+   "a": "a5_2",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 28.8
+  },
+  {
+   "de": "a5_2",
+   "a": "a5_3",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 28.8
+  },
+  {
+   "de": "a5_2",
+   "a": "e_L",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 37.9
+  },
+  {
+   "de": "a5_3",
+   "a": "e_T",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 10.7
+  },
+  {
+   "de": "a6_0",
+   "a": "a6_1",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 24.4
+  },
+  {
+   "de": "a6_0",
+   "a": "e_F",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 69.7
+  },
+  {
+   "de": "a6_1",
+   "a": "a6_2",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 24.4
+  },
+  {
+   "de": "a6_2",
+   "a": "a6_3",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 24.4
+  },
+  {
+   "de": "a6_3",
+   "a": "a6_4",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 24.4
+  },
+  {
+   "de": "a7_0",
+   "a": "a7_1",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 28.8
+  },
+  {
+   "de": "a7_0",
+   "a": "a8_0",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 64.4
+  },
+  {
+   "de": "a7_0",
+   "a": "e_M",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 20.4
+  },
+  {
+   "de": "a7_0",
+   "a": "e_P1",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 47.6
+  },
+  {
+   "de": "a7_1",
+   "a": "a7_2",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 28.8
+  },
+  {
+   "de": "a7_1",
+   "a": "e_O",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 62.8
+  },
+  {
+   "de": "a7_1",
+   "a": "e_S",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 22.4
+  },
+  {
+   "de": "a7_2",
+   "a": "a8_0",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 11.8
+  },
+  {
+   "de": "a7_2",
+   "a": "a8_2",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 43.8
+  },
+  {
+   "de": "a8_0",
+   "a": "a8_1",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 26.8
+  },
+  {
+   "de": "a8_0",
+   "a": "e_P",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 81.5
+  },
+  {
+   "de": "a8_0",
+   "a": "e_P2",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 40.9
+  },
+  {
+   "de": "a8_0",
+   "a": "e_P3",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 46.6
+  },
+  {
+   "de": "a8_0",
+   "a": "e_P4",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 37.7
+  },
+  {
+   "de": "a8_0",
+   "a": "e_Q",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 125.3
+  },
+  {
+   "de": "a8_0",
+   "a": "e_R",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 130.7
+  },
+  {
+   "de": "a8_1",
+   "a": "a8_2",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 26.8
+  },
+  {
+   "de": "a8_2",
+   "a": "acceso_P3",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 4.2
+  },
+  {
+   "de": "e_P",
+   "a": "e_W",
+   "tipo": "exterior",
+   "accesible": true,
+   "metros": 49.6
+  }
+ ],
+ "destinos": [
+  {
+   "id": "A",
+   "nombre": "A · En construcción",
+   "nodo": "e_A"
+  },
+  {
+   "id": "Acceso P1",
+   "nombre": "Acceso peatonal P1",
+   "nodo": "acceso_P1"
+  },
+  {
+   "id": "Acceso P2",
+   "nombre": "Acceso peatonal P2",
+   "nodo": "acceso_P2"
+  },
+  {
+   "id": "Acceso P3",
+   "nombre": "Acceso peatonal P3",
+   "nodo": "acceso_P3"
+  },
+  {
+   "id": "B",
+   "nombre": "Edificio B",
+   "nodo": "e_B"
+  },
+  {
+   "id": "C",
+   "nombre": "Edificio C",
+   "nodo": "e_C"
+  },
+  {
+   "id": "D",
+   "nombre": "Edificio D",
+   "nodo": "e_D"
+  },
+  {
+   "id": "E",
+   "nombre": "Edificio E",
+   "nodo": "e_E"
+  },
+  {
+   "id": "F",
+   "nombre": "Edificio F",
+   "nodo": "e_F"
+  },
+  {
+   "id": "G",
+   "nombre": "Edificio G",
+   "nodo": "e_G"
+  },
+  {
+   "id": "HO",
+   "nombre": "Edificio HO",
+   "nodo": "e_HO"
+  },
+  {
+   "id": "HP",
+   "nombre": "Edificio HP",
+   "nodo": "e_HP"
+  },
+  {
+   "id": "K",
+   "nombre": "Edificio K",
+   "nodo": "e_K"
+  },
+  {
+   "id": "L",
+   "nombre": "Edificio L",
+   "nodo": "e_L"
+  },
+  {
+   "id": "M",
+   "nombre": "Edificio M",
+   "nodo": "e_M"
+  },
+  {
+   "id": "O",
+   "nombre": "Edificio O",
+   "nodo": "e_O"
+  },
+  {
+   "id": "P1",
+   "nombre": "Edificio P1",
+   "nodo": "e_P1"
+  },
+  {
+   "id": "P2",
+   "nombre": "Edificio P2",
+   "nodo": "e_P2"
+  },
+  {
+   "id": "P3",
+   "nombre": "Edificio P3",
+   "nodo": "e_P3"
+  },
+  {
+   "id": "P4",
+   "nombre": "Edificio P4",
+   "nodo": "e_P4"
+  },
+  {
+   "id": "Q",
+   "nombre": "Edificio Q",
+   "nodo": "e_Q"
+  },
+  {
+   "id": "R",
+   "nombre": "Edificio R",
+   "nodo": "e_R"
+  },
+  {
+   "id": "S",
+   "nombre": "Edificio S",
+   "nodo": "e_S"
+  },
+  {
+   "id": "T",
+   "nombre": "Edificio T",
+   "nodo": "e_T"
+  },
+  {
+   "id": "W",
+   "nombre": "Edificio W",
+   "nodo": "e_W"
+  },
+  {
+   "id": "H",
+   "nombre": "H · Ciencias Sociales y Humanidades",
+   "nodo": "e_H"
+  },
+  {
+   "id": "I",
+   "nombre": "I · Biblioteca / COSEI",
+   "nodo": "e_I"
+  },
+  {
+   "id": "J",
+   "nombre": "J · Cafetería",
+   "nodo": "e_J"
+  },
+  {
+   "id": "P",
+   "nombre": "P · Conexión de talleres",
+   "nodo": "e_P"
+  }
+ ]
+}
