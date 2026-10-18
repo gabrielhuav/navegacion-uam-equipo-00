@@ -71,9 +71,9 @@ fun norteEnModelo(geo: Georreferencia): Pair<Double, Double> {
 }
 
 /**
- * El modelo 3D del campus. Empieza visto desde arriba con el norte hacia arriba, como el mapa;
+ * El modelo 3D del campus de `sede` (que debe tener `carpeta`). Empieza visto desde arriba con el norte hacia arriba, como el mapa;
  * con `inclinada` la cámara baja para verlo de lado. En Android se dibuja con Filament; en iOS, todavía no.
  * Mientras `visible` es falso no se dibuja: así no gasta batería. Con `noche`, el sol y la luz ambiental bajan.
  */
 @Composable
-expect fun Campus3D(visible: Boolean, inclinada: Boolean, noche: Boolean, modifier: Modifier = Modifier)
+expect fun Campus3D(sede: Unidad, visible: Boolean, inclinada: Boolean, noche: Boolean, modifier: Modifier = Modifier)

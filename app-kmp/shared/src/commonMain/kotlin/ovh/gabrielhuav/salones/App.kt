@@ -1,5 +1,7 @@
 package ovh.gabrielhuav.salones
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Arrangement
@@ -9,7 +11,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -23,6 +27,8 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -39,7 +45,7 @@ import kotlinx.coroutines.delay
  * Cada vez que `centrar` cambia, el mapa vuelve al centro y al zoom inicial.
  */
 @Composable
-expect fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar: Int, conTeselas: Boolean, noche: Boolean, modifier: Modifier = Modifier)
+expect fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar: Int, conTeselas: Boolean, noche: Boolean, sede: Unidad, modifier: Modifier = Modifier)
 
 /**
  * Pantalla del Prototipo 3, la misma en Android y en iOS, y la misma que la de Flutter:
@@ -47,6 +53,8 @@ expect fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar
  * y los botones «UAM» y «Ubicarme» (en 3D, «Inclinar» o «Desde arriba»).
  * Con «Tema ▾» se elige modo claro u oscuro, el color de una de las cinco unidades de la UAM
  * y si el campus se ve de día o de noche (por defecto, según la hora del teléfono).
+ * Al elegir otra unidad, la app pregunta si quieres ir a ella: Azcapotzalco, Cuajimalpa e Iztapalapa tienen
+ * croquis (Mapa, 2D y 3D); Lerma y Xochimilco, todavía no («En desarrollo…»).
  */
 @Composable
 fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
@@ -55,6 +63,9 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
     var oscuro by rememberSaveable { mutableStateOf(Preferencias.leer("oscuro")?.toBoolean() ?: sistemaOscuro) }
     var unidad by rememberSaveable { mutableStateOf(Preferencias.leerEnum("unidad", Unidad.AZCAPOTZALCO)) }
     var iluminacion by rememberSaveable { mutableStateOf(Preferencias.leerEnum("iluminacion", Iluminacion.AUTOMATICA)) }
+    // La unidad cuyo campus se ve; puede ser otra que la del color (se pregunta al cambiar de unidad).
+    var sede by rememberSaveable { mutableStateOf(Preferencias.leerEnum("sede", Unidad.AZCAPOTZALCO)) }
+    var preguntar by remember { mutableStateOf<Unidad?>(null) }
     var hora by remember { mutableStateOf(horaLocal()) }
     LaunchedEffect(Unit) {
         while (true) { // revisa la hora cada minuto: al dar las 19:00 el campus se hace de noche
@@ -73,21 +84,24 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
         var vista by rememberSaveable { mutableStateOf(Vista.MAPA) }
         var enLaUam by rememberSaveable { mutableStateOf(false) } // «UAM» centra el campus; «Ubicarme», a ti
         var inclinada by rememberSaveable { mutableStateOf(false) }
-        // El modelo 3D se carga la primera vez que se pide y ya no se libera: solo se oculta y deja de dibujarse.
-        var con3D by rememberSaveable { mutableStateOf(false) }
-        if (vista == Vista.TRES_D) con3D = true
+        // Cada modelo 3D se carga la primera vez que se pide y ya no se libera: sólo se oculta y deja de dibujarse.
+        val con3D = remember { mutableStateListOf<Unidad>() }
+        if (vista == Vista.TRES_D && sede.carpeta != null && sede !in con3D) con3D.add(sede)
         Box(Modifier.fillMaxSize()) {
-            if (con3D) Campus3D(visible = vista == Vista.TRES_D, inclinada, noche, Modifier.fillMaxSize())
+            con3D.forEach { s ->
+                key(s) { Campus3D(s, visible = vista == Vista.TRES_D && s == sede, inclinada, noche, Modifier.fillMaxSize()) }
+            }
+            if (vista == Vista.TRES_D && sede.carpeta == null) EnDesarrollo(sede, Modifier.fillMaxSize())
             if (vista != Vista.TRES_D) {
-                val centro = if (enLaUam || ubicacion == null) UAM_AZCAPOTZALCO else ubicacion
-                Mapa(centro, ubicacion, proveedor, centrar, conTeselas = vista == Vista.MAPA, noche, Modifier.fillMaxSize())
+                val centro = if (enLaUam || ubicacion == null) sede.centro else ubicacion
+                Mapa(centro, ubicacion, proveedor, centrar, conTeselas = vista == Vista.MAPA, noche, sede, Modifier.fillMaxSize())
             }
 
             Card(Modifier.safeDrawingPadding().padding(12.dp).widthIn(max = 480.dp).fillMaxWidth()) {
                 Row(Modifier.padding(start = 16.dp, end = 4.dp, top = 8.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
                     Column(Modifier.weight(1f)) {
                         Text("Campus UAM", style = MaterialTheme.typography.titleLarge)
-                        Text(mensaje, style = MaterialTheme.typography.bodyMedium)
+                        Text(ubicacion?.let { describir(it, sede) } ?: mensaje, style = MaterialTheme.typography.bodyMedium)
                         // Mapa real con el plano encima, solo el plano, o el modelo 3D.
                         SingleChoiceSegmentedButtonRow(Modifier.padding(top = 8.dp)) {
                             Vista.entries.forEachIndexed { i, v ->
@@ -104,7 +118,11 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
                         // Cada elección se guarda: al volver a abrir la app sigue igual.
                         MenuTema(
                             unidad, oscuro, iluminacion,
-                            onUnidad = { unidad = it; Preferencias.guardar("unidad", it.name) },
+                            onUnidad = {
+                                unidad = it
+                                Preferencias.guardar("unidad", it.name)
+                                if (it != sede) preguntar = it
+                            },
                             onOscuro = { oscuro = it; Preferencias.guardar("oscuro", it.toString()) },
                             onIluminacion = { iluminacion = it; Preferencias.guardar("iluminacion", it.name) },
                         )
@@ -124,6 +142,14 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
                 }
             }
 
+            // Marca de agua temporal: el autor del proyecto.
+            Text(
+                "© @gabrielhuav",
+                Modifier.align(Alignment.BottomStart).safeDrawingPadding().padding(start = 8.dp, bottom = 40.dp),
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.55f),
+                style = MaterialTheme.typography.labelMedium,
+            )
+
             Column(
                 Modifier.align(Alignment.BottomEnd).safeDrawingPadding().padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -138,6 +164,41 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
                     ExtendedFloatingActionButton(onClick = { enLaUam = false; centrar++; onUbicar() }) { Text("Ubicarme") }
                 }
             }
+
+            // Al cambiar de unidad en «Tema ▾»: ¿ir también a su campus?
+            preguntar?.let { u ->
+                AlertDialog(
+                    onDismissRequest = { preguntar = null },
+                    title = { Text("¿Ir a la UAM ${u.nombre}?") },
+                    text = {
+                        Text(if (u.carpeta != null) "El mapa, el plano 2D y el modelo 3D cambian a esa unidad."
+                             else "Su croquis todavía está en desarrollo: el mapa irá a la unidad y marcará dónde está.")
+                    },
+                    confirmButton = {
+                        TextButton(onClick = {
+                            sede = u
+                            Preferencias.guardar("sede", u.name)
+                            enLaUam = true
+                            centrar++
+                            preguntar = null
+                        }) { Text("Ir") }
+                    },
+                    dismissButton = { TextButton(onClick = { preguntar = null }) { Text("Sólo el color") } },
+                )
+            }
+        }
+    }
+}
+
+/** En lugar del 3D, mientras la unidad no tiene croquis: un cuadro de su color con «En desarrollo…». */
+@Composable
+private fun EnDesarrollo(sede: Unidad, modifier: Modifier = Modifier) {
+    Box(modifier.background(MaterialTheme.colorScheme.surfaceContainer), contentAlignment = Alignment.Center) {
+        Box(
+            Modifier.size(220.dp).background(sede.color.copy(alpha = 0.18f)).border(3.dp, sede.color),
+            contentAlignment = Alignment.Center,
+        ) {
+            Text("En desarrollo…", color = sede.color, style = MaterialTheme.typography.titleLarge)
         }
     }
 }

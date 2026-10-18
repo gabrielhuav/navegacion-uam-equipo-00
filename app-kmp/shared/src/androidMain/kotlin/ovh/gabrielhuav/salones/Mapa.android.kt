@@ -22,6 +22,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
@@ -37,7 +41,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.net.HttpURLConnection
 import java.net.URL
+import kotlin.math.PI
 import kotlin.math.atan2
+import kotlin.math.cos
 import kotlin.math.floor
 import kotlin.math.log2
 import kotlin.math.pow
@@ -74,13 +80,14 @@ private data class PlanoCampus(val imagen: ImageBitmap, val geo: Georreferencia)
  * con `posicionEnTeselas` y `enPantalla`, igual que cada tesela, y se gira y escala para que quepa entre ellas.
  */
 @Composable
-actual fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar: Int, conTeselas: Boolean, noche: Boolean, modifier: Modifier) {
+actual fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar: Int, conTeselas: Boolean, noche: Boolean, sede: Unidad, modifier: Modifier) {
     val activos = LocalContext.current.assets
-    val plano = remember {
-        runCatching {
+    // El plano de la unidad; sin carpeta (aún sin croquis) no hay plano y se dibuja el cuadro «En desarrollo…».
+    val plano = remember(sede) {
+        if (sede.carpeta == null) null else runCatching {
             PlanoCampus(
-                activos.open("campus/plano_2d.png").use { BitmapFactory.decodeStream(it).asImageBitmap() },
-                leerGeorreferencia(activos.open("campus/georreferencia.json").use { it.readBytes().decodeToString() }),
+                activos.open("campus/${sede.carpeta}/plano_2d.png").use { BitmapFactory.decodeStream(it).asImageBitmap() },
+                leerGeorreferencia(activos.open("campus/${sede.carpeta}/georreferencia.json").use { it.readBytes().decodeToString() }),
             )
         }.getOrNull()
     }
@@ -152,6 +159,24 @@ actual fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar
                     // De noche, el plano se oscurece con un tono azul.
                     drawImage(imagen, alpha = if (conTeselas) 0.85f else 1f, colorFilter = if (noche) NOCHE else null)
                 }
+            }
+            if (sede.carpeta == null) {
+                // Cuadro del color de la unidad, de 240 m de lado, centrado en ella: sólo marca dónde está.
+                val grados = 120.0 / 111_320.0
+                val esquina = enPantalla(Ubicacion(sede.centro.latitud + grados, sede.centro.longitud - grados / cos(sede.centro.latitud * PI / 180)))
+                val opuesta = enPantalla(Ubicacion(sede.centro.latitud - grados, sede.centro.longitud + grados / cos(sede.centro.latitud * PI / 180)))
+                val tam = Size(opuesta.x - esquina.x, opuesta.y - esquina.y)
+                drawRect(sede.color.copy(alpha = 0.18f), esquina, tam)
+                drawRect(sede.color, esquina, tam, style = Stroke(3.dp.toPx()))
+                val pincel = android.graphics.Paint().apply {
+                    color = sede.color.toArgb()
+                    textSize = 20.dp.toPx()
+                    textAlign = android.graphics.Paint.Align.CENTER
+                    isFakeBoldText = true
+                    isAntiAlias = true
+                }
+                val medio = (esquina + opuesta) / 2f
+                drawContext.canvas.nativeCanvas.drawText("En desarrollo…", medio.x, medio.y, pincel)
             }
             marcador?.let {
                 val punto = enPantalla(it)

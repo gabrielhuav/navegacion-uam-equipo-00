@@ -14,8 +14,8 @@ android {
         applicationId = "ovh.gabrielhuav.salones"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 3
-        versionName = "0.3.0"
+        versionCode = 4
+        versionName = "0.4.0"
     }
 
     compileOptions {
@@ -34,8 +34,9 @@ kotlin {
     }
 }
 
-// El diseño del campus vive en ../campus y lo edita el visor web. Al compilar, Gradle copia a la app
-// solo lo que usa (modelo 3D, plano 2D y su georreferencia): la web y el celular comparten los mismos archivos.
+// El diseño de cada campus vive en ../campus (Azcapotzalco), ../campus-cuajimalpa y ../campus-iztapalapa, y lo
+// edita su visor web. Al compilar, Gradle copia a la app sólo lo que usa (modelo 3D, plano 2D y georreferencia),
+// cada unidad en campus/<carpeta>/ y el GLB como modelo.glb: la web y el celular comparten los mismos archivos.
 abstract class CopiarCampus : DefaultTask() {
     @get:InputFiles
     abstract val archivos: ConfigurableFileCollection
@@ -45,15 +46,24 @@ abstract class CopiarCampus : DefaultTask() {
 
     @TaskAction
     fun copiar() {
-        val carpeta = destino.get().asFile.resolve("campus")
-        carpeta.deleteRecursively()
-        carpeta.mkdirs()
-        archivos.forEach { it.copyTo(carpeta.resolve(it.name)) }
+        val raiz = destino.get().asFile.resolve("campus")
+        raiz.deleteRecursively()
+        archivos.forEach { f ->
+            val carpeta = f.parentFile.name.removePrefix("campus-").let { if (it == "campus") "azcapotzalco" else it }
+            val nombre = if (f.extension == "glb") "modelo.glb" else f.name
+            f.copyTo(raiz.resolve("$carpeta/$nombre").also { it.parentFile.mkdirs() })
+        }
     }
 }
 
 val copiarCampus = tasks.register<CopiarCampus>("copiarCampus") {
-    archivos.from(listOf("UAM_Azcapotzalco.glb", "plano_2d.png", "georreferencia.json").map { rootProject.file("../campus/$it") })
+    listOf(
+        "campus" to "UAM_Azcapotzalco.glb",
+        "campus-cuajimalpa" to "UAM_Cuajimalpa.glb",
+        "campus-iztapalapa" to "UAM_Iztapalapa.glb",
+    ).forEach { (carpeta, glb) ->
+        archivos.from(listOf(glb, "plano_2d.png", "georreferencia.json").map { rootProject.file("../$carpeta/$it") })
+    }
 }
 
 androidComponents {

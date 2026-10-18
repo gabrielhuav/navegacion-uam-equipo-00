@@ -46,20 +46,20 @@ private class Visor(val modelo: ModelViewer, val camara: Manipulator, val arriba
 }
 
 /**
- * El GLB que exporta el editor web (campus/UAM_Azcapotzalco.glb), dibujado con Filament.
+ * El GLB que exporta el editor web de la unidad (Gradle lo copia como campus/<carpeta>/modelo.glb), dibujado con Filament.
  * Un dedo lo gira (a los lados) y lo inclina (arriba y abajo); dos dedos acercan o desplazan: lo hace ModelViewer.
  *
- * El modelo se carga una sola vez y no se libera al salir de 3D: liberarlo y volverlo a cargar
+ * Cada modelo se carga una sola vez (App deja compuesto el de cada unidad visitada) y no se libera: liberarlo y volverlo a cargar
  * hacía fallar a Filament (asyncCancelLoad). Oculto, no se dibuja; visible, solo un momento después de tocarlo.
  */
 @Composable
-actual fun Campus3D(visible: Boolean, inclinada: Boolean, noche: Boolean, modifier: Modifier) {
+actual fun Campus3D(sede: Unidad, visible: Boolean, inclinada: Boolean, noche: Boolean, modifier: Modifier) {
     val visor = remember { arrayOfNulls<Visor>(1) }
     AndroidView(
         factory = { contexto ->
             TextureView(contexto).also { superficie ->
                 val motor = motor // primero el motor: Utils.init() carga las librerías nativas que usa la cámara
-                val geo = leerGeorreferencia(contexto.assets.open("campus/georreferencia.json").use { it.readBytes().decodeToString() })
+                val geo = leerGeorreferencia(contexto.assets.open("campus/${sede.carpeta}/georreferencia.json").use { it.readBytes().decodeToString() })
                 val (nx, nz) = norteEnModelo(geo).let { it.first.toFloat() to it.second.toFloat() }
                 // transformToUnitCube deja el campus centrado en (0, 0, -4) y de 2 unidades de ancho.
                 // Desde arriba: casi vertical (unos 80°) y un poco al sur, para que el norte quede hacia arriba como en el mapa.
@@ -71,7 +71,7 @@ actual fun Campus3D(visible: Boolean, inclinada: Boolean, noche: Boolean, modifi
                 val desdeArriba = camara(altura = 2.8f, alSur = 0.5f)
                 val deLado = camara(altura = 1.3f, alSur = 1.6f)
                 val modelo = ModelViewer(superficie, motor, manipulator = desdeArriba)
-                val bytes = contexto.assets.open("campus/UAM_Azcapotzalco.glb").use { it.readBytes() }
+                val bytes = contexto.assets.open("campus/${sede.carpeta}/modelo.glb").use { it.readBytes() }
                 modelo.loadModelGlb(ByteBuffer.allocateDirect(bytes.size).put(bytes).rewind())
                 modelo.transformToUnitCube()
                 // Luz ambiental pareja, para que las caras a la sombra no queden negras.

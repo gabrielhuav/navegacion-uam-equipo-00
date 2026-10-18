@@ -15,7 +15,7 @@ class UbicacionTest {
     fun lejosDeLaUamDiceAcuantosKilometrosQueda() {
         val zocalo = Ubicacion(19.4326, -99.1332)
         assertTrue(describir(zocalo).startsWith("Estás a "))
-        assertTrue(describir(zocalo).endsWith(" km de la UAM."))
+        assertTrue(describir(zocalo).endsWith(" km de la UAM Azcapotzalco."))
     }
 
     @Test
