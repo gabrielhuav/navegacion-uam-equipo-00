@@ -12,6 +12,16 @@ for(const poly of [data.site,...data.buildings.flatMap(b=>b.polygons)])for(const
 const png=await read('plano_2d.png');assert.equal(png.subarray(1,4).toString(),'PNG');assert.equal(png.readUInt32BE(16),800);assert.equal(png.readUInt32BE(20),2120);
 const glb=await read(data.unit.glb);assert.equal(glb.subarray(0,4).toString(),'glTF');assert.equal(glb.readUInt32LE(4),2);assert.equal(glb.readUInt32LE(8),glb.length);assert.equal(glb.subarray(16,20).toString(),'JSON');
 const gltf=JSON.parse(glb.subarray(20,20+glb.readUInt32LE(12)).toString());
+// Este checkpoint cambia el aspecto, conservando el marco métrico y las huellas.
+const previous=JSON.parse(execFileSync('git',['show','5897829:campus-xochimilco/campus_editado.json'],{encoding:'utf8'}));
+assert.deepEqual(data.unit.plan,previous.unit.plan);
+assert.deepEqual(data.site,previous.site);assert.deepEqual(data.parking,previous.parking);
+for(const b of data.buildings){const old=previous.buildings.find(o=>o.id===b.id);for(const key of ['polygons','rects','floors','offsetX','offsetZ'])assert.deepEqual(b[key],old[key],b.id+' '+key);}
+assert.deepEqual(await read('georreferencia.json'),execFileSync('git',['show','5897829:campus-xochimilco/georreferencia.json']));
+assert(gltf.nodes.some(n=>n.name==='Lucernario_curvo_central'));
+assert(gltf.nodes.some(n=>n.name==='Copa_jacaranda'));
+assert(gltf.nodes.some(n=>n.name==='Marco_azul_nivel_3'));
+assert.equal(data.jacarandas.length,21);
 for(const b of data.buildings){const nodes=gltf.nodes.filter(n=>n.name==='Edificio_'+b.id);assert.equal(nodes.length,1,b.id);assert.equal(nodes[0].extras.floors,b.floors);}
 const mark=gltf.nodes.find(n=>n.name==='Marca_copyright_modelo');assert.equal(data.showCopyright,true);assert.equal(mark.children.length,3);assert.equal(mark.extras.flag,'showCopyright');
 const sources=await json('calibracion/huellas-osm.geojson');assert.equal(sources.features.length,33);assert(sources.features.every(f=>f.properties.osmWay));

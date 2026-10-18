@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import {OrbitControls} from 'orbit';
 import {GLTFExporter} from 'exporter';
 import {ORIGINAL} from 'model-data';
+import {xocArchitecture} from 'xoc-architecture';
 
 const UNIT=ORIGINAL.unit;
 const $=id=>document.getElementById(id);
@@ -52,9 +53,9 @@ function building(b){
  const polys=b.polygons||b.rects.map(r=>[[r[0],r[1]],[r[2],r[1]],[r[2],r[3]],[r[0],r[3]]]);
  for(const poly of polys){const shape=new THREE.Shape();poly.forEach((p,i)=>i?shape.lineTo(X(p[0]),-Z(p[1])):shape.moveTo(X(p[0]),-Z(p[1])));shape.closePath();
   function volume(name,y,h,color,outline=shape){const m=new THREE.Mesh(new THREE.ExtrudeGeometry(outline,{depth:h,bevelEnabled:false}),material(color));m.rotation.x=-Math.PI/2;m.position.y=y;m.name=name;m.castShadow=true;m.receiveShadow=true;g.add(m);}
-  volume('Cuerpo_aproximado',.25,height,'#d1ccbc');
+  volume('Cuerpo_aproximado',.25,height,'#c2c3ba');
   volume('Azotea',height+.25,.35,b.roof||'#b8c0b6');
-  for(let f=0;f<b.floors;f++)for(let i=0;i<poly.length;i++){const a=poly[i],q=poly[(i+1)%poly.length],dx=X(q[0])-X(a[0]),dz=Z(q[1])-Z(a[1]),length=Math.hypot(dx,dz);if(length<1)continue;const pane=box(g,'Ventana_nivel_'+f,(X(a[0])+X(q[0]))/2,f*data.storeyHeight+2,(Z(a[1])+Z(q[1]))/2,.14,1.1,length,'#526d70');pane.rotation.y=Math.atan2(dx,dz);}
+  xocArchitecture(g,b,poly,height,{box,X,Z,storey:data.storeyHeight});
  }
  const points=polys.flat(),cx=points.reduce((a,p)=>a+X(p[0]),0)/points.length,cz=points.reduce((a,p)=>a+Z(p[1]),0)/points.length;if(b.mapLabel!=='')label(b.mapLabel||b.id,cx+g.position.x,height+4,cz+g.position.z);return g;
 }
@@ -63,7 +64,7 @@ function tree(px,py,size=1,palm=false,elevation=0){
  registerEditable('tree_'+px+'_'+py,(palm?'Palmera':'Árbol')+' · '+Math.round(X(px))+', '+Math.round(Z(py))+' m','tree',group);
  const x=0,z=0,trunk=new THREE.Mesh(cylinder,material('#75654c'));trunk.name=palm?'Palmera_tronco':'Árbol_tronco';trunk.scale.set(palm?.3:.4,palm?12:4,.4);trunk.position.set(x,(palm?6:2)+elevation,z);trunk.castShadow=true;group.add(trunk);
  if(palm){for(let a=0;a<8;a++){const leaf=new THREE.Mesh(crown,material('#567d3d'));leaf.scale.set(3.5,.4,.8);leaf.rotation.y=a*Math.PI/4;leaf.position.set(x+1.2*Math.cos(a*Math.PI/4),12+elevation,z+1.2*Math.sin(a*Math.PI/4));group.add(leaf);}}
- else {const c=new THREE.Mesh(crown,material(['#47774e','#5b8557','#689460'][Math.floor(px+py)%3]));c.scale.set(2.9*size,3.3*size,2.9*size);c.position.set(x,5*size+elevation,z);c.castShadow=true;group.add(c);}
+ else {const nearParking=data.parking.some(r=>px>r[0]-25&&px<r[2]+25&&py>r[1]-25&&py<r[3]+25);const flowering=nearParking||Math.floor(px+py)%4===0;group.userData.species=flowering?'Jacaranda (ubicación aproximada)':'Arbolado mixto';const c=new THREE.Mesh(crown,material((flowering?['#8b79c3','#a28ad0','#7864ae']:['#47774e','#5b8557','#689460'])[Math.abs(Math.floor(px+py))%3]));c.name=flowering?'Copa_jacaranda':'Copa_verde';c.scale.set(2.9*size,3.3*size,2.9*size);c.position.set(x,5*size+elevation,z);c.castShadow=true;group.add(c);}
 }
 function inside(px,py,poly){let v=false;for(let i=0,j=poly.length-1;i<poly.length;j=i++){let a=poly[i],b=poly[j];if((a[1]>py)!=(b[1]>py)&&px<(b[0]-a[0])*(py-a[1])/(b[1]-a[1])+a[0])v=!v;}return v;}
 function excluded(x,y){const rects=[...data.buildings.flatMap(b=>b.rects),...data.plazas.map(p=>p.rect),...data.parking,...data.paths];if((data.courts||[]).some(p=>inside(x,y,p)))return true;return rects.some(r=>x>r[0]-10&&x<r[2]+10&&y>r[1]-10&&y<r[3]+10);}
@@ -76,6 +77,7 @@ function generate(){
  for(const r of data.paths)slab(world,r,'#d5cbb1');for(const plaza of data.plazas){slab(world,plaza.rect,plaza.name.startsWith('Jardín')?'#82a570':'#c9bda2');label(plaza.name,X((plaza.rect[0]+plaza.rect[2])/2),1,Z((plaza.rect[1]+plaza.rect[3])/2),'place');}
  for(const [i,r]of data.parking.entries())parkingArea(r,'parking_'+i,'Estacionamiento '+(i+1));for(const [i,p]of(data.extraParking||[]).entries())parkingArea(p.rect,p.id,'Estacionamiento nuevo '+(i+1));
  for(const b of data.buildings)building(b);
+ for(const p of data.jacarandas||[])tree(p[0],p[1],1.05);
  for(const plaza of data.plazas.filter(p=>p.name.startsWith('Jardín'))){const r=plaza.rect;for(let px=r[0]+8;px<r[2]-5;px+=14)for(let py=r[1]+8;py<r[3]-5;py+=14)tree(px,py,.8);}
  let seed=1729;const rand=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};
  for(let n=0;n<350;n++){const px=895+p.xMin+rand()*(p.xMax-p.xMin),py=390+p.zMin+rand()*(p.zMax-p.zMin);if(inside(px,py,data.site)&&!excluded(px,py))tree(px,py,.6);}
@@ -100,8 +102,8 @@ function resize(){
  const span=Math.max((UNIT.plan.xMax-UNIT.plan.xMin)/2,(UNIT.plan.zMax-UNIT.plan.zMin)/2*w/h)*1.1;ortho.left=-span;ortho.right=span;ortho.top=span*h/w;ortho.bottom=-span*h/w;ortho.updateProjectionMatrix();
  if(!topMode){
   // Ajustar las ocho esquinas, también para el predio alargado de Xochimilco.
-  const inverse=perspective.quaternion.clone().invert(),tv=Math.tan(THREE.MathUtils.degToRad(perspective.fov/2)),th=tv*perspective.aspect,p=UNIT.plan;let distance=0;
-  for(const x of [p.xMin,p.xMax])for(const y of [0,40])for(const z of [p.zMin,p.zMax]){const v=new THREE.Vector3(x,y,z).sub(controls.target).applyQuaternion(inverse);distance=Math.max(distance,Math.abs(v.x)/th+v.z,Math.abs(v.y)/tv+v.z);}
+  const inverse=perspective.quaternion.clone().invert(),tv=Math.tan(THREE.MathUtils.degToRad(perspective.fov/2)),th=tv*perspective.aspect,p=focusMode?focusBounds:UNIT.plan;let distance=0;
+  for(const x of [p.xMin,p.xMax])for(const y of [0,focusMode?22:40])for(const z of [p.zMin,p.zMax]){const v=new THREE.Vector3(x,y,z).sub(controls.target).applyQuaternion(inverse);distance=Math.max(distance,Math.abs(v.x)/th+v.z,Math.abs(v.y)/tv+v.z);}
   perspective.position.sub(controls.target).normalize().multiplyScalar(distance*1.08).add(controls.target);controls.update();
  }
 }
@@ -116,10 +118,12 @@ function campusNorth(geo){
  if(Math.abs(det)<1e-18)return null;
  const x=-bx/det,z=ax/det,length=Math.hypot(x,z);return {x:x/length,z:z/length};
 }
-function view(mode){topMode=mode==='top';focusMode=false;camera=topMode?ortho:perspective;controls.object=camera;controls.enableRotate=!topMode;controls.target.set(0,0,0);camera.zoom=1;camera.up.set(0,1,0);const north=campusNorth(georeference)||{x:0,z:-1};
- if(topMode){camera.position.set(0,1000,0);camera.up.set(north.x,0,north.z);}else if(mode==='approved')camera.position.set(-630,600,120);else camera.position.set(-north.x*630,580,-north.z*630);
- camera.lookAt(controls.target);camera.updateProjectionMatrix();controls.update();for(const id of ['approved','maps','top'])$(id).classList.toggle('active',id===mode);resize();}
-for(const mode of ['approved','maps','top'])$(mode).onclick=()=>view(mode);
+let focusBounds=null;
+function view(mode){topMode=mode==='top';focusMode=mode==='facades';camera=topMode?ortho:perspective;controls.object=camera;controls.enableRotate=!topMode;controls.target.set(0,0,0);camera.zoom=1;camera.up.set(0,1,0);const north=campusNorth(georeference)||{x:0,z:-1};
+ if(focusMode){const b=data.buildings.find(b=>b.id==='G'),r=b.rects[0],cx=X((r[0]+r[2])/2)+(b.offsetX||0),cz=Z((r[1]+r[3])/2)+(b.offsetZ||0);controls.target.set(cx,5,cz);focusBounds={xMin:cx-10,xMax:cx+10,zMin:cz-15,zMax:cz+15};camera.position.set(cx+60,32,cz+18);}
+ else if(topMode){camera.position.set(0,1000,0);camera.up.set(north.x,0,north.z);}else if(mode==='approved')camera.position.set(-630,600,120);else camera.position.set(-north.x*630,580,-north.z*630);
+ camera.lookAt(controls.target);camera.updateProjectionMatrix();controls.update();for(const id of ['approved','maps','top','facades'])$(id).classList.toggle('active',id===mode);resize();}
+for(const mode of ['approved','maps','top','facades'])$(mode).onclick=()=>view(mode);
 $('spin').onclick=()=>{if(topMode)view('maps');controls.autoRotate=!controls.autoRotate;$('spin').classList.toggle('active',controls.autoRotate);};
 $('trees').onchange=()=>vegetation.visible=$('trees').checked;$('names').onchange=()=>labelLayer.hidden=!$('names').checked;$('grid').onchange=()=>grid.visible=$('grid').checked;
 function message(text){$('status').textContent=text;clearTimeout(message.timer);message.timer=setTimeout(()=>$('status').textContent='',6500);}
@@ -270,5 +274,7 @@ async function startCampus(){
 startCampus();
 const v=new THREE.Vector3();function animate(){requestAnimationFrame(animate);controls.update();renderer.render(scene,camera);const w=mount.clientWidth,h=mount.clientHeight;for(const l of labels){v.copy(l.p).project(camera);l.el.style.display=v.z<1&&v.z>-1&&Math.abs(v.x)<1.1&&Math.abs(v.y)<1.1?'':'none';l.el.style.left=((v.x+1)*w/2)+'px';l.el.style.top=((-v.y+1)*h/2)+'px';}
  // Escala local en el plano del suelo: varía con cámara y perspectiva.
- const a=new THREE.Vector3(0,0,0).project(camera),b=new THREE.Vector3(50,0,0).project(camera);const c=new THREE.Vector3(0,0,50).project(camera),px=Math.max(Math.hypot((b.x-a.x)*w/2,(b.y-a.y)*h/2),Math.hypot((c.x-a.x)*w/2,(c.y-a.y)*h/2));mount.querySelector('.scale').style.width=Math.max(2,px)+'px';$('scaleText').textContent='50 m aprox. · Referencia local en el centro del terreno';}
+ const origin=controls.target.clone();origin.y=0;const a=origin.clone().project(camera);let px=0,meters=50;
+ for(const m of [50,20,10,5,2,1]){meters=m;const b=origin.clone().add(new THREE.Vector3(m,0,0)).project(camera),c=origin.clone().add(new THREE.Vector3(0,0,m)).project(camera);px=Math.max(Math.hypot((b.x-a.x)*w/2,(b.y-a.y)*h/2),Math.hypot((c.x-a.x)*w/2,(c.y-a.y)*h/2));if(px<130)break;}
+ mount.querySelector('.scale').style.width=Math.max(2,px)+'px';$('scaleText').textContent=meters+' m aprox. · Referencia local en el punto observado';}
 animate();

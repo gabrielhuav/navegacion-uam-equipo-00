@@ -30,6 +30,12 @@ Las tres esquinas geográficas se calculan de ese ajuste para el encuadre comple
 - El PDF imprime «AC» tanto en 9 como en 15. Se distinguen `AC` y `AC_SECTOR_F` provisionalmente.
 - OSM llama biblioteca al volumen que corresponde a J según la posición del PDF; este último marca A como punto de biblioteca/servicios. Se conserva el nombre original OSM en `osmName`, se sigue la nomenclatura del PDF en el croquis y se debe verificar el uso actual. No afirmar que esta discrepancia está resuelta.
 - `BA_BB` es un conjunto sin separar. W, WBIS, U, Cómputo y los anexos AC/AB tienen asignaciones interpretativas señaladas en JSON/selector, pendientes del alumnado.
-- Niveles OSM cuando existen; los demás son estimados. No se representan interiores, rutas accesibles, topografía ni puertas exactas. Las fachadas son bandas simples, y la velaria un volumen básico, no una reconstrucción fiel.
+- Niveles OSM cuando existen; los demás son estimados. No se representan interiores, rutas accesibles, topografía ni puertas exactas. Las fachadas detalladas siguen siendo interpretativas, y la velaria un volumen básico, no una reconstrucción fiel.
+
+## Referencias fotográficas de Gabriel · 18 octubre 2026
+
+`codex-clipboard-e9c62a76-7e83-43dc-aace-ab1ac70d445a.png`: concreto aparente con aletas, ventanas rehundidas y azul en marcos y gráfica vertical. No permite identificar inequívocamente la torre ni establecer todas sus medidas; no se reproduce la gráfica en otro edificio por suposición.
+
+`codex-clipboard-f0624919-165e-4c97-bdac-40640a3acd5b.png`: vista aérea con cubiertas rojas, lucernario curvo central y jacarandas en torno a estacionamientos. Se interpreta el detalle sobre las huellas ya existentes, sin usar el ángulo de la fotografía para girar el plano. Dimensiones del lucernario y posición/especie individual de árboles aproximadas. Las fotos no sustituyen los controles geográficos ni permiten deducir nuevos niveles.
 
 Estos límites forman parte de la entrega; mejorar el croquis no debe convertir las aproximaciones en mediciones declaradas.

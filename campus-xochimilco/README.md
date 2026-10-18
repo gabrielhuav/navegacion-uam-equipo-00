@@ -1,5 +1,13 @@
 # UAM Xochimilco · croquis editable
 
+## Fachadas y vista aérea · 18 octubre 2026
+
+Las dos fotos aportadas por Gabriel se usan como referencias de aspecto desde ángulos diferentes. `architecture.js` añade concreto gris, aletas, alfeizares, paños acristalados y marcos azules. Las azoteas rojas se conservan; el volumen central A incorpora una interpretación del lucernario curvo visible en la toma aérea. No se asigna la torre con gráfico azul de la foto cercana a un edificio concreto sin confirmar su identidad.
+
+«Fachadas azules · detalle» acerca un tramo de G hacia el patio Edén. La escala de pantalla se adapta al acercamiento; no modifica la escala de exportación. Hay 21 jacarandas editables aproximadas junto a los estacionamientos y floración en parte del arbolado existente. No representan un inventario de árboles.
+
+Se conservan los 37 IDs, huellas, niveles, patios, estacionamientos, orientación y georreferencia del checkpoint anterior. El PNG sigue siendo 800×2120, con el mismo encuadre. Guardar cambios exporta los detalles en GLB y plano; la marca integrada conserva su bandera. GLB aproximado: 3,14 MB. Materiales y geometría locales, sin fotografías incrustadas ni descargas externas.
+
 Abrir `Abrir_visor.cmd` (requiere Node.js). Dirección local:
 http://127.0.0.1:8771/Visor_UAM_autonomo.html
 
