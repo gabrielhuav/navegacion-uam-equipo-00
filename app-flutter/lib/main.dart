@@ -90,6 +90,7 @@ class _PantallaMapaState extends State<PantallaMapa> {
   final _aplicado3D = <Unidad, String>{};
   late Unidad _unidadAnterior = ajustesTema.value.unidad;
   bool _irALaSede = false; // «UAM» o «Ir» centran el mapa en la sede; «Ubicarme», en ti
+  LatLng? _centrarAlVolver; // si se eligió otra sede estando en 3D, el mapa se mueve al volver a Mapa o 2D
   final _mapa = MapController();
   int _hora = DateTime.now().hour;
   Timer? _reloj;
@@ -150,7 +151,11 @@ class _PantallaMapaState extends State<PantallaMapa> {
       if (ir != true || !mounted) return;
       ajustesTema.value = ajustesTema.value.copyWith(sede: u);
       setState(() => _irALaSede = true);
-      if (_vista != Vista.tresD) _mapa.move(u.centro, 17);
+      if (_vista != Vista.tresD) {
+        _mapa.move(u.centro, 17);
+      } else {
+        _centrarAlVolver = u.centro;
+      }
     });
   }
 
@@ -232,6 +237,13 @@ class _PantallaMapaState extends State<PantallaMapa> {
               mapController: _mapa,
               options: MapOptions(
                 initialCenter: _irALaSede ? sede.centro : (yo ?? sede.centro),
+                // El controlador conserva la posición anterior: initialCenter no basta al volver del 3D.
+                onMapReady: () {
+                  final c = _centrarAlVolver;
+                  if (c == null) return;
+                  _centrarAlVolver = null;
+                  _mapa.move(c, 17);
+                },
                 initialZoom: 17,
                 minZoom: 3,
                 maxZoom: 19,

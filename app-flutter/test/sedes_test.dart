@@ -5,10 +5,14 @@ import 'package:salones_uam/ubicacion.dart';
 
 /// Las cinco unidades: cuáles tienen croquis y qué dice el mensaje en cada una (igual que SedesTest.kt).
 void main() {
-  test('Azcapotzalco, Cuajimalpa e Iztapalapa tienen croquis', () {
-    expect(Unidad.values.map((u) => u.carpeta).nonNulls.toList(), ['azcapotzalco', 'cuajimalpa', 'iztapalapa']);
-    expect(Unidad.lerma.carpeta, isNull);
-    expect(Unidad.xochimilco.carpeta, isNull);
+  test('las cinco unidades tienen croquis', () {
+    expect(Unidad.values.map((u) => u.carpeta).toList(), [
+      'azcapotzalco',
+      'cuajimalpa',
+      'iztapalapa',
+      'lerma',
+      'xochimilco',
+    ]);
   });
 
   test('en el centro de cada unidad dice que estás ahí', () {

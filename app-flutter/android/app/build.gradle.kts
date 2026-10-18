@@ -48,12 +48,17 @@ flutter {
     source = "../.."
 }
 
-// El diseño de cada campus vive en ../campus (Azcapotzalco), ../campus-cuajimalpa y ../campus-iztapalapa, y lo
+// El diseño de cada campus vive en ../campus (Azcapotzalco) y ../campus-<unidad> (las otras cuatro), y lo
 // edita su visor web. Antes de compilar, Gradle copia a assets/campus/<carpeta>/ sólo lo que usa la app (el GLB
 // como modelo.glb); esas copias no se versionan. Así web, KMP y Flutter comparten los mismos archivos.
 val copiarCampus by tasks.registering(Copy::class) {
-    listOf("campus" to "azcapotzalco", "campus-cuajimalpa" to "cuajimalpa", "campus-iztapalapa" to "iztapalapa")
-        .forEach { (origen, carpeta) ->
+    listOf(
+        "campus" to "azcapotzalco",
+        "campus-cuajimalpa" to "cuajimalpa",
+        "campus-iztapalapa" to "iztapalapa",
+        "campus-lerma" to "lerma",
+        "campus-xochimilco" to "xochimilco",
+    ).forEach { (origen, carpeta) ->
             from(rootProject.file("../../$origen")) {
                 include("UAM_*.glb", "plano_2d.png", "georreferencia.json")
                 rename("UAM_.*\\.glb", "modelo.glb")

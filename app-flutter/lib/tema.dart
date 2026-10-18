@@ -10,14 +10,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// «Reglas para la Aplicación de los Elementos de Identidad Institucional», UAM, Comunicación Social.
 ///
 /// [carpeta]: dónde están su modelo 3D, su plano y su georreferencia en assets/campus/ (los copia Gradle desde
-/// campus/, campus-cuajimalpa/ y campus-iztapalapa/). Sin carpeta, la unidad aún no tiene croquis: el mapa va a
-/// su [centro] y muestra un cuadro «En desarrollo…». [radio]: hasta dónde se dice «Estás en la UAM». Igual que Tema.kt.
+/// `campus/` y `campus-<unidad>/`). Una unidad nueva sin croquis iría sin carpeta: el mapa va a su [centro] y muestra
+/// un cuadro «En desarrollo…». [radio]: hasta dónde se dice «Estás en la UAM». Igual que Tema.kt.
 enum Unidad {
   azcapotzalco('Azcapotzalco', Color(0xFFCD032E), 'azcapotzalco', LatLng(19.50306, -99.18694), 350), // Pantone 186 C
   cuajimalpa('Cuajimalpa', Color(0xFFF08200), 'cuajimalpa', LatLng(19.351945, -99.282701), 250), // Pantone 144 C
   iztapalapa('Iztapalapa', Color(0xFF57A519), 'iztapalapa', LatLng(19.361775, -99.072597), 450), // Pantone 369 C
-  lerma('Lerma', Color(0xFFAD25A8), null, LatLng(19.291425, -99.499548), 300), // Pantone 253 C
-  xochimilco('Xochimilco', Color(0xFF0072CE), null, LatLng(19.3025, -99.1035), 400); // Pantone 285 C
+  lerma('Lerma', Color(0xFFAD25A8), 'lerma', LatLng(19.290506, -99.498472), 350), // Pantone 253 C
+  xochimilco('Xochimilco', Color(0xFF0072CE), 'xochimilco', LatLng(19.30419, -99.102905), 450); // Pantone 285 C
 
   const Unidad(this.nombre, this.color, this.carpeta, this.centro, this.radio);
   final String nombre;

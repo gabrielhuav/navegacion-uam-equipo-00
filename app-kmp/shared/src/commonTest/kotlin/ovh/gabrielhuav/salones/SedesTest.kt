@@ -2,16 +2,16 @@ package ovh.gabrielhuav.salones
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 /** Las cinco unidades: cuáles tienen croquis y qué dice el mensaje en cada una. */
 class SedesTest {
     @Test
-    fun azcapotzalcoCuajimalpaEIztapalapaTienenCroquis() {
-        assertEquals(listOf("azcapotzalco", "cuajimalpa", "iztapalapa"), Unidad.entries.mapNotNull { it.carpeta })
-        assertNull(Unidad.LERMA.carpeta)
-        assertNull(Unidad.XOCHIMILCO.carpeta)
+    fun lasCincoUnidadesTienenCroquis() {
+        assertEquals(
+            listOf("azcapotzalco", "cuajimalpa", "iztapalapa", "lerma", "xochimilco"),
+            Unidad.entries.map { it.carpeta },
+        )
     }
 
     @Test

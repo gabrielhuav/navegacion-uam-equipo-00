@@ -27,16 +27,16 @@ import androidx.compose.ui.unit.dp
  * «Reglas para la Aplicación de los Elementos de Identidad Institucional», UAM, Comunicación Social.
  *
  * `carpeta`: dónde están su modelo 3D, su plano y su georreferencia dentro de los assets (los copia Gradle
- * desde campus/, campus-cuajimalpa/ y campus-iztapalapa/). Sin carpeta, la unidad aún no tiene croquis:
- * el mapa va a su `centro` y muestra un cuadro «En desarrollo…». `radio`: hasta dónde se dice «Estás en la UAM».
- * Centros de Cuajimalpa e Iztapalapa: el centro de su plano; Lerma y Xochimilco: aproximados (OpenStreetMap).
+ * desde campus/ y campus-<unidad>/). Una unidad nueva sin croquis iría sin carpeta: el mapa va a su `centro`
+ * y muestra un cuadro «En desarrollo…». `radio`: hasta dónde se dice «Estás en la UAM».
+ * Centros: Azcapotzalco, el de siempre; las demás, el centro de su plano georreferenciado.
  */
 enum class Unidad(val nombre: String, val color: Color, val carpeta: String?, val centro: Ubicacion, val radio: Double) {
     AZCAPOTZALCO("Azcapotzalco", Color(0xFFCD032E), "azcapotzalco", UAM_AZCAPOTZALCO, RADIO_CAMPUS), // Pantone 186 C
     CUAJIMALPA("Cuajimalpa", Color(0xFFF08200), "cuajimalpa", Ubicacion(19.351945, -99.282701), 250.0), // Pantone 144 C
     IZTAPALAPA("Iztapalapa", Color(0xFF57A519), "iztapalapa", Ubicacion(19.361775, -99.072597), 450.0), // Pantone 369 C
-    LERMA("Lerma", Color(0xFFAD25A8), null, Ubicacion(19.291425, -99.499548), 300.0),                 // Pantone 253 C
-    XOCHIMILCO("Xochimilco", Color(0xFF0072CE), null, Ubicacion(19.3025, -99.1035), 400.0),           // Pantone 285 C
+    LERMA("Lerma", Color(0xFFAD25A8), "lerma", Ubicacion(19.290506, -99.498472), 350.0),               // Pantone 253 C
+    XOCHIMILCO("Xochimilco", Color(0xFF0072CE), "xochimilco", Ubicacion(19.30419, -99.102905), 450.0), // Pantone 285 C
 }
 
 /**

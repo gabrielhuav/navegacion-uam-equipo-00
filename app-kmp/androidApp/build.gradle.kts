@@ -14,8 +14,8 @@ android {
         applicationId = "ovh.gabrielhuav.salones"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 4
-        versionName = "0.4.0"
+        versionCode = 5
+        versionName = "0.5.0"
     }
 
     compileOptions {
@@ -34,7 +34,7 @@ kotlin {
     }
 }
 
-// El diseño de cada campus vive en ../campus (Azcapotzalco), ../campus-cuajimalpa y ../campus-iztapalapa, y lo
+// El diseño de cada campus vive en ../campus (Azcapotzalco) y ../campus-<unidad> (las otras cuatro), y lo
 // edita su visor web. Al compilar, Gradle copia a la app sólo lo que usa (modelo 3D, plano 2D y georreferencia),
 // cada unidad en campus/<carpeta>/ y el GLB como modelo.glb: la web y el celular comparten los mismos archivos.
 abstract class CopiarCampus : DefaultTask() {
@@ -61,6 +61,8 @@ val copiarCampus = tasks.register<CopiarCampus>("copiarCampus") {
         "campus" to "UAM_Azcapotzalco.glb",
         "campus-cuajimalpa" to "UAM_Cuajimalpa.glb",
         "campus-iztapalapa" to "UAM_Iztapalapa.glb",
+        "campus-lerma" to "UAM_Lerma.glb",
+        "campus-xochimilco" to "UAM_Xochimilco.glb",
     ).forEach { (carpeta, glb) ->
         archivos.from(listOf(glb, "plano_2d.png", "georreferencia.json").map { rootProject.file("../$carpeta/$it") })
     }

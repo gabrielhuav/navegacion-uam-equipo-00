@@ -53,8 +53,7 @@ expect fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar
  * y los botones «UAM» y «Ubicarme» (en 3D, «Inclinar» o «Desde arriba»).
  * Con «Tema ▾» se elige modo claro u oscuro, el color de una de las cinco unidades de la UAM
  * y si el campus se ve de día o de noche (por defecto, según la hora del teléfono).
- * Al elegir otra unidad, la app pregunta si quieres ir a ella: Azcapotzalco, Cuajimalpa e Iztapalapa tienen
- * croquis (Mapa, 2D y 3D); Lerma y Xochimilco, todavía no («En desarrollo…»).
+ * Al elegir otra unidad, la app pregunta si quieres ir a ella: las cinco tienen croquis (Mapa, 2D y 3D).
  */
 @Composable
 fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
