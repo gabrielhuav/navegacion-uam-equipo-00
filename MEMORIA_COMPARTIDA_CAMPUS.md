@@ -36,9 +36,9 @@ KMP Android: app-kmp/shared/src/androidMain/kotlin/ovh/gabrielhuav/salones. Mapa
 
 Android conserva TextureView, modelo reutilizado, dibujo tras interacción y currentBookmark; preservar estas decisiones para evitar los fallos previos descritos por Claude. El código incorpora giro e inclinación por arrastre y límite del suelo. No se hizo prueba en dispositivo durante esta revisión. Claude reportó compilación/pruebas correctas, pero emulador y teléfono se desconectaron en la última verificación de gestos.
 
-Flutter: existe app-flutter pero no tiene declarados estos assets en pubspec.yaml al revisar. La paridad campus 2D/3D sigue pendiente. iOS 3D también está pendiente; no anunciar paridad completa.
+Flutter (actualizado 18 oct): ya tiene Mapa, 2D y 3D y los temas; ver las secciones de abajo. iOS sigue sin 3D y sin el paso de copia de assets; no anunciar paridad completa en iOS.
 
-Pendientes de la sesión: tocar edificio para centrar en 2D/3D; modo de interfaz simplificada; adaptar Flutter; actualizar láminas didácticas después de validar la app. No son tareas completadas por crear esta memoria.
+Pendientes (18 oct): tocar edificio para centrar en 2D/3D; modo de interfaz simplificada; prueba física final; merge de feature/p2-campus y feature/p3-temas a main con sus versiones. Flutter y láminas ya hechos. No son tareas completadas por crear esta memoria.
 
 ## Acuerdo de trabajo
 
@@ -66,3 +66,10 @@ app-flutter tiene la misma pantalla que KMP: Mapa (teselas + plano con RotatedOv
 ## Prototipo 3 · Día y noche y Flutter (18 oct 2026, feature/p3-temas)
 
 Se unió feature/p2-campus en feature/p3-temas. «Tema ▾» ahora tiene también Iluminación: «Según la hora» (por defecto; de noche de 19:00 a 6:59, revisa la hora cada minuto), «Día» o «Noche». De noche el plano 2D (en Mapa y en 2D) se multiplica por #4A5680; el 3D baja la luz: KMP sol 8 000 lux azulado y ambiental 6 000 (de día 100 000 y 30 000); Flutter exposure 0.35 en model-viewer. Flutter ya tiene modo claro/oscuro y las cinco unidades (lib/tema.dart, mismos colores y mezclas que Tema.kt; ValueNotifier ajustesTema). Probado en el emulador en KMP y Flutter. Las elecciones se guardan al cerrar la app: KMP con Preferencias (SharedPreferences en Android, NSUserDefaults en iOS; MainActivity llama Preferencias.iniciar) y Flutter con shared_preferences (cargarAjustesTema en main). Claves: oscuro, unidad, iluminacion; la primera vez, claro u oscuro como el teléfono.
+
+## Práctica 3 del curso y trabajo futuro (18 oct 2026)
+
+- Láminas de P2 y P3 en la Unidad III (102–116), generadas por Guiones/u03_prototipos2y3.py en la carpeta del curso (Descargas). Para las láminas no usar docs/capturas/p2_kmp_01_mapa.png: es una captura del teléfono real con notificaciones; la del emulador está en Proyecto/Prototipo_2_3_capturas.
+- Práctica 3 «Mi parte del campus» (entrega jueves 22 oct 2026): cada equipo elige zona o edificio y cada integrante un edificio, piso o fachada; issue con tarjeta de prioridad Alta, rama, PR revisado y plan de fotos. Los alumnos copian campus/ a su propio repositorio y lo editan ahí: el campus canónico de este repo no recibe sus cambios automáticamente. Alumnos de Cuajimalpa (4) e Iztapalapa (1) harán campus-cuajimalpa/ y campus-iztapalapa/: hoy no existe base para esas unidades.
+- Fotos para reconocer lugares (RA/RV, futuro): ángulos, al menos dos teléfonos, mañana a noche, sol/nublado/lluvia, con y sin gente (sin rostros reconocibles). El docente prefiere YOLO sobre Google ML Kit porque el proyecto es KMP y Flutter y debe llegar a iPhone; no está decidido.
+- Respaldo antes de este trabajo: Descargas/1151055 Administracion/_respaldos/2026-10-18_antes_practica_unificada (bundle de git con todas las ramas, réplica del campus, guiones).
