@@ -28,6 +28,13 @@ for(const slug of ['cuajimalpa','iztapalapa']){
   assert.deepEqual(d.buildings.map(b=>b.polygons),before.buildings.map(b=>b.polygons),'Se alteró la huella al detallar las fachadas');
   assert.equal(hash(await read(dir+'georreferencia.json')),hash(execFileSync('git',['show','6dbf995:'+dir+'georreferencia.json'],{cwd:new URL('.',root).pathname.replace(/^\/(\w:)/,'$1')})));
  }
+ if(slug==='iztapalapa'){
+  for(const name of ['Biblioteca_L_detalle','Biblioteca_cuerpo_con_portico','Biblioteca_dintel','Biblioteca_mural_interpretativo','Biblioteca_montante','Biblioteca_plaza'])assert.ok(gltf.nodes.some(n=>n.name===name),'Falta detalle de biblioteca: '+name);
+  assert.equal(gltf.nodes.find(n=>n.name==='Biblioteca_mural_interpretativo').extras.notOriginalArtwork,true);
+  const cwd=new URL('.',root).pathname.replace(/^\/(\w:)/,'$1'),before=JSON.parse(execFileSync('git',['show','450744a:'+dir+'campus_editado.json'],{cwd}).toString());
+  assert.deepEqual(d.buildings,before.buildings,'Se alteraron edificios al detallar la biblioteca');
+  assert.deepEqual(g,JSON.parse(execFileSync('git',['show','450744a:'+dir+'georreferencia.json'],{cwd}).toString()),'Se alteró la georreferencia de Iztapalapa');
+ }
  assert.ok(gltf.nodes.some(n=>n.extras?.dataLicense?.includes('OpenStreetMap')));
  assert.ok(!gltf.nodes.some(n=>/Selección_editor|Vista_previa_estacionamiento|gabrielhuav/.test(n.name||'')));
  const app=(await read(dir+'app.js')).toString(),html=(await read(dir+'Visor_UAM_autonomo.html')).toString();

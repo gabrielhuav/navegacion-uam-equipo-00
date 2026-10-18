@@ -1194,5 +1194,21 @@
     ]
   ],
   "note": "Huellas y niveles aproximados. Perímetro OSM orientativo, no catastral. Nombres auxiliares provisionales. Mejorar con fotografías y observación del alumnado.",
-  "license": "Geometría derivada de OpenStreetMap contributors, ODbL 1.0; ver FUENTES.md."
+  "license": "Geometría derivada de OpenStreetMap contributors, ODbL 1.0; ver FUENTES.md.",
+  "architecture": {
+    "revision": "2026-10-18-biblioteca",
+    "building": "L",
+    "reference": "Foto de biblioteca Iztapalapa aportada por Gabriel (codex-clipboard-f843c4a8-cb60-425d-9f11-f80c283107f9.png).",
+    "details": [
+      "pórtico abierto",
+      "dintel y mural interpretativo",
+      "ventanal de retícula alta",
+      "huecos superiores",
+      "plaza y jardineras"
+    ],
+    "approximate": true,
+    "orientationPending": true,
+    "mural": "Alusión cromática propia; no reproducción del mural original ni de los textos sobreimpresos.",
+    "dimensions": "Huellas y niveles aproximados previos conservados; proporciones de fachada pendientes de campo."
+  }
 }

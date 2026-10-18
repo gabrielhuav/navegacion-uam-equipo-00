@@ -31,14 +31,51 @@ function slab(parent,r,color,y=.18,height=.25,name='Superficie'){return box(pare
 function meshPoly(parent,points,y,color,name){const shape=new THREE.Shape();points.forEach((p,i)=>i?shape.lineTo(X(p[0]),-Z(p[1])):shape.moveTo(X(p[0]),-Z(p[1])));shape.closePath();const mesh=new THREE.Mesh(new THREE.ShapeGeometry(shape),material(color));mesh.rotation.x=-Math.PI/2;mesh.position.y=y;mesh.receiveShadow=true;mesh.name=name;parent.add(mesh);return mesh;}
 function line(parent,points,color='#eeeee0',width=.22,y=.5){for(let i=1;i<points.length;i++){let a=points[i-1],b=points[i],dx=b[0]-a[0],dz=b[1]-a[1];let o=box(parent,'Línea', (a[0]+b[0])/2,y,(a[1]+b[1])/2,width,.04,Math.hypot(dx,dz),color);o.rotation.y=Math.atan2(dx,dz);}}
 function label(text,x,y,z,cls=''){const el=document.createElement('div');el.className='label '+cls;el.textContent=text;labelLayer.append(el);labels.push({el,p:new THREE.Vector3(x,y,z)});}
+const LIBRARY={x:836,z:464,angle:-Math.atan2(.298,.954)};
+function libraryLocal(p){return [(p[0]-LIBRARY.x)*.954+(p[1]-LIBRARY.z)*.298,-(p[0]-LIBRARY.x)*.298+(p[1]-LIBRARY.z)*.954];}
+function libraryWorld([u,v]){const c=Math.cos(LIBRARY.angle),s=Math.sin(LIBRARY.angle);return [LIBRARY.x+u*c+v*s,LIBRARY.z-u*s+v*c];}
+function clipLibrary(poly,axis,bound,less){const out=[];for(let i=0;i<poly.length;i++){const a=poly[i],b=poly[(i+1)%poly.length],da=less?bound-a[axis]:a[axis]-bound,db=less?bound-b[axis]:b[axis]-bound;if(da>=0)out.push(a);if((da>=0)!==(db>=0)){const t=da/(da-db);out.push([a[0]+t*(b[0]-a[0]),a[1]+t*(b[1]-a[1])]);}}return out;}
+function libraryDetails(parent,height){
+ const g=new THREE.Group();g.name='Biblioteca_L_detalle';g.position.set(X(LIBRARY.x),.25,Z(LIBRARY.z));g.rotation.y=LIBRARY.angle;g.userData={approximate:true,reference:'Foto de biblioteca aportada por Gabriel; orientación y medidas pendientes de campo'};parent.add(g);
+ const stone='#a49b85',dark='#394b47',frame='#b8b7a9',glass='#667b75';
+ // Ventanal alto con retícula profunda, separado de la franja de huecos superiores.
+ box(g,'Biblioteca_fondo_ventanal',-8,.34*height,22.65,31,height*.66,.15,dark);
+ for(let x=-22;x<=6;x+=4){box(g,'Biblioteca_vidrio',x,height*.34,22.8,3.1,height*.62,.12,glass);box(g,'Biblioteca_montante',x-1.8,height*.34,23.05,.38,height*.68,.65,frame);}
+ for(let y=.35;y<height*.7;y+=height*.22)box(g,'Biblioteca_travesano',-8,y,23.05,32,.38,.65,frame);
+ for(let x=-22;x<7;x+=5.4)box(g,'Biblioteca_ventana_superior',x,height*.86,22.7,2.35,1.3,.15,dark);
+ // Pórtico realmente abierto bajo el dintel: el cuerpo inferior se recorta al generarlo.
+ box(g,'Biblioteca_pilar_portico',23.1,height*.34,21.5,2.7,height*.68,2.1,stone);
+ box(g,'Biblioteca_piso_portico',15,.16,16,17,.24,13,'#aaa28e');
+ box(g,'Biblioteca_fondo_acceso',15,height*.29,8.1,16,height*.58,.18,'#504f40');
+ box(g,'Biblioteca_puerta_vidrio',12,height*.23,8.3,4,height*.45,.12,glass);
+ const canvas=document.createElement('canvas');canvas.width=1024;canvas.height=320;const ctx=canvas.getContext('2d');
+ ctx.fillStyle='#af7865';ctx.fillRect(0,0,1024,320);
+ // Alusión cromática propia, no reconstrucción del mural de la fotografía.
+ const colors=['#d9bd89','#829d8d','#c7cabb','#be8e73','#727f72'];
+ for(let i=0;i<9;i++){const x=60+i*115,y=125+(i%3)*34;ctx.fillStyle=colors[i%colors.length];ctx.beginPath();ctx.ellipse(x,y,83,114,(i%2?1:-1)*.25,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#dfd0aa';ctx.lineWidth=8;ctx.beginPath();ctx.arc(x,y-12,34,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.moveTo(x,y+25);ctx.lineTo(x-23,y+77);ctx.lineTo(x+40,y+63);ctx.stroke();}
+ ctx.fillStyle='#294f40';ctx.font='bold 33px sans-serif';ctx.textAlign='right';ctx.fillText('BIBLIOTECA',1005,38);
+ const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;
+ const mural=new THREE.Mesh(new THREE.PlaneGeometry(18,height*.25),new THREE.MeshStandardMaterial({map:texture,roughness:.95}));mural.name='Biblioteca_mural_interpretativo';mural.userData={disposeMaterial:true,interpretation:true,notOriginalArtwork:true};mural.position.set(15,height*.855,22.8);g.add(mural);
+ box(g,'Biblioteca_plaza',0,.08,37,64,.15,27,'#9b9885');
+ for(let x=-30;x<=30;x+=6)box(g,'Biblioteca_junta_plaza',x,.18,37,.06,.035,26,'#d0c9ae');
+ for(let z=25;z<=49;z+=6)box(g,'Biblioteca_junta_plaza',0,.18,z,63,.035,.06,'#d0c9ae');
+ for(const x of [-23,-9,28]){box(g,'Biblioteca_jardinera',x,.42,25,9,.7,2.6,'#8f8a76');box(g,'Biblioteca_seto',x,.95,25,8.8,.8,2.4,'#4d6b43');box(g,'Biblioteca_banca',x,.65,27.3,5,.4,.9,'#b8b6a9');}
+ for(let y=height*.72;y<height;y+=1.5)box(g,'Biblioteca_junta_muro',-8,y,22.63,33,.035,.035,'#8e8776');
+}
 function building(b){
  const g=new THREE.Group();g.name='Edificio_'+b.id;g.userData={id:b.id,name:b.name||b.id,floors:b.floors,approximate:true,source:b.source};g.position.set(b.offsetX||0,0,b.offsetZ||0);world.add(g);buildingGroups.set(b.id,g);const height=b.floors*data.storeyHeight;
  const polys=b.polygons||b.rects.map(r=>[[r[0],r[1]],[r[2],r[1]],[r[2],r[3]],[r[0],r[3]]]);
  for(const poly of polys){const shape=new THREE.Shape();poly.forEach((p,i)=>i?shape.lineTo(X(p[0]),-Z(p[1])):shape.moveTo(X(p[0]),-Z(p[1])));shape.closePath();
-  function volume(name,y,h,color){const m=new THREE.Mesh(new THREE.ExtrudeGeometry(shape,{depth:h,bevelEnabled:false}),material(color));m.rotation.x=-Math.PI/2;m.position.y=y;m.name=name;m.castShadow=true;m.receiveShadow=true;g.add(m);}
-  volume('Cuerpo_aproximado',.25,height,'#d6d3c5');volume('Azotea',height+.25,.35,b.roof||'#b8c0b6');
-  for(let f=0;f<b.floors;f++)for(let i=0;i<poly.length;i++){const a=poly[i],q=poly[(i+1)%poly.length],dx=X(q[0])-X(a[0]),dz=Z(q[1])-Z(a[1]),length=Math.hypot(dx,dz);if(length<1)continue;const pane=box(g,'Ventana_nivel_'+f,(X(a[0])+X(q[0]))/2,f*data.storeyHeight+2,(Z(a[1])+Z(q[1]))/2,.14,1.1,length,'#526d70');pane.rotation.y=Math.atan2(dx,dz);}
+  function volume(name,y,h,color,outline=shape){const m=new THREE.Mesh(new THREE.ExtrudeGeometry(outline,{depth:h,bevelEnabled:false}),material(color));m.rotation.x=-Math.PI/2;m.position.y=y;m.name=name;m.castShadow=true;m.receiveShadow=true;g.add(m);}
+  if(b.id==='L'){
+   const local=poly.map(libraryLocal),left=clipLibrary(local,0,7,true),rear=clipLibrary(clipLibrary(local,0,7,false),1,8,true);
+   for(const points of [left,rear]){if(points.length<3)continue;const s=new THREE.Shape();points.map(libraryWorld).forEach((p,i)=>i?s.lineTo(X(p[0]),-Z(p[1])):s.moveTo(X(p[0]),-Z(p[1])));s.closePath();volume('Biblioteca_cuerpo_con_portico',.25,height*.68,'#a49b85',s);}
+   volume('Biblioteca_dintel',height*.68+.25,height*.32,'#a49b85');
+  }else volume('Cuerpo_aproximado',.25,height,'#d6d3c5');
+  volume('Azotea',height+.25,.35,b.roof||'#b8c0b6');
+  if(b.id!=='L')for(let f=0;f<b.floors;f++)for(let i=0;i<poly.length;i++){const a=poly[i],q=poly[(i+1)%poly.length],dx=X(q[0])-X(a[0]),dz=Z(q[1])-Z(a[1]),length=Math.hypot(dx,dz);if(length<1)continue;const pane=box(g,'Ventana_nivel_'+f,(X(a[0])+X(q[0]))/2,f*data.storeyHeight+2,(Z(a[1])+Z(q[1]))/2,.14,1.1,length,'#526d70');pane.rotation.y=Math.atan2(dx,dz);}
  }
+ if(b.id==='L')libraryDetails(g,height);
  const points=polys.flat(),cx=points.reduce((a,p)=>a+X(p[0]),0)/points.length,cz=points.reduce((a,p)=>a+Z(p[1]),0)/points.length;label(b.id,cx+g.position.x,height+4,cz+g.position.z);return g;
 }
 function tree(px,py,size=1,palm=false,elevation=0){
@@ -51,7 +88,7 @@ function tree(px,py,size=1,palm=false,elevation=0){
 function inside(px,py,poly){let v=false;for(let i=0,j=poly.length-1;i<poly.length;j=i++){let a=poly[i],b=poly[j];if((a[1]>py)!=(b[1]>py)&&px<(b[0]-a[0])*(py-a[1])/(b[1]-a[1])+a[0])v=!v;}return v;}
 function excluded(x,y){const rects=[...data.buildings.flatMap(b=>b.rects),...data.plazas.map(p=>p.rect),...data.parking,...data.paths];return rects.some(r=>x>r[0]-10&&x<r[2]+10&&y>r[1]-10&&y<r[3]+10);}
 function generate(){
- if(world){scene.remove(world);world.traverse(o=>{if(o.geometry&&![cube,cylinder,crown].includes(o.geometry))o.geometry.dispose();});}
+ if(world){scene.remove(world);world.traverse(o=>{if(o.geometry&&![cube,cylinder,crown].includes(o.geometry))o.geometry.dispose();if(o.userData.disposeMaterial){o.material.map?.dispose();o.material.dispose();}});}
  clearEditSelection();labelLayer.replaceChildren();labels=[];buildingGroups.clear();editables.clear();world=new THREE.Group();world.name='UAM_'+UNIT.name;world.userData={units:'meters',approximate:true,reference:data.reference,unit:UNIT.name,dataLicense:data.license};scene.add(world);
  vegetation=new THREE.Group();vegetation.name='Vegetación';world.add(vegetation);const p=UNIT.plan;
  box(world,'Base maqueta',(p.xMin+p.xMax)/2,-2,(p.zMin+p.zMax)/2,p.xMax-p.xMin,4,p.zMax-p.zMin,'#bbc3b5');meshPoly(world,data.site,.1,'#90aa81','Predio_aproximado');
@@ -77,7 +114,7 @@ function selectBuilding(id){selected=id||'';$('building').value=selected;if(high
 for(const b of data.buildings){const option=document.createElement('option');option.value=b.id;option.textContent=b.name||'Edificio '+b.id;$('building').append(option);}
 $('building').onchange=e=>selectBuilding(e.target.value);
 $('apply').onclick=()=>{const b=data.buildings.find(b=>b.id===selected);if(!b)return;const n=Number($('floors').value),ox=Number($('offsetX').value),oz=Number($('offsetZ').value);if(!Number.isInteger(n)||n<1||n>8||![ox,oz].every(Number.isFinite)){message('Introduce niveles entre 1 y 8 y desplazamientos válidos.');return;}rememberEdit();b.floors=n;delete b.height;b.offsetX=ox;b.offsetZ=oz;generate();updateSaveState();message('Edificio actualizado. Guarda datos y GLB para conservar el cambio.');};
-function resize(){const w=mount.clientWidth,h=mount.clientHeight;renderer.setSize(w,h);perspective.aspect=w/h;perspective.updateProjectionMatrix();const span=Math.max((UNIT.plan.xMax-UNIT.plan.xMin)/2,(UNIT.plan.zMax-UNIT.plan.zMin)/2*w/h)*1.1;ortho.left=-span;ortho.right=span;ortho.top=span*h/w;ortho.bottom=-span*h/w;ortho.updateProjectionMatrix();if(!topMode&&!focusMode){const distance=Math.max((UNIT.plan.zMax-UNIT.plan.zMin)*.9,(UNIT.plan.xMax-UNIT.plan.xMin)*.6/(Math.tan(THREE.MathUtils.degToRad(perspective.fov/2))*perspective.aspect));perspective.position.sub(controls.target).normalize().multiplyScalar(distance).add(controls.target);controls.update();}}
+function resize(){const w=mount.clientWidth,h=mount.clientHeight;renderer.setSize(w,h);perspective.aspect=w/h;perspective.updateProjectionMatrix();const span=Math.max((UNIT.plan.xMax-UNIT.plan.xMin)/2,(UNIT.plan.zMax-UNIT.plan.zMin)/2*w/h)*1.1;ortho.left=-span;ortho.right=span;ortho.top=span*h/w;ortho.bottom=-span*h/w;ortho.updateProjectionMatrix();if(!topMode){const distance=focusMode?Math.max(115,43/(Math.tan(THREE.MathUtils.degToRad(perspective.fov/2))*perspective.aspect)):Math.max((UNIT.plan.zMax-UNIT.plan.zMin)*.9,(UNIT.plan.xMax-UNIT.plan.xMin)*.6/(Math.tan(THREE.MathUtils.degToRad(perspective.fov/2))*perspective.aspect));perspective.position.sub(controls.target).normalize().multiplyScalar(distance).add(controls.target);controls.update();}}
 window.addEventListener('resize',resize);
 $('expand').onclick=()=>{const panel=document.querySelector('aside');panel.hidden=!panel.hidden;mount.style.left=panel.hidden?'0px':'';$('expand').textContent=panel.hidden?'Mostrar controles':'Ampliar vista';resize();};
 // Misma transformación de norte que Campus.kt; no escala la geometría ni aplica dos veces la calibración.
@@ -89,10 +126,11 @@ function campusNorth(geo){
  if(Math.abs(det)<1e-18)return null;
  const x=-bx/det,z=ax/det,length=Math.hypot(x,z);return {x:x/length,z:z/length};
 }
-function view(mode){topMode=mode==='top';focusMode=false;camera=topMode?ortho:perspective;controls.object=camera;controls.enableRotate=!topMode;controls.target.set(0,0,0);camera.zoom=1;camera.up.set(0,1,0);const north=campusNorth(georeference)||{x:0,z:-1};
+function view(mode){topMode=mode==='top';focusMode=mode==='library';camera=topMode?ortho:perspective;controls.object=camera;controls.enableRotate=!topMode;controls.target.set(0,0,0);camera.zoom=1;camera.up.set(0,1,0);const north=campusNorth(georeference)||{x:0,z:-1};
  if(topMode){camera.position.set(0,1000,0);camera.up.set(north.x,0,north.z);}else camera.position.set(-north.x*630,580,-north.z*630);
- camera.lookAt(controls.target);camera.updateProjectionMatrix();controls.update();for(const id of ['approved','maps','top'])$(id).classList.toggle('active',id===mode);resize();}
-for(const mode of ['approved','maps','top'])$(mode).onclick=()=>view(mode);
+ if(focusMode){const b=data.buildings.find(b=>b.id==='L');controls.target.set(X(LIBRARY.x)+(b.offsetX||0),5,Z(LIBRARY.z)+(b.offsetZ||0));const delta=new THREE.Vector3(30,24,115).applyAxisAngle(new THREE.Vector3(0,1,0),LIBRARY.angle);camera.position.copy(controls.target).add(delta);}
+ camera.lookAt(controls.target);camera.updateProjectionMatrix();controls.update();for(const id of ['approved','library','maps','top'])$(id).classList.toggle('active',id===mode);resize();}
+for(const mode of ['approved','library','maps','top'])$(mode).onclick=()=>view(mode);
 $('spin').onclick=()=>{if(topMode)view('maps');controls.autoRotate=!controls.autoRotate;$('spin').classList.toggle('active',controls.autoRotate);};
 $('trees').onchange=()=>vegetation.visible=$('trees').checked;$('names').onchange=()=>labelLayer.hidden=!$('names').checked;$('grid').onchange=()=>grid.visible=$('grid').checked;
 function message(text){$('status').textContent=text;clearTimeout(message.timer);message.timer=setTimeout(()=>$('status').textContent='',6500);}

@@ -1,5 +1,13 @@
 # UAM Iztapalapa · Croquis inicial de Práctica 3
 
+## Biblioteca · detalle visual del 18 octubre
+
+La biblioteca conserva el identificador L, su huella y los cuatro niveles aproximados del croquis. `libraryDetails()` en app.js añade ventanal alto con retícula, franja superior de ventanas pequeñas, pórtico abierto bajo un dintel, plaza con juntas, jardineras y bancas. El recorte del cuerpo inferior produce el hueco del pórtico; la cubierta conserva el polígono original. El grupo se desplaza y cambia de altura con el edificio. «Biblioteca · detalle» acerca la cámara sin ocultar el resto del campus.
+
+Referencia: fotografía aportada por Gabriel, codex-clipboard-f843c4a8-cb60-425d-9f11-f80c283107f9.png. Se interpreta la arquitectura; no se copian las palabras superpuestas «Biblioteca IZTAPALAPA». La textura del dintel es una alusión cromática propia, marcada como `notOriginalArtwork`, y no una reproducción del mural original. Una reproducción fiel requiere una imagen frontal del mural. Proporciones, altura y orientación de la fachada pendientes de campo. La foto no mejora la precisión geográfica.
+
+JSON/base documentan la revisión en `architecture`; geometría y textura se regeneran desde app.js. Guardar cambios exporta el GLB y el plano con estos detalles. Se mantienen tamaño 1920×2000, encuadre/orientación del PNG y georreferencia. El resto de edificios sigue siendo un croquis básico por perfeccionar.
+
 17 volúmenes aproximados; revisar huellas, nombres y niveles con el alumnado. No topográfico.
 
 
