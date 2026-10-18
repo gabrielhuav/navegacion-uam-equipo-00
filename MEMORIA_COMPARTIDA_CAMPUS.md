@@ -73,3 +73,24 @@ Se unió feature/p2-campus en feature/p3-temas. «Tema ▾» ahora tiene tambié
 - Práctica 3 «Mi parte del campus» (entrega jueves 22 oct 2026): cada equipo elige zona o edificio y cada integrante un edificio, piso o fachada; issue con tarjeta de prioridad Alta, rama, PR revisado y plan de fotos. Los alumnos copian campus/ a su propio repositorio y lo editan ahí: el campus canónico de este repo no recibe sus cambios automáticamente. Alumnos de Cuajimalpa (4) e Iztapalapa (1) harán campus-cuajimalpa/ y campus-iztapalapa/: hoy no existe base para esas unidades.
 - Fotos para reconocer lugares (RA/RV, futuro): ángulos, al menos dos teléfonos, mañana a noche, sol/nublado/lluvia, con y sin gente (sin rostros reconocibles). El docente prefiere YOLO sobre Google ML Kit porque el proyecto es KMP y Flutter y debe llegar a iPhone; no está decidido.
 - Respaldo antes de este trabajo: Descargas/1151055 Administracion/_respaldos/2026-10-18_antes_practica_unificada (bundle de git con todas las ramas, réplica del campus, guiones).
+
+
+## Croquis de otras unidades y marca temporal · 18 oct 2026
+
+Trabajo de Codex en rama feature/campus-unidades, creada desde feature/p3-temas (5789edf), con Git limpio al comenzar.
+Respaldo nuevo verificado: Descargas/1151055 Administracion/_respaldos/2026-10-18_antes_campus_unidades (bundle --all, campus previo, memoria y SHA256). Se conserva el respaldo completo anterior antes_practica_unificada.
+
+- campus/ conserva nombre, ubicación, GLB y georreferencia de Azcapotzalco. Solo cambian el visor/exportador y plano_2d.png para © @gabrielhuav temporal.
+- campus-cuajimalpa/: editor autónomo, JSON, UAM_Cuajimalpa.glb, PNG 1040×1000 y tres esquinas geográficas. Dos volúmenes: Torre III (conjunto integrado de ocho niveles de referencia UAM) y auxiliar norte de uso por confirmar. No confundir con cinco edificios de Azcapotzalco: tres controles adicionales son volúmenes vecinos EXTERNOS y no se incluyen como instalaciones UAM.
+- campus-iztapalapa/: mismo contrato, UAM_Iztapalapa.glb, PNG 1920×2000, 17 volúmenes principales simplificados. Identificadores contrastados con el plano institucional.
+- Coordenadas/perímetros de OSM, direcciones institucionales UAM y contraste sobre Esri World Imagery. Cada unidad incluye FUENTES.md (atribución ODbL para datos derivados), calibracion/puntos.json y un comprobador/recalculador afín reproducible con Node.
+- Cuajimalpa: ocho puntos sobre cinco volúmenes observados, incluyendo entorno externo, RMS interno 2.5539 m y máximo 4.1354 m. Iztapalapa: diez controles en diez edificios, RMS 3.5765 m y máximo 5.4697 m. Parte del trazo/control procede de la misma imagen: NO son errores absolutos independientes. Sin GNSS; incertidumbre visual orientativa 5–15 m. Fecha de consulta 18 oct; no se afirma fecha de captura satelital.
+- calibracion/comprobacion.html superpone huellas y residuos sobre imagen Esri en línea. No se redistribuyó raster satelital en Git.
+- Marca temporal discreta en esquina de los tres visores y en PNG de Guardar cambios; capa de UI/canvas, sin geometría/textura de marca en los GLB. El PNG de Azcapotzalco mantiene 1560×640, encuadre y orientación; su georreferencia y GLB permanecen idénticos a feature/p3-temas.
+- No se modificó app-kmp/ ni app-flutter/. Sus copiarCampus siguen apuntando a campus/; integrar unidades y marca de la app corresponde a Claude.
+- Puertos: Azcapotzalco 8768, Cuajimalpa 8769, Iztapalapa 8770. Cada carpeta es portable para los equipos de la Práctica 3.
+- Pruebas: edición de niveles + deshacer en Cuajimalpa, exportación GLB/PNG/JSON en los tres visores, inspección visual de marca web/PNG y contraste satelital; verificadores existentes Azcapotzalco y nuevo verificar-campus-unidades.mjs. Sin cambios de prueba persistidos.
+
+Pendientes: alumnos deben confirmar nombres auxiliares, niveles, fachadas, plantas bajo terreno, accesos y límites; croquis sin topografía detallada. La incorporación en las apps y cualquier prueba física quedan fuera de esta rama. Claude integra los commits locales; no se hizo push ni merge.
+
+Commit de los croquis: 4d37d4b. El siguiente commit de la misma rama incluye la marca de Azcapotzalco, verificadores y esta memoria.

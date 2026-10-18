@@ -25,3 +25,7 @@ Si mueves o agrandas el campus completo, hay que recalibrar `georreferencia.json
 ## Memoria y réplica
 
 Leer ../MEMORIA_COMPARTIDA_CAMPUS.md. Google Maps/Plano superior del visor web usan el norte de georreferencia.json. El límite de cámara web es 12° sobre el horizonte. Para actualizar la réplica de Descargas: node sincronizar-replica.mjs; se detiene si hay cambios locales divergentes. Guardar la web no actualiza una app ya instalada.
+
+## Marca temporal
+
+El visor y plano_2d.png llevan © @gabrielhuav en una esquina. Es capa de UI/canvas y no se exporta al GLB. No cambió el PNG de 1560×640 ni su encuadre/orientación/georreferencia. Al retirar la marca después, conservar esas dimensiones y límites.

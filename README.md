@@ -84,3 +84,11 @@ MIT. Ver [LICENSE](LICENSE).
 - OpenStreetMap contributors. (s. f.). *OpenStreetMap*. https://www.openstreetmap.org/copyright
 - Pressman, R. S. (2009). *Software engineering: A practitioner's approach* (7th ed.). McGraw-Hill.
 - Preston-Werner, T. (s. f.). *Versionado semántico 2.0.0*. https://semver.org/lang/es/
+
+
+### Croquis iniciales para otras unidades
+- [Cuajimalpa](campus-cuajimalpa/README.md): Torre III y auxiliar norte; datos y niveles provisionales.
+- [Iztapalapa](campus-iztapalapa/README.md): 17 volúmenes principales simplificados.
+Ambas carpetas incluyen editor web, GLB, PNG y georreferencia con controles/error declarado. Las apps conservan campus/ como Azcapotzalco.
+Datos derivados de OpenStreetMap bajo ODbL; ver FUENTES.md de cada carpeta. Bibliotecas/código conservan sus licencias.
+Verificar entrega con node verificar-campus-unidades.mjs.
