@@ -72,3 +72,5 @@ No hay levantamiento GNSS, sección arquitectónica ni fecha de captura verifica
 Los Capulines se representa con cobertura vegetal irregular, un sendero esquemático y referencias editables para observatorio y espacio lúdico. Estas posiciones se apoyan en el esquema oficial y son aproximadas; no se inventó la arquitectura del observatorio ni se construyó una ruta navegable. Los árboles no son un inventario individual.
 
 Para perfeccionar: fotos actuales de C/D/E y portada, niveles/secciones F/G, ubicación exacta de SOY uam, levantamiento de accesos y controles al sur del predio. El usuario puede acomodar hitos, árboles y estacionamientos, y guardar los cambios con el mismo editor de las otras unidades.
+
+Actualización fotográfica del usuario (18 octubre): las cuatro imágenes nuevas afinan F/G con concreto más gris, vanos superiores estrechos y pequeños remates lila suaves. Se mantiene SOY uam blanco sobre base morada. No modifican la evidencia de alturas ni la calibración; las posiciones y dimensiones de remates y rótulo siguen siendo aproximadas. Archivos de referencia y decisiones en FUENTES.md y `architecture.photoReference` del JSON.

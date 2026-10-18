@@ -23,6 +23,13 @@ const bytes=await read(data.unit.glb);assert.equal(bytes.subarray(0,4).toString(
 const gltf=JSON.parse(bytes.subarray(20,20+bytes.readUInt32LE(12)));assert(gltf.buffers.every(b=>!b.uri));assert((gltf.images||[]).every(i=>i.bufferView!==undefined));
 for(const b of data.buildings){const nodes=gltf.nodes.filter(n=>n.name==='Edificio_'+b.id);assert.equal(nodes.length,1,b.id);assert.equal(nodes[0].extras.floors,b.floors);}
 const names=gltf.nodes.map(n=>n.name);for(const name of ['Arco_techo_canchas_Lerma','Lamina_curva_blanca','Zona_natural_Los_Capulines','Hito_soy_uam','Rotulo_SOY_uam','Acceso_Las_Garzas'])assert(names.includes(name),name);
+for(const id of ['F','G'])assert(names.includes('Remates_lila_'+id));
+// El cambio fotográfico conserva el marco y la posición de los veinte edificios.
+const previous=JSON.parse(execFileSync('git',['show','6a6c342:campus-lerma/campus_editado.json'],{encoding:'utf8'}));
+for(const key of ['unit','site','parking','landmarks'])assert.deepEqual(data[key],previous[key],key);
+for(const b of data.buildings){const old=previous.buildings.find(o=>o.id===b.id);for(const key of ['polygons','rects','floors','offsetX','offsetZ'])assert.deepEqual(b[key],old[key],b.id+' '+key);}
+assert.deepEqual(await read('georreferencia.json'),execFileSync('git',['show','6a6c342:campus-lerma/georreferencia.json']));
+for(const b of data.buildings.filter(b=>['F','G'].includes(b.id)))for(const a of b.architecture.roofAccents){const r=a.rect;assert(inside((r[0]+r[2])/2,(r[1]+r[3])/2,b.polygons[0]),'Remate fuera de su huella');}
 const mark=gltf.nodes.find(n=>n.name==='Marca_copyright_modelo');assert.equal(data.showCopyright,true);assert.equal(mark.children.length,3);assert.equal(mark.extras.flag,'showCopyright');
 // Alturas físicas en el GLB: verificar el modelo exportado, no solo sus etiquetas.
 function bounds(name){

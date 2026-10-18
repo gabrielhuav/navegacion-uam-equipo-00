@@ -39,3 +39,12 @@ El servicio Esri devolvió un raster 1800×1400 con extensión Web Mercator regi
 Once controles visuales sobre diez edificios OSM, RMS interno 1,4046 m, máximo 3,0725 m. Mismo raster para contraste y trazos auxiliares: no validación independiente. Paralaje, alturas y fechas pueden introducir errores mayores. Sin controles GNSS ni puntos al extremo sur de Los Capulines. Ver discusión y decisiones en `INVESTIGACION.md`.
 
 Recalcular/verificar: `node calibracion/recalcular.mjs --write` o sin `--write`. El HTML de comprobación dibuja controles y huellas; un botón permite solicitar el raster al proveedor. Las tres esquinas latitud/longitud del PNG completo se derivan del ajuste, no se suponen.
+
+## Cuatro fotografías aportadas por Gabriel · 18 octubre 2026
+
+- `codex-clipboard-a869e1ec-f50a-49f3-b4c4-8ae2152af389.png`: concreto claro, núcleos de cristal y rótulo blanco «SOY uam» con base morada.
+- `codex-clipboard-f42be2cb-fe61-4409-a588-3871380d7e84.png`: conjunto alargado y cuerpos extremos desde el aire.
+- `codex-clipboard-4ddf4345-8a04-41dc-93c0-b355f9196f05.png`: columnatas, ventanillas superiores, estacionamiento y remates lila suaves.
+- `codex-clipboard-8a190740-52d4-4a56-bb40-103789bfbd63.png`: acercamiento al remate superior lila.
+
+Complementan las 13 referencias web de la investigación previa. Se aplican a materiales y proporciones de fachada, sin recalibrar por perspectiva. Los tres remates añadidos a F/G son aproximaciones de aspecto; no constituyen un inventario medido de equipos de azotea ni confirman su uso.

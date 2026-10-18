@@ -1,5 +1,13 @@
 # UAM Lerma · visor y editor 2D/3D
 
+## Ajuste fotográfico · remates lila y SOY uam
+
+Las cuatro fotos aportadas por Gabriel el 18 octubre 2026 precisan el aspecto de F/G: concreto gris claro, ventanillas estrechas arriba, columnatas abajo, núcleos acristalados y pequeños volúmenes superiores lila desaturado. `buildings[F/G].architecture.roofAccents` describe esos remates; sus tamaños y posiciones son aproximados. No se tiñen de morado todas las fachadas ni se alteran los niveles del croquis.
+
+Se conserva el rótulo blanco «SOY uam», como se escribe en la fotografía, sobre base morada en la explanada de G, con el mismo ID editable `landmark_soy_uam`. El nuevo botón «SOY uam · detalle» facilita revisarlo. Sigue siendo una representación ligera con texto en plano transparente, sin tipografía tridimensional extruida. La escala visual se adapta al acercamiento.
+
+GLB y PNG reexportados; marca activa por defecto. Se conserva la misma georreferencia, los 20 edificios, huellas, niveles y PNG 1800×1240 sin recorte ni giro. GLB aproximado: 1,18 MB.
+
 Abrir `Abrir_visor.cmd`, con Node.js instalado. Visor: http://127.0.0.1:8772/Visor_UAM_autonomo.html
 
 20 volúmenes editables, conjuntos A/B de una planta, F/G con fachadas y alturas diferenciadas, C/D/E esquemáticos, biblioteca dentro de B2, canchas con arco, circulación, estacionamientos y Los Capulines. Nombres del mapa oficial 2026; `legacyId` conserva las equivalencias antiguas. Investigación, fuentes y limitaciones en `INVESTIGACION.md` y `FUENTES.md`.

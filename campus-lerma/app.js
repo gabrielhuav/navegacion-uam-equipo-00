@@ -102,7 +102,7 @@ function resize(){
  if(!topMode){
   // Ajustar las ocho esquinas, para el predio completo y las cámaras de detalle.
   const inverse=perspective.quaternion.clone().invert(),tv=Math.tan(THREE.MathUtils.degToRad(perspective.fov/2)),th=tv*perspective.aspect,p=focusBounds?{xMin:focusBounds[0],xMax:focusBounds[1],zMin:focusBounds[2],zMax:focusBounds[3]}:UNIT.plan;let distance=0;
-  for(const x of [p.xMin,p.xMax])for(const y of [0,40])for(const z of [p.zMin,p.zMax]){const v=new THREE.Vector3(x,y,z).sub(controls.target).applyQuaternion(inverse);distance=Math.max(distance,Math.abs(v.x)/th+v.z,Math.abs(v.y)/tv+v.z);}
+  for(const x of [p.xMin,p.xMax])for(const y of [0,focusBounds?.[4]||40])for(const z of [p.zMin,p.zMax]){const v=new THREE.Vector3(x,y,z).sub(controls.target).applyQuaternion(inverse);distance=Math.max(distance,Math.abs(v.x)/th+v.z,Math.abs(v.y)/tv+v.z);}
   perspective.position.sub(controls.target).normalize().multiplyScalar(distance*1.08).add(controls.target);controls.update();
  }
 }
@@ -118,12 +118,13 @@ function campusNorth(geo){
  const x=-bx/det,z=ax/det,length=Math.hypot(x,z);return {x:x/length,z:z/length};
 }
 function view(mode){
- topMode=mode==='top';focusMode=['approved','permanent','modules','nature'].includes(mode);focusBounds=focusMode?data.cameras[mode==='approved'?'academic':mode]:null;
+ topMode=mode==='top';focusMode=['approved','permanent','modules','nature','sign'].includes(mode);focusBounds=focusMode?data.cameras[mode==='approved'?'academic':mode]:null;
+ if(mode==='sign'){const m=data.landmarks.find(m=>m.id==='soy_uam'),edit=data.elementEdits?.landmark_soy_uam||{},x=X(m.point[0])+(edit.offsetX||0),z=Z(m.point[1])+(edit.offsetZ||0);focusBounds=[x-18,x+18,z-22,z+8,20];}
  camera=topMode?ortho:perspective;controls.object=camera;controls.enableRotate=!topMode;controls.target.set(focusBounds?(focusBounds[0]+focusBounds[1])/2:0,0,focusBounds?(focusBounds[2]+focusBounds[3])/2:0);camera.zoom=1;camera.up.set(0,1,0);const north=campusNorth(georeference)||{x:0,z:-1};
- if(topMode){camera.position.set(0,1000,0);camera.up.set(north.x,0,north.z);}else camera.position.copy(controls.target).add(new THREE.Vector3(mode==='approved'?-240:mode==='permanent'?140:0,mode==='permanent'?150:500,mode==='permanent'?300:630));
- camera.lookAt(controls.target);camera.updateProjectionMatrix();controls.update();for(const id of ['approved','permanent','modules','nature','maps','top'])$(id).classList.toggle('active',id===mode);resize();
+ if(topMode){camera.position.set(0,1000,0);camera.up.set(north.x,0,north.z);}else if(mode==='sign')camera.position.copy(controls.target).add(new THREE.Vector3(20,23,80));else camera.position.copy(controls.target).add(new THREE.Vector3(mode==='approved'?-240:mode==='permanent'?140:0,mode==='permanent'?150:500,mode==='permanent'?300:630));
+ camera.lookAt(controls.target);camera.updateProjectionMatrix();controls.update();for(const id of ['approved','permanent','modules','nature','sign','maps','top'])$(id).classList.toggle('active',id===mode);resize();
 }
-for(const mode of ['approved','permanent','modules','nature','maps','top'])$(mode).onclick=()=>view(mode);
+for(const mode of ['approved','permanent','modules','nature','sign','maps','top'])$(mode).onclick=()=>view(mode);
 $('spin').onclick=()=>{if(topMode)view('maps');controls.autoRotate=!controls.autoRotate;$('spin').classList.toggle('active',controls.autoRotate);};
 $('trees').onchange=()=>vegetation.visible=$('trees').checked;$('names').onchange=()=>labelLayer.hidden=!$('names').checked;$('grid').onchange=()=>grid.visible=$('grid').checked;
 function message(text){$('status').textContent=text;clearTimeout(message.timer);message.timer=setTimeout(()=>$('status').textContent='',6500);}
@@ -274,5 +275,7 @@ async function startCampus(){
 startCampus();
 const v=new THREE.Vector3();function animate(){requestAnimationFrame(animate);controls.update();renderer.render(scene,camera);const w=mount.clientWidth,h=mount.clientHeight;for(const l of labels){v.copy(l.p).project(camera);l.el.style.display=v.z<1&&v.z>-1&&Math.abs(v.x)<1.1&&Math.abs(v.y)<1.1?'':'none';l.el.style.left=((v.x+1)*w/2)+'px';l.el.style.top=((-v.y+1)*h/2)+'px';}
  // Escala local en el plano del suelo: varía con cámara y perspectiva.
- const a=new THREE.Vector3(0,0,0).project(camera),b=new THREE.Vector3(50,0,0).project(camera);const c=new THREE.Vector3(0,0,50).project(camera),px=Math.max(Math.hypot((b.x-a.x)*w/2,(b.y-a.y)*h/2),Math.hypot((c.x-a.x)*w/2,(c.y-a.y)*h/2));mount.querySelector('.scale').style.width=Math.max(2,px)+'px';$('scaleText').textContent='50 m aprox. · Referencia local en el centro del terreno';}
+ const origin=controls.target.clone();origin.y=0;const a=origin.clone().project(camera);let px=0,meters=50;
+ for(const m of [50,20,10,5,2,1]){meters=m;const b=origin.clone().add(new THREE.Vector3(m,0,0)).project(camera),c=origin.clone().add(new THREE.Vector3(0,0,m)).project(camera);px=Math.max(Math.hypot((b.x-a.x)*w/2,(b.y-a.y)*h/2),Math.hypot((c.x-a.x)*w/2,(c.y-a.y)*h/2));if(px<130)break;}
+ mount.querySelector('.scale').style.width=Math.max(2,px)+'px';$('scaleText').textContent=meters+' m aprox. · Referencia local en el punto observado';}
 animate();

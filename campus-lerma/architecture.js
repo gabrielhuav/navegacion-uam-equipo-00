@@ -18,15 +18,17 @@ export function createLermaArchitecture(ctx){
    for(let f=0;f<levels;f++){
     const y=.25+f*floorHeight+(permanent?2:1.9);
     for(let j=0;j<n;j++){
-     const z=-length/2+(j+.5)*bay,ww=permanent?Math.min(2.7,bay-.65):bay-.65;
+     const upper=permanent&&levels>=3&&f>=levels-2;
+     const z=-length/2+(j+.5)*bay,ww=permanent?Math.min(upper?1.35:2.7,bay-.65):bay-.65;
      box(face,b.id+'_ventana_nivel_'+f,.13,y,z,.16,permanent?1.65:1.25,ww,permanent?'#6b8084':'#819a96');
      box(face,'Parteluz',.25,y,z,.08,permanent?1.65:1.25,.07,'#b5c3be');
      box(face,'Dintel',.25,y+.86,z,.2,.12,ww+.16,permanent?'#c9c9bb':'#e4e6dc');
     }
-    if(permanent)box(face,'Trabe_de_concreto',.35,.25+(f+1)*floorHeight-.25,0,.8,.55,length,'#d7d3c3');
+    if(permanent)box(face,'Trabe_de_concreto',.35,.25+(f+1)*floorHeight-.25,0,.8,.55,length,'#dddfd8');
    }
-   for(let j=0;j<=n;j++)box(face,permanent?'Columna_de_concreto':'Poste_modulo',permanent?.38:.15,height/2+.25,-length/2+j*bay,permanent?.75:.18,height,permanent?.65:.18,permanent?'#d7d3c3':'#648077');
-   box(face,'Pretil',.1,height+.48,0,.34,.45,length,permanent?'#d9d5c7':'#b9c7bb');
+   const columnHeight=permanent&&levels>=3?height-2*floorHeight:height;
+   for(let j=0;j<=n;j++)box(face,permanent?'Columna_de_concreto':'Poste_modulo',permanent?.38:.15,columnHeight/2+.25,-length/2+j*bay,permanent?.75:.18,columnHeight,permanent?.65:.18,permanent?'#dddfd8':'#648077');
+   box(face,'Pretil',.1,height+.48,0,.34,.45,length,permanent?'#d7d9d2':'#b9c7bb');
    if(permanent&&Math.abs(dx)>65&&height>H*2){
     // Núcleo vertical visible en las fotos; posición/reparto aproximados.
     const hh=height-.5;box(face,b.id+'_nucleo_acristalado',.82,.25+hh/2,0,.15,hh,5.8,'#4d7179');
@@ -54,10 +56,14 @@ export function createLermaArchitecture(ctx){
    if(permanent&&height>H*1.1){
     const center=poly.reduce((s,p)=>[s[0]+p[0]/poly.length,s[1]+p[1]/poly.length],[0,0]);
     const inset=poly.map(p=>{const d=Math.hypot(p[0]-center[0],p[1]-center[1]);return [p[0]+(center[0]-p[0])/Math.max(d,1),p[1]+(center[1]-p[1])/Math.max(d,1)];});
-    volume(parent,inset,.25,H,'#7d7889','PB_retranqueada_lila');volume(parent,poly,H+.25,height-H,'#d9d5c7','Cuerpo_alto_de_concreto');
+    volume(parent,inset,.25,H,'#99959f','PB_retranqueada_lila');volume(parent,poly,H+.25,height-H,'#d7d9d2','Cuerpo_alto_de_concreto');
    }else volume(parent,poly,.25,height,permanent?'#cccbbd':b.detail==='cife'?'#bcc7c4':'#d5ddd2','Cuerpo_'+b.detail);
    facade(parent,poly,height,b,permanent);
    if(b.detail==='light')lightRoof(parent,b,poly,height);else volume(parent,poly,height+.25,.18,b.roof,'Azotea_terracota');
+  }
+  if(b.architecture?.roofAccents){
+   const remates=new THREE.Group();remates.name='Remates_lila_'+b.id;remates.userData={approximate:true,reference:'Fotos de Gabriel, 18 octubre 2026; volumen y posición estimados'};parent.add(remates);
+   for(const [i,a]of b.architecture.roofAccents.entries()){const r=a.rect;box(remates,'Remate_superior_lila_'+i,X((r[0]+r[2])/2),height+.25+a.height/2,Z((r[1]+r[3])/2),r[2]-r[0],a.height,r[3]-r[1],a.color);}
   }
   parent.userData.legacyId=b.legacyId;parent.userData.detail=b.detail;parent.userData.heightEvidence=b.heightEvidence;
  }
@@ -87,8 +93,8 @@ export function createLermaArchitecture(ctx){
  function marker(m){
   const g=new THREE.Group();g.position.set(X(m.point[0]),0,Z(m.point[1]));g.name='Hito_'+m.id;g.userData={approximate:true,source:m.source};world.add(g);registerEditable('landmark_'+m.id,m.name,'landmark',g);
   if(m.kind==='sign'){
-   box(g,'Base_SOY_UAM',0,.35,0,19,.7,2,'#7d438b');
-   const canvas=document.createElement('canvas');canvas.width=1024;canvas.height=220;const ctx=canvas.getContext('2d');ctx.font='bold 178px sans-serif';ctx.fillStyle='#faf8ed';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('SOY uam',512,110,1010);const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;const mesh=new THREE.Mesh(new THREE.PlaneGeometry(18,3.86),new THREE.MeshStandardMaterial({map:texture,transparent:true,side:THREE.DoubleSide,roughness:.85}));mesh.name='Rotulo_SOY_uam';mesh.position.set(0,2.25,0);mesh.userData.disposeMaterial=true;g.add(mesh);
+   box(g,'Base_SOY_UAM',0,.35,0,19,.7,2,'#94539f');
+   const canvas=document.createElement('canvas');canvas.width=1024;canvas.height=220;const ctx=canvas.getContext('2d');ctx.font='bold 178px sans-serif';ctx.fillStyle='#faf8ed';ctx.textAlign='center';ctx.textBaseline='middle';ctx.strokeStyle='#9da49e';ctx.lineWidth=3;ctx.strokeText('SOY uam',512,110,1010);ctx.fillText('SOY uam',512,110,1010);const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;const mesh=new THREE.Mesh(new THREE.PlaneGeometry(18,3.86),new THREE.MeshStandardMaterial({map:texture,transparent:true,side:THREE.DoubleSide,roughness:.85}));mesh.name='Rotulo_SOY_uam';mesh.position.set(0,2.25,0);mesh.userData.disposeMaterial=true;g.add(mesh);
   }else{const ring=new THREE.Mesh(new THREE.RingGeometry(1.4,1.8,16),material('#9763a2'));ring.rotation.x=-Math.PI/2;ring.position.y=.32;ring.name='Referencia_esquematica';g.add(ring);label(m.name,g.position.x,2,g.position.z,'place');}
  }
  function environment(){
