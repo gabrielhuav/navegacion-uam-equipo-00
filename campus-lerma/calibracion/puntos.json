@@ -1,0 +1,222 @@
+[
+  {
+    "id": "A1_esquina_0",
+    "edificio": "A1",
+    "modelo": [
+      -387.003,
+      -103.783
+    ],
+    "imagen": [
+      160,
+      493
+    ],
+    "latLon": [
+      19.29142691465507,
+      -99.5022
+    ],
+    "osmWay": "374595634",
+    "indiceVertice": 3,
+    "observacion": "Esquina visual de cubierta contra vértice OSM. No es control independiente GNSS; incluye paralaje.",
+    "residuoMetros": 1.4837
+  },
+  {
+    "id": "A4_esquina_1",
+    "edificio": "A4",
+    "modelo": [
+      -322.133,
+      -135.298
+    ],
+    "imagen": [
+      285,
+      430
+    ],
+    "latLon": [
+      19.29172422725962,
+      -99.50157500000002
+    ],
+    "osmWay": "449480557",
+    "indiceVertice": 3,
+    "observacion": "Esquina visual de cubierta contra vértice OSM. No es control independiente GNSS; incluye paralaje.",
+    "residuoMetros": 0.5335
+  },
+  {
+    "id": "A2_esquina_2",
+    "edificio": "A2",
+    "modelo": [
+      -391.773,
+      -90.403
+    ],
+    "imagen": [
+      151,
+      515
+    ],
+    "latLon": [
+      19.291323091078652,
+      -99.50224500000002
+    ],
+    "osmWay": "1288125403",
+    "indiceVertice": 3,
+    "observacion": "Esquina visual de cubierta contra vértice OSM. No es control independiente GNSS; incluye paralaje.",
+    "residuoMetros": 1.1794
+  },
+  {
+    "id": "A7_esquina_3",
+    "edificio": "A7",
+    "modelo": [
+      -276.68,
+      -113.713
+    ],
+    "imagen": [
+      372,
+      471
+    ],
+    "latLon": [
+      19.29153073816564,
+      -99.50114
+    ],
+    "osmWay": "374595642",
+    "indiceVertice": 2,
+    "observacion": "Esquina visual de cubierta contra vértice OSM. No es control independiente GNSS; incluye paralaje.",
+    "residuoMetros": 0.4015
+  },
+  {
+    "id": "B1_esquina_4",
+    "edificio": "B1",
+    "modelo": [
+      -268.222,
+      -144.271
+    ],
+    "imagen": [
+      388,
+      413
+    ],
+    "latLon": [
+      19.29180445437785,
+      -99.50106000000001
+    ],
+    "osmWay": "1287820354",
+    "indiceVertice": 0,
+    "observacion": "Esquina visual de cubierta contra vértice OSM. No es control independiente GNSS; incluye paralaje.",
+    "residuoMetros": 0.6495
+  },
+  {
+    "id": "B5_esquina_5",
+    "edificio": "B5",
+    "modelo": [
+      -185.742,
+      -102.993
+    ],
+    "imagen": [
+      552,
+      491
+    ],
+    "latLon": [
+      19.291436353158755,
+      -99.50024
+    ],
+    "osmWay": "1287820351",
+    "indiceVertice": 2,
+    "observacion": "Esquina visual de cubierta contra vértice OSM. No es control independiente GNSS; incluye paralaje.",
+    "residuoMetros": 3.0725
+  },
+  {
+    "id": "B7_esquina_6",
+    "edificio": "B7",
+    "modelo": [
+      -132.629,
+      -78.948
+    ],
+    "imagen": [
+      646,
+      539
+    ],
+    "latLon": [
+      19.291209828920188,
+      -99.49977
+    ],
+    "osmWay": "1287820356",
+    "indiceVertice": 4,
+    "observacion": "Esquina visual de cubierta contra vértice OSM. No es control independiente GNSS; incluye paralaje.",
+    "residuoMetros": 1.5598
+  },
+  {
+    "id": "B6_esquina_7",
+    "edificio": "B6",
+    "modelo": [
+      -137.662,
+      -143.002
+    ],
+    "imagen": [
+      637,
+      415
+    ],
+    "latLon": [
+      19.2917950158954,
+      -99.49981500000001
+    ],
+    "osmWay": "1287820350",
+    "indiceVertice": 5,
+    "observacion": "Esquina visual de cubierta contra vértice OSM. No es control independiente GNSS; incluye paralaje.",
+    "residuoMetros": 0.6114
+  },
+  {
+    "id": "F_esquina_8",
+    "edificio": "F",
+    "modelo": [
+      59.942,
+      -171.733
+    ],
+    "imagen": [
+      1012,
+      365
+    ],
+    "latLon": [
+      19.292030977793544,
+      -99.49793999999999
+    ],
+    "osmWay": "1287820360",
+    "indiceVertice": 1,
+    "observacion": "Esquina visual de cubierta contra vértice OSM. No es control independiente GNSS; incluye paralaje.",
+    "residuoMetros": 1.9483
+  },
+  {
+    "id": "G_esquina_9",
+    "edificio": "G",
+    "modelo": [
+      337.893,
+      -193.196
+    ],
+    "imagen": [
+      1544,
+      319
+    ],
+    "latLon": [
+      19.29224806243941,
+      -99.49528
+    ],
+    "osmWay": "1287820361",
+    "indiceVertice": 4,
+    "observacion": "Esquina visual de cubierta contra vértice OSM. No es control independiente GNSS; incluye paralaje.",
+    "residuoMetros": 0.9228
+  },
+  {
+    "id": "G_esquina_10",
+    "edificio": "G",
+    "modelo": [
+      163.824,
+      -234.073
+    ],
+    "imagen": [
+      1208,
+      243
+    ],
+    "latLon": [
+      19.29260672339745,
+      -99.49696000000002
+    ],
+    "osmWay": "1287820361",
+    "indiceVertice": 0,
+    "observacion": "Esquina visual de cubierta contra vértice OSM. No es control independiente GNSS; incluye paralaje.",
+    "residuoMetros": 0.59
+  }
+]

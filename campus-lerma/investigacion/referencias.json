@@ -1,0 +1,106 @@
+[
+  {
+    "id": "principal",
+    "title": "Explanada y fachada G",
+    "url": "https://www.ler.uam.mx/UAML/wp-content/uploads/2024/10/AJG_1470.JPG-1.jpg",
+    "note": "Conjunto permanente, SOY uam, pavimento y jardín",
+    "source": "https://www.ler.uam.mx/UAML/instalaciones/",
+    "visuallyReviewed": true
+  },
+  {
+    "id": "fachada",
+    "title": "Fachada con cuatro niveles",
+    "url": "https://www.ler.uam.mx/UAML/wp-content/uploads/2024/10/13-scaled-1.jpg",
+    "note": "Retícula de concreto, PB abierta y núcleo acristalado",
+    "source": "https://www.ler.uam.mx/UAML/instalaciones/",
+    "visuallyReviewed": true
+  },
+  {
+    "id": "court-old",
+    "title": "Cancha antes del arco metálico",
+    "url": "https://www.ler.uam.mx/UAML/wp-content/uploads/2024/10/IMG_1138-scaled-1.jpg",
+    "note": "Malla de sombra histórica, módulos de una planta a los lados",
+    "source": "https://www.ler.uam.mx/UAML/instalaciones/",
+    "visuallyReviewed": true
+  },
+  {
+    "id": "court-level",
+    "title": "Campo de fútbol visto desde arriba",
+    "url": "https://www.ler.uam.mx/UAML/wp-content/uploads/2024/10/IMG_1139-scaled-1.jpg",
+    "note": "Campo al costado oriental de las canchas y cubiertas bajas; ayuda a separar ambas áreas",
+    "source": "https://www.ler.uam.mx/UAML/instalaciones/",
+    "visuallyReviewed": true
+  },
+  {
+    "id": "sport",
+    "title": "Área deportiva y cubiertas ligeras",
+    "url": "https://www.ler.uam.mx/UAML/wp-content/uploads/2024/10/IMG_1142-scaled-1.jpg",
+    "note": "Cubiertas blancas y espacios abiertos",
+    "source": "https://www.ler.uam.mx/UAML/instalaciones/",
+    "visuallyReviewed": true
+  },
+  {
+    "id": "library",
+    "title": "Biblioteca interior",
+    "url": "https://www.ler.uam.mx/UAML/wp-content/uploads/2024/10/biblioteca2-scaled-1.jpg",
+    "note": "Una planta, estructura ligera; no es el gran bloque G",
+    "source": "https://www.ler.uam.mx/UAML/instalaciones/",
+    "visuallyReviewed": true
+  },
+  {
+    "id": "services",
+    "title": "Comedor interior",
+    "url": "https://www.ler.uam.mx/UAML/wp-content/uploads/2024/10/IMG_0777-scaled-1.jpg",
+    "note": "Servicio de comedor en módulo ligero; no es fachada de biblioteca",
+    "source": "https://www.ler.uam.mx/UAML/instalaciones/",
+    "visuallyReviewed": true
+  },
+  {
+    "id": "parking",
+    "title": "Caseta y andador",
+    "url": "https://www.ler.uam.mx/UAML/wp-content/uploads/2024/10/IMG_1132-scaled-1.jpg",
+    "note": "Caseta baja con puerta/ventanas, andador y módulos al fondo",
+    "source": "https://www.ler.uam.mx/UAML/instalaciones/",
+    "visuallyReviewed": true
+  },
+  {
+    "id": "parking2",
+    "title": "Caseta, malla y estacionamiento",
+    "url": "https://www.ler.uam.mx/UAML/wp-content/uploads/2024/10/IMG_1134-scaled-1.jpg",
+    "note": "Vialidad de acceso, caseta baja y estacionamiento cubierto lateral",
+    "source": "https://www.ler.uam.mx/UAML/instalaciones/",
+    "visuallyReviewed": true
+  },
+  {
+    "id": "aerial",
+    "title": "Vista aérea O/P · cuenta oficial",
+    "url": "https://pbs.twimg.com/media/FE1VXJgXEAMQYcz.jpg",
+    "source": "https://x.com/UAM_Lerma/status/1462919313770307585",
+    "note": "Foto histórica del conjunto hoy F/G, no confundir orientación con el plano 2026",
+    "visuallyReviewed": true
+  },
+  {
+    "id": "corner",
+    "title": "Fachada y jardín · directorio",
+    "url": "https://www.ler.uam.mx/DirectorioUAML/wp-content/uploads/2024/07/AJG_1314.JPG-copia-1024x682.jpg",
+    "source": "https://www.ler.uam.mx/DirectorioUAML/directorioservicios/",
+    "note": "Retícula de ventanas, pavimento, jardín y estacionamiento",
+    "visuallyReviewed": true
+  },
+  {
+    "id": "entrance",
+    "title": "Acceso al conjunto permanente",
+    "url": "https://www.ler.uam.mx/UAML_Comunidad/wp-content/uploads/2024/11/IMG_0420-scaled-min-1024x682.jpg",
+    "source": "https://www.ler.uam.mx/UAML_Comunidad/consejoacademico/",
+    "note": "PB acristalada, tres niveles altos y volumen central",
+    "visuallyReviewed": true
+  },
+  {
+    "id": "cife",
+    "title": "CIFE · cimentación en 2024",
+    "url": "https://www.ler.uam.mx/UAML_Comunicacion/wp-content/uploads/2024/05/cife-1024x693.jpg",
+    "source": "https://www.ler.uam.mx/UAML_Comunicacion/investigacion-y-formacion-experimentacion/",
+    "note": "Foto de obra con cimentación, no render. Documenta una fase anterior a las tres cubiertas observadas en Esri",
+    "visuallyReviewed": true
+  }
+]
