@@ -1,5 +1,6 @@
 package ovh.gabrielhuav.salones
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -39,13 +40,17 @@ import androidx.compose.ui.unit.dp
 expect fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar: Int, conTeselas: Boolean, modifier: Modifier = Modifier)
 
 /**
- * Pantalla del Prototipo 2, la misma en Android y en iOS, y la misma que la de Flutter:
+ * Pantalla del Prototipo 3, la misma en Android y en iOS, y la misma que la de Flutter:
  * el campus a pantalla completa (Mapa, 2D o 3D), una tarjeta con el mensaje y el menú «Mapa»,
  * y los botones «UAM» y «Ubicarme» (en 3D, «Inclinar» o «Desde arriba»).
+ * Con «Tema ▾» se elige modo claro u oscuro y el color de una de las cinco unidades de la UAM.
  */
 @Composable
 fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
-    MaterialTheme {
+    val sistemaOscuro = isSystemInDarkTheme()
+    var oscuro by rememberSaveable { mutableStateOf(sistemaOscuro) } // empieza como el teléfono
+    var unidad by rememberSaveable { mutableStateOf(Unidad.AZCAPOTZALCO) }
+    MaterialTheme(colorScheme = esquemaDeColor(unidad, oscuro)) {
         var proveedor by rememberSaveable { mutableStateOf(0) }
         var centrar by rememberSaveable { mutableStateOf(0) }
         var vista by rememberSaveable { mutableStateOf(Vista.MAPA) }
@@ -77,16 +82,19 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}) {
                             }
                         }
                     }
-                    // Si un proveedor no carga, se elige otro aquí.
-                    Box {
-                        var abierto by remember { mutableStateOf(false) }
-                        TextButton(onClick = { abierto = true }) { Text("Mapa ▾") }
-                        DropdownMenu(abierto, onDismissRequest = { abierto = false }) {
-                            PROVEEDORES.forEachIndexed { i, p ->
-                                DropdownMenuItem(
-                                    text = { Text((if (i == proveedor) "✓  " else "     ") + p.nombre) },
-                                    onClick = { proveedor = i; abierto = false },
-                                )
+                    // Tema arriba; si un proveedor no carga, se elige otro abajo.
+                    Column(horizontalAlignment = Alignment.End) {
+                        MenuTema(unidad, oscuro, onUnidad = { unidad = it }, onOscuro = { oscuro = it })
+                        Box {
+                            var abierto by remember { mutableStateOf(false) }
+                            TextButton(onClick = { abierto = true }) { Text("Mapa ▾") }
+                            DropdownMenu(abierto, onDismissRequest = { abierto = false }) {
+                                PROVEEDORES.forEachIndexed { i, p ->
+                                    DropdownMenuItem(
+                                        text = { Text((if (i == proveedor) "✓  " else "     ") + p.nombre) },
+                                        onClick = { proveedor = i; abierto = false },
+                                    )
+                                }
                             }
                         }
                     }

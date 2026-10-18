@@ -3,6 +3,7 @@ package ovh.gabrielhuav.salones
 import android.view.Choreographer
 import android.view.TextureView
 import android.view.View
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -95,6 +96,18 @@ actual fun Campus3D(visible: Boolean, inclinada: Boolean, modifier: Modifier) {
     LaunchedEffect(inclinada) {
         visor[0]?.let {
             it.camara.jumpToBookmark(if (inclinada) it.inclinada else it.arriba)
+            it.avisarCambio()
+        }
+    }
+    // El fondo sigue al tema (claro u oscuro).
+    val fondo = MaterialTheme.colorScheme.surfaceContainer
+    LaunchedEffect(fondo) {
+        visor[0]?.let {
+            it.modelo.renderer.clearOptions = it.modelo.renderer.clearOptions.apply {
+                // Filament espera color lineal; el del tema es sRGB.
+                fun lineal(c: Float) = Math.pow(c.toDouble(), 2.2)
+                clearColor = doubleArrayOf(lineal(fondo.red), lineal(fondo.green), lineal(fondo.blue), 1.0)
+            }
             it.avisarCambio()
         }
     }

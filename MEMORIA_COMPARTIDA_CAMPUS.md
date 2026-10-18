@@ -55,3 +55,7 @@ Pendientes de la sesión: tocar edificio para centrar en 2D/3D; modo de interfaz
 Codex leyó la sesión abierta mediante la interfaz de Claude, comparó el código y confirmó que JSON/GLB/huellas eran idénticos entre copias. Recuperó la exportación PNG y georreferencia que faltaban en Descargas. Añadió norte calibrado y límite de cámara al visor web; estableció réplica comprobada y esta memoria. No se modificó el código móvil, no se hizo merge/push ni se enviaron mensajes a Claude.
 
 La exportación planoBlob oculta también los contornos de selección de objetos/edificios, para que no aparezcan en el PNG móvil, y restaura su visibilidad al terminar.
+
+## Prototipo 3 · Temas (18 oct 2026, rama feature/p3-temas, desde el checkpoint 40fa193 de P2)
+
+KMP Android: menú «Tema ▾» con modo Claro/Oscuro (empieza como el teléfono) y el color de una de las cinco unidades. Colores oficiales de las «Reglas para la Aplicación de los Elementos de Identidad Institucional» (UAM): Azcapotzalco #CD032E (Pantone 186 C), Cuajimalpa #F08200 (144 C), Iztapalapa #57A519 (369 C), Lerma #AD25A8 (253 C), Xochimilco #0072CE (285 C). El esquema de Material 3 sale del color de la unidad y cambia con el modo; el fondo del 2D y del 3D sigue al tema (el 3D convierte el color sRGB a lineal para Filament). Probado en el emulador; la elección no se guarda al cerrar la app. Las teselas del mapa no cambian con el modo oscuro. Pendiente: Flutter y persistir la elección.

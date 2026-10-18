@@ -7,6 +7,7 @@ import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -114,7 +115,7 @@ actual fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar
 
     Box(
         modifier
-            .background(if (conTeselas) Color(0xFFE8E8E8) else Color(0xFFEDF1ED))
+            .background(if (conTeselas) Color(0xFFE8E8E8) else MaterialTheme.colorScheme.surfaceContainer)
             .onSizeChanged { tamano = it }
             .pointerInput(centro, centrar) {
                 detectTransformGestures { _, arrastre, escala, _ ->
@@ -158,7 +159,8 @@ actual fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar
                 falla -> "${p.nombre} no carga: elige otro mapa."
                 else -> p.credito
             },
-            modifier = Modifier.align(Alignment.BottomStart).background(Color(0xCCFFFFFF)).padding(6.dp),
+            modifier = Modifier.align(Alignment.BottomStart).background(MaterialTheme.colorScheme.surface.copy(alpha = 0.8f)).padding(6.dp),
+            color = MaterialTheme.colorScheme.onSurface,
         )
     }
 }
