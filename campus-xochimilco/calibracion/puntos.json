@@ -1,0 +1,200 @@
+[
+  {
+    "id": "centro_B",
+    "edificio": "B",
+    "modelo": [
+      11.787500000000001,
+      79.777
+    ],
+    "imagen": [
+      460,
+      1020
+    ],
+    "latLon": [
+      19.303446738753298,
+      -99.10279231219097
+    ],
+    "observacion": "Centro visual de envolvente de cubierta. OSM y raster no son levantamientos independientes; paralaje y segmentación aproximados.",
+    "residuoMetros": 2.721
+  },
+  {
+    "id": "centro_D",
+    "edificio": "D",
+    "modelo": [
+      -17.2455,
+      132.993
+    ],
+    "imagen": [
+      412,
+      1106
+    ],
+    "latLon": [
+      19.30297851399036,
+      -99.10306921367427
+    ],
+    "observacion": "Centro visual de envolvente de cubierta. OSM y raster no son levantamientos independientes; paralaje y segmentación aproximados.",
+    "residuoMetros": 1.1355
+  },
+  {
+    "id": "centro_G",
+    "edificio": "G",
+    "modelo": [
+      -75.87,
+      85.32050000000001
+    ],
+    "imagen": [
+      315,
+      1025
+    ],
+    "latLon": [
+      19.303419516420064,
+      -99.10362878542176
+    ],
+    "observacion": "Centro visual de envolvente de cubierta. OSM y raster no son levantamientos independientes; paralaje y segmentación aproximados.",
+    "residuoMetros": 0.536
+  },
+  {
+    "id": "centro_H",
+    "edificio": "H",
+    "modelo": [
+      -74.446,
+      -74.768
+    ],
+    "imagen": [
+      318,
+      762
+    ],
+    "latLon": [
+      19.30485140500067,
+      -99.10361147907906
+    ],
+    "observacion": "Centro visual de envolvente de cubierta. OSM y raster no son levantamientos independientes; paralaje y segmentación aproximados.",
+    "residuoMetros": 0.9904
+  },
+  {
+    "id": "centro_T",
+    "edificio": "T",
+    "modelo": [
+      -13.038000000000002,
+      -160.195
+    ],
+    "imagen": [
+      418,
+      617
+    ],
+    "latLon": [
+      19.30564084391467,
+      -99.10303460098886
+    ],
+    "observacion": "Centro visual de envolvente de cubierta. OSM y raster no son levantamientos independientes; paralaje y segmentación aproximados.",
+    "residuoMetros": 0.9798
+  },
+  {
+    "id": "centro_J",
+    "edificio": "J",
+    "modelo": [
+      71.9145,
+      -154.857
+    ],
+    "imagen": [
+      560,
+      624
+    ],
+    "latLon": [
+      19.30560273315808,
+      -99.10221543410077
+    ],
+    "observacion": "Centro visual de envolvente de cubierta. OSM y raster no son levantamientos independientes; paralaje y segmentación aproximados.",
+    "residuoMetros": 1.0056
+  },
+  {
+    "id": "centro_C",
+    "edificio": "C",
+    "modelo": [
+      66.309,
+      -68.8735
+    ],
+    "imagen": [
+      550,
+      768
+    ],
+    "latLon": [
+      19.30481873848074,
+      -99.1022731219098
+    ],
+    "observacion": "Centro visual de envolvente de cubierta. OSM y raster no son levantamientos independientes; paralaje y segmentación aproximados.",
+    "residuoMetros": 0.2283
+  },
+  {
+    "id": "centro_K",
+    "edificio": "K",
+    "modelo": [
+      58.356,
+      81.185
+    ],
+    "imagen": [
+      537,
+      1015
+    ],
+    "latLon": [
+      19.303473961082013,
+      -99.10234811606153
+    ],
+    "observacion": "Centro visual de envolvente de cubierta. OSM y raster no son levantamientos independientes; paralaje y segmentación aproximados.",
+    "residuoMetros": 1.3555
+  },
+  {
+    "id": "centro_F",
+    "edificio": "F",
+    "modelo": [
+      -27.678,
+      212.836
+    ],
+    "imagen": [
+      396,
+      1234
+    ],
+    "latLon": [
+      19.30228161883814,
+      -99.1031615141687
+    ],
+    "observacion": "Centro visual de envolvente de cubierta. OSM y raster no son levantamientos independientes; paralaje y segmentación aproximados.",
+    "residuoMetros": 1.9266
+  },
+  {
+    "id": "centro_S",
+    "edificio": "S",
+    "modelo": [
+      -22.608999999999998,
+      383.636
+    ],
+    "imagen": [
+      401,
+      1527
+    ],
+    "latLon": [
+      19.300686371103097,
+      -99.1031326702642
+    ],
+    "observacion": "Centro visual de envolvente de cubierta. OSM y raster no son levantamientos independientes; paralaje y segmentación aproximados.",
+    "residuoMetros": 4.4085
+  },
+  {
+    "id": "centro_N",
+    "edificio": "N",
+    "modelo": [
+      -57.673,
+      436.796
+    ],
+    "imagen": [
+      344,
+      1602
+    ],
+    "latLon": [
+      19.30027802873873,
+      -99.1034614907756
+    ],
+    "observacion": "Centro visual de envolvente de cubierta. OSM y raster no son levantamientos independientes; paralaje y segmentación aproximados.",
+    "residuoMetros": 3.9198
+  }
+]

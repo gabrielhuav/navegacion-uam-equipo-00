@@ -1,0 +1,100 @@
+{
+  "extent3857": {
+    "xmin": -11032367.778150799,
+    "ymin": 2190193.73490018,
+    "xmax": -11031789.818173544,
+    "ymax": 2191349.6548546883,
+    "spatialReference": {
+      "wkid": 102100,
+      "latestWkid": 3857
+    }
+  },
+  "imageWidth": 900,
+  "imageHeight": 1800,
+  "edificios": {
+    "A": {
+      "pixels": [
+        [
+          328,
+          823
+        ],
+        [
+          455,
+          830
+        ],
+        [
+          447,
+          946
+        ],
+        [
+          318,
+          938
+        ]
+      ],
+      "nombre": "A · biblioteca / edificio central (PDF)"
+    },
+    "M": {
+      "pixels": [
+        [
+          456,
+          640
+        ],
+        [
+          484,
+          642
+        ],
+        [
+          466,
+          829
+        ],
+        [
+          442,
+          827
+        ]
+      ],
+      "nombre": "M · barra este del patio Zapata"
+    },
+    "AC": {
+      "pixels": [
+        [
+          455,
+          1414
+        ],
+        [
+          526,
+          1420
+        ],
+        [
+          523,
+          1440
+        ],
+        [
+          453,
+          1435
+        ]
+      ],
+      "nombre": "AC · anexo sur (PDF)"
+    },
+    "AB": {
+      "pixels": [
+        [
+          451,
+          1444
+        ],
+        [
+          521,
+          1451
+        ],
+        [
+          519,
+          1471
+        ],
+        [
+          449,
+          1465
+        ]
+      ],
+      "nombre": "AB · anexo sur (PDF)"
+    }
+  }
+}
