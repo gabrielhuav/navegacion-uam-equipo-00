@@ -22,6 +22,8 @@ for(const slug of ['cuajimalpa','iztapalapa']){
   assert.equal(d.architecture.integratedComplex,true);
   assert.equal(gltf.nodes.filter(n=>n.name==='Edificio_TORRE_III').length,1);
   for(const name of ['Fachadas_integradas_Cuajimalpa','Celosia_pliegues_claros','Atrio_central_vidrio','Lucernario_vidrio','Rampa_acceso_aproximada'])assert.ok(gltf.nodes.some(n=>n.name===name),'Falta detalle: '+name);
+  for(const name of ['Porteria_Cuajimalpa_aproximada','Marquesina_porteria','Tirante_marquesina_superior','Cubierta_elevada_verde','Ventana_modular_lateral_nivel_7'])assert.ok(gltf.nodes.some(n=>n.name===name),'Falta detalle de referencia aérea/acceso: '+name);
+  const gate=gltf.nodes.find(n=>n.name==='Porteria_Cuajimalpa_aproximada');assert.equal(gate.extras.editableId,'porteria_cuajimalpa');assert.equal(gate.extras.placementPending,true);
   const before=JSON.parse(execFileSync('git',['show','6dbf995:campus-cuajimalpa/campus_editado.json'],{cwd:new URL('.',root).pathname.replace(/^\/(\w:)/,'$1')}).toString());
   assert.deepEqual(d.buildings.map(b=>b.polygons),before.buildings.map(b=>b.polygons),'Se alteró la huella al detallar las fachadas');
   assert.equal(hash(await read(dir+'georreferencia.json')),hash(execFileSync('git',['show','6dbf995:'+dir+'georreferencia.json'],{cwd:new URL('.',root).pathname.replace(/^\/(\w:)/,'$1')})));

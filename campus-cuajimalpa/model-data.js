@@ -286,7 +286,7 @@ export const ORIGINAL={
         ]
       ],
       "source": "https://www.openstreetmap.org/way/391848539",
-      "roof": "#a56e58",
+      "roof": "#b14937",
       "rects": [
         [
           808.004,
@@ -382,8 +382,8 @@ export const ORIGINAL={
   "note": "Huellas y niveles aproximados. Perímetro OSM orientativo, no catastral. Nombres auxiliares provisionales. Mejorar con fotografías y observación del alumnado. Los auxiliares sur/poniente son externos: no se incluyen como edificios UAM.",
   "license": "Geometría derivada de OpenStreetMap contributors, ODbL 1.0; ver FUENTES.md.",
   "architecture": {
-    "revision": "2026-10-18-fachadas",
-    "reference": "Tres fotografías aportadas por Gabriel: acceso con celosía, fachada acristalada y vista desde portería.",
+    "revision": "2026-10-18-porteria-y-aerea",
+    "reference": "Cinco imágenes aportadas por Gabriel: tres fachadas y, en esta revisión, portería y vista aérea del conjunto.",
     "mainBuilding": "TORRE_III",
     "integratedComplex": true,
     "dimensions": "Detalles visuales aproximados; se conserva la huella OSM y 3.3 m por nivel.",
@@ -392,9 +392,19 @@ export const ORIGINAL={
       "terracota",
       "celosia",
       "atrio acristalado",
-      "corredores",
-      "lucernarios",
-      "plaza y rampa esquemáticas"
-    ]
+      "ventanas laterales modulares",
+      "cubierta roja y estructuras elevadas",
+      "plaza y rampa esquemáticas",
+      "portería con torre, marquesina, tirantes y portones"
+    ],
+    "entrance": {
+      "localPosition": [
+        -20,
+        82
+      ],
+      "positionApproximate": true,
+      "editableId": "porteria_cuajimalpa",
+      "note": "Posición provisional en el extremo del predio; foto frontal sin amarre geográfico. Ajustar desde el editor."
+    }
   }
 };

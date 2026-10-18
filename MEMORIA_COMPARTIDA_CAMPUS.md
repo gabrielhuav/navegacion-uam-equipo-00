@@ -104,3 +104,13 @@ No se deducen medidas exactas ni orientación comprobada de estas fotos: la asig
 Checkpoint previo: Descargas/1151055 Administracion/_respaldos/2026-10-18_cuajimalpa_antes_fachadas (carpeta Cuajimalpa completa, memoria previa, commit y manifiesto SHA256). No se eliminaron respaldos completos del curso.
 
 Verificación: inspección de ambos frentes en el visor, exportación mediante Guardar cambios y verificar-campus-unidades.mjs. El verificador comprueba detalles reconocibles dentro del GLB, un único nodo principal, huellas y georreferencia idénticas al commit 6dbf995, contrato y PNG del tamaño original. Pendiente la validación de semejanza por Gabriel y orientación/proporciones en campo. Rama feature/campus-unidades; integración móvil sigue a cargo de Claude.
+
+## Cuajimalpa · referencia aérea y portería · 18 oct 2026
+
+Dos referencias adicionales de Gabriel: primer plano de la torre de entrada con marquesina suspendida/tirantes y portones, y vista aérea de casi todo el edificio. Se actualizaron ventanas laterales a módulos separados, cubierta roja, dos cubiertas longitudinales elevadas con apoyos y jardineras circulares. La función de las estructuras de cubierta no está confirmada; no asumir que son lucernarios o paneles solares. Se conserva su nomenclatura técnica previa donde la usa el verificador. No se reprodujo el logotipo sobreimpreso de la fotografía como arquitectura.
+
+Nueva portería simplificada como grupo independiente editable `porteria_cuajimalpa`: torre terracota y alas grises, rótulo vertical, marquesina, tirantes, cubierta peatonal, portones y caseta. Botón «Portería» y filtro específico en herramientas. Se mueve/gira con el editor existente y se guarda en elementEdits/GLB/PNG; no es otro edificio académico. Anclaje provisional local [-20,82] en CU_FRAME, sin amarre geográfico: confirmar su ubicación y orientación con imagen cenital/campo. No se presenta como medición. No se modifican huellas principales ni georreferencia, encuadre o tamaño de PNG.
+
+Checkpoint antes de esta revisión: Descargas/1151055 Administracion/_respaldos/2026-10-18_cuajimalpa_antes_porteria, versión fa0c5b6 completa con memoria y SHA256. Se conservan respaldos del curso y el anterior de fachadas hasta validar la nueva interpretación.
+
+Pruebas: selección y desplazamiento de portería, deshacer (vuelve a «Sin cambios pendientes»), inspección de cámara cercana, exportación GLB/PNG/JSON; verificador ampliado para portería y detalle aéreo, huellas/georreferencia invariantes. Sigue pendiente la validación visual de Gabriel y precisar terreno, alturas y posición de acceso. Apps, Azcapotzalco e Iztapalapa sin cambios.

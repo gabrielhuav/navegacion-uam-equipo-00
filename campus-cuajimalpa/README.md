@@ -9,6 +9,10 @@ El conjunto principal tiene un generador propio en `cuajimalpaFacades()` de app.
 
 Referencia: tres fotografías aportadas por Gabriel en la conversación (acceso con «Soy UAM», frente acristalado, entrada desde portería). Son una interpretación visual: dimensiones de fachadas, reparto interior, posición de rampa y orientación de cada frente deben confirmarse en campo. Las fotos no mejoran la precisión geográfica. Se conservan exactamente los polígonos originales, la georreferencia y el encuadre del PNG. Las alturas siguen suponiendo 3.3 m por nivel. `architecture` en los JSON documenta esta revisión; el detalle geométrico se regenera desde app.js.
 
+Segunda revisión, con foto frontal de la entrada y toma aérea: cubierta roja con dos estructuras longitudinales elevadas (función y dimensiones sin confirmar), ventanas laterales modulares, jardineras circulares y portería con torre, marquesina, tirantes, caseta y portones. No se copió el logotipo superpuesto a la foto aérea como elemento arquitectónico. El rótulo «UAM» de la portería es tipográfico simplificado.
+
+«Portería» acerca la cámara. Para ajustar su posición provisional: Activar modo edición → Mostrar elementos: Portería → Elemento: Portería · posición aproximada → arrastrar o cambiar X/Z/giro → Guardar cambios. Es un solo grupo independiente, ID estable `porteria_cuajimalpa`; sus cambios viajan en `elementEdits`, GLB y PNG. No cambia el conteo de edificios. Se puede deshacer. La foto frontal no fija su posición geográfica: el anclaje provisional `architecture.entrance.localPosition` está expresado en el marco local `CU_FRAME`. Confirmar posición y orientación con referencia cenital antes de usarla para navegación precisa.
+
 ## Abrir
 Con Node.js instalado: Abrir_visor.cmd o node server.mjs. Abrir http://127.0.0.1:8769/Visor_UAM_autonomo.html.
 Las bibliotecas locales están en vendor/; no se requiere instalar paquetes.
