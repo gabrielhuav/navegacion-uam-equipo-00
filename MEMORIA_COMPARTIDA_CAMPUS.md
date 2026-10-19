@@ -349,3 +349,10 @@ Se conservan sin cambios **campus_editado.json, campus_base.json, model-data.js 
 - Probado en el emulador con la red real (KMP y Flutter): mi ubicación → Edificio L 82 m · 2 min; Acceso P1 → Edificio HP 628 m · 9 min, por los andadores. El copyright de AZC ya se lee con el norte arriba en 2D y 3D. Capturas docs/capturas/p8_*.
 - Láminas de la Unidad III (130): lámina «Del Prototipo 1 al 4» con capturas reales (P4 por empezar) y P3 con la red real.
 - Práctica 3 (alumnado) ya apunta a las cinco carpetas `campus*` y, en Azcapotzalco, a revisar la red de caminos de su parte.
+
+## Cierre de P2 y P3 en GitHub (Claude, 19 oct 2026)
+
+- Milestones: #2 renombrado «Prototipo 2 · El campus (v0.2.0)»; nuevos #3 «Prototipo 3 · Rutas (v0.3.0)» (5 nov) y #4 «Prototipo 4 · Guía (v1.0.0)» (26 nov, Unidad IV, por empezar).
+- Issues: #5 [HU06] campus en Mapa/2D/3D (P2); #6 [HU02] ruta más corta y #7 [HU05] aviso sin ruta (P3); #1 [HU01] buscar el salón pasó al P4 con comentario.
+- PR #8 `feature/app-unidades` → `main` (Closes #5 #6 #7). Al integrar: releases `v0.2.0` (estado del P2, commit 42605d0) y `v0.3.0` (merge del P3).
+- README y docs/prototipos.md describen P1–P3 hechos y P4 por empezar. La Unidad III llega hasta el P3 (130 láminas); el P4 irá en la Unidad IV.
