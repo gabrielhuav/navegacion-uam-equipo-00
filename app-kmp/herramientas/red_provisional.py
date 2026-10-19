@@ -1,4 +1,4 @@
-"""Red de caminos PROVISIONAL de Azcapotzalco para probar las rutas de la app (Prototipo 6).
+"""Red de caminos PROVISIONAL de Azcapotzalco para probar las rutas de la app (Prototipo 3).
 
 La red buena la dibuja Codex en el visor (campus/rutas.json, mismo formato). Ésta sólo une, con
 segmentos rectos, los accesos peatonales, los andadores (`paths`) y la puerta aproximada de cada

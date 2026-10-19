@@ -1,4 +1,4 @@
-/// Prototipo 6: rutas dentro del campus (por ahora sólo Azcapotzalco). Igual que Rutas.kt de KMP.
+/// Prototipo 3: rutas dentro del campus (por ahora sólo Azcapotzalco). Igual que Rutas.kt de KMP.
 /// La red de caminos sale de `campus/rutas.json` (la dibuja Codex en el visor web): nodos con su latitud y
 /// longitud, aristas con sus metros y un nodo por destino (edificios y accesos).
 library;

@@ -13,7 +13,7 @@ import 'rutas.dart';
 import 'tema.dart';
 import 'ubicacion.dart';
 
-/// Prototipo 4: el campus de cada unidad de la UAM en el mapa real, en 2D y en 3D, con modo claro u oscuro,
+/// Prototipos 2 y 3: el campus de cada unidad de la UAM en el mapa real, en 2D y en 3D, con modo claro u oscuro,
 /// el color de cada unidad y el campus de día o de noche.
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -91,7 +91,7 @@ class _PantallaMapaState extends State<PantallaMapa> {
   final _aplicado3D = <Unidad, String>{};
   late Unidad _unidadAnterior = ajustesTema.value.unidad;
   bool _irALaSede = false; // «UAM» o «Ir» centran el mapa en la sede; «Ubicarme», en ti
-  Red? _red; // Prototipo 6: la red de caminos de Azcapotzalco (campus/rutas.json)
+  Red? _red; // Prototipo 3: la red de caminos de Azcapotzalco (campus/rutas.json)
   Ruta? _ruta;
   String _rutaTexto = '';
   LatLng? _centrarAlVolver; // si se eligió otra sede estando en 3D, el mapa se mueve al volver a Mapa o 2D

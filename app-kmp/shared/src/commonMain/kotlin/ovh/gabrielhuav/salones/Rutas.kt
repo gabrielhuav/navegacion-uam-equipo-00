@@ -3,7 +3,7 @@ package ovh.gabrielhuav.salones
 import kotlin.math.ceil
 
 /**
- * Prototipo 6: rutas dentro del campus (por ahora sólo Azcapotzalco).
+ * Prototipo 3: rutas dentro del campus (por ahora sólo Azcapotzalco).
  * La red de caminos sale de `campus/rutas.json` (la dibuja Codex en el visor web; mismo archivo en Flutter):
  * nodos con su latitud y longitud, aristas con sus metros y un nodo por destino (edificios y accesos).
  */

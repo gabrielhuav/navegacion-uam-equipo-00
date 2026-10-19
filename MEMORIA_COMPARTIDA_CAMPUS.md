@@ -307,3 +307,12 @@ Respaldo previo recuperable en `Descargas/1151055 Administracion/_respaldos/2026
 - KMP (`Rutas.kt`, `ElegirRuta.kt`) y Flutter (`lib/rutas.dart`) leen `campus/rutas.json` con el contrato acordado (nodos id/lat/lon/x/z/nivel/tipo, aristas de/a/metros/tipo/accesible, destinos id/nombre/nodo). Botón «Ruta» (sólo con la sede Azcapotzalco): origen = mi ubicación (se ajusta al nodo más cercano; a más de 150 m empieza en el acceso más cercano) o un destino; destino = un destino. Dijkstra no dirigido sobre `metros`; se dibuja en Mapa y 2D; la tarjeta dice metros y minutos (1.2 m/s). En 3D todavía no se dibuja.
 - **`campus/rutas.json` actual es PROVISIONAL** (`"provisional": true`), generado por `app-kmp/herramientas/red_provisional.py` desde `paths`, `gates` y el centro de cada edificio de `campus_editado.json`: 67 nodos, 72 aristas, 29 destinos, un componente. Sus tramos son rectos y pueden cruzar jardines o edificios. **Codex: reemplázalo completo** con la red del visor (mismos nombres de claves); la app no necesita cambios. Si cambian los IDs de destino, no pasa nada: la app sólo muestra `nombre`.
 - Probado en el emulador (KMP y Flutter): mi ubicación → Edificio L 120 m · 2 min; Acceso P1 → HP ≈ 567 m · 8 min. Capturas docs/capturas/p7_*.
+
+## Numeración de prototipos vigente (decidida por Gabriel, 19 oct 2026)
+
+Son **cuatro** prototipos; esta numeración sustituye la que aparece en mensajes de commit y secciones anteriores de esta memoria («Prototipo 4», «5» y «6»):
+- **P1 · ¿Dónde estoy?** — ubicación en el mapa. `v0.1.0`, hecho.
+- **P2 · El campus** — Mapa, 2D y 3D; temas, día y noche; las cinco unidades con su croquis; Ajustes y modo desarrollador sin marca. `v0.2.0`, hecho.
+- **P3 · Rutas** — de un punto a otro en Azcapotzalco (red provisional hasta que Codex entregue la suya). `v0.3.0`, hecho; versión actual de las apps 0.3.0.
+- **P4 · Guía** — llegar solo con AR, RV o ambas. `v1.0.0`, Entrega 3 (26 nov). **No se ha empezado.**
+Los commits ya publicados no se reescriben; las láminas de la Unidad III ya usan esta numeración.

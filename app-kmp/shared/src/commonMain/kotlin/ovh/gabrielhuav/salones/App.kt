@@ -48,7 +48,7 @@ import kotlinx.coroutines.delay
 expect fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar: Int, conTeselas: Boolean, noche: Boolean, sede: Unidad, conMarca: Boolean, ruta: Ruta? = null, modifier: Modifier = Modifier)
 
 /**
- * Pantalla del Prototipo 3, la misma en Android y en iOS, y la misma que la de Flutter:
+ * Pantalla de los prototipos 2 (el campus) y 3 (rutas), la misma en Android y en iOS, y la misma que la de Flutter:
  * el campus a pantalla completa (Mapa, 2D o 3D), una tarjeta con el mensaje y el menú «Mapa»,
  * y los botones «UAM» y «Ubicarme» (en 3D, «Inclinar» o «Desde arriba»).
  * Con «Tema ▾» se elige modo claro u oscuro, el color de una de las cinco unidades de la UAM
@@ -70,7 +70,7 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}, redAz
     var marcaPedida by rememberSaveable { mutableStateOf(Preferencias.leer("marca")?.toBoolean() ?: true) }
     var configurando by remember { mutableStateOf(false) }
     val conMarca = !desarrollador || marcaPedida
-    // Prototipo 6: rutas en Azcapotzalco (la red viene de campus/rutas.json).
+    // Prototipo 3: rutas en Azcapotzalco (la red viene de campus/rutas.json).
     val red = remember(redAzcapotzalco) { redAzcapotzalco?.let { runCatching { leerRed(it) }.getOrNull() } }
     var eligiendoRuta by remember { mutableStateOf(false) }
     var ruta by remember { mutableStateOf<Ruta?>(null) }

@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:salones_uam/tema.dart';
 
-/// Temas del Prototipo 3, los mismos que en KMP (Tema.kt y CampusTest.kt).
+/// Temas del Prototipo 2, los mismos que en KMP (Tema.kt y CampusTest.kt).
 void main() {
   test('de 7:00 a 18:59 es de día', () {
     for (final h in [7, 13, 18]) {

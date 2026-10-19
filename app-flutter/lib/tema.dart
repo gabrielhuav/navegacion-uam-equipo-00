@@ -1,4 +1,4 @@
-/// Prototipo 3: modo claro u oscuro, color de cada unidad de la UAM y día o noche en el campus.
+/// Prototipo 2: modo claro u oscuro, color de cada unidad de la UAM y día o noche en el campus.
 /// Los mismos valores que Tema.kt y Campus.kt de KMP.
 library;
 
