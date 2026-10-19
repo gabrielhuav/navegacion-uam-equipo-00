@@ -16,18 +16,24 @@ Los prototipos de este repositorio son **evolutivos**: el código que pasa sus p
 
 ## Los cuatro prototipos
 
-| Prototipo | Pregunta que responde | Historias | Entra | Entrega |
+| Prototipo | Pregunta que responde | Historias | Entra | Versión y estado |
 |---|---|---|---|---|
-| **P1 · ¿Dónde estoy?** | ¿La app muestra en el mapa dónde está el alumno dentro de la UAM? | HU03 | Permiso y ubicación del teléfono, mapa de OpenStreetMap; después, la imagen aérea del campus | `v0.1.0` · antes de la Entrega 1 (22 oct) |
-| **P2 · Buscar y llegar** | ¿El alumno encuentra su salón escribiendo la clave del horario, y la ruta más corta lo lleva ahí? | HU01, HU02 y HU05 | Clave normalizada, catálogo común (≥ 20 lugares), grafo y Dijkstra | `v0.2.0` · Entrega 2 (5 nov) |
-| **P3 · Reconocer el lugar** | ¿La app reconoce con la cámara dónde está el alumno? | HU03 | Fotos del repositorio común, reconocimiento o letreros, GPS por edificio | `v0.3.0` · antes de la Entrega 3 |
-| **P4 · Guía** | ¿Una persona que no conoce la UAM llega sola con AR, RV o ambas? | HU04 | Flechas o recorrido, aviso de llegada, prueba con 3 personas | `v1.0.0` · Entrega 3 (26 nov) |
+| **P1 · ¿Dónde estoy?** | ¿La app muestra en el mapa dónde está el alumno dentro de la UAM? | HU03 | Permiso y ubicación del teléfono, mapa de OpenStreetMap | `v0.1.0` · hecho, antes de la Entrega 1 (22 oct) |
+| **P2 · El campus** | ¿El alumno se orienta mejor con el campus de su unidad en Mapa, 2D y 3D, con su tema y de día o de noche? | HU06 | Plano 2D georreferenciado y modelo 3D por unidad; temas UAM, claro u oscuro, día o noche; las cinco unidades; Ajustes con modo desarrollador | `v0.2.0` · hecho |
+| **P3 · Rutas** | ¿La app lo lleva de un punto a otro de Azcapotzalco por el camino más corto? | HU02 y HU05 | Red de caminos (`campus/rutas.json`), Dijkstra, origen por ubicación o lugar, metros y minutos | `v0.3.0` · hecho, para la Entrega 2 (5 nov) |
+| **P4 · Guía** | ¿Una persona que no conoce la UAM llega sola con AR, RV o ambas? | HU01 y HU04 | Buscar el salón, reconocer el lugar con la cámara, flechas o recorrido, aviso de llegada, prueba con 3 personas | `v1.0.0` · por empezar, Entrega 3 (26 nov) |
 
-Las fechas son las de la planeación del curso. Cada equipo ajusta su plan, pero cada prototipo debe tener su issue, su milestone, su PR y su versión. La prueba con usuarios del P4 se repite en la presentación final (1 y 3 de diciembre).
+Las fechas son las de la planeación del curso. Cada equipo ajusta su plan, pero cada prototipo debe tener sus issues, su milestone, su PR y su versión. La prueba con usuarios del P4 se repite en la presentación final (1 y 3 de diciembre).
 
-## Riesgo que se registra desde el P1
+### El plan cambió y quedó escrito
 
-En Flutter, los complementos de realidad aumentada llevan años sin mantenimiento; en Kotlin están ARCore y ML Kit, de Google. Si el equipo elige Flutter con AR, ese riesgo va a su matriz de riesgos desde la Entrega 1 (enunciado del proyecto).
+- Al principio, el P2 era «Buscar y llegar» y el P3 «Reconocer el lugar». Con la prueba del P1 se decidió primero mostrar el campus (P2) y después las rutas (P3). Buscar el salón por su clave (HU01) y reconocer el lugar con la cámara pasan al P4, junto con la guía.
+- Durante el P2 se trabajó por partes (temas, cinco unidades, ajustes) y algunos mensajes de commit las llaman «Prototipo 3», «4» o «5». La numeración vigente es la de esta tabla.
+
+## Riesgos que se registran
+
+- En Flutter, los complementos de realidad aumentada llevan años sin mantenimiento; en Kotlin están ARCore y ML Kit, de Google. Si el equipo elige Flutter con AR, ese riesgo va a su matriz de riesgos desde la Entrega 1 (enunciado del proyecto).
+- Para reconocer lugares en el P4 se prefiere un modelo propio (por ejemplo YOLO) sobre ML Kit, porque las dos apps deben llegar a iPhone. Aún no se decide.
 
 ## Cómo se evalúa cada prototipo
 
