@@ -1,5 +1,11 @@
 # Campus UAM Azcapotzalco · modelo 2D/3D
 
+## Red peatonal editable · P3 Rutas
+
+`rutas.json` sustituye la red provisional: 115 nodos, 120 tramos no dirigidos, 31 destinos y un componente. La capa «Red peatonal · PB» permite ver/editar nodos, tramos y destinos, deshacer/rehacer e importar una red. Guardar cambios valida y exporta rutas.json, además de las versiones del campus con/sin marca. La red no se hornea en los assets visuales. [Contrato, coordenadas, uso, pruebas y límites de la red](RUTAS.md).
+
+Vista previa de esta entrega: http://127.0.0.1:8780/Visor_UAM_autonomo.html. El inicio normal sigue usando 8768, pero un servidor anterior ya abierto necesita reiniciarse para admitir los nuevos guardados. No se cambia la georreferencia ni el tamaño del plano. También se orientó el texto del copyright al norte calibrado, manteniendo encuadre y colores.
+
 ## Serpentina II · frente al H, lado estacionamiento
 
 Escultura esquemática basada en las dos imágenes de Gabriel: tronco y dos brazos con nueve cintas helicoidales rojas, claras y oscuras, ejes metálicos y plazoleta circular con anillos claros. `serpentinaH()` genera el grupo `Serpentina_II_frente_H_estacionamiento`. Su posición inicial `[824,265]` está frente al H del lado del estacionamiento, opuesto a COSEI; punto y medidas aproximados. No sustituye a la escultura de G.

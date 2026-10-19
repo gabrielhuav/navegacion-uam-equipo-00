@@ -3,11 +3,13 @@ import {OrbitControls} from 'orbit';
 import {GLTFExporter} from 'exporter';
 import {ORIGINAL} from 'model-data';
 import {copyrightPanelsForSite} from 'copyright-layout';
+import {createRouteEditor} from 'route-editor';
+import {BASE_ROUTES,ROUTE_GEO} from 'route-data';
 
 const $=id=>document.getElementById(id);
 const editables=new Map();
 let editMode=false,editSelected='',undoHistory=[],redoHistory=[],savedData='',isSaving=false,drawStart=null,drawPreview=null,dragEdit=null;
-let georeference=null;
+let georeference=ROUTE_GEO,routeEditor=null;
 let data=structuredClone(ORIGINAL), world, vegetation, buildingGroups=new Map(), labels=[], selected='', topMode=false,focusMode=false;
 const mount=$('viewport'), labelLayer=$('labels');
 const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});
@@ -116,8 +118,8 @@ function addCopyrightToModel(){
  const mat=new THREE.MeshBasicMaterial({map:texture,transparent:true,opacity:style.opacity,fog:false,toneMapped:false,side:THREE.DoubleSide,depthWrite:false});
  const height=Math.max(...data.buildings.map(b=>b.floors*data.storeyHeight))+4;
  const panels=copyrightPanelsForSite(data.site,data.metersPerPixel,style);
- group.userData.panelCount=panels.length;
- for(const [i,p]of panels.entries()){const mesh=new THREE.Mesh(new THREE.PlaneGeometry(p.width,p.width/8),mat);mesh.name='Copyright_integrado_'+i;mesh.rotation.x=-Math.PI/2;mesh.position.set(p.x,height,p.z);mesh.renderOrder=5;mesh.userData.disposeCopyrightMaterial=i===0;group.add(mesh);}
+ group.userData.panelCount=panels.length;const north=campusNorth(georeference)||{x:0,z:-1},textAngle=Math.atan2(-north.x,-north.z);group.userData.northAligned=true;group.userData.textAngle=textAngle;
+ for(const [i,p]of panels.entries()){const mesh=new THREE.Mesh(new THREE.PlaneGeometry(p.width,p.width/8),mat);mesh.name='Copyright_integrado_'+i;mesh.rotation.set(-Math.PI/2,0,textAngle);mesh.position.set(p.x,height,p.z);mesh.renderOrder=5;mesh.userData.disposeCopyrightMaterial=i===0;group.add(mesh);}
  syncCopyright();
 }
 $('copyrightToggle').onchange=()=>{if(isSaving)return;rememberEdit();data.showCopyright=$('copyrightToggle').checked;syncCopyright();updateSaveState();message(copyrightEnabled()?'Marca integrada activada. Guarda cambios para actualizar GLB y PNG.':'Marca desactivada. Guarda cambios para exportar sin ella.');};
@@ -366,7 +368,7 @@ function generate(){
  for(const px of [715,877])for(let py=436;py<565;py+=48){if(data.cosei&&px>760&&py>=480)continue;if(!data.sculpture||Math.hypot(px-data.sculpture.position[0],py-data.sculpture.position[1])>18)tree(px,py,.6);}
  label('Eje 5 Norte · Montevideo',X(870),2,Z(743),'place');label('Av. San Pablo',X(-8),2,Z(400),'place');
  vegetation.visible=$('trees').checked;labelLayer.hidden=!$('names').checked;
- addCopyrightToModel();world.updateMatrixWorld(true);selectBuilding(selected);refreshEditor();
+ addCopyrightToModel();world.updateMatrixWorld(true);selectBuilding(selected);refreshEditor();routeEditor?.refresh();
 }
 const raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2();let down;
 renderer.domElement.addEventListener('pointerdown',e=>down=[e.clientX,e.clientY]);
@@ -394,7 +396,7 @@ function campusNorth(geo){
  if(Math.abs(det)<1e-18)return null;
  const x=-bx/det,z=ax/det,length=Math.hypot(x,z);return {x:x/length,z:z/length};
 }
-function view(mode){topMode=mode==='top';focusMode=['plaza','pavilions','cosei','gdetail','parking','tdetail','serpentina'].includes(mode);camera=topMode?ortho:perspective;controls.object=camera;controls.enableRotate=!topMode;controls.target.set(0,0,0);camera.zoom=1;camera.up.set(0,1,0);
+function view(mode){topMode=mode==='top';controls.maxPolarAngle=topMode?Math.PI:THREE.MathUtils.degToRad(78);focusMode=['plaza','pavilions','cosei','gdetail','parking','tdetail','serpentina'].includes(mode);camera=topMode?ortho:perspective;controls.object=camera;controls.enableRotate=!topMode;controls.target.set(0,0,0);camera.zoom=1;camera.up.set(0,1,0);
  if(mode==='serpentina'){const node=editables.get('sculpture_serpentina_H')?.node;controls.target.copy(node?.position||new THREE.Vector3(X(824),0,Z(265)));controls.target.y=3.4;camera.position.copy(controls.target).add(new THREE.Vector3(-8,6,-23));}
  else if(mode==='tdetail'){const b=data.buildings.find(b=>b.id==='T'),r=b.rects[0];controls.target.set(X((r[0]+r[2])/2)+(b.offsetX||0)-(r[2]-r[0])*S()*.27,2.5,Z(r[1])+(b.offsetZ||0)-3);camera.position.copy(controls.target).add(new THREE.Vector3(-12,12,-45));}
  else if(mode==='plaza'){controls.target.set(X(563.5),3,Z(486.5));camera.position.copy(controls.target).add(new THREE.Vector3(35,115,155));}
@@ -435,7 +437,7 @@ function parkingArea(r,id,title){
 }
 function editSnapshot(){return structuredClone(data);}
 function rememberEdit(snapshot=editSnapshot()){undoHistory.push(snapshot);if(undoHistory.length>40)undoHistory.shift();redoHistory=[];}
-function updateSaveState(){const dirty=JSON.stringify(data)!==savedData;$('saveState').textContent=isSaving?'Guardando…':dirty?'Hay cambios sin guardar.':'Sin cambios pendientes.';$('editUndo').disabled=!undoHistory.length;$('editRedo').disabled=!redoHistory.length;}
+function updateSaveState(){const dirty=JSON.stringify(data)!==savedData||routeEditor?.isDirty();$('saveState').textContent=isSaving?'Guardando…':dirty?'Hay cambios sin guardar.':'Sin cambios pendientes.';$('editUndo').disabled=!undoHistory.length;$('editRedo').disabled=!redoHistory.length;}
 function rebuildAfterEdit(){generate();updateSaveState();}
 function editorOptions(){
  const selector=$('editObject'),kind=$('editFilter').value;selector.replaceChildren(new Option('Selecciona en el mapa o en esta lista',''));
@@ -455,7 +457,7 @@ function setEditing(value){
  editMode=value;resetDraw();controls.autoRotate=false;$('spin').classList.remove('active');controls.enabled=true;$('sceneEditor').hidden=!value;$('toggleEdit').textContent=value?'Cerrar modo edición':'Activar modo edición';$('toggleEdit').setAttribute('aria-expanded',String(value));mount.classList.toggle('editing',value);refreshEditor();
  if(value)message('Selecciona y arrastra un elemento. Los cambios se conservan con Guardar cambios.');
 }
-$('toggleEdit').onclick=()=>setEditing(!editMode);
+$('toggleEdit').onclick=()=>{if(!editMode){$('editRoutes').checked=false;$('routeEditor').hidden=true;}setEditing(!editMode);};
 $('editObject').onchange=e=>chooseEditable(e.target.value);
 $('editFilter').onchange=()=>{editSelected='';refreshEditor();};
 $('editTop').onclick=()=>view('top');
@@ -502,7 +504,7 @@ function endEditDrag(e,cancel=false){if(!dragEdit)return;consumePointer(e);const
 renderer.domElement.addEventListener('pointerup',e=>endEditDrag(e),true);
 renderer.domElement.addEventListener('pointercancel',e=>endEditDrag(e,true),true);
 document.addEventListener('keydown',e=>{if(!editMode||/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))return;if(e.key==='Escape'){resetDraw();message('Dibujo cancelado.');}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();$(e.shiftKey?'editRedo':'editUndo').click();}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='y'){e.preventDefault();$('editRedo').click();}});
-window.addEventListener('beforeunload',e=>{if(savedData&&JSON.stringify(data)!==savedData){e.preventDefault();e.returnValue='';}});
+window.addEventListener('beforeunload',e=>{if(savedData&&(JSON.stringify(data)!==savedData||routeEditor?.isDirty())){e.preventDefault();e.returnValue='';}});
 function validateCampus(d){
  if(d?.serpentina&&(!Array.isArray(d.serpentina.position)||d.serpentina.position.length!==2||!d.serpentina.position.every(Number.isFinite)||(d.serpentina.scale!==undefined&&(!Number.isFinite(d.serpentina.scale)||d.serpentina.scale<.2||d.serpentina.scale>4))))throw Error('Serpentina inválida');
  if(d?.showCopyright!==undefined&&typeof d.showCopyright!=='boolean')throw Error('showCopyright debe ser true o false');
@@ -521,25 +523,28 @@ function drawWatermark(ctx){
  const text='copyright @gabrielhuav',margin=12,size=14;ctx.save();ctx.font='500 '+size+'px system-ui, sans-serif';ctx.textAlign='right';ctx.textBaseline='bottom';const width=ctx.measureText(text).width;
  ctx.fillStyle='rgba(255,255,255,.78)';ctx.fillRect(ctx.canvas.width-margin-width-8,ctx.canvas.height-margin-size-6,width+16,size+12);ctx.fillStyle=copyrightStyle().color;ctx.fillText(text,ctx.canvas.width-margin,ctx.canvas.height-margin);ctx.restore();
 }
-async function watermarkedPlan(source){
- const canvas=document.createElement('canvas');canvas.width=source.width;canvas.height=source.height;const ctx=canvas.getContext('2d');ctx.drawImage(source,0,0);drawWatermark(ctx);return await new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(Error('No se pudo crear el plano PNG.')),'image/png'));
+async function watermarkedPlan(source,withMark=true){
+ const canvas=document.createElement('canvas');canvas.width=source.width;canvas.height=source.height;const ctx=canvas.getContext('2d');ctx.drawImage(source,0,0);if(withMark)drawWatermark(ctx);return await new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(Error('No se pudo crear el plano PNG.')),'image/png'));
 }
 const PLANO={xMin:-390,xMax:390,zMin:-150,zMax:170,pxPorMetro:2};
-async function planoBlob(){
+async function planoBlob(withMark=true){
  const w=(PLANO.xMax-PLANO.xMin)*PLANO.pxPorMetro,h=(PLANO.zMax-PLANO.zMin)*PLANO.pxPorMetro;
  const r=new THREE.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:true});r.setSize(w,h,false);r.setClearColor(0,0);
  r.outputColorSpace=renderer.outputColorSpace;r.toneMapping=renderer.toneMapping;r.toneMappingExposure=renderer.toneMappingExposure;
  const cam=new THREE.OrthographicCamera(PLANO.xMin,PLANO.xMax,-PLANO.zMin,-PLANO.zMax,1,2500);cam.position.set(0,1000,0);cam.up.set(0,0,-1);cam.lookAt(0,0,0);
- const ocultos=[...['Base maqueta','Eje_5_Norte_Montevideo','Av_San_Pablo'].map(n=>world.getObjectByName(n)),editHelper,highlight].filter(Boolean).map(node=>({node,visible:node.visible})),was=vegetation.visible,fog=scene.fog,g=grid.visible;
+ const ocultos=[...['Base maqueta','Eje_5_Norte_Montevideo','Av_San_Pablo'].map(n=>world.getObjectByName(n)),editHelper,highlight,routeEditor?.group].filter(Boolean).map(node=>({node,visible:node.visible})),was=vegetation.visible,fog=scene.fog,g=grid.visible;
  for(const o of ocultos)o.node.visible=false;vegetation.visible=true;scene.fog=null;grid.visible=false;
- try{r.render(scene,cam);return await watermarkedPlan(r.domElement);}
+ try{r.render(scene,cam);return await watermarkedPlan(r.domElement,withMark);}
  finally{for(const o of ocultos)o.node.visible=o.visible;vegetation.visible=was;scene.fog=fog;grid.visible=g;r.dispose();}
 }
 async function saveEditorChanges(withModel=true){
- if(isSaving)return;isSaving=true;resetDraw();updateSaveState();const buttons=['copyrightToggle','saveChanges','saveglb','savejson','apply','applyObject','deleteObject','resetObject','loadjson','toggleEdit','editUndo','editRedo'];for(const id of buttons)$(id).disabled=true;
+ if(isSaving||!routeEditor)return;let routeSnapshot;try{routeSnapshot=routeEditor.exportNet();}catch(e){message(e.message);return;}isSaving=true;resetDraw();updateSaveState();const buttons=['copyrightToggle','saveChanges','saveglb','savejson','apply','applyObject','deleteObject','resetObject','loadjson','toggleEdit','editUndo','editRedo'];for(const id of buttons)$(id).disabled=true;
  const snapshot=JSON.stringify(data);try{
-  if(withModel){const was=vegetation.visible;vegetation.visible=true;try{const result=await new GLTFExporter().parseAsync(world,{binary:true,onlyVisible:true});await save(new Blob([result],{type:'model/gltf-binary'}),'glb','UAM_Azcapotzalco.glb');}finally{vegetation.visible=was;}await save(await planoBlob(),'plano','plano_2d.png');}
-  await save(new Blob([JSON.stringify(JSON.parse(snapshot),null,2)],{type:'application/json'}),'json','campus_editado.json');savedData=snapshot;message(withModel?'Cambios y modelo 3D guardados. Puedes avisarme para crear el checkpoint.':'Datos guardados. El botón Guardar cambios también actualiza el modelo 3D.');
+  if(withModel){const was=vegetation.visible,mark=world.getObjectByName('Marca_copyright_modelo'),visible=mark?.visible;vegetation.visible=true;try{
+   let result=await new GLTFExporter().parseAsync(world,{binary:true,onlyVisible:true});await save(new Blob([result],{type:'model/gltf-binary'}),'glb','UAM_Azcapotzalco.glb');await save(await planoBlob(),'plano','plano_2d.png');
+   if(mark)mark.visible=false;result=await new GLTFExporter().parseAsync(world,{binary:true,onlyVisible:true});await save(new Blob([result],{type:'model/gltf-binary'}),'glb-sin-marca','UAM_Azcapotzalco_sin_marca.glb');await save(await planoBlob(false),'plano-sin-marca','plano_2d_sin_marca.png');
+  }finally{vegetation.visible=was;if(mark)mark.visible=visible;}}
+  await save(new Blob([JSON.stringify(JSON.parse(snapshot),null,2)],{type:'application/json'}),'json','campus_editado.json');await save(new Blob([JSON.stringify(routeSnapshot,null,2)],{type:'application/json'}),'rutas','rutas.json');savedData=snapshot;routeEditor.markSaved(routeSnapshot);message(withModel?'Campus, rutas.json y variantes con/sin marca guardados.':'Datos editables y rutas.json guardados.');
  }catch(e){message('No se pudo completar el guardado: '+e.message);}finally{isSaving=false;for(const id of buttons)$(id).disabled=false;updateSaveState();}
 }
 $('saveChanges').onclick=()=>saveEditorChanges(true);
@@ -551,10 +556,13 @@ async function startCampus(){
   try{const response=await fetch('./campus_editado.json',{cache:'no-store'});if(response.ok){data=validateCampus(await response.json());notice='Se cargaron tus últimos cambios guardados.';}}
   catch(e){notice='No se pudieron cargar los datos guardados. Se muestra la base; revisa el archivo antes de guardar.';}
  }
- data.version=8;savedData=JSON.stringify(data);generate();view('approved');resize();updateSaveState();message(notice);
+ let routes=structuredClone(BASE_ROUTES);if(location.protocol==='http:'){try{const response=await fetch('./rutas.json',{cache:'no-store'});if(response.ok)routes=await response.json();}catch{notice+=' Se usa la red incorporada al visor.';}}
+ data.version=8;savedData=JSON.stringify(data);generate();
+ routeEditor=createRouteEditor({scene,canvas:renderer.domElement,getCamera:()=>camera,getData:()=>data,getGeo:()=>georeference,initial:routes,onDirty:updateSaveState,message,viewTop:()=>view('top'),busy:()=>isSaving,onEnable:()=>{if(editMode)setEditing(false);}});
+ view('approved');resize();updateSaveState();message(notice);
 }
 startCampus();
-const v=new THREE.Vector3();function animate(){requestAnimationFrame(animate);controls.update();renderer.render(scene,camera);const w=mount.clientWidth,h=mount.clientHeight;for(const l of labels){v.copy(l.p).project(camera);l.el.style.display=(!focusMode||!$('serpentina').classList.contains('active')||['H','Serpentina II'].includes(l.el.textContent))&&v.z<1&&v.z>-1&&Math.abs(v.x)<1.1&&Math.abs(v.y)<1.1?'':'none';l.el.style.left=((v.x+1)*w/2)+'px';l.el.style.top=((-v.y+1)*h/2)+'px';}
+const v=new THREE.Vector3();function animate(){requestAnimationFrame(animate);controls.update();renderer.render(scene,camera);const w=mount.clientWidth,h=mount.clientHeight;routeEditor?.paint(camera,w,h);for(const l of labels){v.copy(l.p).project(camera);l.el.style.display=(!focusMode||!$('serpentina').classList.contains('active')||['H','Serpentina II'].includes(l.el.textContent))&&v.z<1&&v.z>-1&&Math.abs(v.x)<1.1&&Math.abs(v.y)<1.1?'':'none';l.el.style.left=((v.x+1)*w/2)+'px';l.el.style.top=((-v.y+1)*h/2)+'px';}
  // Escala local en el plano del suelo: varía con cámara y perspectiva.
  const a=new THREE.Vector3(0,0,0).project(camera),b=new THREE.Vector3(50,0,0).project(camera);const px=Math.abs(b.x-a.x)*w/2;mount.querySelector('.scale').style.width=Math.max(2,px)+'px';$('scaleText').textContent='50 m aprox. · Referencia local en el centro del terreno';}
 animate();

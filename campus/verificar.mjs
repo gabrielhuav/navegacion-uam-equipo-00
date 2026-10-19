@@ -43,7 +43,7 @@ const pole=descendants(asta).find(n=>n.name==='Mástil');const polePosition=gltf
 const flag=descendants(asta).find(n=>n.name==='Bandera_México');assert.ok(flag);const flagMat=gltf.materials[gltf.meshes[flag.mesh].primitives[0].material];const flagTexture=gltf.textures[flagMat.pbrMetallicRoughness.baseColorTexture.index];assert.ok(Number.isInteger(gltf.images[flagTexture.source].bufferView),'La textura de la bandera no está incrustada en el GLB');
 const html=await fs.readFile(new URL('./Visor_UAM_autonomo.html',import.meta.url),'utf8');
 const imports=JSON.parse(html.match(/<script type="importmap">([\s\S]*?)<\/script>/)[1]).imports;
-assert.equal(Object.keys(imports).length,5);assert.ok(Object.values(imports).every(v=>v.startsWith('data:text/javascript;base64,')));
+assert.deepEqual(Object.keys(imports).sort(),['three','orbit','exporter','texture-utils','model-data','copyright-layout','route-space','route-data','route-editor'].sort());assert.ok(Object.values(imports).every(v=>v.startsWith('data:text/javascript;base64,')));
 const exporter=Buffer.from(imports.exporter.split(',')[1],'base64').toString();assert.ok(exporter.includes("from 'texture-utils'"));
 const png=await fs.readFile(new URL('./Vista_actual.png',import.meta.url));assert.equal(png.subarray(1,4).toString(),'PNG');
 console.log('Verificado: GLB 2 con asta de 18 m, bandera con textura incrustada, seis escalones que alcanzan la plataforma COSEI y dos jardineras; biblioteca I, conexiones, Plaza Roja y cubiertas conservadas; visor autónomo y PNG.');
