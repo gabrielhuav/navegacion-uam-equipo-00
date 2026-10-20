@@ -5,6 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 
+import 'tema.dart';
+
 /// Centro de la UAM Azcapotzalco. El mapa empieza aquí mientras llega tu ubicación.
 const uamAzcapotzalco = LatLng(19.50306, -99.18694);
 
@@ -28,13 +30,13 @@ Future<Ubicacion> obtenerUbicacion() async {
   if (permiso == LocationPermission.denied) {
     permiso = await Geolocator.requestPermission();
   }
-  if (permiso == LocationPermission.denied ||
-      permiso == LocationPermission.deniedForever) {
+  if (permiso == LocationPermission.denied || permiso == LocationPermission.deniedForever) {
     return const Ubicacion(null, 'Sin permiso de ubicación: el mapa muestra la UAM.');
   }
   try {
-    final posicion = await Geolocator.getCurrentPosition(locationSettings: _ajustes())
-        .catchError((_) async => (await Geolocator.getLastKnownPosition())!);
+    final posicion = await Geolocator.getCurrentPosition(
+      locationSettings: _ajustes(),
+    ).catchError((_) async => (await Geolocator.getLastKnownPosition())!);
     final punto = LatLng(posicion.latitude, posicion.longitude);
     return Ubicacion(punto, describir(punto));
   } catch (e) {
@@ -52,9 +54,9 @@ LocationSettings _ajustes() {
   return const LocationSettings(timeLimit: Duration(seconds: 15));
 }
 
-/// Dice si el punto está en la UAM o a cuántos kilómetros queda.
-String describir(LatLng punto) {
-  final metros = const Distance().distance(uamAzcapotzalco, punto);
-  if (metros <= radioCampus) return 'Estás en la UAM Azcapotzalco.';
-  return 'Estás a ${(metros / 1000).toStringAsFixed(1)} km de la UAM.';
+/// Dice si el punto está en la unidad (por omisión, Azcapotzalco) o a cuántos kilómetros queda.
+String describir(LatLng punto, [Unidad sede = Unidad.azcapotzalco]) {
+  final metros = const Distance().distance(sede.centro, punto);
+  if (metros <= sede.radio) return 'Estás en la UAM ${sede.nombre}.';
+  return 'Estás a ${(metros / 1000).toStringAsFixed(1)} km de la UAM ${sede.nombre}.';
 }

@@ -6,7 +6,8 @@
     <application
         android:label="Salones Flutter"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true"> <!-- el 3D (model_viewer_plus) sirve el modelo desde un servidor local en http://127.0.0.1 -->
         <activity
             android:name=".MainActivity"
             android:exported="true"

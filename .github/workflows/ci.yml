@@ -1,4 +1,4 @@
-# Integración continua del Prototipo 1.
+# Integración continua de las dos apps (Flutter y KMP).
 # Corre en cada Pull Request y en cada push a main. Si un trabajo falla, el PR no está listo.
 name: CI
 

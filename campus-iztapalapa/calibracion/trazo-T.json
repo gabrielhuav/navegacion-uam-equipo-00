@@ -1,0 +1,60 @@
+{
+  "id": "T",
+  "method": "Envolvente aproximada trazada visualmente; conversión por inversa de matriz afín existente. No agrega controles ni mejora el RMS.",
+  "pixelPoints": [
+    [
+      505,
+      750
+    ],
+    [
+      644,
+      791
+    ],
+    [
+      631,
+      831
+    ],
+    [
+      492,
+      791
+    ]
+  ],
+  "imageSize": [
+    1500,
+    1200
+  ],
+  "extent3857": {
+    "xmin": -11029190.728750268,
+    "ymin": 2197189.289650169,
+    "xmax": -11028232.038381083,
+    "ymax": 2197956.2419455172,
+    "spatialReference": {
+      "wkid": 102100,
+      "latestWkid": 3857
+    }
+  },
+  "polygons": [
+    [
+      [
+        751.465,
+        489.662
+      ],
+      [
+        831.663,
+        511.738
+      ],
+      [
+        823.803,
+        536.452
+      ],
+      [
+        743.597,
+        514.987
+      ]
+    ]
+  ],
+  "identitySource": "https://cse.izt.uam.mx/index.php/home/ubicacion",
+  "imageSource": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export?bbox=-99.0765%2C19.3585%2C-99.0687%2C19.365&bboxSR=4326&imageSR=3857&size=1500%2C1200&format=jpg&f=json",
+  "positionUncertainty": "5–15 m visual orientativa, no independiente",
+  "date": "2026-10-18"
+}

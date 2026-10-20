@@ -1,0 +1,69 @@
+{
+  "descripcion": "Croquis inicial; ajuste afín RMS interno 2.18 m. No exactitud absoluta; ver calibracion/puntos.json y FUENTES.md.",
+  "plano": "plano_2d.png",
+  "ancho": 800,
+  "alto": 2120,
+  "superiorIzquierda": [
+    19.308960747,
+    -99.104804423
+  ],
+  "superiorDerecha": [
+    19.308989971,
+    -99.100991284
+  ],
+  "inferiorIzquierda": [
+    19.299390961,
+    -99.104818155
+  ],
+  "metrosPorUnidad": 1.0032585591060086,
+  "calibracion": {
+    "puntos": "calibracion/puntos.json",
+    "independiente": false,
+    "advertencia": "RMS interno contra misma referencia visual; no exactitud absoluta. Huellas auxiliares trazadas sobre este raster. Incertidumbre absoluta orientativa 5–15 m, no validada con GNSS.",
+    "fechaConsulta": "2026-10-18",
+    "proveedor": "Esri World Imagery + huellas OpenStreetMap",
+    "extent3857": {
+      "xmin": -11032367.778150799,
+      "ymin": 2190193.73490018,
+      "xmax": -11031789.818173544,
+      "ymax": 2191349.6548546883,
+      "spatialReference": {
+        "wkid": 102100,
+        "latestWkid": 3857
+      }
+    },
+    "urlImagen": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export?bbox=-99.1052%2C19.2992%2C-99.1005%2C19.3090&bboxSR=4326&imageSR=3857&size=900%2C1800&format=jpg&f=json",
+    "imageWidth": 900,
+    "imageHeight": 1800,
+    "referenciaMercator": [
+      -11032084.364136713,
+      2190783.4813259286
+    ],
+    "cosLatitud": 0.943776721077129,
+    "encuadre": {
+      "xMin": -200,
+      "xMax": 200,
+      "zMin": -530,
+      "zMax": 530,
+      "pxPorMetro": 2
+    },
+    "matrizAfinEsteNorte": [
+      [
+        1.0015278676497772,
+        0.008133222229719246
+      ],
+      [
+        -0.001361088454289006,
+        -1.0050032944328542
+      ],
+      [
+        -0.4958727160935816,
+        -1.0534814617498653
+      ]
+    ],
+    "rmsMetros": 2.1812,
+    "maximoMetros": 4.4085,
+    "numeroPuntos": 11,
+    "volumenes": 11
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "descripcion": "Croquis inicial; ajuste afín RMS interno 1.40 m. No exactitud absoluta; ver calibracion/puntos.json y FUENTES.md.",
+  "plano": "plano_2d.png",
+  "ancho": 1800,
+  "alto": 1240,
+  "superiorIzquierda": [
+    19.293289795,
+    -99.502836398
+  ],
+  "superiorDerecha": [
+    19.29328876,
+    -99.494234812
+  ],
+  "inferiorIzquierda": [
+    19.287722741,
+    -99.50271012
+  ],
+  "metrosPorUnidad": 1.0018629545071995,
+  "calibracion": {
+    "puntos": "calibracion/puntos.json",
+    "independiente": false,
+    "advertencia": "RMS interno OSM contra imagen; paralaje y temporalidad no resueltos. Incertidumbre absoluta orientativa 5–15 m, pendiente control de campo. C/D/E trazados sobre la misma imagen.",
+    "fechaConsulta": "2026-10-18",
+    "proveedor": "Esri World Imagery + OpenStreetMap",
+    "extent3857": {
+      "xmin": -11076623.2924031,
+      "ymin": 2188772.1069337567,
+      "xmax": -11075621.41698596,
+      "ymax": 2189551.34336931,
+      "spatialReference": {
+        "wkid": 102100,
+        "latestWkid": 3857
+      }
+    },
+    "urlImagen": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export?bbox=-99.5030%2C19.2875%2C-99.4940%2C19.2934&bboxSR=4326&imageSR=3857&size=1800%2C1400&format=jpg&f=json",
+    "imageWidth": 1800,
+    "imageHeight": 1400,
+    "referenciaMercator": [
+      -11076122.35469453,
+      2189167.6190762985
+    ],
+    "cosLatitud": 0.9438557399712133,
+    "encuadre": {
+      "xMin": -450,
+      "xMax": 450,
+      "zMin": -310,
+      "zMax": 310,
+      "pxPorMetro": 2
+    },
+    "matrizAfinEsteNorte": [
+      [
+        1.0041830124262254,
+        -0.00012803740439888136
+      ],
+      [
+        0.02139991423595052,
+        -0.9995509854107492
+      ],
+      [
+        2.8929763475900456,
+        0.642770438490993
+      ]
+    ],
+    "rmsMetros": 1.4046,
+    "maximoMetros": 3.0725,
+    "numeroPuntos": 11,
+    "volumenes": 10
+  }
+}

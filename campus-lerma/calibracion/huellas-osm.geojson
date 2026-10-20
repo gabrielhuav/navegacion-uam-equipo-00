@@ -1,0 +1,814 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "A1",
+        "osmWay": "374595634",
+        "osmTags": {
+          "addr:city": "Lerma de Villada",
+          "addr:housenumber": "10",
+          "addr:neighbourhood": "El Panteón",
+          "addr:postcode": "52005",
+          "addr:state": "México",
+          "addr:street": "Las Garzas",
+          "building": "school",
+          "building:levels": "1",
+          "name": "Edificio A"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -99.5021802,
+              19.2917055
+            ],
+            [
+              -99.5020378,
+              19.291704
+            ],
+            [
+              -99.502041,
+              19.2914308
+            ],
+            [
+              -99.5021833,
+              19.2914323
+            ],
+            [
+              -99.5021802,
+              19.2917055
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "A7",
+        "osmWay": "374595642",
+        "osmTags": {
+          "addr:city": "Lerma de Villada",
+          "addr:housenumber": "10",
+          "addr:neighbourhood": "El Panteón",
+          "addr:postcode": "52005",
+          "addr:state": "México",
+          "addr:street": "Las Garzas",
+          "building": "school",
+          "building:levels": "1",
+          "name": "Edificio F"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -99.5012898,
+              19.2917118
+            ],
+            [
+              -99.5011308,
+              19.2917099
+            ],
+            [
+              -99.5011333,
+              19.2915215
+            ],
+            [
+              -99.5012924,
+              19.2915234
+            ],
+            [
+              -99.5012898,
+              19.2917118
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "A4",
+        "osmWay": "449480557",
+        "osmTags": {
+          "addr:city": "Lerma de Villada",
+          "addr:housenumber": "10",
+          "addr:neighbourhood": "El Panteón",
+          "addr:postcode": "52005",
+          "addr:state": "México",
+          "addr:street": "Las Garzas",
+          "building": "school",
+          "building:levels": "z",
+          "name": "Edificio C"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -99.5017463,
+              19.2917188
+            ],
+            [
+              -99.501752,
+              19.2914534
+            ],
+            [
+              -99.5015716,
+              19.2914499
+            ],
+            [
+              -99.5015659,
+              19.2917154
+            ],
+            [
+              -99.5017463,
+              19.2917188
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "A6",
+        "osmWay": "449480559",
+        "osmTags": {
+          "addr:city": "Lerma de Villada",
+          "addr:housenumber": "10",
+          "addr:neighbourhood": "El Panteón",
+          "addr:postcode": "52005",
+          "addr:state": "México",
+          "addr:street": "Las Garzas",
+          "building": "school",
+          "building:levels": "1",
+          "name": "Edificio E"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -99.5013773,
+              19.2916964
+            ],
+            [
+              -99.5013033,
+              19.2916957
+            ],
+            [
+              -99.5013077,
+              19.2913044
+            ],
+            [
+              -99.5013818,
+              19.2913052
+            ],
+            [
+              -99.5013773,
+              19.2916964
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "A3",
+        "osmWay": "449480561",
+        "osmTags": {
+          "addr:city": "Lerma de Villada",
+          "addr:housenumber": "10",
+          "addr:neighbourhood": "El Panteón",
+          "addr:postcode": "52005",
+          "addr:state": "México",
+          "addr:street": "Las Garzas",
+          "building": "school",
+          "building:levels": "1",
+          "name": "Edificio B"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -99.5019825,
+              19.2917097
+            ],
+            [
+              -99.5019862,
+              19.2915586
+            ],
+            [
+              -99.5020044,
+              19.291559
+            ],
+            [
+              -99.5020068,
+              19.2914633
+            ],
+            [
+              -99.5018347,
+              19.2914594
+            ],
+            [
+              -99.5018285,
+              19.2917062
+            ],
+            [
+              -99.5019825,
+              19.2917097
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "CASETA",
+        "osmWay": "449480562",
+        "osmTags": {
+          "building": "school"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -99.5021197,
+              19.2920359
+            ],
+            [
+              -99.5021213,
+              19.2919872
+            ],
+            [
+              -99.502065,
+              19.2919855
+            ],
+            [
+              -99.5020634,
+              19.2920343
+            ],
+            [
+              -99.5021197,
+              19.2920359
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "B6",
+        "osmWay": "1287820350",
+        "osmTags": {
+          "addr:city": "Lerma de Villada",
+          "addr:housenumber": "10",
+          "addr:neighbourhood": "El Panteón",
+          "addr:postcode": "52005",
+          "addr:state": "México",
+          "addr:street": "Las Garzas",
+          "building": "school",
+          "building:levels": "1",
+          "name": "Edifcio L"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -99.5002094,
+              19.2917873
+            ],
+            [
+              -99.5002103,
+              19.291665
+            ],
+            [
+              -99.4998555,
+              19.2916626
+            ],
+            [
+              -99.4998554,
+              19.2916729
+            ],
+            [
+              -99.499811,
+              19.2916726
+            ],
+            [
+              -99.4998102,
+              19.2917846
+            ],
+            [
+              -99.5002094,
+              19.2917873
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "B5",
+        "osmWay": "1287820351",
+        "osmTags": {
+          "addr:city": "Lerma de Villada",
+          "addr:housenumber": "10",
+          "addr:neighbourhood": "El Panteón",
+          "addr:postcode": "52005",
+          "addr:state": "México",
+          "addr:street": "Las Garzas",
+          "building": "school",
+          "building:levels": "1",
+          "name": "Edificio K"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -99.5004353,
+              19.2917944
+            ],
+            [
+              -99.5002619,
+              19.2917919
+            ],
+            [
+              -99.5002678,
+              19.2914252
+            ],
+            [
+              -99.500441,
+              19.2914276
+            ],
+            [
+              -99.5004353,
+              19.2917944
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "B4",
+        "osmWay": "1287820352",
+        "osmTags": {
+          "addr:city": "Lerma de Villada",
+          "addr:housenumber": "10",
+          "addr:neighbourhood": "El Panteón",
+          "addr:postcode": "52005",
+          "addr:state": "México",
+          "addr:street": "Las Garzas",
+          "building": "school",
+          "building:levels": "1",
+          "name": "Edificio J"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -99.5006679,
+              19.2917964
+            ],
+            [
+              -99.5005662,
+              19.2917947
+            ],
+            [
+              -99.5005729,
+              19.291435
+            ],
+            [
+              -99.5006746,
+              19.2914341
+            ],
+            [
+              -99.5006679,
+              19.2917964
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "B3",
+        "osmWay": "1287820353",
+        "osmTags": {
+          "addr:city": "Lerma de Villada",
+          "addr:housenumber": "10",
+          "addr:neighbourhood": "El Panteón",
+          "addr:postcode": "52005",
+          "addr:state": "México",
+          "addr:street": "Las Garzas",
+          "building": "school",
+          "building:levels": "1",
+          "name": "Edificio I"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -99.5009028,
+              19.2917975
+            ],
+            [
+              -99.500722,
+              19.2917962
+            ],
+            [
+              -99.5007245,
+              19.2914347
+            ],
+            [
+              -99.500907,
+              19.2914366
+            ],
+            [
+              -99.5009028,
+              19.2917975
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "B1",
+        "osmWay": "1287820354",
+        "osmTags": {
+          "addr:city": "Lerma de Villada",
+          "addr:housenumber": "10",
+          "addr:postcode": "52005",
+          "addr:state": "México",
+          "addr:street": "Las Garzas",
+          "building": "school",
+          "building:levels": "1",
+          "name": "Edificio H"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -99.5010528,
+              19.291796
+            ],
+            [
+              -99.5009475,
+              19.2917964
+            ],
+            [
+              -99.5009521,
+              19.2914474
+            ],
+            [
+              -99.5010642,
+              19.291446
+            ],
+            [
+              -99.5010528,
+              19.291796
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "B2",
+        "osmWay": "1287820355",
+        "osmTags": {
+          "addr:city": "Lerma de Villada",
+          "addr:housenumber": "10",
+          "addr:neighbourhood": "El Panteón",
+          "addr:postcode": "52005",
+          "addr:state": "México",
+          "addr:street": "Las Garzas",
+          "building": "school",
+          "building:levels": "1",
+          "name": "Edificio M"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -99.5010374,
+              19.2914081
+            ],
+            [
+              -99.5002463,
+              19.2914029
+            ],
+            [
+              -99.5002473,
+              19.2912644
+            ],
+            [
+              -99.5006258,
+              19.2912669
+            ],
+            [
+              -99.5006254,
+              19.2913159
+            ],
+            [
+              -99.501038,
+              19.2913185
+            ],
+            [
+              -99.5010374,
+              19.2914081
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "B7",
+        "osmWay": "1287820356",
+        "osmTags": {
+          "addr:city": "Lerma de Villada",
+          "addr:housenumber": "10",
+          "addr:neighbourhood": "El Panteón",
+          "addr:postcode": "52005",
+          "addr:state": "México",
+          "addr:street": "Las Garzas",
+          "building": "school",
+          "building:levels": "1",
+          "name": "Edificio N"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -99.5002021,
+              19.2913405
+            ],
+            [
+              -99.5001992,
+              19.2912468
+            ],
+            [
+              -99.499951,
+              19.2912489
+            ],
+            [
+              -99.4999506,
+              19.2912077
+            ],
+            [
+              -99.4997623,
+              19.2912092
+            ],
+            [
+              -99.4997636,
+              19.291347
+            ],
+            [
+              -99.5002021,
+              19.2913405
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "F",
+        "osmWay": "1287820360",
+        "osmTags": {
+          "addr:city": "Lerma de Villada",
+          "addr:housenumber": "10",
+          "addr:neighbourhood": "El Panteón",
+          "addr:postcode": "52005",
+          "addr:state": "México",
+          "addr:street": "Las Garzas",
+          "building": "school",
+          "name": "Edificio O"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -99.4979201,
+              19.2926076
+            ],
+            [
+              -99.4979295,
+              19.2920427
+            ],
+            [
+              -99.4976642,
+              19.2922718
+            ],
+            [
+              -99.4976687,
+              19.2924815
+            ],
+            [
+              -99.4969564,
+              19.2924813
+            ],
+            [
+              -99.496956,
+              19.2925988
+            ],
+            [
+              -99.4979201,
+              19.2926076
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "G",
+        "osmWay": "1287820361",
+        "osmTags": {
+          "addr:city": "Lerma de Villada",
+          "addr:housenumber": "10",
+          "addr:neighbourhood": "El Panteón",
+          "addr:postcode": "52005",
+          "addr:state": "México",
+          "building": "school",
+          "name": "Edificio P"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -99.4969408,
+              19.2926027
+            ],
+            [
+              -99.4953842,
+              19.2925866
+            ],
+            [
+              -99.4953857,
+              19.2924554
+            ],
+            [
+              -99.4952825,
+              19.2923692
+            ],
+            [
+              -99.4952841,
+              19.2922355
+            ],
+            [
+              -99.4956456,
+              19.2922394
+            ],
+            [
+              -99.4956429,
+              19.2924641
+            ],
+            [
+              -99.4969423,
+              19.2924778
+            ],
+            [
+              -99.4969408,
+              19.2926027
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "A5",
+        "osmWay": "1288125402",
+        "osmTags": {
+          "addr:city": "Lerma de Villada",
+          "addr:housenumber": "10",
+          "addr:neighbourhood": "El Panteón",
+          "addr:postcode": "52005",
+          "addr:state": "México",
+          "addr:street": "Las Garzas",
+          "building": "school",
+          "building:levels": "1",
+          "name": "Edificio D"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -99.5015482,
+              19.29171
+            ],
+            [
+              -99.5014629,
+              19.2917108
+            ],
+            [
+              -99.5014601,
+              19.2914245
+            ],
+            [
+              -99.5015455,
+              19.2914238
+            ],
+            [
+              -99.5015482,
+              19.29171
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "A2",
+        "osmWay": "1288125403",
+        "osmTags": {
+          "addr:city": "Lerma de Villada",
+          "addr:housenumber": "10",
+          "addr:neighbourhood": "El Panteón",
+          "addr:postcode": "52005",
+          "addr:state": "México",
+          "addr:street": "Las Garzas",
+          "building": "school",
+          "building:levels": "1",
+          "name": "Edificio G"
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -99.5022274,
+              19.2914059
+            ],
+            [
+              -99.5014734,
+              19.291397
+            ],
+            [
+              -99.5014746,
+              19.2913034
+            ],
+            [
+              -99.5022287,
+              19.2913121
+            ],
+            [
+              -99.5022274,
+              19.2914059
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

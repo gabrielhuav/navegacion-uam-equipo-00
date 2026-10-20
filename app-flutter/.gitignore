@@ -49,3 +49,8 @@ app.*.map.json
 
 # Archivos de trabajo temporales (instrucciones para Codex)
 .codex-tmp/
+
+# Copia del campus que hace Gradle al compilar (la fuente es ../campus)
+assets/campus/**/*.glb
+assets/campus/**/*.png
+assets/campus/**/*.json

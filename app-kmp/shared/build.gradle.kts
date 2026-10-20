@@ -41,6 +41,12 @@ kotlin {
             implementation(libs.compose.ui)
             implementation(libs.compose.material3)
         }
+        // Solo Android: el modelo 3D (Campus3D.android.kt).
+        androidMain.dependencies {
+            implementation(libs.filament.android)
+            implementation(libs.filament.gltfio)
+            implementation(libs.filament.utils)
+        }
         // Pruebas de la lógica compartida (Ubicacion.kt): las mismas para Android e iOS.
         commonTest.dependencies {
             implementation(kotlin("test"))

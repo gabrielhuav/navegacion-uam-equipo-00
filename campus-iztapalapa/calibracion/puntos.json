@@ -1,0 +1,182 @@
+[
+  {
+    "id": "centro_D",
+    "edificio": "D",
+    "modelo": [
+      76.9251,
+      -10.5161
+    ],
+    "imagen": [
+      883,
+      577
+    ],
+    "latLon": [
+      19.36187461567666,
+      -99.07183639715923
+    ],
+    "observacion": "Punto visual de cubierta; incertidumbre por relieve/paralaje. No es control GNSS.",
+    "residuoMetros": 3.545
+  },
+  {
+    "id": "centro_C",
+    "edificio": "C",
+    "modelo": [
+      45.6491,
+      23.6593
+    ],
+    "imagen": [
+      824,
+      636
+    ],
+    "latLon": [
+      19.361555032274154,
+      -99.07217513826906
+    ],
+    "observacion": "Punto visual de cubierta; incertidumbre por relieve/paralaje. No es control GNSS.",
+    "residuoMetros": 3.6192
+  },
+  {
+    "id": "centro_B",
+    "edificio": "B",
+    "modelo": [
+      16.214,
+      55.0576
+    ],
+    "imagen": [
+      777,
+      692
+    ],
+    "latLon": [
+      19.361251698295757,
+      -99.07244498288196
+    ],
+    "observacion": "Punto visual de cubierta; incertidumbre por relieve/paralaje. No es control GNSS.",
+    "residuoMetros": 3.6737
+  },
+  {
+    "id": "centro_L",
+    "edificio": "L",
+    "modelo": [
+      -57.9116,
+      74.994
+    ],
+    "imagen": [
+      651,
+      720
+    ],
+    "latLon": [
+      19.361100031094924,
+      -99.07316839609952
+    ],
+    "observacion": "Punto visual de cubierta; incertidumbre por relieve/paralaje. No es control GNSS.",
+    "residuoMetros": 3.245
+  },
+  {
+    "id": "centro_M_CAF",
+    "edificio": "M_CAF",
+    "modelo": [
+      -18.6646,
+      -90.3247
+    ],
+    "imagen": [
+      717,
+      448
+    ],
+    "latLon": [
+      19.36257336364578,
+      -99.0727894653665
+    ],
+    "observacion": "Punto visual de cubierta; incertidumbre por relieve/paralaje. No es control GNSS.",
+    "residuoMetros": 1.0733
+  },
+  {
+    "id": "centro_M",
+    "edificio": "M",
+    "modelo": [
+      7.7928,
+      -143.3131
+    ],
+    "imagen": [
+      766,
+      363
+    ],
+    "latLon": [
+      19.363033777337588,
+      -99.07250813800411
+    ],
+    "observacion": "Punto visual de cubierta; incertidumbre por relieve/paralaje. No es control GNSS.",
+    "residuoMetros": 3.3825
+  },
+  {
+    "id": "centro_G",
+    "edificio": "G",
+    "modelo": [
+      -33.3596,
+      36.2817
+    ],
+    "imagen": [
+      688,
+      649
+    ],
+    "latLon": [
+      19.361484615508047,
+      -99.07295596523403
+    ],
+    "observacion": "Punto visual de cubierta; incertidumbre por relieve/paralaje. No es control GNSS.",
+    "residuoMetros": 4.1918
+  },
+  {
+    "id": "centro_AT",
+    "edificio": "AT",
+    "modelo": [
+      -102.2927,
+      176.2813
+    ],
+    "imagen": [
+      574,
+      876
+    ],
+    "latLon": [
+      19.3602550255364,
+      -99.07361048195467
+    ],
+    "observacion": "Punto visual de cubierta; incertidumbre por relieve/paralaje. No es control GNSS.",
+    "residuoMetros": 2.6868
+  },
+  {
+    "id": "centro_AS",
+    "edificio": "AS",
+    "modelo": [
+      34.4136,
+      216.9393
+    ],
+    "imagen": [
+      824,
+      954
+    ],
+    "latLon": [
+      19.359832521115006,
+      -99.07217513826906
+    ],
+    "observacion": "Punto visual de cubierta; incertidumbre por relieve/paralaje. No es control GNSS.",
+    "residuoMetros": 5.4697
+  },
+  {
+    "id": "centro_I",
+    "edificio": "I",
+    "modelo": [
+      -140.8936,
+      38.2138
+    ],
+    "imagen": [
+      513,
+      647
+    ],
+    "latLon": [
+      19.361495448858655,
+      -99.07396070581397
+    ],
+    "observacion": "Punto visual de cubierta; incertidumbre por relieve/paralaje. No es control GNSS.",
+    "residuoMetros": 3.3047
+  }
+]

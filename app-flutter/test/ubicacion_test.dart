@@ -12,6 +12,6 @@ void main() {
   test('lejos de la UAM dice a cuántos kilómetros queda', () {
     const zocalo = LatLng(19.4326, -99.1332);
     expect(describir(zocalo), startsWith('Estás a '));
-    expect(describir(zocalo), endsWith(' km de la UAM.'));
+    expect(describir(zocalo), endsWith(' km de la UAM Azcapotzalco.'));
   });
 }

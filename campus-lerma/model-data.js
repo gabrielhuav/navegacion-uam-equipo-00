@@ -1,0 +1,1506 @@
+export const ORIGINAL = {
+  "version": 8,
+  "unit": {
+    "name": "Lerma",
+    "slug": "lerma",
+    "glb": "UAM_Lerma.glb",
+    "port": 8772,
+    "plan": {
+      "xMin": -450,
+      "xMax": 450,
+      "zMin": -310,
+      "zMax": 310,
+      "pxPorMetro": 2
+    },
+    "accent": "#803a8c"
+  },
+  "metersPerPixel": 1,
+  "storeyHeight": 3.5,
+  "reference": "UAM Lerma · mapa oficial septiembre 2026 + directorio actual + 13 referencias visuales + Esri/OSM. Croquis métrico aproximado, no levantamiento.",
+  "site": [
+    [
+      498.552,
+      131.559
+    ],
+    [
+      495.242,
+      245.306
+    ],
+    [
+      495.599,
+      304.785
+    ],
+    [
+      495.179,
+      329.197
+    ],
+    [
+      638.2,
+      330.756
+    ],
+    [
+      782.691,
+      333.294
+    ],
+    [
+      992.221,
+      336.533
+    ],
+    [
+      993.976,
+      337.023
+    ],
+    [
+      995.173,
+      338.57
+    ],
+    [
+      995.741,
+      341.042
+    ],
+    [
+      988.417,
+      648.504
+    ],
+    [
+      1277.842,
+      645.688
+    ],
+    [
+      1273.397,
+      318.01
+    ],
+    [
+      1271.075,
+      146.309
+    ],
+    [
+      1269.951,
+      141.233
+    ],
+    [
+      1267.272,
+      139.819
+    ],
+    [
+      1262.68,
+      139.708
+    ],
+    [
+      941.903,
+      136.702
+    ],
+    [
+      654.737,
+      131.414
+    ]
+  ],
+  "buildings": [
+    {
+      "id": "A1",
+      "name": "A1 · Aulas y espacios colaborativos",
+      "floors": 1,
+      "legacyId": "A",
+      "polygons": [
+        [
+          [
+            508.323,
+            255.804
+          ],
+          [
+            523.285,
+            255.971
+          ],
+          [
+            522.949,
+            286.384
+          ],
+          [
+            507.997,
+            286.217
+          ]
+        ]
+      ],
+      "rects": [
+        [
+          507.997,
+          255.804,
+          523.285,
+          286.384
+        ]
+      ],
+      "roof": "#e1e3d6",
+      "source": "OSM way 374595634; IDs actuales contrastados con mapaUAML.pdf septiembre 2026 y Directorio de Espacios",
+      "osmWay": "374595634",
+      "osmName": "Edificio A",
+      "detail": "light",
+      "heightEvidence": "Una planta: OSM + galería oficial; altura aproximada",
+      "architecture": {}
+    },
+    {
+      "id": "A7",
+      "name": "A7 · Salón de usos múltiples",
+      "floors": 1,
+      "legacyId": "F",
+      "polygons": [
+        [
+          [
+            601.877,
+            255.103
+          ],
+          [
+            618.583,
+            255.314
+          ],
+          [
+            618.32,
+            276.287
+          ],
+          [
+            601.604,
+            276.075
+          ]
+        ]
+      ],
+      "rects": [
+        [
+          601.604,
+          255.103,
+          618.583,
+          276.287
+        ]
+      ],
+      "roof": "#e1e3d6",
+      "source": "OSM way 374595642; IDs actuales contrastados con mapaUAML.pdf septiembre 2026 y Directorio de Espacios",
+      "osmWay": "374595642",
+      "osmName": "Edificio F",
+      "detail": "light",
+      "heightEvidence": "Una planta: OSM + galería oficial; altura aproximada",
+      "architecture": {}
+    },
+    {
+      "id": "A4",
+      "name": "A4 · Laboratorios CBS",
+      "floors": 1,
+      "legacyId": "C",
+      "polygons": [
+        [
+          [
+            553.913,
+            254.323
+          ],
+          [
+            553.314,
+            283.868
+          ],
+          [
+            572.268,
+            284.257
+          ],
+          [
+            572.867,
+            254.702
+          ]
+        ]
+      ],
+      "rects": [
+        [
+          553.314,
+          254.323,
+          572.867,
+          284.257
+        ]
+      ],
+      "roof": "#e1e3d6",
+      "source": "OSM way 449480557; IDs actuales contrastados con mapaUAML.pdf septiembre 2026 y Directorio de Espacios",
+      "osmWay": "449480557",
+      "osmName": "Edificio C",
+      "detail": "light",
+      "heightEvidence": "Una planta: OSM + galería oficial; altura aproximada",
+      "architecture": {}
+    },
+    {
+      "id": "A6",
+      "name": "A6 · Laboratorios y servicios",
+      "floors": 1,
+      "legacyId": "E",
+      "polygons": [
+        [
+          [
+            592.683,
+            256.817
+          ],
+          [
+            600.459,
+            256.895
+          ],
+          [
+            599.996,
+            300.454
+          ],
+          [
+            592.211,
+            300.365
+          ]
+        ]
+      ],
+      "rects": [
+        [
+          592.211,
+          256.817,
+          600.459,
+          300.454
+        ]
+      ],
+      "roof": "#e1e3d6",
+      "source": "OSM way 449480559; IDs actuales contrastados con mapaUAML.pdf septiembre 2026 y Directorio de Espacios",
+      "osmWay": "449480559",
+      "osmName": "Edificio E",
+      "detail": "light",
+      "heightEvidence": "Una planta: OSM + galería oficial; altura aproximada",
+      "architecture": {}
+    },
+    {
+      "id": "A3",
+      "name": "A3 · Aulas de tecnología",
+      "floors": 1,
+      "legacyId": "B",
+      "polygons": [
+        [
+          [
+            529.095,
+            255.336
+          ],
+          [
+            528.707,
+            272.157
+          ],
+          [
+            526.794,
+            272.112
+          ],
+          [
+            526.542,
+            282.766
+          ],
+          [
+            544.625,
+            283.2
+          ],
+          [
+            545.276,
+            255.726
+          ]
+        ]
+      ],
+      "rects": [
+        [
+          526.542,
+          255.336,
+          545.276,
+          283.2
+        ]
+      ],
+      "roof": "#e1e3d6",
+      "source": "OSM way 449480561; IDs actuales contrastados con mapaUAML.pdf septiembre 2026 y Directorio de Espacios",
+      "osmWay": "449480561",
+      "osmName": "Edificio B",
+      "detail": "light",
+      "heightEvidence": "Una planta: OSM + galería oficial; altura aproximada",
+      "architecture": {}
+    },
+    {
+      "id": "CASETA",
+      "name": "CASETA · Vigilancia del acceso",
+      "floors": 1,
+      "legacyId": null,
+      "polygons": [
+        [
+          [
+            514.68,
+            219.024
+          ],
+          [
+            514.512,
+            224.445
+          ],
+          [
+            520.427,
+            224.634
+          ],
+          [
+            520.595,
+            219.202
+          ]
+        ]
+      ],
+      "rects": [
+        [
+          514.512,
+          219.024,
+          520.595,
+          224.634
+        ]
+      ],
+      "roof": "#e1e3d6",
+      "source": "OSM way 449480562; IDs actuales contrastados con mapaUAML.pdf septiembre 2026 y Directorio de Espacios",
+      "osmWay": "449480562",
+      "osmName": null,
+      "detail": "light",
+      "heightEvidence": "Una planta: OSM + galería oficial; altura aproximada",
+      "architecture": {}
+    },
+    {
+      "id": "B6",
+      "name": "B6 · Comedor",
+      "floors": 1,
+      "legacyId": "L",
+      "polygons": [
+        [
+          [
+            715.394,
+            246.698
+          ],
+          [
+            715.3,
+            260.312
+          ],
+          [
+            752.578,
+            260.58
+          ],
+          [
+            752.589,
+            259.433
+          ],
+          [
+            757.254,
+            259.466
+          ],
+          [
+            757.338,
+            246.998
+          ]
+        ]
+      ],
+      "rects": [
+        [
+          715.3,
+          246.698,
+          757.338,
+          260.58
+        ]
+      ],
+      "roof": "#e1e3d6",
+      "source": "OSM way 1287820350; IDs actuales contrastados con mapaUAML.pdf septiembre 2026 y Directorio de Espacios",
+      "osmWay": "1287820350",
+      "osmName": "Edifcio L",
+      "detail": "light",
+      "heightEvidence": "Una planta: OSM + galería oficial; altura aproximada",
+      "architecture": {}
+    },
+    {
+      "id": "B5",
+      "name": "B5 · Laboratorios y Servicio Médico",
+      "floors": 1,
+      "legacyId": "K",
+      "polygons": [
+        [
+          [
+            691.659,
+            245.907
+          ],
+          [
+            709.878,
+            246.186
+          ],
+          [
+            709.258,
+            287.007
+          ],
+          [
+            691.06,
+            286.74
+          ]
+        ]
+      ],
+      "rects": [
+        [
+          691.06,
+          245.907,
+          709.878,
+          287.007
+        ]
+      ],
+      "roof": "#e1e3d6",
+      "source": "OSM way 1287820351; IDs actuales contrastados con mapaUAML.pdf septiembre 2026 y Directorio de Espacios",
+      "osmWay": "1287820351",
+      "osmName": "Edificio K",
+      "detail": "light",
+      "heightEvidence": "Una planta: OSM + galería oficial; altura aproximada",
+      "architecture": {}
+    },
+    {
+      "id": "B4",
+      "name": "B4 · Servicios Auxiliares y laboratorios",
+      "floors": 1,
+      "legacyId": "J",
+      "polygons": [
+        [
+          [
+            667.22,
+            245.685
+          ],
+          [
+            677.905,
+            245.874
+          ],
+          [
+            677.201,
+            285.916
+          ],
+          [
+            666.516,
+            286.016
+          ]
+        ]
+      ],
+      "rects": [
+        [
+          666.516,
+          245.685,
+          677.905,
+          286.016
+        ]
+      ],
+      "roof": "#e1e3d6",
+      "source": "OSM way 1287820352; IDs actuales contrastados con mapaUAML.pdf septiembre 2026 y Directorio de Espacios",
+      "osmWay": "1287820352",
+      "osmName": "Edificio J",
+      "detail": "light",
+      "heightEvidence": "Una planta: OSM + galería oficial; altura aproximada",
+      "architecture": {}
+    },
+    {
+      "id": "B3",
+      "name": "B3 · Centro de Cómputo",
+      "floors": 1,
+      "legacyId": "I",
+      "polygons": [
+        [
+          [
+            642.539,
+            245.562
+          ],
+          [
+            661.535,
+            245.707
+          ],
+          [
+            661.273,
+            285.949
+          ],
+          [
+            642.098,
+            285.738
+          ]
+        ]
+      ],
+      "rects": [
+        [
+          642.098,
+          245.562,
+          661.535,
+          285.949
+        ]
+      ],
+      "roof": "#e1e3d6",
+      "source": "OSM way 1287820353; IDs actuales contrastados con mapaUAML.pdf septiembre 2026 y Directorio de Espacios",
+      "osmWay": "1287820353",
+      "osmName": "Edificio I",
+      "detail": "light",
+      "heightEvidence": "Una planta: OSM + galería oficial; altura aproximada",
+      "architecture": {}
+    },
+    {
+      "id": "B1",
+      "name": "B1 · Laboratorios CBI",
+      "floors": 1,
+      "legacyId": "H",
+      "polygons": [
+        [
+          [
+            626.778,
+            245.729
+          ],
+          [
+            637.842,
+            245.685
+          ],
+          [
+            637.359,
+            284.536
+          ],
+          [
+            625.581,
+            284.691
+          ]
+        ]
+      ],
+      "rects": [
+        [
+          625.581,
+          245.685,
+          637.842,
+          284.691
+        ]
+      ],
+      "roof": "#e1e3d6",
+      "source": "OSM way 1287820354; IDs actuales contrastados con mapaUAML.pdf septiembre 2026 y Directorio de Espacios",
+      "osmWay": "1287820354",
+      "osmName": "Edificio H",
+      "detail": "light",
+      "heightEvidence": "Una planta: OSM + galería oficial; altura aproximada",
+      "architecture": {}
+    },
+    {
+      "id": "B2",
+      "name": "B2 · Biblioteca, laboratorios y cultura",
+      "floors": 1,
+      "legacyId": "M",
+      "polygons": [
+        [
+          [
+            628.397,
+            288.91
+          ],
+          [
+            711.517,
+            289.489
+          ],
+          [
+            711.412,
+            304.907
+          ],
+          [
+            671.643,
+            304.629
+          ],
+          [
+            671.685,
+            299.174
+          ],
+          [
+            628.334,
+            298.885
+          ]
+        ]
+      ],
+      "rects": [
+        [
+          628.334,
+          288.91,
+          711.517,
+          304.907
+        ]
+      ],
+      "roof": "#e1e3d6",
+      "source": "OSM way 1287820355; IDs actuales contrastados con mapaUAML.pdf septiembre 2026 y Directorio de Espacios",
+      "osmWay": "1287820355",
+      "osmName": "Edificio M",
+      "detail": "light",
+      "heightEvidence": "Una planta: OSM + galería oficial; altura aproximada",
+      "architecture": {
+        "libraryOsmWay": "1413063311"
+      },
+      "mapLabel": "B2 · Biblioteca"
+    },
+    {
+      "id": "B7",
+      "name": "B7 · Deportes y vestidores",
+      "floors": 1,
+      "legacyId": "N",
+      "polygons": [
+        [
+          [
+            716.161,
+            296.436
+          ],
+          [
+            716.466,
+            306.866
+          ],
+          [
+            742.544,
+            306.633
+          ],
+          [
+            742.586,
+            311.219
+          ],
+          [
+            762.371,
+            311.052
+          ],
+          [
+            762.234,
+            295.712
+          ]
+        ]
+      ],
+      "rects": [
+        [
+          716.161,
+          295.712,
+          762.371,
+          311.219
+        ]
+      ],
+      "roof": "#e1e3d6",
+      "source": "OSM way 1287820356; IDs actuales contrastados con mapaUAML.pdf septiembre 2026 y Directorio de Espacios",
+      "osmWay": "1287820356",
+      "osmName": "Edificio N",
+      "detail": "light",
+      "heightEvidence": "Una planta: OSM + galería oficial; altura aproximada",
+      "architecture": {}
+    },
+    {
+      "id": "F",
+      "name": "F · Cuerpos bajos · antes O",
+      "floors": 3,
+      "legacyId": "O",
+      "polygons": [
+        [
+          [
+            955.93,
+            155.382
+          ],
+          [
+            954.942,
+            218.267
+          ],
+          [
+            982.817,
+            192.763
+          ],
+          [
+            982.344,
+            169.419
+          ],
+          [
+            1057.185,
+            169.441
+          ],
+          [
+            1057.227,
+            156.361
+          ]
+        ]
+      ],
+      "rects": [
+        [
+          954.942,
+          155.382,
+          1057.227,
+          218.267
+        ]
+      ],
+      "roof": "#a95e4d",
+      "source": "OSM way 1287820360; IDs actuales contrastados con mapaUAML.pdf septiembre 2026 y Directorio de Espacios",
+      "osmWay": "1287820360",
+      "osmName": "Edificio O",
+      "detail": "permanent",
+      "heightEvidence": "G: PB y niveles 1–3 confirmados por mapa y fotos; F: tres niveles aproximados, cuerpo frontal bajo",
+      "architecture": {
+        "frontCutZ": -220.862,
+        "frontRatio": 0.3333333333333333,
+        "roofAccents": [
+          {
+            "rect": [
+              990,
+              159,
+              1000,
+              165
+            ],
+            "height": 0.7,
+            "color": "#a79eb6"
+          }
+        ]
+      }
+    },
+    {
+      "id": "G",
+      "name": "G · Aulas y Rectoría · antes P",
+      "floors": 4,
+      "legacyId": "P",
+      "polygons": [
+        [
+          [
+            1058.824,
+            155.927
+          ],
+          [
+            1222.376,
+            157.719
+          ],
+          [
+            1222.218,
+            172.325
+          ],
+          [
+            1233.061,
+            181.92
+          ],
+          [
+            1232.893,
+            196.804
+          ],
+          [
+            1194.91,
+            196.37
+          ],
+          [
+            1195.194,
+            171.356
+          ],
+          [
+            1058.667,
+            169.831
+          ]
+        ]
+      ],
+      "rects": [
+        [
+          1058.667,
+          155.927,
+          1233.061,
+          196.804
+        ]
+      ],
+      "roof": "#a95e4d",
+      "source": "OSM way 1287820361; IDs actuales contrastados con mapaUAML.pdf septiembre 2026 y Directorio de Espacios",
+      "osmWay": "1287820361",
+      "osmName": "Edificio P",
+      "detail": "permanent",
+      "heightEvidence": "G: PB y niveles 1–3 confirmados por mapa y fotos; F: tres niveles aproximados, cuerpo frontal bajo",
+      "architecture": {
+        "frontCutZ": -220.336,
+        "frontRatio": 0.75,
+        "roofAccents": [
+          {
+            "rect": [
+              1095,
+              160,
+              1105,
+              166
+            ],
+            "height": 0.9,
+            "color": "#a79eb6"
+          },
+          {
+            "rect": [
+              1170,
+              161,
+              1180,
+              167
+            ],
+            "height": 0.9,
+            "color": "#a79eb6"
+          }
+        ]
+      }
+    },
+    {
+      "id": "A5",
+      "name": "A5 · Laboratorios de docencia",
+      "floors": 1,
+      "legacyId": "D",
+      "polygons": [
+        [
+          [
+            574.727,
+            255.303
+          ],
+          [
+            583.689,
+            255.214
+          ],
+          [
+            583.984,
+            287.085
+          ],
+          [
+            575.011,
+            287.163
+          ]
+        ]
+      ],
+      "rects": [
+        [
+          574.727,
+          255.214,
+          583.984,
+          287.163
+        ]
+      ],
+      "roof": "#e1e3d6",
+      "source": "OSM way 1288125402; IDs actuales contrastados con mapaUAML.pdf septiembre 2026 y Directorio de Espacios",
+      "osmWay": "1288125402",
+      "osmName": "Edificio D",
+      "detail": "light",
+      "heightEvidence": "Una planta: OSM + galería oficial; altura aproximada",
+      "architecture": {}
+    },
+    {
+      "id": "A2",
+      "name": "A2 · Laboratorios, bioterio y medios",
+      "floors": 1,
+      "legacyId": "G",
+      "polygons": [
+        [
+          [
+            503.364,
+            289.155
+          ],
+          [
+            582.586,
+            290.146
+          ],
+          [
+            582.46,
+            300.566
+          ],
+          [
+            503.227,
+            299.597
+          ]
+        ]
+      ],
+      "rects": [
+        [
+          503.227,
+          289.155,
+          582.586,
+          300.566
+        ]
+      ],
+      "roof": "#e1e3d6",
+      "source": "OSM way 1288125403; IDs actuales contrastados con mapaUAML.pdf septiembre 2026 y Directorio de Espacios",
+      "osmWay": "1288125403",
+      "osmName": "Edificio G",
+      "detail": "light",
+      "heightEvidence": "Una planta: OSM + galería oficial; altura aproximada",
+      "architecture": {}
+    },
+    {
+      "id": "C",
+      "name": "C · CIFE CBS · habilitación por confirmar",
+      "floors": 3,
+      "polygons": [
+        [
+          [
+            771.018,
+            151.276
+          ],
+          [
+            796.235,
+            151.276
+          ],
+          [
+            796.235,
+            174.917
+          ],
+          [
+            771.018,
+            174.917
+          ],
+          [
+            771.018,
+            164.41
+          ],
+          [
+            786.778,
+            164.41
+          ],
+          [
+            786.778,
+            160.733
+          ],
+          [
+            771.018,
+            160.733
+          ]
+        ]
+      ],
+      "rects": [
+        [
+          771.018,
+          151.276,
+          796.235,
+          174.917
+        ]
+      ],
+      "roof": "#aa604e",
+      "detail": "cife",
+      "source": "Trazo visual de cubierta Esri + identificación mapa oficial 2026. Tres niveles estimados; no confirma ocupación completa.",
+      "heightEvidence": "Estimación volumétrica, pendiente de sección/plano de obra y campo",
+      "architecture": {
+        "status": "Habilitación/ocupación por confirmar; no se modelan futuras ampliaciones",
+        "openCourt": true
+      },
+      "division": "CBS"
+    },
+    {
+      "id": "D",
+      "name": "D · CIFE CSH · habilitación por confirmar",
+      "floors": 3,
+      "polygons": [
+        [
+          [
+            827.755,
+            165.986
+          ],
+          [
+            852.972,
+            165.986
+          ],
+          [
+            852.972,
+            175.442
+          ],
+          [
+            837.212,
+            175.442
+          ],
+          [
+            837.212,
+            181.221
+          ],
+          [
+            847.193,
+            181.221
+          ],
+          [
+            847.193,
+            190.152
+          ],
+          [
+            827.755,
+            190.152
+          ]
+        ]
+      ],
+      "rects": [
+        [
+          827.755,
+          165.986,
+          852.972,
+          190.152
+        ]
+      ],
+      "roof": "#aa604e",
+      "detail": "cife",
+      "source": "Trazo visual de cubierta Esri + identificación mapa oficial 2026. Tres niveles estimados; no confirma ocupación completa.",
+      "heightEvidence": "Estimación volumétrica, pendiente de sección/plano de obra y campo",
+      "architecture": {
+        "status": "Habilitación/ocupación por confirmar; no se modelan futuras ampliaciones",
+        "openCourt": true
+      },
+      "division": "CSH"
+    },
+    {
+      "id": "E",
+      "name": "E · CIFE CBI · habilitación por confirmar",
+      "floors": 3,
+      "polygons": [
+        [
+          [
+            883.442,
+            181.747
+          ],
+          [
+            903.406,
+            181.747
+          ],
+          [
+            903.406,
+            191.203
+          ],
+          [
+            891.848,
+            191.203
+          ],
+          [
+            891.848,
+            196.982
+          ],
+          [
+            909.184,
+            196.982
+          ],
+          [
+            909.184,
+            205.387
+          ],
+          [
+            883.442,
+            205.387
+          ]
+        ]
+      ],
+      "rects": [
+        [
+          883.442,
+          181.747,
+          909.184,
+          205.387
+        ]
+      ],
+      "roof": "#aa604e",
+      "detail": "cife",
+      "source": "Trazo visual de cubierta Esri + identificación mapa oficial 2026. Tres niveles estimados; no confirma ocupación completa.",
+      "heightEvidence": "Estimación volumétrica, pendiente de sección/plano de obra y campo",
+      "architecture": {
+        "status": "Habilitación/ocupación por confirmar; no se modelan futuras ampliaciones",
+        "openCourt": true
+      },
+      "division": "CBI"
+    }
+  ],
+  "paths": [
+    [
+      501.515,
+      238.484,
+      811.47,
+      243.738
+    ],
+    [
+      500.989,
+      301.526,
+      764.188,
+      306.779
+    ],
+    [
+      623.921,
+      243.738,
+      629.174,
+      302.576
+    ]
+  ],
+  "parking": [
+    [
+      577.69,
+      225.35,
+      758.41,
+      234.807
+    ],
+    [
+      986.936,
+      192.779,
+      1049.978,
+      204.336
+    ],
+    [
+      1192.347,
+      205.387,
+      1247.508,
+      226.926
+    ]
+  ],
+  "parkingAngles": [
+    0,
+    0.7853981633974483,
+    0
+  ],
+  "plazas": [],
+  "courts": [
+    [
+      [
+        716.382,
+        261.074
+      ],
+      [
+        736.87,
+        261.074
+      ],
+      [
+        736.87,
+        293.12
+      ],
+      [
+        716.382,
+        293.12
+      ]
+    ],
+    [
+      [
+        736.87,
+        261.074
+      ],
+      [
+        757.884,
+        261.074
+      ],
+      [
+        757.884,
+        293.12
+      ],
+      [
+        736.87,
+        293.12
+      ]
+    ],
+    [
+      [
+        761.562,
+        241.636
+      ],
+      [
+        809.368,
+        241.636
+      ],
+      [
+        809.368,
+        310.982
+      ],
+      [
+        761.562,
+        310.982
+      ]
+    ]
+  ],
+  "gates": [
+    {
+      "id": "acceso_garzas",
+      "point": [
+        496.261,
+        240.585
+      ],
+      "name": "Acceso · Las Garzas",
+      "kind": "pedestrian",
+      "approximate": true
+    }
+  ],
+  "bridges": [],
+  "integratedLinks": [],
+  "corridors": [],
+  "jacarandas": [],
+  "showCopyright": true,
+  "roads": [
+    {
+      "id": "circuito_interior",
+      "points": [
+        [
+          497.837,
+          234.281
+        ],
+        [
+          538.814,
+          223.774
+        ],
+        [
+          597.653,
+          223.774
+        ],
+        [
+          769.442,
+          224.3
+        ],
+        [
+          910.235,
+          230.078
+        ],
+        [
+          952.263,
+          245.839
+        ],
+        [
+          1069.415,
+          246.89
+        ],
+        [
+          1230.697,
+          229.028
+        ]
+      ],
+      "width": 9,
+      "color": "#9a9c94"
+    },
+    {
+      "id": "vialidad_norte",
+      "points": [
+        [
+          497.837,
+          138.143
+        ],
+        [
+          932.3,
+          138.143
+        ],
+        [
+          942.281,
+          155.479
+        ]
+      ],
+      "width": 7,
+      "color": "#aaaca4"
+    },
+    {
+      "id": "andador_F_G",
+      "points": [
+        [
+          506.243,
+          219.572
+        ],
+        [
+          951.738,
+          219.572
+        ],
+        [
+          984.309,
+          188.051
+        ],
+        [
+          1180.264,
+          186.475
+        ]
+      ],
+      "width": 4,
+      "color": "#d6d3bc"
+    }
+  ],
+  "nature": {
+    "polygon": [
+      [
+        1086.752,
+        258.973
+      ],
+      [
+        1244.882,
+        255.295
+      ],
+      [
+        1260.642,
+        623.564
+      ],
+      [
+        1209.158,
+        648.255
+      ],
+      [
+        1005.323,
+        651.933
+      ],
+      [
+        1003.747,
+        472.789
+      ],
+      [
+        1083.074,
+        472.789
+      ]
+    ],
+    "trail": [
+      [
+        1079.397,
+        251.092
+      ],
+      [
+        1084.125,
+        271.581
+      ],
+      [
+        1086.227,
+        615.684
+      ],
+      [
+        1219.665,
+        615.684
+      ],
+      [
+        1241.729,
+        533.204
+      ],
+      [
+        1248.559,
+        286.816
+      ],
+      [
+        1197.075,
+        257.922
+      ],
+      [
+        1079.397,
+        251.092
+      ]
+    ],
+    "trailApproximate": true,
+    "source": "Zona natural del predio y mapa 2026; trazado interpretativo simplificado, no ruta de navegación"
+  },
+  "sportsRoof": {
+    "rect": [
+      717.958,
+      260.023,
+      758.41,
+      293.12
+    ],
+    "eaves": 5.4,
+    "rise": 4.5,
+    "source": "Cubierta curva blanca visible en Esri; la galería anterior muestra malla. Dimensiones aproximadas."
+  },
+  "lawns": [
+    [
+      [
+        994.816,
+        240.585
+      ],
+      [
+        1086.752,
+        180.696
+      ],
+      [
+        1163.978,
+        180.696
+      ],
+      [
+        1163.978,
+        214.843
+      ],
+      [
+        1228.07,
+        213.793
+      ],
+      [
+        1228.07,
+        227.452
+      ]
+    ]
+  ],
+  "landmarks": [
+    {
+      "id": "soy_uam",
+      "name": "SOY uam · explanada G",
+      "point": [
+        1128.78,
+        190.677
+      ],
+      "kind": "sign",
+      "source": "Galería oficial AJG_1470, posición aproximada en explanada",
+      "approximate": true
+    },
+    {
+      "id": "aves",
+      "name": "Observatorio de aves · aprox.",
+      "point": [
+        1204.955,
+        600.449
+      ],
+      "kind": "reference",
+      "source": "Mapa 2026, posición esquemática; pabellón/altura sin modelar",
+      "approximate": true
+    },
+    {
+      "id": "ludico",
+      "name": "Espacio lúdico · aprox.",
+      "point": [
+        1157.674,
+        401.867
+      ],
+      "kind": "reference",
+      "source": "Mapa 2026, posición esquemática",
+      "approximate": true
+    },
+    {
+      "id": "kiosco",
+      "name": "Kiosco · aprox.",
+      "point": [
+        600.28,
+        237.433
+      ],
+      "kind": "reference",
+      "source": "Mapa 2026, posición esquemática",
+      "approximate": true
+    },
+    {
+      "id": "huerto",
+      "name": "Producción agrícola · aprox.",
+      "point": [
+        837.212,
+        261.599
+      ],
+      "kind": "reference",
+      "source": "Referencia esquemática del mapa 2026; no huella de invernadero medida",
+      "approximate": true
+    }
+  ],
+  "cameras": {
+    "academic": [
+      -415,
+      365,
+      -265,
+      -65
+    ],
+    "permanent": [
+      45,
+      365,
+      -265,
+      -115
+    ],
+    "modules": [
+      -415,
+      -65,
+      -150,
+      -65
+    ],
+    "nature": [
+      90,
+      380,
+      -90,
+      280
+    ]
+  },
+  "license": "Huellas y predio: © OpenStreetMap contributors, ODbL. Identificación: UAM Lerma. Trazos propios contrastados con Esri; raster y fotografías no incluidos en GLB/PNG.",
+  "architecture": {
+    "nomenclature": "Mapa UAML 2026 + Directorio actual. A/B antiguos son módulos A1–A7/B1–B7; O→F, P→G. Alias no son edificios adicionales.",
+    "library": "Biblioteca dentro de B2, antiguamente M; no duplicar huella 1413063311.",
+    "floorUncertainty": "G cuatro niveles; F tres con frente bajo; C/D/E tres estimados; módulos una planta. Validación de obra pendiente.",
+    "projectVsBuilt": "No se materializa el plan maestro completo. El CIFE se representa solo por tres cubiertas observadas. Estado de habilitación pendiente.",
+    "natureUncertainty": "Sendero y observatorio se sitúan esquemáticamente según mapa; no equivalen a una ruta o punto GNSS medido.",
+    "photoReference": {
+      "date": "2026-10-18",
+      "files": [
+        "codex-clipboard-a869e1ec-f50a-49f3-b4c4-8ae2152af389.png",
+        "codex-clipboard-f42be2cb-fe61-4409-a588-3871380d7e84.png",
+        "codex-clipboard-4ddf4345-8a04-41dc-93c0-b355f9196f05.png",
+        "codex-clipboard-8a190740-52d4-4a56-bb40-103789bfbd63.png"
+      ],
+      "details": "Concreto claro gris, ventanillas superiores estrechas, columnatas bajas, núcleos acristalados y remates lila desaturado en F/G. Rótulo SOY uam blanco conservado sobre base morada.",
+      "limits": "Referencias de aspecto; no modifican huellas, niveles ni georreferencia. Remates y proporciones estimados, pendientes de medición."
+    }
+  },
+  "copyrightStyle": {
+    "version": 2,
+    "color": "#AD25A8",
+    "opacity": 0.84,
+    "layout": "tiled-site",
+    "rowSpacing": 32,
+    "maxWidth": 160,
+    "largePanels": [
+      {
+        "x": -10,
+        "z": -160,
+        "width": 650
+      },
+      {
+        "x": 238,
+        "z": 40,
+        "width": 230
+      },
+      {
+        "x": 238,
+        "z": 180,
+        "width": 230
+      }
+    ]
+  }
+};
