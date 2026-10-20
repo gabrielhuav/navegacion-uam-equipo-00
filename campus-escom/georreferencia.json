@@ -1,0 +1,69 @@
+{
+  "descripcion": "ESCOM · proyección afín métrica; control interno OSM/Esri, no levantamiento. Ver calibracion/puntos.json y FUENTES.md.",
+  "plano": "plano_2d.png",
+  "ancho": 1220,
+  "alto": 1420,
+  "metrosPorUnidad": 1.01585589,
+  "superiorIzquierda": [
+    19.5064146426,
+    -99.1481937559
+  ],
+  "superiorDerecha": [
+    19.5063422988,
+    -99.1452255478
+  ],
+  "inferiorIzquierda": [
+    19.5031912619,
+    -99.1481660085
+  ],
+  "calibracion": {
+    "fechaConsulta": "2026-10-20",
+    "proveedor": "Esri World Imagery (teselas z19) / OpenStreetMap",
+    "puntos": "calibracion/puntos.json",
+    "matrizAfinEsteNorte": [
+      [
+        1.0211766398388482,
+        -0.026404197765262098
+      ],
+      [
+        0.008201653070029413,
+        -1.0107749393181746
+      ],
+      [
+        -0.05693636852506764,
+        -0.42316198951734313
+      ]
+    ],
+    "origen": [
+      19.504703075069635,
+      -99.14671897888184
+    ],
+    "rmsMetros": 0.816,
+    "maximoMetros": 1.4674,
+    "independiente": false,
+    "incertidumbreAbsolutaMetros": [
+      5,
+      12
+    ],
+    "advertencia": "Residuos internos entre esquinas OSM y cubierta satelital, NO precisión absoluta. Paralaje de cubierta, antigüedad no determinada de mosaico y trazado manual. Sin medidas de campo; alturas, accesos y detalles aproximados.",
+    "encuadre": {
+      "xMin": -150,
+      "xMax": 155,
+      "zMin": -185,
+      "zMax": 170,
+      "pxPorMetro": 4
+    },
+    "teselas": {
+      "zoom": 19,
+      "x": 117748,
+      "y": 233170,
+      "size": 1536
+    },
+    "urlImagen": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer",
+    "referenciaMercator": [
+      -11036962.27055292,
+      2214447.591821309
+    ],
+    "cosLatitud": 0.9426167278766954
+  }
+}
