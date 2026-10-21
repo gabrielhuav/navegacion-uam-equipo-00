@@ -1,9 +1,18 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     // AGP 9 trae Kotlin integrado: NO se aplica `org.jetbrains.kotlin.android`.
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+}
+
+// Configuración local: las contraseñas y la llave nunca se versionan.
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystoreProperties = Properties().apply {
+    if (keystorePropertiesFile.isFile) {
+        keystorePropertiesFile.inputStream().use { load(it) }
+    }
 }
 
 android {
@@ -25,6 +34,23 @@ android {
 
     buildFeatures {
         compose = true
+    }
+
+    if (keystorePropertiesFile.isFile) {
+        signingConfigs {
+            create("release") {
+                fun required(name: String): String =
+                    keystoreProperties.getProperty(name)?.takeIf { it.isNotBlank() }
+                        ?: error("Falta $name en keystore.properties")
+                storeFile = file(required("storeFile"))
+                storePassword = required("storePassword")
+                keyAlias = required("keyAlias")
+                keyPassword = required("keyPassword")
+            }
+        }
+        buildTypes.getByName("release") {
+            signingConfig = signingConfigs.getByName("release")
+        }
     }
 }
 
@@ -88,5 +114,7 @@ androidComponents {
 dependencies {
     implementation(project(":shared"))
     implementation(libs.androidx.activity.compose)
+    // Location trae Fragment 1.1.0 de forma transitiva; Activity Result requiere >= 1.3.0.
+    implementation("androidx.fragment:fragment:1.8.9")
     implementation(libs.play.services.location)
 }
