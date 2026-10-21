@@ -25,13 +25,13 @@ import androidx.compose.ui.unit.dp
  * Al pulsar «Trazar», [onTrazar] recibe los dos y la app calcula la ruta más corta.
  */
 @Composable
-fun ElegirRuta(red: Red, conUbicacion: Boolean, onCerrar: () -> Unit, onTrazar: (desde: Destino?, hasta: Destino) -> Unit) {
+fun ElegirRuta(red: Red, lugar: String, conUbicacion: Boolean, onCerrar: () -> Unit, onTrazar: (desde: Destino?, hasta: Destino) -> Unit) {
     var desde by remember { mutableStateOf<Destino?>(null) }
     var hasta by remember { mutableStateOf<Destino?>(null) }
     val lugares = red.destinos.sortedBy { it.nombre }
     AlertDialog(
         onDismissRequest = onCerrar,
-        title = { Text("Ruta en la UAM Azcapotzalco") },
+        title = { Text("Ruta en $lugar") },
         text = {
             Column {
                 Text("Desde", style = MaterialTheme.typography.labelLarge)

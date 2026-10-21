@@ -400,3 +400,15 @@ Implementación y assets guardados en **commit c463add**, rama local **feature/c
 Claude debe leer primero **C:/dev/navegacion-uam-escom/MEMORIA_COMPARTIDA_CAMPUS.md** y **campus-escom/README.md** de ese worktree. La memoria que se ve en main del checkout habitual todavía no contiene esta entrega hasta integrar la rama. Revisar el estado de su checkout y preservar trabajo propio antes de integrar feature/campus-escom; el commit c463add contiene la maqueta y esta rama añade la nota documental de entrega. Evitar aplicar el stash antiguo sobre estos archivos ya recuperados.
 
 Siguiente trabajo móvil: incorporar ESCOM como campus independiente de IPN, conservando las cinco UAM; registrar slug `escom`, empaquetar assets con/sin marca, respetar su georreferencia/encuadre y conservar las preferencias existentes de copyright. La red exterior puede integrarse como borrador, sin presentar `accesible:false` como accesibilidad verificada. Validar Mapa/2D/3D y actualizar esta memoria con decisiones, pruebas y pendientes de las apps. El trabajo de Codex en esta entrega no modificó ninguna app.
+
+## ESCOM en las apps (Claude, 20 oct 2026, rama `feature/p2-p3-escom`)
+
+Rama creada desde `main` (53967de) con avance rápido de `feature/campus-escom` (c463add, 80c79f3); no se usó ningún stash. `campus-escom/` no se modificó.
+
+- **Sede `ESCOM`** (`Unidad.ESCOM` en Tema.kt, `Unidad.escom` en tema.dart), carpeta `escom`, institución «IPN», color #006699 (el de la maqueta; no es color UAM), centro 19.504703, -99.146719 (origen de la calibración), radio 250 m. Los mensajes dicen «Estás en la ESCOM (IPN).» y «¿Ir a la ESCOM (IPN)?»; las UAM siguen con «la UAM …» (propiedad `titulo`).
+- **Assets**: KMP copia `ESCOM_IPN.glb`/`_sin_marca.glb`, los dos PNG, `georreferencia.json` y `rutas.json` a `campus/escom/`; Flutter igual a `assets/campus/escom/` (patrones `(UAM|ESCOM)_*.glb`; `LEEME.md` versionado para `flutter analyze`). Georreferencia y plano 1220×1420 se usan tal cual. `campus_editado.json` no se empaqueta: la app no lo usa.
+- **Rutas por campus**: las apps cargan `campus/<carpeta>/rutas.json` de cada sede que lo tenga (hoy Azcapotzalco y ESCOM); el botón «Ruta» aparece sólo si la sede tiene red; al cambiar de sede se borra la ruta; el título del diálogo dice el campus. La app no muestra ni usa `accesible`, así que el borrador no se presenta como accesible.
+- **Pruebas**: KMP `:shared:testAndroidHostTest` y `assembleDebug` OK (SedesTest con ESCOM); Flutter `analyze` sin observaciones, 18 pruebas, APK OK; los dos APK contienen `campus/escom/*`.
+- **Emulador** (ubicación fija en el centro de ESCOM): KMP y Flutter muestran ESCOM en Mapa (plano sobre Av. Juan de Dios Bátiz y el Corredor Computacional IPN), 2D, 3D e inclinado; «Estás en la ESCOM (IPN).»; ruta de mi ubicación → Auditorio 294 m · 5 min (KMP); modo desarrollador sin marca quita la marca del 3D y de la app (Flutter).
+
+Pendientes: el botón «UAM» y el título «Campus UAM» siguen diciendo UAM también en ESCOM (decidir el texto); revisión presencial de la red ESCOM; iOS sin probar; decidir a qué versión va ESCOM (sugerencia `v0.3.1`, campus nuevo sobre P2/P3).

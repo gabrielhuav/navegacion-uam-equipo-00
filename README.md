@@ -43,6 +43,7 @@ Cada unidad tiene una carpeta con su editor web (Three.js), su modelo 3D (`UAM_<
 | Iztapalapa | [`campus-iztapalapa/`](campus-iztapalapa/README.md) |
 | Lerma | [`campus-lerma/`](campus-lerma/README.md) |
 | Xochimilco | [`campus-xochimilco/`](campus-xochimilco/README.md) |
+| ESCOM (IPN), campus aparte | [`campus-escom/`](campus-escom/README.md), con su red de caminos (`rutas.json`, borrador) |
 
 El editor de cada unidad se abre desde su carpeta con `node server.mjs`; la terminal muestra la dirección. Los croquis y la red de caminos son aproximados: no son levantamientos topográficos. Los datos derivados de OpenStreetMap están bajo ODbL; ver `FUENTES.md` de cada carpeta. Los verificadores están en la raíz (`node verificar-rutas.mjs`, `node verificar-campus-unidades.mjs`, …).
 

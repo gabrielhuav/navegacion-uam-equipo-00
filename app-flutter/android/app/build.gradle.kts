@@ -58,13 +58,14 @@ val copiarCampus by tasks.registering(Copy::class) {
         "campus-iztapalapa" to "iztapalapa",
         "campus-lerma" to "lerma",
         "campus-xochimilco" to "xochimilco",
+        "campus-escom" to "escom", // IPN, campus aparte
     ).forEach { (origen, carpeta) ->
             from(rootProject.file("../../$origen")) {
                 // Con y sin marca de agua: la segunda la usa el modo desarrollador.
-                // rutas.json: por ahora sólo existe en Azcapotzalco (Prototipo 3, rutas).
-                include("UAM_*.glb", "plano_2d.png", "plano_2d_sin_marca.png", "georreferencia.json", "rutas.json")
-                rename("UAM_.*_sin_marca\\.glb", "modelo_sin_marca.glb")
-                rename("UAM_[^_]*\\.glb", "modelo.glb")
+                // rutas.json: por ahora sólo Azcapotzalco y ESCOM (Prototipo 3, rutas).
+                include("UAM_*.glb", "ESCOM_*.glb", "plano_2d.png", "plano_2d_sin_marca.png", "georreferencia.json", "rutas.json")
+                rename("(UAM|ESCOM)_.*_sin_marca\\.glb", "modelo_sin_marca.glb")
+                rename("(UAM|ESCOM)_[^_]*\\.glb", "modelo.glb")
                 into(carpeta)
             }
         }

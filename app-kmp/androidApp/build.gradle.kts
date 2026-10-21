@@ -67,13 +67,14 @@ val copiarCampus = tasks.register<CopiarCampus>("copiarCampus") {
         "campus-iztapalapa" to "UAM_Iztapalapa.glb",
         "campus-lerma" to "UAM_Lerma.glb",
         "campus-xochimilco" to "UAM_Xochimilco.glb",
+        "campus-escom" to "ESCOM_IPN.glb", // IPN, campus aparte
     ).forEach { (carpeta, glb) ->
         // Con y sin marca de agua: la segunda la usa el modo desarrollador.
         val sinMarca = glb.removeSuffix(".glb") + "_sin_marca.glb"
         archivos.from(
             listOf(glb, sinMarca, "plano_2d.png", "plano_2d_sin_marca.png", "georreferencia.json", "rutas.json")
                 .map { rootProject.file("../$carpeta/$it") }
-                .filter { it.exists() }, // rutas.json: por ahora sólo Azcapotzalco
+                .filter { it.exists() }, // rutas.json: por ahora sólo Azcapotzalco y ESCOM
         )
     }
 }
