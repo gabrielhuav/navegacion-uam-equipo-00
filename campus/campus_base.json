@@ -812,6 +812,33 @@
     "approximate": true,
     "reference": "Dos imágenes aportadas por Gabriel: Serpentina II frente a H, cara del estacionamiento; posición exacta por afinar."
   },
+  "habitacionesLuz": {
+    "position": [
+      858,
+      255
+    ],
+    "scale": 1,
+    "approximate": true,
+    "reference": "Escultura 'Habitaciones de Luz' (piedras tipo Stonehenge, ~3 m de alto). Ubicación real: al norte del edificio B; colocada junto a Serpentina para moverla con el editor. Issue #10."
+  },
+  "universitas": {
+    "position": [
+      780,
+      252
+    ],
+    "scale": 1,
+    "approximate": true,
+    "reference": "Escultura 'Universitas' (acero azul sobre pedestal circular de piedra, ~6 m de alto). Colocada junto a Serpentina para moverla con el editor; ubicación real por confirmar. Issue #10."
+  },
+  "casaAbierta": {
+    "position": [
+      906,
+      248
+    ],
+    "scale": 1,
+    "approximate": true,
+    "reference": "Escultura 'Casa abierta al tiempo' (tres poliedros dorados apilados sobre pedestal circular, ~7 m de alto). Colocada junto a Serpentina para moverla con el editor; ubicación real por confirmar. Issue #10."
+  },
   "copyrightStyle": {
     "version": 2,
     "color": "#CD032E",

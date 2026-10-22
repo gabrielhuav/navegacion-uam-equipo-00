@@ -1,5 +1,19 @@
 # Memoria compartida del campus · Web y app móvil
 
+## Actualización 22 octubre 2026 · HTML de esculturas y protección de P4
+
+Rama de esta corrección: `feature/10-esculturas`, PR #11, sobre `8fdf9e1`. El PR ya incluía Habitaciones de Luz, Universitas y Casa abierta al tiempo en el código y GLB, pero el HTML autónomo y la base no se habían reconstruido. Además, la pestaña 8782 correspondía a ESCOM, en otro checkout.
+
+Se reconstruyó el HTML, se añadieron tres cámaras de acercamiento y se corrigió build.mjs para incluir `campus_editado.json` en el portátil (sin perder los desplazamientos acomodados por el equipo). `campus_base.json` sigue derivándose de ORIGINAL. Vista actual AZC: http://127.0.0.1:8783/Visor_UAM_autonomo.html. El puerto es local y temporal; el inicio normal conserva su configuración.
+
+Se conservaron sin cambios los GLB/PNG, el estado guardado y su `showCopyright:false`, model-data.js, georreferencia, rutas y las apps. Pruebas: verificar-esculturas.mjs valida código embebido, estado portátil, base, botones, presencia y posición de las tres esculturas en ambos GLB; verificar.mjs y comprobación sintáctica correctas. Las tres cámaras se comprobaron en el navegador, sin errores de consola. Evidencia: `docs/capturas/azc_esculturas_2026-10-22.png`.
+
+**Prototipo 4 ya existe en otra rama:** `feature/p4-reconocer-escom`, commit `7b61ce2`, protegido con tag local `checkpoint/p4-entrenamiento-2026-10-22`. Incluye los assets de reconocimiento de ESCOM y su integración. No se mezcló en esta rama antigua del PR. Las notas históricas de abajo que hablan de P4 pendiente no describen el estado de esa rama.
+
+Entrenamiento original: `C:/dev/entrenamiento-escom`, conservado intacto. Respaldo previo: `C:/Users/gabri/Downloads/1151055 Administracion/_respaldos/2026-10-22_antes_corregir_html_esculturas`, con campus, memoria, bundle Git de todas las ramas y copia de modelo/exportado, corridas, salidas y fuentes del modelo con manifiestos SHA256. El corpus y entorno originales permanecen en su ubicación; este respaldo adicional del entrenamiento no duplica todo el corpus ni .venv.
+
+Para integrar con Claude: incorporar la corrección del visor sobre la rama de desarrollo que contiene P4; conservar sus assets y entrenamiento. No sustituir la app P4 por el estado de app-kmp/app-flutter de esta rama. El commit de la corrección es local hasta que se publique.
+
 Actualizada: 18 de octubre de 2026. Fuente revisada: sesión de Claude «Unidad III actualización y decisiones de material», archivos locales y commit f5311cb de la rama feature/p2-campus. Este documento es el punto común para Claude y Codex; no sincroniza automáticamente los historiales de los chats.
 
 ## Fuente del diseño

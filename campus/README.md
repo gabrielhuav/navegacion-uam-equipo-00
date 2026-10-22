@@ -1,5 +1,11 @@
 # Campus UAM Azcapotzalco · modelo 2D/3D
 
+## Esculturas del PR #11 · 22 octubre 2026
+
+El HTML autónomo se reconstruyó con Habitaciones de Luz, Universitas y Casa abierta al tiempo. Hay un botón de cámara para cada una; la vista elevada evita que la fachada vecina oculte Habitaciones de Luz. Se conservan las posiciones ajustadas por el equipo en `campus_editado.json`.
+
+Ejecutar `node campus/build.mjs` después de modificar código o datos: el portátil incluye el estado guardado, mientras `campus_base.json` conserva ORIGINAL. Comprobar con `node campus/verificar-esculturas.mjs`. Vista de esta corrección: http://127.0.0.1:8783/Visor_UAM_autonomo.html (8782 corresponde al visor separado de ESCOM).
+
 ## Red peatonal editable · P3 Rutas
 
 `rutas.json` sustituye la red provisional: 115 nodos, 120 tramos no dirigidos, 31 destinos y un componente. La capa «Red peatonal · PB» permite ver/editar nodos, tramos y destinos, deshacer/rehacer e importar una red. Guardar cambios valida y exporta rutas.json, además de las versiones del campus con/sin marca. La red no se hornea en los assets visuales. [Contrato, coordenadas, uso, pruebas y límites de la red](RUTAS.md).
