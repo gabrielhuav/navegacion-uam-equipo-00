@@ -1061,7 +1061,7 @@
       }
     ]
   },
-  "showCopyright": false,
+  "showCopyright": true,
   "copyrightStyle": {
     "version": 2,
     "color": "#F08200",
