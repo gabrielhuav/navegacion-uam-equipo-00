@@ -799,8 +799,24 @@
     }
   ],
   "note": "H, HO y HP: cuatro niveles. Uniones HO/HP con H en PB, 1 y 2. Nivel 3 de los pabellones con cubierta translúcida y estructura amarilla aproximada. W/P: tres niveles. Pasillo P–K–H–E–C integrado. Materiales y medidas ilustrativos.",
-  "elementEdits": {},
-  "showCopyright": true,
+  "elementEdits": {
+    "sculpture_habitaciones_luz": {
+      "offsetX": -231.10479041916167,
+      "offsetZ": 123.82035928143713,
+      "rotation": 0
+    },
+    "sculpture_casa_abierta": {
+      "offsetX": 24.625748502994014,
+      "offsetZ": 3.4221556886227518,
+      "rotation": 0
+    },
+    "sculpture_universitas": {
+      "offsetX": 111.45808383233532,
+      "offsetZ": 22.149700598802397,
+      "rotation": 0
+    }
+  },
+  "showCopyright": false,
   "serpentina": {
     "position": [
       824,
@@ -811,6 +827,33 @@
     "side": "estacionamiento",
     "approximate": true,
     "reference": "Dos imágenes aportadas por Gabriel: Serpentina II frente a H, cara del estacionamiento; posición exacta por afinar."
+  },
+  "habitacionesLuz": {
+    "position": [
+      858,
+      255
+    ],
+    "scale": 1,
+    "approximate": true,
+    "reference": "Escultura 'Habitaciones de Luz' (piedras tipo Stonehenge, ~3 m de alto). Ubicación real: al norte del edificio B; colocada junto a Serpentina para moverla con el editor. Issue #10."
+  },
+  "universitas": {
+    "position": [
+      780,
+      252
+    ],
+    "scale": 1,
+    "approximate": true,
+    "reference": "Escultura 'Universitas' (acero azul sobre pedestal circular de piedra, ~6 m de alto). Colocada junto a Serpentina para moverla con el editor; ubicación real por confirmar. Issue #10."
+  },
+  "casaAbierta": {
+    "position": [
+      906,
+      248
+    ],
+    "scale": 1,
+    "approximate": true,
+    "reference": "Escultura 'Casa abierta al tiempo' (tres poliedros dorados apilados sobre pedestal circular, ~7 m de alto). Colocada junto a Serpentina para moverla con el editor; ubicación real por confirmar. Issue #10."
   },
   "copyrightStyle": {
     "version": 2,
