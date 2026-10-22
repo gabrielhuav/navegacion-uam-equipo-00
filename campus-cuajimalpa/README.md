@@ -34,8 +34,16 @@ Líneas, porterías, redes, luminarias, árboles, carpas y alturas son interpret
 «Canchas» acerca la cámara desde la entrada hacia la sede, como las fotos aéreas. En el modo edición, «Mostrar elementos: Canchas» lista las tres canchas (`cancha_futbol_grande`, `cancha_futbol_rapido`, `cancha_basquetbol`): se mueven, giran o quitan, sus cambios viajan en `elementEdits`/`removedElements` y se pueden deshacer. Los árboles aleatorios no caen sobre canchas, andadores ni la calle.
 
 ## Abrir
-Con Node.js instalado: Abrir_visor.cmd o node server.mjs. Abrir http://127.0.0.1:8769/Visor_UAM_autonomo.html.
-Las bibliotecas locales están en vendor/; no se requiere instalar paquetes.
+
+**El visor necesita el servidor de Node.js en marcha.** Con Node.js instalado (no hay que instalar paquetes: las bibliotecas locales están en `vendor/`), desde esta carpeta:
+
+```bash
+node server.mjs
+```
+
+La terminal muestra `Visor UAM: http://127.0.0.1:8769`. Abre http://127.0.0.1:8769/Visor_UAM_autonomo.html y deja la terminal abierta mientras trabajas; `Ctrl+C` detiene el servidor. En Windows, `Abrir_visor.cmd` arranca el servidor (en una ventana minimizada) y abre el navegador. Para usar otro puerto: `PORT=8770 node server.mjs` (en PowerShell, `$env:PORT=8770; node server.mjs`).
+
+Abrir el archivo HTML con doble clic, sin el servidor, no basta. En Chromium el navegador bloquea las texturas de `texturas/` (el modelo se ve con colores lisos), **Guardar cambios** sólo descarga `UAM_Cuajimalpa.glb`, `plano_2d.png` y `campus_editado.json` a la carpeta de Descargas en lugar de actualizarlos aquí, y `index.html` abierto como archivo no carga. Con el servidor, **Guardar cambios** reescribe esos tres archivos en esta carpeta.
 
 ## Contrato de archivos
 - campus_editado.json: estado editable que se carga primero.
