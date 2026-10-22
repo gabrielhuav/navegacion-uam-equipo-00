@@ -396,6 +396,19 @@ function flagMaterial(){
  mexicanFlagMaterial=new THREE.MeshStandardMaterial({map:texture,side:THREE.DoubleSide,roughness:1});return mexicanFlagMaterial;
 }
 function coseiPlaza(spec){
+ if(spec.soyUam){
+  const g=new THREE.Group();g.name='Letras_SOY_UAM_COSEI';g.position.set(X(spec.soyUam[0]),spec.baseElevation+spec.rise,Z(spec.soyUam[1]));world.add(g);registerEditable('letters_SOY_UAM_COSEI','SOY UAM · COSEI','sculpture',g);
+  box(g,'Base_roja_letras',0,.15,0,10,.3,.8,'#b92736');
+  // Letras volumétricas de trazos simples; legibles también por detrás como en la foto.
+  const strokes={S:[[[1,1],[.2,1],[0,.8],[.2,.55],[.8,.45],[1,.2],[.8,0],[0,0]]],O:[[[.2,0],[0,.2],[0,.8],[.2,1],[.8,1],[1,.8],[1,.2],[.8,0],[.2,0]]],Y:[[[0,1],[.5,.5],[1,1]],[[.5,.5],[.5,0]]],U:[[[0,1],[0,.2],[.2,0],[.8,0],[1,.2],[1,1]]],A:[[[0,0],[.4,1],[.6,1],[1,0]],[[.2,.4],[.8,.4]]],M:[[[0,0],[0,1],[.5,.45],[1,1],[1,0]]]};
+  [...'SOY UAM'].forEach((ch,i)=>{for(const path of strokes[ch]||[])for(let k=1;k<path.length;k++){const a=new THREE.Vector3(i*1.35-4.5+path[k-1][0],.4+path[k-1][1]*2,0),b=new THREE.Vector3(i*1.35-4.5+path[k][0],.4+path[k][1]*2,0),delta=b.clone().sub(a);const m=box(g,'Letra_'+ch,0,0,0,.23,delta.length()+.12,.32,'#f3f1e8');m.position.copy(a).add(b).multiplyScalar(.5);m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),delta.normalize());}});
+ }
+ if(spec.caracol){
+  const g=new THREE.Group();g.name='Caracol_COSEI';g.position.set(X(spec.caracol[0]),spec.baseElevation,Z(spec.caracol[1]));world.add(g);registerEditable('caracol_COSEI','Caracol · bancas COSEI','sculpture',g);
+  const floor=new THREE.Mesh(new THREE.CylinderGeometry(8,8,.12,64),material('#969b94'));floor.position.y=.06;g.add(floor);
+  for(const [r,start,end] of [[7.5,.2,4.8],[4.6,2.3,6.4],[2.1,-.3,2.5]]){const s=new THREE.Shape();s.absarc(0,0,r,start,end,false);s.absarc(0,0,r-.55,end,start,true);s.closePath();const m=new THREE.Mesh(new THREE.ExtrudeGeometry(s,{depth:.75,bevelEnabled:false,curveSegments:40}),material('#a6a89e'));m.name='Banca_curva_caracol';m.rotation.x=-Math.PI/2;m.position.y=.85;m.castShadow=true;g.add(m);}
+  const garden=new THREE.Mesh(new THREE.CylinderGeometry(1.6,1.6,.15,32),material('#638153'));garden.position.y=.15;g.add(garden);
+ }
  const g=new THREE.Group();g.name='Plaza_COSEI_detalle';g.userData={library:'I',rise:spec.rise,steps:spec.steps,approximate:true};world.add(g);
  const r=spec.terrace,base=spec.baseElevation,top=base+spec.rise;
  slab(g,r,'#b87861',base+spec.rise/2,spec.rise,'Plataforma_elevada_COSEI');

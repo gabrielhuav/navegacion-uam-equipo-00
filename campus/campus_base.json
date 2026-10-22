@@ -579,8 +579,8 @@
     ],
     "flag": {
       "position": [
-        818,
-        550
+        870,
+        516
       ],
       "height": 18,
       "width": 5.6
@@ -611,9 +611,29 @@
       [
         744,
         573
+      ],
+      [
+        775,
+        504
+      ],
+      [
+        809,
+        504
+      ],
+      [
+        878,
+        504
       ]
     ],
-    "note": "Ubicación, desnivel, número de escalones y dimensiones ilustrativos a partir de fotografías; asta frente a biblioteca I."
+    "note": "Ubicación, desnivel, número de escalones y dimensiones ilustrativos a partir de fotografías; asta frente a biblioteca I.",
+    "soyUam": [
+      833,
+      530
+    ],
+    "caracol": [
+      809,
+      455
+    ]
   },
   "plazas": [
     {

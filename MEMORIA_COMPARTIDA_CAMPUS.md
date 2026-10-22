@@ -1,5 +1,11 @@
 # Memoria compartida del campus · Web y app móvil
 
+## COSEI: letras, palmeras y Caracol · 22 octubre 2026
+
+Referencia: dos fotografías nuevas de Gabriel. Se añadieron letras volumétricas simplificadas SOY UAM sobre base roja, editables con ID `letters_SOY_UAM_COSEI`; Caracol con tres bancas curvas de concreto, pavimento y jardín central, ID `caracol_COSEI`. Campos `cosei.soyUam` y `cosei.caracol`. Se incorporaron tres palmeras a las tres existentes y el asta pasó a `[870,516]`, junto al borde de la plataforma/escaleras. Distribución, dimensiones y forma del Caracol aproximadas: pendientes de ajuste preciso del usuario. Las letras vistas desde atrás se leen invertidas, como en las fotos.
+
+Checkpoint previo `checkpoint/antes-cosei-letras-caracol` sobre fd466fc. Se exportan GLB/PNG y JSON conjuntamente; encuadre, georreferencia, rutas y entrenamiento/P4 conservados. Se comprobó la vista COSEI y la presencia de letras y bancas en GLB. No se modificaron apps ni se hizo push.
+
 ## Escultura de vidrio en COSEI · 22 octubre 2026
 
 Añadida en `feature/10-esculturas` sobre `edf8bac`, a partir de la fotografía aportada por Gabriel: pedestal rectangular de concreto con placa sin inscripción, zócalo y panel inferior opaco, cuatro paneles de vidrio con montantes y fijaciones, y dos cuerpos facetados claros en el interior. Nombre descriptivo provisional «Escultura de vidrio · COSEI»; no se atribuye autor ni título de obra. Altura y proporciones aproximadas (unos 4.3 m incluyendo base), posición inicial `[736,470]` cerca de G/E dentro de COSEI, pendiente de ajuste preciso por el usuario.
