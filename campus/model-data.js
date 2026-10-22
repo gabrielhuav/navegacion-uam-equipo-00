@@ -863,5 +863,14 @@ export const ORIGINAL = {
         "width": 450
       }
     ]
+  },
+  "vidrioCosei": {
+    "position": [
+      736,
+      470
+    ],
+    "scale": 1,
+    "approximate": true,
+    "reference": "Fotografía de Gabriel del 22 octubre 2026: escultura con vidrio, cuerpo inferior opaco, dos formas facetadas y pedestal de concreto en Plaza COSEI, junto a G/E. Nombre, medidas y ubicación exacta pendientes de confirmar."
   }
 };

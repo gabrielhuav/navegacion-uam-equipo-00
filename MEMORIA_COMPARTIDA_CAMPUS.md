@@ -1,5 +1,15 @@
 # Memoria compartida del campus · Web y app móvil
 
+## Escultura de vidrio en COSEI · 22 octubre 2026
+
+Añadida en `feature/10-esculturas` sobre `edf8bac`, a partir de la fotografía aportada por Gabriel: pedestal rectangular de concreto con placa sin inscripción, zócalo y panel inferior opaco, cuatro paneles de vidrio con montantes y fijaciones, y dos cuerpos facetados claros en el interior. Nombre descriptivo provisional «Escultura de vidrio · COSEI»; no se atribuye autor ni título de obra. Altura y proporciones aproximadas (unos 4.3 m incluyendo base), posición inicial `[736,470]` cerca de G/E dentro de COSEI, pendiente de ajuste preciso por el usuario.
+
+Estado: `vidrioCosei` en JSON/base; ID editable `sculpture_vidrio_COSEI`; grupo GLB `Escultura_vidrio_COSEI`. Botón «COSEI · Escultura de vidrio» para acercarse. Se puede mover, girar, deshacer y guardar mediante las herramientas existentes. La escultura anterior de G se conserva: son elementos distintos en la foto. Geometría ligera y vidrio con material estándar transparente, sin texturas externas.
+
+Se exportaron ambos GLB y PNG desde Guardar cambios, se reconstruyó el HTML portátil y se verificaron: presencia del nuevo grupo y vidrio transparente en ambos GLB, cuatro paneles y dos poliedros, conservación exacta de todos los campos previos del JSON, posiciones de las tres esculturas del PR, dimensiones PNG 1560×640, georreferencia/rutas/apps intactas. Prueba visual, movimiento/giro con deshacer antes de exportar y consola sin errores. Evidencia: `docs/capturas/azc_vidrio_cosei_2026-10-22.png`. Se mantiene `showCopyright:false` del estado del equipo. Falta comprobar aspecto en el renderizador móvil al integrar con Claude.
+
+Checkpoint anterior: tag local `checkpoint/antes-escultura-vidrio-cosei-2026-10-22` (`edf8bac`), más copia de campus y memoria en `_respaldos/2026-10-22_antes_escultura_vidrio_cosei` de la carpeta del curso. Prototipo 4 y entrenamiento siguen protegidos como se indica abajo; no se modificaron ni mezclaron sus ramas. Réplica de Descargas comprobada sin divergencias antes de sincronizar. No se hizo push.
+
 ## Actualización 22 octubre 2026 · HTML de esculturas y protección de P4
 
 Rama de esta corrección: `feature/10-esculturas`, PR #11, sobre `8fdf9e1`. El PR ya incluía Habitaciones de Luz, Universitas y Casa abierta al tiempo en el código y GLB, pero el HTML autónomo y la base no se habían reconstruido. Además, la pestaña 8782 correspondía a ESCOM, en otro checkout.

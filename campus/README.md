@@ -1,5 +1,9 @@
 # Campus UAM Azcapotzalco · modelo 2D/3D
 
+## Escultura de vidrio · Plaza COSEI
+
+Interpretación de la foto de Gabriel (22 octubre): pedestal de concreto, cuerpo inferior opaco, vidrio, montantes y dos poliedros interiores. Ubicación inicial aproximada cerca de G/E. Botón «COSEI · Escultura de vidrio» para verla; modo edición → Escultura → «Escultura de vidrio · COSEI» para mover/girar. Guardar cambios exporta también este elemento al GLB y plano. ID `sculpture_vidrio_COSEI`, estado `vidrioCosei`. Nombre oficial, medidas y ubicación exacta por confirmar; la escultura de G sigue siendo independiente.
+
 ## Esculturas del PR #11 · 22 octubre 2026
 
 El HTML autónomo se reconstruyó con Habitaciones de Luz, Universitas y Casa abierta al tiempo. Hay un botón de cámara para cada una; la vista elevada evita que la fachada vecina oculte Habitaciones de Luz. Se conservan las posiciones ajustadas por el equipo en `campus_editado.json`.
