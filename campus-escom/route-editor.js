@@ -8,7 +8,7 @@ export function createRouteEditor({scene,canvas,getCamera,getData,getGeo,initial
  const ray=new THREE.Raycaster(),pointer=new THREE.Vector2(),ground=new THREE.Plane(new THREE.Vector3(0,1,0),0);let down;
  function remember(){past.push(structuredClone(net));if(past.length>60)past.shift();future=[];}
  function issues(complete=true){return routeIssues(net,getData(),getGeo(),{complete});}
- function status(){const errors=issues();$('routeStatus').textContent=`${net.nodos.length} nodos · ${net.aristas.length} tramos · ${net.destinos.length} destinos. `+(errors.length?errors.slice(0,3).join(' '):'Red conectada y sin cruces de cuerpos cerrados.');$('routeStatus').style.color=errors.length?'#a01735':'#285a35';$('routeUndo').disabled=!past.length;$('routeRedo').disabled=!future.length;}
+ function status(){const errors=issues();$('routeStatus').textContent=`${net.nodos.length} nodos · ${net.aristas.length} tramos · ${net.destinos.length} destinos. `+(errors.length?errors.slice(0,3).join(' '):'Red conectada, sin cortes fuera de los pasos PB definidos.');$('routeStatus').style.color=errors.length?'#a01735':'#285a35';$('routeUndo').disabled=!past.length;$('routeRedo').disabled=!future.length;}
  function rebuildOptions(el,items,value){el.replaceChildren();for(const [id,text]of items){const o=document.createElement('option');o.value=id;o.textContent=text;el.append(o);}el.value=value;}
  function fields(){const n=net.nodos.find(n=>n.id===selected);$('routeNodeX').value=n?.x??'';$('routeNodeZ').value=n?.z??'';$('routeNodeType').value=n?.tipo||'cruce';const e=net.aristas[edgeIndex];if(e){$('routeEdgeType').value=e.tipo;$('routeAccessible').checked=e.accesible;}}
  function refresh(){
@@ -48,7 +48,7 @@ export function createRouteEditor({scene,canvas,getCamera,getData,getGeo,initial
  $('routeAssign').onclick=()=>{if(!selected)return;mutate(()=>{const dest=net.destinos.find(d=>d.id===$('routeDestination').value);dest.nodo=selected;net.nodos.find(n=>n.id===selected).tipo=dest.id.startsWith('ACCESO_')?'acceso':'entrada';});};
  $('routeUndo').onclick=()=>{if(busy()||!past.length)return;future.push(net);net=past.pop();selected='';edgeIndex=-1;refresh();};
  $('routeRedo').onclick=()=>{if(busy()||!future.length)return;past.push(net);net=future.pop();selected='';edgeIndex=-1;refresh();};
- $('routeValidate').onclick=()=>{status();message(issues()[0]||'Red válida: conectada, destinos completos y sin cortes de edificios cerrados.');};
+ $('routeValidate').onclick=()=>{status();message(issues()[0]||'Red válida: conectada, destinos completos y sin cortes fuera de los pasos PB definidos.');};
  $('routeImport').onclick=()=>$('routeFile').click();$('routeFile').onchange=async e=>{try{if(!e.target.files[0])return;const value=JSON.parse(await e.target.files[0].text());if(!['nodos','aristas','destinos'].every(k=>Array.isArray(value[k])))throw Error('Archivo de rutas incompleto.');const errors=routeIssues(value,getData(),getGeo());if(errors.length)throw Error(errors[0]);remember();net=value;selected='';edgeIndex=-1;refresh();message('Red importada. Usa Guardar cambios para conservarla.');}catch(err){message(err.message);}finally{e.target.value='';}};
  refresh();
  function paint(camera,w,h){

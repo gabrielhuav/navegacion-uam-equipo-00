@@ -117,4 +117,11 @@ dependencies {
     // Location trae Fragment 1.1.0 de forma transitiva; Activity Result requiere >= 1.3.0.
     implementation("androidx.fragment:fragment:1.8.9")
     implementation(libs.play.services.location)
+    // Prototipo 4 · experimento: cámara (CameraX) y modelo de reconocimiento (LiteRT, antes TFLite).
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.material3)
+    implementation(libs.camera.camera2)
+    implementation(libs.camera.lifecycle)
+    implementation(libs.camera.view)
+    implementation(libs.litert)
 }

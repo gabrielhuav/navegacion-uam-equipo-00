@@ -1021,91 +1021,91 @@
     },
     {
       "id": "n114",
-      "x": -28.1579,
-      "z": -30.7652,
-      "lat": 19.5049853,
-      "lon": -99.14699595,
+      "x": -27.262,
+      "z": -30.336,
+      "lat": 19.50498119,
+      "lon": -99.1469872,
       "nivel": 0,
       "tipo": "entrada"
     },
     {
       "id": "n115",
-      "x": -56.3965,
-      "z": 31.6935,
-      "lat": 19.50442487,
-      "lon": -99.14726589,
+      "x": -56.0809,
+      "z": 31.8448,
+      "lat": 19.50442343,
+      "lon": -99.1472628,
       "nivel": 0,
       "tipo": "entrada"
     },
     {
       "id": "n116",
-      "x": 23.0883,
-      "z": -6.5109,
-      "lat": 19.50475292,
-      "lon": -99.14649534,
+      "x": 22.7721,
+      "z": -6.661,
+      "lat": 19.50475435,
+      "lon": -99.14649843,
       "nivel": 0,
       "tipo": "entrada"
     },
     {
       "id": "n117",
-      "x": -4.0443,
-      "z": 50.1438,
-      "lat": 19.50424493,
-      "lon": -99.14675496,
+      "x": -4.3591,
+      "z": 49.9908,
+      "lat": 19.50424639,
+      "lon": -99.14675804,
       "nivel": 0,
       "tipo": "entrada"
     },
     {
       "id": "n118",
-      "x": -12.9639,
-      "z": -9.0065,
-      "lat": 19.50478413,
-      "lon": -99.14684639,
+      "x": -12.824,
+      "z": -9.272,
+      "lat": 19.5047865,
+      "lon": -99.14684505,
       "nivel": 0,
       "tipo": "entrada"
     },
     {
       "id": "n119",
-      "x": -50.0378,
-      "z": 52.3144,
-      "lat": 19.50423613,
-      "lon": -99.14720239,
+      "x": -50.3526,
+      "z": 52.1613,
+      "lat": 19.50423759,
+      "lon": -99.14720547,
       "nivel": 0,
       "tipo": "entrada"
     },
     {
       "id": "n120",
-      "x": 8.94,
-      "z": -39.4069,
-      "lat": 19.50505497,
-      "lon": -99.1466356,
+      "x": 8.916,
+      "z": -39.356,
+      "lat": 19.50505451,
+      "lon": -99.14663583,
       "nivel": 0,
       "tipo": "entrada"
     },
     {
       "id": "n121",
-      "x": 33.485,
-      "z": -82.8096,
-      "lat": 19.50544324,
-      "lon": -99.14640012,
+      "x": 33.239,
+      "z": -82.315,
+      "lat": 19.50543881,
+      "lon": -99.14640248,
       "nivel": 0,
       "tipo": "entrada"
     },
     {
       "id": "n122",
-      "x": -117.8594,
-      "z": 75.2554,
-      "lat": 19.50404391,
-      "lon": -99.14786063,
+      "x": -117.684,
+      "z": 75.331,
+      "lat": 19.50404319,
+      "lon": -99.14785891,
       "nivel": 0,
       "tipo": "entrada"
     },
     {
       "id": "n123",
-      "x": -29.504,
-      "z": -83.5495,
-      "lat": 19.5054649,
-      "lon": -99.14701318,
+      "x": -29.316,
+      "z": -83.466,
+      "lat": 19.50546409,
+      "lon": -99.14701134,
       "nivel": 0,
       "tipo": "entrada"
     },
@@ -1135,6 +1135,432 @@
       "lon": -99.14673976,
       "nivel": 0,
       "tipo": "entrada"
+    },
+    {
+      "id": "n127",
+      "x": 8.3375,
+      "z": -37.757,
+      "lat": 19.50504013,
+      "lon": -99.14664133,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n128",
+      "x": 4.5093,
+      "z": -27.1752,
+      "lat": 19.50494495,
+      "lon": -99.14667776,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n129",
+      "x": -30.9375,
+      "z": -5.016,
+      "lat": 19.50475216,
+      "lon": -99.14702099,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n130",
+      "x": -28.7055,
+      "z": -0.3799,
+      "lat": 19.50470953,
+      "lon": -99.14699891,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n131",
+      "x": -27.4281,
+      "z": 2.2734,
+      "lat": 19.50468514,
+      "lon": -99.14698627,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n132",
+      "x": -29.3175,
+      "z": 5.4286,
+      "lat": 19.50465694,
+      "lon": -99.14700441,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n133",
+      "x": -35.6141,
+      "z": 7.7525,
+      "lat": 19.50463733,
+      "lon": -99.14706551,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n134",
+      "x": -36.4526,
+      "z": 7.9715,
+      "lat": 19.50463554,
+      "lon": -99.14707365,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n135",
+      "x": -2.6401,
+      "z": -22.956,
+      "lat": 19.50490834,
+      "lon": -99.14674701,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n136",
+      "x": 49.6748,
+      "z": -22.4812,
+      "lat": 19.50489162,
+      "lon": -99.14623785,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n137",
+      "x": -28.1855,
+      "z": 3.5383,
+      "lat": 19.50467383,
+      "lon": -99.14699354,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n138",
+      "x": -30.9416,
+      "z": 2.2524,
+      "lat": 19.50468616,
+      "lon": -99.14702046,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n139",
+      "x": -30.7337,
+      "z": 2.0076,
+      "lat": 19.50468833,
+      "lon": -99.14701846,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n140",
+      "x": -27.8225,
+      "z": 2.9321,
+      "lat": 19.50467925,
+      "lon": -99.14699006,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n141",
+      "x": -8.9328,
+      "z": 50.1069,
+      "lat": 19.50424642,
+      "lon": -99.14680254,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n142",
+      "x": -5.766,
+      "z": 39.9664,
+      "lat": 19.50433775,
+      "lon": -99.14677251,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n143",
+      "x": -1.7948,
+      "z": 27.2503,
+      "lat": 19.50445227,
+      "lon": -99.14673486,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n144",
+      "x": 8.4081,
+      "z": 10.6245,
+      "lat": 19.50460081,
+      "lon": -99.14663686,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n145",
+      "x": -5.5878,
+      "z": 50.022,
+      "lat": 19.5042464,
+      "lon": -99.14676999,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n146",
+      "x": -40.4703,
+      "z": 24.0526,
+      "lat": 19.50449048,
+      "lon": -99.14711149,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n147",
+      "x": -48.5635,
+      "z": 22.9957,
+      "lat": 19.50450199,
+      "lon": -99.14719034,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n148",
+      "x": -48.7819,
+      "z": 22.9672,
+      "lat": 19.5045023,
+      "lon": -99.14719246,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n149",
+      "x": 38.529,
+      "z": -20.36,
+      "lat": 19.504875,
+      "lon": -99.14634616,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n150",
+      "x": -17.592,
+      "z": -11.814,
+      "lat": 19.50481072,
+      "lon": -99.14689165,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n151",
+      "x": -18.992,
+      "z": -11.814,
+      "lat": 19.50481105,
+      "lon": -99.14690527,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n152",
+      "x": 5.433,
+      "z": -0.013,
+      "lat": 19.5046981,
+      "lon": -99.14666665,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n153",
+      "x": 5.433,
+      "z": 1.387,
+      "lat": 19.50468539,
+      "lon": -99.14666654,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n154",
+      "x": -1.786,
+      "z": 27.172,
+      "lat": 19.50445298,
+      "lon": -99.14673478,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n155",
+      "x": -2.9606,
+      "z": 37.5885,
+      "lat": 19.50435867,
+      "lon": -99.1467454,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n156",
+      "x": -53.514,
+      "z": 47.623,
+      "lat": 19.50427955,
+      "lon": -99.14723659,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n157",
+      "x": -18.001,
+      "z": 50.337,
+      "lat": 19.50424649,
+      "lon": -99.14689077,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n158",
+      "x": -49.2084,
+      "z": 38.6815,
+      "lat": 19.50435972,
+      "lon": -99.14719539,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n159",
+      "x": -49.456,
+      "z": 38.589,
+      "lat": 19.50436062,
+      "lon": -99.1471978,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n160",
+      "x": -53.514,
+      "z": 46.223,
+      "lat": 19.50429226,
+      "lon": -99.1472367,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n161",
+      "x": -41.8394,
+      "z": 26.339,
+      "lat": 19.50447004,
+      "lon": -99.14712464,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n162",
+      "x": -48.756,
+      "z": 37.889,
+      "lat": 19.50436681,
+      "lon": -99.14719105,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n163",
+      "x": -31.303,
+      "z": -2.498,
+      "lat": 19.50472938,
+      "lon": -99.14702435,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n164",
+      "x": -35.755,
+      "z": 7.123,
+      "lat": 19.50464308,
+      "lon": -99.14706693,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n165",
+      "x": 2.865,
+      "z": 17.295,
+      "lat": 19.50454156,
+      "lon": -99.14669029,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n166",
+      "x": -42.153,
+      "z": 39.584,
+      "lat": 19.50434985,
+      "lon": -99.14712665,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n167",
+      "x": -40.7396,
+      "z": 37.2271,
+      "lat": 19.50437092,
+      "lon": -99.14711308,
+      "nivel": 0,
+      "tipo": "entrada",
+      "nombre": "Laboratorios · acceso poniente al pasillo 3–4"
+    },
+    {
+      "id": "n168",
+      "x": -28.4813,
+      "z": 41.5278,
+      "lat": 19.50432896,
+      "lon": -99.14699345,
+      "nivel": 0,
+      "tipo": "cruce",
+      "nombre": "Laboratorios · pasillo interior transversal"
+    },
+    {
+      "id": "n169",
+      "x": -16.223,
+      "z": 45.8285,
+      "lat": 19.504287,
+      "lon": -99.14687382,
+      "nivel": 0,
+      "tipo": "entrada",
+      "nombre": "Laboratorios · acceso oriente al pasillo 3–4"
+    },
+    {
+      "id": "n170",
+      "x": -8.4485,
+      "z": 48.5561,
+      "lat": 19.50426039,
+      "lon": -99.14679795,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n171",
+      "x": -47.0366,
+      "z": 35.0179,
+      "lat": 19.50439247,
+      "lon": -99.14717454,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n172",
+      "x": -41.294,
+      "z": 37.0326,
+      "lat": 19.50437281,
+      "lon": -99.14711849,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n173",
+      "x": -13.7186,
+      "z": 46.7071,
+      "lat": 19.50427843,
+      "lon": -99.14684938,
+      "nivel": 0,
+      "tipo": "cruce"
     }
   ],
   "aristas": [
@@ -1231,8 +1657,15 @@
     },
     {
       "de": "n14",
+      "a": "n127",
+      "metros": 23.21,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n127",
       "a": "n15",
-      "metros": 23.85,
+      "metros": 0.64,
       "tipo": "exterior",
       "accesible": false
     },
@@ -1259,8 +1692,15 @@
     },
     {
       "de": "n18",
+      "a": "n128",
+      "metros": 4.13,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n128",
       "a": "n19",
-      "metros": 9.32,
+      "metros": 5.19,
       "tipo": "exterior",
       "accesible": false
     },
@@ -1294,8 +1734,29 @@
     },
     {
       "de": "n23",
+      "a": "n129",
+      "metros": 10.51,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n129",
+      "a": "n130",
+      "metros": 5.28,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n130",
+      "a": "n131",
+      "metros": 3.02,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n131",
       "a": "n24",
-      "metros": 19.85,
+      "metros": 1.05,
       "tipo": "exterior",
       "accesible": false
     },
@@ -1308,15 +1769,36 @@
     },
     {
       "de": "n25",
+      "a": "n132",
+      "metros": 3.11,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n132",
+      "a": "n133",
+      "metros": 6.77,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n133",
       "a": "n26",
-      "metros": 10.08,
+      "metros": 0.21,
       "tipo": "exterior",
       "accesible": false
     },
     {
       "de": "n26",
+      "a": "n134",
+      "metros": 0.67,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n134",
       "a": "n27",
-      "metros": 10.62,
+      "metros": 9.95,
       "tipo": "exterior",
       "accesible": false
     },
@@ -1385,15 +1867,29 @@
     },
     {
       "de": "n19",
+      "a": "n135",
+      "metros": 4.17,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n135",
       "a": "n37",
-      "metros": 13.98,
+      "metros": 9.82,
       "tipo": "exterior",
       "accesible": false
     },
     {
       "de": "n8",
+      "a": "n136",
+      "metros": 9.2,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n136",
       "a": "n38",
-      "metros": 30.26,
+      "metros": 21.06,
       "tipo": "exterior",
       "accesible": false
     },
@@ -1553,15 +2049,43 @@
     },
     {
       "de": "n25",
+      "a": "n137",
+      "metros": 2.01,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n137",
+      "a": "n138",
+      "metros": 3.14,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n138",
       "a": "n61",
-      "metros": 7.52,
+      "metros": 2.37,
       "tipo": "exterior",
       "accesible": false
     },
     {
       "de": "n61",
+      "a": "n139",
+      "metros": 2.48,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n139",
+      "a": "n140",
+      "metros": 3.14,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n140",
       "a": "n24",
-      "metros": 6.53,
+      "metros": 0.91,
       "tipo": "exterior",
       "accesible": false
     },
@@ -1630,15 +2154,43 @@
     },
     {
       "de": "n66",
+      "a": "n141",
+      "metros": 27.96,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n141",
       "a": "n67",
-      "metros": 29.04,
+      "metros": 1.07,
       "tipo": "exterior",
       "accesible": false
     },
     {
       "de": "n67",
+      "a": "n170",
+      "metros": 0.55,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n170",
+      "a": "n142",
+      "metros": 9.01,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n142",
+      "a": "n143",
+      "metros": 13.33,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n143",
       "a": "n68",
-      "metros": 22.92,
+      "metros": 0.03,
       "tipo": "exterior",
       "accesible": false
     },
@@ -1665,8 +2217,15 @@
     },
     {
       "de": "n71",
+      "a": "n144",
+      "metros": 5.96,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n144",
       "a": "n72",
-      "metros": 10.45,
+      "metros": 4.49,
       "tipo": "exterior",
       "accesible": false
     },
@@ -1700,8 +2259,15 @@
     },
     {
       "de": "n75",
+      "a": "n145",
+      "metros": 1.45,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n145",
       "a": "n67",
-      "metros": 4.71,
+      "metros": 3.26,
       "tipo": "exterior",
       "accesible": false
     },
@@ -1988,49 +2554,49 @@
     {
       "de": "n114",
       "a": "n22",
-      "metros": 4.78,
+      "metros": 4.84,
       "tipo": "exterior",
       "accesible": false
     },
     {
       "de": "n115",
       "a": "n29",
-      "metros": 3.69,
+      "metros": 3.7,
       "tipo": "exterior",
       "accesible": false
     },
     {
       "de": "n116",
       "a": "n17",
-      "metros": 16.67,
+      "metros": 16.51,
       "tipo": "exterior",
       "accesible": false
     },
     {
       "de": "n117",
       "a": "n75",
-      "metros": 0.35,
+      "metros": 0.47,
       "tipo": "exterior",
       "accesible": false
     },
     {
       "de": "n118",
       "a": "n37",
-      "metros": 7.64,
+      "metros": 7.36,
       "tipo": "exterior",
       "accesible": false
     },
     {
       "de": "n119",
       "a": "n74",
-      "metros": 0.64,
+      "metros": 0.71,
       "tipo": "exterior",
       "accesible": false
     },
     {
       "de": "n120",
       "a": "n15",
-      "metros": 1.97,
+      "metros": 1.92,
       "tipo": "exterior",
       "accesible": false
     },
@@ -2044,21 +2610,21 @@
     {
       "de": "n121",
       "a": "n11",
-      "metros": 19.35,
+      "metros": 19.34,
       "tipo": "exterior",
       "accesible": false
     },
     {
       "de": "n122",
       "a": "n103",
-      "metros": 8.33,
+      "metros": 8.15,
       "tipo": "exterior",
       "accesible": false
     },
     {
       "de": "n123",
       "a": "n110",
-      "metros": 1.55,
+      "metros": 1.51,
       "tipo": "exterior",
       "accesible": false
     },
@@ -2071,8 +2637,29 @@
     },
     {
       "de": "n125",
+      "a": "n146",
+      "metros": 3.51,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n146",
+      "a": "n147",
+      "metros": 8.36,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n147",
+      "a": "n148",
+      "metros": 0.22,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n148",
       "a": "n28",
-      "metros": 15.39,
+      "metros": 3.29,
       "tipo": "exterior",
       "accesible": false
     },
@@ -2081,6 +2668,531 @@
       "a": "n68",
       "metros": 9.97,
       "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n5",
+      "a": "n7",
+      "metros": 18.89,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n7",
+      "a": "n136",
+      "metros": 0.75,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n136",
+      "a": "n149",
+      "metros": 11.5,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n149",
+      "a": "n17",
+      "metros": 16.04,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n17",
+      "a": "n124",
+      "metros": 21.11,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n124",
+      "a": "n135",
+      "metros": 5.45,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n135",
+      "a": "n114",
+      "metros": 26.45,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n124",
+      "a": "n116",
+      "metros": 25.97,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n124",
+      "a": "n118",
+      "metros": 19.5,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n114",
+      "a": "n118",
+      "metros": 26.28,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n118",
+      "a": "n116",
+      "metros": 36.51,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n118",
+      "a": "n150",
+      "metros": 5.58,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n150",
+      "a": "n151",
+      "metros": 1.43,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n151",
+      "a": "n130",
+      "metros": 14.96,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n130",
+      "a": "n139",
+      "metros": 3.12,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n139",
+      "a": "n138",
+      "metros": 0.32,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n138",
+      "a": "n133",
+      "metros": 7.2,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n133",
+      "a": "n147",
+      "metros": 19.94,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n147",
+      "a": "n115",
+      "metros": 11.58,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n118",
+      "a": "n152",
+      "metros": 21.13,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n152",
+      "a": "n153",
+      "metros": 1.41,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n153",
+      "a": "n154",
+      "metros": 26.81,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n154",
+      "a": "n143",
+      "metros": 0.08,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n143",
+      "a": "n155",
+      "metros": 10.47,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n155",
+      "a": "n117",
+      "metros": 12.56,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n115",
+      "a": "n156",
+      "metros": 16.23,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n156",
+      "a": "n119",
+      "metros": 5.69,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n117",
+      "a": "n145",
+      "metros": 1.25,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n145",
+      "a": "n141",
+      "metros": 3.41,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n141",
+      "a": "n157",
+      "metros": 9.25,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n157",
+      "a": "n158",
+      "metros": 34.32,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n158",
+      "a": "n159",
+      "metros": 0.27,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n159",
+      "a": "n160",
+      "metros": 8.63,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n160",
+      "a": "n156",
+      "metros": 1.41,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n151",
+      "a": "n131",
+      "metros": 16.37,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n131",
+      "a": "n140",
+      "metros": 0.77,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n140",
+      "a": "n137",
+      "metros": 0.7,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n137",
+      "a": "n132",
+      "metros": 2.2,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n132",
+      "a": "n146",
+      "metros": 21.65,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n146",
+      "a": "n161",
+      "metros": 2.66,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n161",
+      "a": "n171",
+      "metros": 10.09,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n171",
+      "a": "n162",
+      "metros": 3.34,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n162",
+      "a": "n158",
+      "metros": 0.91,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n158",
+      "a": "n160",
+      "metros": 8.66,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n124",
+      "a": "n128",
+      "metros": 6.1,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n128",
+      "a": "n127",
+      "metros": 11.25,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n127",
+      "a": "n120",
+      "metros": 1.7,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n114",
+      "a": "n129",
+      "metros": 25.71,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n129",
+      "a": "n163",
+      "metros": 2.56,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n163",
+      "a": "n164",
+      "metros": 10.58,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n164",
+      "a": "n134",
+      "metros": 1.1,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n134",
+      "a": "n148",
+      "metros": 19.35,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n148",
+      "a": "n115",
+      "metros": 11.46,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n116",
+      "a": "n144",
+      "metros": 22.41,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n144",
+      "a": "n165",
+      "metros": 8.65,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n165",
+      "a": "n154",
+      "metros": 10.9,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n115",
+      "a": "n161",
+      "metros": 15.38,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n161",
+      "a": "n125",
+      "metros": 5.15,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n117",
+      "a": "n126",
+      "metros": 13.11,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n125",
+      "a": "n172",
+      "metros": 13.23,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n172",
+      "a": "n166",
+      "metros": 2.69,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n166",
+      "a": "n157",
+      "metros": 27.26,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n157",
+      "a": "n173",
+      "metros": 5.61,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n173",
+      "a": "n142",
+      "metros": 10.41,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n142",
+      "a": "n155",
+      "metros": 3.67,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n155",
+      "a": "n126",
+      "metros": 0.76,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n36",
+      "a": "n122",
+      "metros": 20.54,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n115",
+      "a": "n171",
+      "metros": 9.87,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n171",
+      "a": "n172",
+      "metros": 6.27,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n172",
+      "a": "n167",
+      "metros": 0.6,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n167",
+      "a": "n168",
+      "metros": 13.38,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n168",
+      "a": "n169",
+      "metros": 13.38,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n169",
+      "a": "n173",
+      "metros": 2.73,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n173",
+      "a": "n170",
+      "metros": 5.75,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n170",
+      "a": "n117",
+      "metros": 4.46,
+      "tipo": "pasillo",
       "accesible": false
     }
   ],
@@ -2182,8 +3294,11 @@
     }
   ],
   "evidencia": {
-    "estado": "borrador exterior contrastado con croquis; sin recorrido de campo",
+    "estado": "Borrador peatonal PB contrastado con croquis y visor; incluye cruce interior de LAB confirmado por Gabriel. Sin levantamiento de campo.",
     "accesibilidad": "Sin verificación; accesible=false por prudencia. No es una red de evacuación ni certificación de accesibilidad.",
-    "accesos": "Principal/Gobierno contrastados; cafetería documentada en 2020, apertura actual por verificar."
+    "accesos": "Principal/Gobierno contrastados; cafetería documentada en 2020, apertura actual por verificar.",
+    "pasos": "Conexiones PB entre aulas, LAB, 5, explanada y accesos; franjas explícitas en route-space.js, incluido el pasillo interior 3–LAB–4 confirmado por Gabriel. Resto de interiores y puentes P1/P2 no habilitados. Anchos y ejes aproximados.",
+    "entradas": "Destinos en el acceso exterior de referencia del modelo; cuando entry cae en la huella, sobre el borde más próximo desplazado 0.35 m al exterior, nunca en el centro. Biblioteca/Gestión/Salud comparten acceso exterior de Gobierno. Puertas exactas pendientes de comprobación de campo.",
+    "interiorLaboratorios": "Gabriel confirma tránsito interior entre edificios 3 y 4 (21-10-2026). Pasillo transversal PB con entradas poniente/oriente; trazado y ancho aproximados sobre el modelo, sin habilitar otros interiores."
   }
 }

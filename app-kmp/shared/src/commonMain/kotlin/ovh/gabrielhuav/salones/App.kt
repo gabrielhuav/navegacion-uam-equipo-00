@@ -56,7 +56,11 @@ expect fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar
  * Al elegir otra unidad, la app pregunta si quieres ir a ella: las cinco tienen croquis (Mapa, 2D y 3D).
  */
 @Composable
-fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}, redes: Map<Unidad, String> = emptyMap()) {
+fun App(
+    ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}, redes: Map<Unidad, String> = emptyMap(),
+    // Prototipo 4 · experimento: reconocer el edificio con la cámara, sólo en la ESCOM (por ahora sólo Android).
+    onReconocer: (() -> Unit)? = null, reconocido: Reconocido? = null,
+) {
     val sistemaOscuro = isSystemInDarkTheme()
     // Lo último que se eligió en «Tema ▾»; la primera vez, claro u oscuro como el teléfono.
     var oscuro by rememberSaveable { mutableStateOf(Preferencias.leer("oscuro")?.toBoolean() ?: sistemaOscuro) }
@@ -75,6 +79,13 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}, redes
     var eligiendoRuta by remember { mutableStateOf(false) }
     var ruta by remember { mutableStateOf<Ruta?>(null) }
     var rutaTexto by remember { mutableStateOf("") }
+    // Lo que sugirió la cámara: abre «Ruta» con ese destino ya elegido para que el usuario lo confirme.
+    var sugerido by remember { mutableStateOf<Destino?>(null) }
+    LaunchedEffect(reconocido) {
+        val r = reconocido ?: return@LaunchedEffect
+        sugerido = red?.destinos?.find { it.id == r.destino }
+        if (sede == Unidad.ESCOM && sugerido != null) eligiendoRuta = true
+    }
     var hora by remember { mutableStateOf(horaLocal()) }
     LaunchedEffect(Unit) {
         while (true) { // revisa la hora cada minuto: al dar las 19:00 el campus se hace de noche
@@ -98,7 +109,7 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}, redes
         if (vista == Vista.TRES_D && sede.carpeta != null && sede !in con3D) con3D.add(sede)
         Box(Modifier.fillMaxSize()) {
             con3D.forEach { s ->
-                key(s) { Campus3D(s, visible = vista == Vista.TRES_D && s == sede, inclinada, noche, conMarca, Modifier.fillMaxSize()) }
+                key(s) { Campus3D(s, visible = vista == Vista.TRES_D && s == sede, inclinada, noche, conMarca, ruta.takeIf { s == sede }, Modifier.fillMaxSize()) }
             }
             if (vista == Vista.TRES_D && sede.carpeta == null) EnDesarrollo(sede, Modifier.fillMaxSize())
             if (vista != Vista.TRES_D) {
@@ -168,16 +179,19 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}, redes
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 horizontalAlignment = Alignment.End,
             ) {
+                // Rutas: sólo donde hay red de caminos (por ahora Azcapotzalco y ESCOM); desde el P4 también en 3D.
+                if (red != null && (vista != Vista.TRES_D || sede.carpeta != null)) {
+                    ExtendedFloatingActionButton(onClick = { if (ruta == null) { sugerido = null; eligiendoRuta = true } else ruta = null }) {
+                        Text(if (ruta == null) "Ruta" else "Quitar ruta")
+                    }
+                }
                 if (vista == Vista.TRES_D) {
                     ExtendedFloatingActionButton(onClick = { inclinada = !inclinada }) {
                         Text(if (inclinada) "Desde arriba" else "Inclinar")
                     }
                 } else {
-                    // Rutas: sólo donde hay red de caminos (por ahora Azcapotzalco y ESCOM).
-                    if (red != null) {
-                        ExtendedFloatingActionButton(onClick = { if (ruta == null) eligiendoRuta = true else ruta = null }) {
-                            Text(if (ruta == null) "Ruta" else "Quitar ruta")
-                        }
+                    if (sede == Unidad.ESCOM && red != null && onReconocer != null) {
+                        ExtendedFloatingActionButton(onClick = onReconocer) { Text("Reconocer edificio") }
                     }
                     ExtendedFloatingActionButton(onClick = { enLaUam = true; centrar++ }) { Text("UAM") }
                     ExtendedFloatingActionButton(onClick = { enLaUam = false; centrar++; onUbicar() }) { Text("Ubicarme") }
@@ -185,7 +199,11 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}, redes
             }
 
             if (eligiendoRuta && red != null) {
-                ElegirRuta(red, sede.titulo, conUbicacion = ubicacion != null, onCerrar = { eligiendoRuta = false }) { desde, hasta ->
+                ElegirRuta(
+                    red, sede.titulo, conUbicacion = ubicacion != null, onCerrar = { eligiendoRuta = false },
+                    hastaInicial = sugerido,
+                    aviso = sugerido?.let { "La cámara cree ver: ${it.nombre}. Confirma el destino; la ruta parte de tu ubicación." },
+                ) { desde, hasta ->
                     eligiendoRuta = false
                     val calculada = if (desde == null) ubicacion?.let { red.rutaDesde(it, hasta) }
                                     else red.rutaMasCorta(desde.nodo, hasta.nodo)?.let { it to false }
@@ -194,7 +212,6 @@ fun App(ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}, redes
                         "Ruta a ${hasta.nombre}: ${r.metros.toInt()} m · ${r.minutos} min a pie" +
                             if (porAcceso) " (desde el acceso más cercano)" else ""
                     } ?: "No hay camino hacia ${hasta.nombre}."
-                    if (vista == Vista.TRES_D) vista = Vista.MAPA
                     enLaUam = true
                     centrar++
                 }
