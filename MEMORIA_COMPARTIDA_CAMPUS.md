@@ -1,5 +1,35 @@
 # Memoria compartida del campus · Web y app móvil
 
+## COSEI: letras, palmeras y Caracol · 22 octubre 2026
+
+Referencia: dos fotografías nuevas de Gabriel. Se añadieron letras volumétricas simplificadas SOY UAM sobre base roja, editables con ID `letters_SOY_UAM_COSEI`; Caracol con tres bancas curvas de concreto, pavimento y jardín central, ID `caracol_COSEI`. Campos `cosei.soyUam` y `cosei.caracol`. Se incorporaron tres palmeras a las tres existentes y el asta pasó a `[870,516]`, junto al borde de la plataforma/escaleras. Distribución, dimensiones y forma del Caracol aproximadas: pendientes de ajuste preciso del usuario. Las letras vistas desde atrás se leen invertidas, como en las fotos.
+
+Checkpoint previo `checkpoint/antes-cosei-letras-caracol` sobre fd466fc. Se exportan GLB/PNG y JSON conjuntamente; encuadre, georreferencia, rutas y entrenamiento/P4 conservados. Se comprobó la vista COSEI y la presencia de letras y bancas en GLB. No se modificaron apps ni se hizo push.
+
+## Escultura de vidrio en COSEI · 22 octubre 2026
+
+Añadida en `feature/10-esculturas` sobre `edf8bac`, a partir de la fotografía aportada por Gabriel: pedestal rectangular de concreto con placa sin inscripción, zócalo y panel inferior opaco, cuatro paneles de vidrio con montantes y fijaciones, y dos cuerpos facetados claros en el interior. Nombre descriptivo provisional «Escultura de vidrio · COSEI»; no se atribuye autor ni título de obra. Altura y proporciones aproximadas (unos 4.3 m incluyendo base), posición inicial `[736,470]` cerca de G/E dentro de COSEI, pendiente de ajuste preciso por el usuario.
+
+Estado: `vidrioCosei` en JSON/base; ID editable `sculpture_vidrio_COSEI`; grupo GLB `Escultura_vidrio_COSEI`. Botón «COSEI · Escultura de vidrio» para acercarse. Se puede mover, girar, deshacer y guardar mediante las herramientas existentes. La escultura anterior de G se conserva: son elementos distintos en la foto. Geometría ligera y vidrio con material estándar transparente, sin texturas externas.
+
+Se exportaron ambos GLB y PNG desde Guardar cambios, se reconstruyó el HTML portátil y se verificaron: presencia del nuevo grupo y vidrio transparente en ambos GLB, cuatro paneles y dos poliedros, conservación exacta de todos los campos previos del JSON, posiciones de las tres esculturas del PR, dimensiones PNG 1560×640, georreferencia/rutas/apps intactas. Prueba visual, movimiento/giro con deshacer antes de exportar y consola sin errores. Evidencia: `docs/capturas/azc_vidrio_cosei_2026-10-22.png`. Se mantiene `showCopyright:false` del estado del equipo. Falta comprobar aspecto en el renderizador móvil al integrar con Claude.
+
+Checkpoint anterior: tag local `checkpoint/antes-escultura-vidrio-cosei-2026-10-22` (`edf8bac`), más copia de campus y memoria en `_respaldos/2026-10-22_antes_escultura_vidrio_cosei` de la carpeta del curso. Prototipo 4 y entrenamiento siguen protegidos como se indica abajo; no se modificaron ni mezclaron sus ramas. Réplica de Descargas comprobada sin divergencias antes de sincronizar. No se hizo push.
+
+## Actualización 22 octubre 2026 · HTML de esculturas y protección de P4
+
+Rama de esta corrección: `feature/10-esculturas`, PR #11, sobre `8fdf9e1`. El PR ya incluía Habitaciones de Luz, Universitas y Casa abierta al tiempo en el código y GLB, pero el HTML autónomo y la base no se habían reconstruido. Además, la pestaña 8782 correspondía a ESCOM, en otro checkout.
+
+Se reconstruyó el HTML, se añadieron tres cámaras de acercamiento y se corrigió build.mjs para incluir `campus_editado.json` en el portátil (sin perder los desplazamientos acomodados por el equipo). `campus_base.json` sigue derivándose de ORIGINAL. Vista actual AZC: http://127.0.0.1:8783/Visor_UAM_autonomo.html. El puerto es local y temporal; el inicio normal conserva su configuración.
+
+Se conservaron sin cambios los GLB/PNG, el estado guardado y su `showCopyright:false`, model-data.js, georreferencia, rutas y las apps. Pruebas: verificar-esculturas.mjs valida código embebido, estado portátil, base, botones, presencia y posición de las tres esculturas en ambos GLB; verificar.mjs y comprobación sintáctica correctas. Las tres cámaras se comprobaron en el navegador, sin errores de consola. Evidencia: `docs/capturas/azc_esculturas_2026-10-22.png`.
+
+**Prototipo 4 ya existe en otra rama:** `feature/p4-reconocer-escom`, commit `7b61ce2`, protegido con tag local `checkpoint/p4-entrenamiento-2026-10-22`. Incluye los assets de reconocimiento de ESCOM y su integración. No se mezcló en esta rama antigua del PR. Las notas históricas de abajo que hablan de P4 pendiente no describen el estado de esa rama.
+
+Entrenamiento original: `C:/dev/entrenamiento-escom`, conservado intacto. Respaldo previo: `C:/Users/gabri/Downloads/1151055 Administracion/_respaldos/2026-10-22_antes_corregir_html_esculturas`, con campus, memoria, bundle Git de todas las ramas y copia de modelo/exportado, corridas, salidas y fuentes del modelo con manifiestos SHA256. El corpus y entorno originales permanecen en su ubicación; este respaldo adicional del entrenamiento no duplica todo el corpus ni .venv.
+
+Para integrar con Claude: incorporar la corrección del visor sobre la rama de desarrollo que contiene P4; conservar sus assets y entrenamiento. No sustituir la app P4 por el estado de app-kmp/app-flutter de esta rama. El commit de la corrección es local hasta que se publique.
+
 Actualizada: 18 de octubre de 2026. Fuente revisada: sesión de Claude «Unidad III actualización y decisiones de material», archivos locales y commit f5311cb de la rama feature/p2-campus. Este documento es el punto común para Claude y Codex; no sincroniza automáticamente los historiales de los chats.
 
 ## Fuente del diseño

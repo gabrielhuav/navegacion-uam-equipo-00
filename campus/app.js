@@ -73,6 +73,34 @@ function sculptureG(spec){
  box(group,'Base_escultura',0,.48,0,5.5,.3,4.6,'#9a9b8e');
  for(let i=0;i<3;i++){const shape=new THREE.Shape();shape.moveTo(-.65,0);shape.lineTo(.65,0);shape.bezierCurveTo(.3,1.2,1.4,2.2,.65,3.3);shape.bezierCurveTo(.1,3.7,.6,4.3,.15,4.8);shape.lineTo(-.5,4.8);shape.bezierCurveTo(-.1,3.1,-1.1,2.5,-.65,0);const plate=new THREE.Mesh(new THREE.ExtrudeGeometry(shape,{depth:.16,bevelEnabled:false}),material('#673b2b'));plate.name='Placa_abstracta_aproximada';plate.position.set((i-1)*1.35,.63,(i%2)*1.05-.5);plate.rotation.y=(i-1)*.6;plate.castShadow=true;group.add(plate);}
 }
+// Interpretación de la fotografía de COSEI: vidrio, planos facetados y pedestal.
+// Sin texturas fotográficas ni nombre de obra atribuido sin confirmar.
+let coseiGlassMaterial;
+function esculturaVidrioCosei(spec){
+ const g=new THREE.Group();g.name='Escultura_vidrio_COSEI';g.userData={title:'Escultura de vidrio · COSEI',approximate:true,reference:spec.reference};
+ g.position.set(X(spec.position[0]),0,Z(spec.position[1]));g.scale.setScalar(spec.scale||1);world.add(g);
+ registerEditable('sculpture_vidrio_COSEI','Escultura de vidrio · COSEI','sculpture',g);
+ box(g,'Pavimento_gris_COSEI',0,.42,0,4.4,.08,4,'#818681');
+ box(g,'Pedestal_concreto_COSEI',0,.73,0,2.9,.55,2.5,'#c5c4ba');
+ box(g,'Placa_sin_inscripcion',-.75,.76,1.263,.45,.25,.025,'#555e5c');
+ box(g,'Zocalo_metalico',0,1.08,0,1.5,.16,1.06,'#889692');
+ box(g,'Panel_inferior_opaco',0,1.57,0,1.38,.85,.9,'#9eafaa');
+ for(const x of [-.69,.69])for(const z of [-.48,.48])box(g,'Montante_metalico',x,2.67,z,.045,3.2,.045,'#566b69');
+ coseiGlassMaterial??=new THREE.MeshStandardMaterial({name:'Vidrio_COSEI',color:'#b6d9d4',transparent:true,opacity:.22,roughness:.2,metalness:.1,side:THREE.DoubleSide,depthWrite:false});
+ function panel(name,w,h,x,y,z,yaw){const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),coseiGlassMaterial);m.name=name;m.position.set(x,y,z);m.rotation.y=yaw;g.add(m);}
+ for(const side of [-1,1]){
+  panel('Vidrio_frontal_posterior',1.38,3.12,0,2.67,side*.49,0);
+  panel('Vidrio_lateral',.98,3.12,side*.70,2.67,0,Math.PI/2);
+  box(g,'Junta_horizontal',0,2,side*.495,1.4,.025,.025,'#78928d');
+  for(const x of [-.49,.49])for(const y of [1.3,1.85]){const bolt=new THREE.Mesh(new THREE.SphereGeometry(.035,6,4),material('#667b76'));bolt.name='Fijacion_panel';bolt.position.set(x,y,side*.515);g.add(bolt);}
+ }
+ const facets=['#dae4df','#aebfba','#8baba6','#c7d6d0'].map(color=>new THREE.MeshStandardMaterial({color,roughness:.32,metalness:.22,flatShading:true}));
+ for(let i=0;i<2;i++){
+  const geometry=new THREE.OctahedronGeometry(.72,0);geometry.clearGroups();for(let face=0;face<8;face++)geometry.addGroup(face*3,3,(face+i)%facets.length);
+  const poly=new THREE.Mesh(geometry,facets);poly.name='Poliedro_facetado_'+i;poly.scale.set(1,.65,.62);poly.position.set(0,2.08+i*.91,0);poly.rotation.y=Math.PI/4;poly.castShadow=true;g.add(poly);
+ }
+ if(g.parent)label('Escultura de vidrio · COSEI',g.position.x,4.8,g.position.z,'place');
+}
 function serpentinaH(spec){
  const group=new THREE.Group();group.name='Serpentina_II_frente_H_estacionamiento';group.userData={building:'H',side:'estacionamiento',approximate:true,reference:'Fotos y captura Maps aportadas por Gabriel'};group.position.set(X(spec.position[0]),0,Z(spec.position[1]));group.scale.setScalar(spec.scale||1);world.add(group);
  registerEditable('sculpture_serpentina_H','Serpentina II · H / estacionamiento','sculpture',group);
@@ -105,6 +133,83 @@ function serpentinaH(spec){
  if(group.parent)label('Serpentina II',group.position.x,7,group.position.z,'place');
 }
 
+
+// Habitaciones de Luz: escultura de piedra (tipo crómlech) de ~3 m de alto. Aproximada a partir de fotografías.
+function habitacionesLuz(spec){
+ const group=new THREE.Group();group.name='Habitaciones_de_Luz_escultura';group.userData={title:'Habitaciones de Luz',kind:'escultura',material:'piedra',approximate:true,reference:'Fotografías aportadas por el equipo (issue #10)'};
+ group.position.set(X(spec.position[0]),0,Z(spec.position[1]));group.scale.setScalar(spec.scale||1);world.add(group);
+ registerEditable('sculpture_habitaciones_luz','Habitaciones de Luz · piedras','sculpture',group);
+ let seed=2026;const rnd=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};
+ const tones=['#b8b2a0','#aaa492','#c3bdab','#b1ab99'],floor=.48;
+ const terrain=new THREE.Mesh(new THREE.CylinderGeometry(6.4,6.4,.16,40),material('#7f9763'));terrain.name='Habitaciones_Luz_terreno';terrain.position.y=.4;terrain.receiveShadow=true;group.add(terrain);
+ function stone(name,x,z,w,d,h,yaw,tilt,tone,cap){
+  const holder=new THREE.Group();holder.name=name;holder.position.set(x,floor,z);holder.rotation.set(tilt[0],yaw,tilt[1]);group.add(holder);
+  const body=cap?h-.6:h;
+  box(holder,name+'_base',0,body*.31,0,w,body*.62,d,tone);
+  box(holder,name+'_cuerpo_superior',w*.03,body*.62+body*.19,0,w*.82,body*.38,d*.85,tone);
+  if(cap)box(holder,name+'_bloque_superior',w*.06,body+.3,0,w*1.1,.6,d*1.05,tones[(tones.indexOf(tone)+1)%tones.length]);
+ }
+ const n=11,radius=4,heights=[];
+ for(let i=0;i<n;i++){
+  const trilith=[2,3,7,8].includes(i),a=i*2*Math.PI/n+(trilith?0:(rnd()-.5)*.12),r=trilith?radius:radius+(rnd()-.5)*.7;
+  const h=trilith?3.1:2.7+rnd()*.6,w=.9+rnd()*.25,d=.7+rnd()*.25;heights.push(h);
+  stone('Piedra_'+i,r*Math.cos(a),r*Math.sin(a),w,d,h,-a-Math.PI/2+(trilith?0:(rnd()-.5)*.5),trilith?[0,0]:[(rnd()-.5)*.06,(rnd()-.5)*.06],tones[i%tones.length],!trilith&&(i===0||i===5));
+ }
+ for(let i=0;i<3;i++){const a=i*2*Math.PI/3+.5;stone('Piedra_interior_'+i,1.6*Math.cos(a),1.6*Math.sin(a),.85,.7,2.3+rnd()*.4,-a-Math.PI/2+(rnd()-.5)*.6,[(rnd()-.5)*.05,(rnd()-.5)*.05],tones[(i+1)%tones.length],false);}
+ // Dinteles sobre pares de piedras contiguas del círculo.
+ for(const [i,j] of [[2,3],[7,8]]){
+  const ai=i*2*Math.PI/n,aj=j*2*Math.PI/n,pa=new THREE.Vector3(radius*Math.cos(ai),0,radius*Math.sin(ai)),pb=new THREE.Vector3(radius*Math.cos(aj),0,radius*Math.sin(aj));
+  const lintel=box(group,'Dintel_'+i+'_'+j,(pa.x+pb.x)/2,floor+3.1+.35,(pa.z+pb.z)/2,pa.distanceTo(pb)+1.3,.7,1.1,'#b4ae9c');lintel.rotation.y=Math.atan2(pb.x-pa.x,pb.z-pa.z)-Math.PI/2;
+ }
+ if(group.parent)label('Habitaciones de Luz',group.position.x,6,group.position.z,'place');
+}
+
+// Universitas: escultura de acero azul, formada por puntas piramidales que cruzan un centro común, sobre pedestal circular de piedra. Aproximada a partir de fotografías.
+let universitasMaterial;
+function universitasSteel(){return universitasMaterial??=new THREE.MeshStandardMaterial({color:'#24409a',metalness:.5,roughness:.42,flatShading:true});}
+function universitas(spec){
+ const group=new THREE.Group();group.name='Universitas_escultura';group.userData={title:'Universitas',kind:'escultura',material:'acero pintado azul',approximate:true,reference:'Fotografías aportadas por el equipo (issue #10)'};
+ group.position.set(X(spec.position[0]),0,Z(spec.position[1]));group.scale.setScalar(spec.scale||1);world.add(group);
+ registerEditable('sculpture_universitas','Universitas · escultura azul','sculpture',group);
+ const lawn=new THREE.Mesh(new THREE.CylinderGeometry(5.6,5.6,.16,40),material('#7f9763'));lawn.name='Universitas_terreno';lawn.position.y=.4;lawn.receiveShadow=true;group.add(lawn);
+ const pedestal=new THREE.Mesh(new THREE.CylinderGeometry(3.2,3.3,.95,48),material('#6e675a'));pedestal.name='Universitas_pedestal';pedestal.position.y=.475;pedestal.castShadow=true;pedestal.receiveShadow=true;group.add(pedestal);
+ const rim=new THREE.Mesh(new THREE.CylinderGeometry(3.4,3.4,.2,48),material('#8b8576'));rim.name='Universitas_remate_pedestal';rim.position.y=1.05;rim.castShadow=true;rim.receiveShadow=true;group.add(rim);
+ box(group,'Universitas_placa',0,.54,4.3,1,.12,.65,'#4b4a46');
+ const center=new THREE.Vector3(0,4.4,0),up=new THREE.Vector3(0,1,0);
+ // [dx,dy,dz,largo]: cada eje genera dos puntas opuestas, para un total de 16.
+ const axes=[[1,.1,.05,3.5],[.25,1,.1,3.4],[-.55,.8,.2,3.2],[.5,-.9,.3,3.1],[-.35,-1,.1,3],[-.8,.5,-.4,2.9],[.7,.55,-.5,3],[.2,.1,1,2.8]];
+ for(const [dx,dy,dz,length] of axes){
+  const dir=new THREE.Vector3(dx,dy,dz).normalize();
+  for(const sign of [1,-1]){
+   const geometry=new THREE.ConeGeometry(.8,length,4);geometry.rotateY(Math.PI/4);geometry.translate(0,length/2,0);
+   const spike=new THREE.Mesh(geometry,universitasSteel());spike.name='Universitas_punta';spike.position.copy(center);spike.quaternion.setFromUnitVectors(up,dir.clone().multiplyScalar(sign));spike.castShadow=true;group.add(spike);
+  }
+ }
+ if(group.parent)label('Universitas',group.position.x,11,group.position.z,'place');
+}
+
+// Casa abierta al tiempo: tres poliedros dorados de caras triangulares, apilados y desfasados, sobre pedestal circular. Aproximada a partir de fotografías.
+let casaAbiertaMaterial,casaAbiertaLineas;
+function casaAbiertaAlTiempo(spec){
+ const group=new THREE.Group();group.name='Casa_abierta_al_tiempo_escultura';group.userData={title:'Casa abierta al tiempo',kind:'escultura',material:'metal dorado',approximate:true,reference:'Fotografías aportadas por el equipo (issue #10)'};
+ group.position.set(X(spec.position[0]),0,Z(spec.position[1]));group.scale.setScalar(spec.scale||1);world.add(group);
+ registerEditable('sculpture_casa_abierta','Casa abierta al tiempo · escultura dorada','sculpture',group);
+ if(!casaAbiertaMaterial)casaAbiertaMaterial=new THREE.MeshStandardMaterial({color:'#d8b11c',metalness:.45,roughness:.4,flatShading:true});
+ if(!casaAbiertaLineas)casaAbiertaLineas=new THREE.LineBasicMaterial({color:'#5f4f0c'});
+ const lawn=new THREE.Mesh(new THREE.CylinderGeometry(6.8,6.8,.16,40),material('#7f9763'));lawn.name='Casa_abierta_terreno';lawn.position.y=.4;lawn.receiveShadow=true;group.add(lawn);
+ const pedestal=new THREE.Mesh(new THREE.CylinderGeometry(4.4,4.5,.8,56),material('#77726a'));pedestal.name='Casa_abierta_pedestal';pedestal.position.y=.4;pedestal.castShadow=true;pedestal.receiveShadow=true;group.add(pedestal);
+ // Un icosaedro girado para que una cara quede arriba y otra abajo: se apilan con caras planas.
+ const toFace=new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(1,1,1).normalize(),new THREE.Vector3(0,1,0));
+ const spacing=2.4,base=.8+spacing/2;
+ // [desfase X, desfase Z, giro, inclinación X, inclinación Z]
+ const blocks=[[0,0,.2,0,0],[.45,-.1,.7,.05,-.08],[-.3,.15,1.1,-.04,.06]];
+ for(const [i,[dx,dz,yaw,tiltX,tiltZ]] of blocks.entries()){
+  const geometry=new THREE.IcosahedronGeometry(1.9,0);geometry.applyQuaternion(toFace);
+  const block=new THREE.Mesh(geometry,casaAbiertaMaterial);block.name='Casa_abierta_poliedro_'+(i+1);block.scale.set(1,.8,1);block.position.set(dx,base+i*spacing,dz);block.rotation.set(tiltX,yaw,tiltZ);block.castShadow=true;block.receiveShadow=true;group.add(block);
+  const edges=new THREE.LineSegments(new THREE.EdgesGeometry(geometry),casaAbiertaLineas);edges.name='Casa_abierta_aristas_'+(i+1);block.add(edges);
+ }
+ if(group.parent)label('Casa abierta al tiempo',group.position.x,12,group.position.z,'place');
+}
 
 // Marca que pertenece a la maqueta y viaja en GLB; bandera persistente en JSON.
 function copyrightStyle(){return data.copyrightStyle||ORIGINAL.copyrightStyle;}
@@ -291,6 +396,19 @@ function flagMaterial(){
  mexicanFlagMaterial=new THREE.MeshStandardMaterial({map:texture,side:THREE.DoubleSide,roughness:1});return mexicanFlagMaterial;
 }
 function coseiPlaza(spec){
+ if(spec.soyUam){
+  const g=new THREE.Group();g.name='Letras_SOY_UAM_COSEI';g.position.set(X(spec.soyUam[0]),spec.baseElevation+spec.rise,Z(spec.soyUam[1]));world.add(g);registerEditable('letters_SOY_UAM_COSEI','SOY UAM · COSEI','sculpture',g);
+  box(g,'Base_roja_letras',0,.15,0,10,.3,.8,'#b92736');
+  // Letras volumétricas de trazos simples; legibles también por detrás como en la foto.
+  const strokes={S:[[[1,1],[.2,1],[0,.8],[.2,.55],[.8,.45],[1,.2],[.8,0],[0,0]]],O:[[[.2,0],[0,.2],[0,.8],[.2,1],[.8,1],[1,.8],[1,.2],[.8,0],[.2,0]]],Y:[[[0,1],[.5,.5],[1,1]],[[.5,.5],[.5,0]]],U:[[[0,1],[0,.2],[.2,0],[.8,0],[1,.2],[1,1]]],A:[[[0,0],[.4,1],[.6,1],[1,0]],[[.2,.4],[.8,.4]]],M:[[[0,0],[0,1],[.5,.45],[1,1],[1,0]]]};
+  [...'SOY UAM'].forEach((ch,i)=>{for(const path of strokes[ch]||[])for(let k=1;k<path.length;k++){const a=new THREE.Vector3(i*1.35-4.5+path[k-1][0],.4+path[k-1][1]*2,0),b=new THREE.Vector3(i*1.35-4.5+path[k][0],.4+path[k][1]*2,0),delta=b.clone().sub(a);const m=box(g,'Letra_'+ch,0,0,0,.23,delta.length()+.12,.32,'#f3f1e8');m.position.copy(a).add(b).multiplyScalar(.5);m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),delta.normalize());}});
+ }
+ if(spec.caracol){
+  const g=new THREE.Group();g.name='Caracol_COSEI';g.position.set(X(spec.caracol[0]),spec.baseElevation,Z(spec.caracol[1]));world.add(g);registerEditable('caracol_COSEI','Caracol · bancas COSEI','sculpture',g);
+  const floor=new THREE.Mesh(new THREE.CylinderGeometry(8,8,.12,64),material('#969b94'));floor.position.y=.06;g.add(floor);
+  for(const [r,start,end] of [[7.5,.2,4.8],[4.6,2.3,6.4],[2.1,-.3,2.5]]){const s=new THREE.Shape();s.absarc(0,0,r,start,end,false);s.absarc(0,0,r-.55,end,start,true);s.closePath();const m=new THREE.Mesh(new THREE.ExtrudeGeometry(s,{depth:.75,bevelEnabled:false,curveSegments:40}),material('#a6a89e'));m.name='Banca_curva_caracol';m.rotation.x=-Math.PI/2;m.position.y=.85;m.castShadow=true;g.add(m);}
+  const garden=new THREE.Mesh(new THREE.CylinderGeometry(1.6,1.6,.15,32),material('#638153'));garden.position.y=.15;g.add(garden);
+ }
  const g=new THREE.Group();g.name='Plaza_COSEI_detalle';g.userData={library:'I',rise:spec.rise,steps:spec.steps,approximate:true};world.add(g);
  const r=spec.terrace,base=spec.baseElevation,top=base+spec.rise;
  slab(g,r,'#b87861',base+spec.rise/2,spec.rise,'Plataforma_elevada_COSEI');
@@ -350,6 +468,10 @@ function generate(){
  for(const b of data.buildings)building(b);
  if(data.sculpture)sculptureG(data.sculpture);
  if(data.serpentina)serpentinaH(data.serpentina);
+ if(data.habitacionesLuz)habitacionesLuz(data.habitacionesLuz);
+ if(data.universitas)universitas(data.universitas);
+ if(data.casaAbierta)casaAbiertaAlTiempo(data.casaAbierta);
+ if(data.vidrioCosei)esculturaVidrioCosei(data.vidrioCosei);
  for(const spec of data.bridges||[])bridge(spec);
  for(const spec of data.integratedLinks||[])integratedLink(spec);
  for(const spec of data.corridors||[])corridor(spec);
@@ -396,8 +518,10 @@ function campusNorth(geo){
  if(Math.abs(det)<1e-18)return null;
  const x=-bx/det,z=ax/det,length=Math.hypot(x,z);return {x:x/length,z:z/length};
 }
-function view(mode){topMode=mode==='top';controls.maxPolarAngle=topMode?Math.PI:THREE.MathUtils.degToRad(78);focusMode=['plaza','pavilions','cosei','gdetail','parking','tdetail','serpentina'].includes(mode);camera=topMode?ortho:perspective;controls.object=camera;controls.enableRotate=!topMode;controls.target.set(0,0,0);camera.zoom=1;camera.up.set(0,1,0);
+const sculptureViews={habitaciones:'sculpture_habitaciones_luz',universitas:'sculpture_universitas',casaAbierta:'sculpture_casa_abierta',vidrioCosei:'sculpture_vidrio_COSEI'};
+function view(mode){controls.minDistance=mode==='vidrioCosei'?8:30;topMode=mode==='top';controls.maxPolarAngle=topMode?Math.PI:THREE.MathUtils.degToRad(78);focusMode=['plaza','pavilions','cosei','gdetail','parking','tdetail','serpentina',...Object.keys(sculptureViews)].includes(mode);camera=topMode?ortho:perspective;controls.object=camera;controls.enableRotate=!topMode;controls.target.set(0,0,0);camera.zoom=1;camera.up.set(0,1,0);
  if(mode==='serpentina'){const node=editables.get('sculpture_serpentina_H')?.node;controls.target.copy(node?.position||new THREE.Vector3(X(824),0,Z(265)));controls.target.y=3.4;camera.position.copy(controls.target).add(new THREE.Vector3(-8,6,-23));}
+ else if(sculptureViews[mode]){const node=editables.get(sculptureViews[mode])?.node;if(node){world.updateMatrixWorld(true);const bounds=new THREE.Box3().setFromObject(node),size=bounds.getSize(new THREE.Vector3());bounds.getCenter(controls.target);camera.position.copy(controls.target).add((mode==='vidrioCosei'?new THREE.Vector3(1,.55,1.5):new THREE.Vector3(-.3,2,-.5)).normalize().multiplyScalar(mode==='vidrioCosei'?14:Math.max(34,size.length()*2.2)));}else{camera.position.set(0,580,630);message('Esta escultura no está incluida en los datos cargados.');}}
  else if(mode==='tdetail'){const b=data.buildings.find(b=>b.id==='T'),r=b.rects[0];controls.target.set(X((r[0]+r[2])/2)+(b.offsetX||0)-(r[2]-r[0])*S()*.27,2.5,Z(r[1])+(b.offsetZ||0)-3);camera.position.copy(controls.target).add(new THREE.Vector3(-12,12,-45));}
  else if(mode==='plaza'){controls.target.set(X(563.5),3,Z(486.5));camera.position.copy(controls.target).add(new THREE.Vector3(35,115,155));}
  else if(mode==='pavilions'){controls.target.set(X(824),6,Z(337));camera.position.copy(controls.target).add(new THREE.Vector3(-45,90,-140));}
@@ -407,8 +531,8 @@ function view(mode){topMode=mode==='top';controls.maxPolarAngle=topMode?Math.PI:
  else if(mode==='maps'){const north=campusNorth(georeference);camera.position.set(north?-north.x*630:-70,580,north?-north.z*630:-630);}
  else if(mode==='top'){camera.position.set(0,1000,0);const north=campusNorth(georeference);if(north)camera.up.set(north.x,0,north.z);else camera.up.set(.17,0,.985);}
  else camera.position.set(0,580,630);
- camera.lookAt(controls.target);camera.updateProjectionMatrix();controls.update();for(const id of ['approved','maps','top','plaza','pavilions','cosei','gdetail','parking','tdetail','serpentina'])$(id).classList.toggle('active',id===mode);resize();}
-for(const mode of ['approved','maps','top','plaza','pavilions','cosei','gdetail','parking','tdetail','serpentina'])$(mode).onclick=()=>view(mode);
+ camera.lookAt(controls.target);camera.updateProjectionMatrix();controls.update();for(const id of ['approved','maps','top','plaza','pavilions','cosei','gdetail','parking','tdetail','serpentina',...Object.keys(sculptureViews)])$(id).classList.toggle('active',id===mode);resize();}
+for(const mode of ['approved','maps','top','plaza','pavilions','cosei','gdetail','parking','tdetail','serpentina',...Object.keys(sculptureViews)])$(mode).onclick=()=>view(mode);
 $('spin').onclick=()=>{if(topMode)view('maps');controls.autoRotate=!controls.autoRotate;$('spin').classList.toggle('active',controls.autoRotate);};
 $('trees').onchange=()=>vegetation.visible=$('trees').checked;$('names').onchange=()=>labelLayer.hidden=!$('names').checked;$('grid').onchange=()=>grid.visible=$('grid').checked;
 function message(text){$('status').textContent=text;clearTimeout(message.timer);message.timer=setTimeout(()=>$('status').textContent='',6500);}
@@ -506,7 +630,11 @@ renderer.domElement.addEventListener('pointercancel',e=>endEditDrag(e,true),true
 document.addEventListener('keydown',e=>{if(!editMode||/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))return;if(e.key==='Escape'){resetDraw();message('Dibujo cancelado.');}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();$(e.shiftKey?'editRedo':'editUndo').click();}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='y'){e.preventDefault();$('editRedo').click();}});
 window.addEventListener('beforeunload',e=>{if(savedData&&(JSON.stringify(data)!==savedData||routeEditor?.isDirty())){e.preventDefault();e.returnValue='';}});
 function validateCampus(d){
+ if(d?.vidrioCosei&&(!Array.isArray(d.vidrioCosei.position)||d.vidrioCosei.position.length!==2||!d.vidrioCosei.position.every(Number.isFinite)||(d.vidrioCosei.scale!==undefined&&(!Number.isFinite(d.vidrioCosei.scale)||d.vidrioCosei.scale<.2||d.vidrioCosei.scale>4))))throw Error('Escultura de vidrio COSEI inválida');
  if(d?.serpentina&&(!Array.isArray(d.serpentina.position)||d.serpentina.position.length!==2||!d.serpentina.position.every(Number.isFinite)||(d.serpentina.scale!==undefined&&(!Number.isFinite(d.serpentina.scale)||d.serpentina.scale<.2||d.serpentina.scale>4))))throw Error('Serpentina inválida');
+ if(d?.habitacionesLuz&&(!Array.isArray(d.habitacionesLuz.position)||d.habitacionesLuz.position.length!==2||!d.habitacionesLuz.position.every(Number.isFinite)||(d.habitacionesLuz.scale!==undefined&&(!Number.isFinite(d.habitacionesLuz.scale)||d.habitacionesLuz.scale<.2||d.habitacionesLuz.scale>4))))throw Error('Habitaciones de Luz inválidas');
+ if(d?.universitas&&(!Array.isArray(d.universitas.position)||d.universitas.position.length!==2||!d.universitas.position.every(Number.isFinite)||(d.universitas.scale!==undefined&&(!Number.isFinite(d.universitas.scale)||d.universitas.scale<.2||d.universitas.scale>4))))throw Error('Universitas inválida');
+ if(d?.casaAbierta&&(!Array.isArray(d.casaAbierta.position)||d.casaAbierta.position.length!==2||!d.casaAbierta.position.every(Number.isFinite)||(d.casaAbierta.scale!==undefined&&(!Number.isFinite(d.casaAbierta.scale)||d.casaAbierta.scale<.2||d.casaAbierta.scale>4))))throw Error('Casa abierta al tiempo inválida');
  if(d?.showCopyright!==undefined&&typeof d.showCopyright!=='boolean')throw Error('showCopyright debe ser true o false');
  const rect=r=>Array.isArray(r)&&r.length===4&&r.every(Number.isFinite)&&r[2]>r[0]&&r[3]>r[1];
  if(!d||!Array.isArray(d.buildings)||!Array.isArray(d.site)||!(d.metersPerPixel>0)||!Number.isFinite(d.storeyHeight)||!d.buildings.every(b=>typeof b.id==='string'&&Number.isInteger(b.floors)&&b.floors>=1&&b.floors<=8&&Array.isArray(b.rects)&&b.rects.every(rect))||!['plazas','paths','parking','gates'].every(k=>Array.isArray(d[k]))||!d.parking.every(rect)||!d.paths.every(rect)||!d.plazas.every(p=>rect(p.rect)))throw Error('Datos de campus inválidos');
