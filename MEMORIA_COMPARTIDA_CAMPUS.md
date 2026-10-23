@@ -1,5 +1,36 @@
 # Memoria compartida del campus · Web y app móvil
 
+## COSEI: letras, palmeras y Caracol · 22 octubre 2026
+
+Referencia: dos fotografías nuevas de Gabriel. Se añadieron letras volumétricas simplificadas SOY UAM sobre base roja, editables con ID `letters_SOY_UAM_COSEI`; Caracol con tres bancas curvas de concreto, pavimento y jardín central, ID `caracol_COSEI`. Campos `cosei.soyUam` y `cosei.caracol`. Se incorporaron tres palmeras a las tres existentes y el asta pasó a `[870,516]`, junto al borde de la plataforma/escaleras. Distribución, dimensiones y forma del Caracol aproximadas: pendientes de ajuste preciso del usuario. Las letras vistas desde atrás se leen invertidas, como en las fotos.
+
+Checkpoint previo `checkpoint/antes-cosei-letras-caracol` sobre fd466fc. Se exportan GLB/PNG y JSON conjuntamente; encuadre, georreferencia, rutas y entrenamiento/P4 conservados. Se comprobó la vista COSEI y la presencia de letras y bancas en GLB. No se modificaron apps ni se hizo push.
+
+## Escultura de vidrio en COSEI · 22 octubre 2026
+
+Añadida en `feature/10-esculturas` sobre `edf8bac`, a partir de la fotografía aportada por Gabriel: pedestal rectangular de concreto con placa sin inscripción, zócalo y panel inferior opaco, cuatro paneles de vidrio con montantes y fijaciones, y dos cuerpos facetados claros en el interior. Nombre descriptivo provisional «Escultura de vidrio · COSEI»; no se atribuye autor ni título de obra. Altura y proporciones aproximadas (unos 4.3 m incluyendo base), posición inicial `[736,470]` cerca de G/E dentro de COSEI, pendiente de ajuste preciso por el usuario.
+
+Estado: `vidrioCosei` en JSON/base; ID editable `sculpture_vidrio_COSEI`; grupo GLB `Escultura_vidrio_COSEI`. Botón «COSEI · Escultura de vidrio» para acercarse. Se puede mover, girar, deshacer y guardar mediante las herramientas existentes. La escultura anterior de G se conserva: son elementos distintos en la foto. Geometría ligera y vidrio con material estándar transparente, sin texturas externas.
+
+Se exportaron ambos GLB y PNG desde Guardar cambios, se reconstruyó el HTML portátil y se verificaron: presencia del nuevo grupo y vidrio transparente en ambos GLB, cuatro paneles y dos poliedros, conservación exacta de todos los campos previos del JSON, posiciones de las tres esculturas del PR, dimensiones PNG 1560×640, georreferencia/rutas/apps intactas. Prueba visual, movimiento/giro con deshacer antes de exportar y consola sin errores. Evidencia: `docs/capturas/azc_vidrio_cosei_2026-10-22.png`. Se mantiene `showCopyright:false` del estado del equipo. Falta comprobar aspecto en el renderizador móvil al integrar con Claude.
+
+Checkpoint anterior: tag local `checkpoint/antes-escultura-vidrio-cosei-2026-10-22` (`edf8bac`), más copia de campus y memoria en `_respaldos/2026-10-22_antes_escultura_vidrio_cosei` de la carpeta del curso. Prototipo 4 y entrenamiento siguen protegidos como se indica abajo; no se modificaron ni mezclaron sus ramas. Réplica de Descargas comprobada sin divergencias antes de sincronizar. No se hizo push.
+
+## Actualización 22 octubre 2026 · HTML de esculturas y protección de P4
+
+Rama de esta corrección: `feature/10-esculturas`, PR #11, sobre `8fdf9e1`. El PR ya incluía Habitaciones de Luz, Universitas y Casa abierta al tiempo en el código y GLB, pero el HTML autónomo y la base no se habían reconstruido. Además, la pestaña 8782 correspondía a ESCOM, en otro checkout.
+
+Se reconstruyó el HTML, se añadieron tres cámaras de acercamiento y se corrigió build.mjs para incluir `campus_editado.json` en el portátil (sin perder los desplazamientos acomodados por el equipo). `campus_base.json` sigue derivándose de ORIGINAL. Vista actual AZC: http://127.0.0.1:8783/Visor_UAM_autonomo.html. El puerto es local y temporal; el inicio normal conserva su configuración.
+
+Se conservaron sin cambios los GLB/PNG, el estado guardado y su `showCopyright:false`, model-data.js, georreferencia, rutas y las apps. Pruebas: verificar-esculturas.mjs valida código embebido, estado portátil, base, botones, presencia y posición de las tres esculturas en ambos GLB; verificar.mjs y comprobación sintáctica correctas. Las tres cámaras se comprobaron en el navegador, sin errores de consola. Evidencia: `docs/capturas/azc_esculturas_2026-10-22.png`.
+
+**Prototipo 4 ya existe en otra rama:** `feature/p4-reconocer-escom`, commit `7b61ce2`, protegido con tag local `checkpoint/p4-entrenamiento-2026-10-22`. Incluye los assets de reconocimiento de ESCOM y su integración. No se mezcló en esta rama antigua del PR. Las notas históricas de abajo que hablan de P4 pendiente no describen el estado de esa rama.
+
+Entrenamiento original: `C:/dev/entrenamiento-escom`, conservado intacto. Respaldo previo: `C:/Users/gabri/Downloads/1151055 Administracion/_respaldos/2026-10-22_antes_corregir_html_esculturas`, con campus, memoria, bundle Git de todas las ramas y copia de modelo/exportado, corridas, salidas y fuentes del modelo con manifiestos SHA256. El corpus y entorno originales permanecen en su ubicación; este respaldo adicional del entrenamiento no duplica todo el corpus ni .venv.
+
+Para integrar con Claude: incorporar la corrección del visor sobre la rama de desarrollo que contiene P4; conservar sus assets y entrenamiento. No sustituir la app P4 por el estado de app-kmp/app-flutter de esta rama. El commit de la corrección es local hasta que se publique.
+
+
 Actualizada: 20 de octubre de 2026. Última entrega al final: ESCOM, rama feature/campus-escom. Se conserva el historial de las cinco UAM y las integraciones de Claude. Este documento es el punto común para Claude y Codex; no sincroniza automáticamente los historiales de los chats.
 
 ## Fuente del diseño
@@ -441,3 +472,14 @@ A petición de Gabriel se preparó **contexto-compartido/campus/**, con entrada 
 ### Ampliación: interior de LAB entre 3 y 4 (21 oct 2026)
 
 Gabriel confirma que se puede atravesar Laboratorios para conectar 3 y 4. Añadido `interior_lab_3_4` como franja PB limitada al pasillo (ancho y eje aproximados), con accesos n167/n169 y nodo interior n168. Red actual: 173 nodos, 233 tramos, mismos 19 destinos y X/Z. Ruta 3→4: 74,53→56,44 m, usa el nodo interior; se prueba que bloquearlo obliga a volver a una ruta mayor. Principal→5: 169,25 m (redondeo al subdividir). Se conserva LAB en n118 y no se habilitan otros interiores. `route-data.js` y visor regenerados; respaldo incremental en Proyecto/respaldo_rutas_escom_interior_20261021. No se cambian geometría, apps ni georreferencia.
+
+## Cuajimalpa · entrada, caminos y canchas del equipo de Práctica 3 · 22 octubre 2026
+
+Propuesto en el issue #12. Trabajo del equipo de Cuajimalpa (maxitodev/proyectos-integradores-uam_a, sus issues #35 entrada y caminos, de Bryan Tonatiuh Ochoa De La Cruz, y #38 canchas y realismo del visor, de Max Sánchez), copiado de este repositorio el 21 oct (sobre 53967de, sin diferencias) y trasladado aquí con sus 39 commits y su autoría. Sólo cambian `campus-cuajimalpa/`, `docs/plan-de-fotos/` y `docs/practica-3/`; no se tocaron las otras unidades ni las apps.
+
+- **Diseño:** portería, andador y caminos vehiculares corregidos; tres canchas medidas (fútbol 31.4×51.5 m, fútbol rápido 22.8×49.9 m, básquetbol en losa de 16.4×29.5 m), camino de en medio, calle frente a la sede, carpas, techumbre y el montecito oriente con sus escaleras. Vista «Canchas». Medidas sobre Esri World Imagery y fotos del equipo: interpretativas, por confirmar en campo con los planes de fotos. Visor con cielo, hora del día, texturas CC0 de ambientCG, efectos opcionales (GTAO, brillo, SMAA) y vegetación, autos y personas (add-ons de three r160, MIT, en `vendor/`; detalle en `FUENTES.md` y `texturas/LICENCIA.txt`). El GLB crece de 542 420 a 892 440 bytes.
+- **Contrato conservado (comprobado por hash o comparación):** IDs `TORRE_III` y `AUX_N`, sus huellas, `georreferencia.json`, `calibracion/puntos.json`, `campus_base.json`, `model-data.js`, `copyright-layout.js`, `server.mjs` y el PNG 1040×1000.
+- **Dónde vive el diseño nuevo:** sólo en `campus_editado.json` (`architecture.sportsFields`, `walkways`, `planters`, `canopies`, `shelters`, `terrain`, `roads`; `courts` queda vacío; `elementEdits` guarda la portería y un árbol movidos con el editor). `model-data.js` y `campus_base.json` siguen siendo el croquis original, así que el JSON editado ya no es igual a `ORIGINAL`.
+- **Marca de copyright:** las regeneraciones del equipo se habían guardado con `showCopyright` en false (sin marca en GLB y PNG). Se reexportó con el visor y la casilla activada: `showCopyright` true, grupo `Marca_copyright_modelo` con 10 paneles #F08200 al 0.84 (los 1528 nodos previos intactos) y marca en el PNG. Se regeneraron también `UAM_Cuajimalpa_sin_marca.glb` y `plano_2d_sin_marca.png` con el diseño nuevo (cero nodos de copyright, mismos nodos que el modelo con marca), que las apps usan en el modo desarrollador.
+- **Pruebas:** comprobaciones de contrato sobre Cuajimalpa adaptadas de `verificar-campus-unidades.mjs` y `verificar-copyright-campus.mjs`, comparando contra `main` en lugar de los commits locales; visor abierto y guardado en Chromium sin cabeza sin errores propios (sólo el 404 de `favicon.ico`, que ya ocurría en `main`); exportar sin cambios reproduce el JSON byte a byte y el GLB con la misma estructura (ruido de coma flotante); `node build.mjs` reproduce `campus_base.json`, y el `Visor_UAM_autonomo.html` del equipo sólo difiere en saltos de línea CRLF dentro de los módulos incrustados.
+- **Pendientes:** los dos verificadores del profe no se pueden ejecutar tal cual con el repositorio publicado (piden los commits locales 6dbf995 y 360e0ba) y, para Cuajimalpa, esperan `elementEdits` vacío (`verificar-campus-unidades.mjs`) y el JSON igual a `ORIGINAL` (`verificar-copyright-campus.mjs`): hay que decidir si se actualizan o si `model-data.js` adopta el diseño nuevo. Sin probar en dispositivo ni emulador (KMP y Flutter); el CI compila ambas apps con estos assets. Falta confirmar en campo medidas, alturas y la posición de la portería. `campus-cuajimalpa/Vista_actual.png` (captura temporal del visor) no está en el `.gitignore` de este repositorio.

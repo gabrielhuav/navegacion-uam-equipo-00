@@ -579,8 +579,8 @@ export const ORIGINAL = {
     ],
     "flag": {
       "position": [
-        818,
-        550
+        870,
+        516
       ],
       "height": 18,
       "width": 5.6
@@ -611,9 +611,29 @@ export const ORIGINAL = {
       [
         744,
         573
+      ],
+      [
+        775,
+        504
+      ],
+      [
+        809,
+        504
+      ],
+      [
+        878,
+        504
       ]
     ],
-    "note": "Ubicación, desnivel, número de escalones y dimensiones ilustrativos a partir de fotografías; asta frente a biblioteca I."
+    "note": "Ubicación, desnivel, número de escalones y dimensiones ilustrativos a partir de fotografías; asta frente a biblioteca I.",
+    "soyUam": [
+      833,
+      530
+    ],
+    "caracol": [
+      809,
+      455
+    ]
   },
   "plazas": [
     {
@@ -812,6 +832,33 @@ export const ORIGINAL = {
     "approximate": true,
     "reference": "Dos imágenes aportadas por Gabriel: Serpentina II frente a H, cara del estacionamiento; posición exacta por afinar."
   },
+  "habitacionesLuz": {
+    "position": [
+      858,
+      255
+    ],
+    "scale": 1,
+    "approximate": true,
+    "reference": "Escultura 'Habitaciones de Luz' (piedras tipo Stonehenge, ~3 m de alto). Ubicación real: al norte del edificio B; colocada junto a Serpentina para moverla con el editor. Issue #10."
+  },
+  "universitas": {
+    "position": [
+      780,
+      252
+    ],
+    "scale": 1,
+    "approximate": true,
+    "reference": "Escultura 'Universitas' (acero azul sobre pedestal circular de piedra, ~6 m de alto). Colocada junto a Serpentina para moverla con el editor; ubicación real por confirmar. Issue #10."
+  },
+  "casaAbierta": {
+    "position": [
+      906,
+      248
+    ],
+    "scale": 1,
+    "approximate": true,
+    "reference": "Escultura 'Casa abierta al tiempo' (tres poliedros dorados apilados sobre pedestal circular, ~7 m de alto). Colocada junto a Serpentina para moverla con el editor; ubicación real por confirmar. Issue #10."
+  },
   "copyrightStyle": {
     "version": 2,
     "color": "#CD032E",
@@ -836,5 +883,14 @@ export const ORIGINAL = {
         "width": 450
       }
     ]
+  },
+  "vidrioCosei": {
+    "position": [
+      736,
+      470
+    ],
+    "scale": 1,
+    "approximate": true,
+    "reference": "Fotografía de Gabriel del 22 octubre 2026: escultura con vidrio, cuerpo inferior opaco, dos formas facetadas y pedestal de concreto en Plaza COSEI, junto a G/E. Nombre, medidas y ubicación exacta pendientes de confirmar."
   }
 };
