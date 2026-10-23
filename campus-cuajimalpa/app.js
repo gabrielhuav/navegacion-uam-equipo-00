@@ -30,7 +30,7 @@ const matCache=new Map();
 // así el GLB y el plano 2D conservan colores planos y livianos. Si la imagen no carga (p. ej. visor autónomo abierto como archivo) no pasa nada.
 const detailCache={},white=new THREE.DataTexture(new Uint8Array([255,255,255,255]),1,1);white.needsUpdate=true;
 function detail(name){if(detailCache[name])return detailCache[name];const e=detailCache[name]={u:{tex:{value:white},avg:{value:new THREE.Vector3(1,1,1)},k:{value:0}}};
- new THREE.TextureLoader().load('./texturas/'+name+'.jpg',t=>{t.wrapS=t.wrapT=THREE.RepeatWrapping;t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=8;const c=document.createElement('canvas');c.width=c.height=8;const x=c.getContext('2d');x.drawImage(t.image,0,0,8,8);const d=x.getImageData(0,0,8,8).data;let r=0,g=0,b=0;for(let i=0;i<d.length;i+=4){r+=d[i];g+=d[i+1];b+=d[i+2];}const n=d.length/4*255;e.u.avg.value.set(...[r,g,b].map(v=>Math.pow(v/n,2.2)));e.u.tex.value=t;e.u.k.value=.8;},undefined,()=>{});return e;}
+ new THREE.TextureLoader().load(globalThis.TEXTURAS_EMBEBIDAS?.[name]||'./texturas/'+name+'.jpg',t=>{t.wrapS=t.wrapT=THREE.RepeatWrapping;t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=8;const c=document.createElement('canvas');c.width=c.height=8;const x=c.getContext('2d');x.drawImage(t.image,0,0,8,8);const d=x.getImageData(0,0,8,8).data;let r=0,g=0,b=0;for(let i=0;i<d.length;i+=4){r+=d[i];g+=d[i+1];b+=d[i+2];}const n=d.length/4*255;e.u.avg.value.set(...[r,g,b].map(v=>Math.pow(v/n,2.2)));e.u.tex.value=t;e.u.k.value=.8;},undefined,()=>{});return e;}
 const DETAIL={'#90aa81':['pasto',9],'#8f918b':['asfalto',7],'#c8c3b5':['concreto',6],'#cdc6b8':['concreto',6],'#c9c8bf':['concreto',6],'#c0b9a6':['concreto',6],'#d5cbb1':['concreto',6],'#3f8048':['pasto',3.5],'#6a9a46':['pasto',3.5],'#b47e63':['concreto',3],'#777f78':['asfalto2',6],'#a5a69b':['concreto',6],'#b87861':['ladrillo',2],'#d6d3c5':['concreto',5],'#d3cfc4':['concreto',3]};
 function addDetail(m,name,scale){const e=detail(name);m.onBeforeCompile=sh=>{Object.assign(sh.uniforms,{dTex:e.u.tex,dAvg:e.u.avg,dK:e.u.k,dS:{value:scale}});
  sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nvarying vec3 vWp,vWn;').replace('#include <begin_vertex>','#include <begin_vertex>\nvWp=(modelMatrix*vec4(transformed,1.0)).xyz;vWn=normalize(mat3(modelMatrix)*objectNormal);');
@@ -403,7 +403,21 @@ $('trees').onchange=()=>vegetation.visible=$('trees').checked;$('names').onchang
  pp.onchange=()=>{efectos.usePost=pp.checked;pp.checked=efectos.usePost;message(efectos.usePost?'Efectos activados: más carga de GPU.':'Efectos desactivados.');};}}
 function message(text){$('status').textContent=text;clearTimeout(message.timer);message.timer=setTimeout(()=>$('status').textContent='',6500);}
 function download(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),6000);}
-async function save(blob,kind,name){if(location.protocol==='http:'&&['localhost','127.0.0.1'].includes(location.hostname)){const res=await fetch('/guardar/'+kind,{method:'POST',body:blob});if(!res.ok)throw Error('No se pudo guardar');const r=await res.json();message('Guardado en la carpeta del modelo: '+r.saved);}else{download(blob,name);message('Archivo preparado para descargar.');}}
+// Sin servidor (HTML abierto con doble clic): en Chrome o Edge, «Usar la carpeta del campus» elige campus-cuajimalpa/
+// y Guardar escribe ahí los mismos archivos que escribiría server.mjs. Sin carpeta elegida, se descargan.
+const ARCHIVOS={glb:'UAM_Cuajimalpa.glb',json:'campus_editado.json',png:'Vista_actual.png',plano:'plano_2d.png'};
+let carpeta=null;
+async function save(blob,kind,name){if(location.protocol==='http:'&&['localhost','127.0.0.1'].includes(location.hostname)){const res=await fetch('/guardar/'+kind,{method:'POST',body:blob});if(!res.ok)throw Error('No se pudo guardar');const r=await res.json();message('Guardado en la carpeta del modelo: '+r.saved);}else if(carpeta){const f=await carpeta.getFileHandle(ARCHIVOS[kind],{create:true});const w=await f.createWritable();await w.write(blob);await w.close();message('Guardado en la carpeta elegida: '+ARCHIVOS[kind]);}else{download(blob,name);message('Archivo preparado para descargar.');}}
+async function usarCarpeta(){
+ try{const d=await window.showDirectoryPicker({id:'campus-cuajimalpa',mode:'readwrite'});
+  let texto;try{texto=await (await (await d.getFileHandle('campus_editado.json')).getFile()).text();}catch{message('Esa carpeta no tiene campus_editado.json: elige la carpeta campus-cuajimalpa.');return;}
+  if(dirtyChanges()&&!confirm('Hay cambios sin guardar. ¿Reemplazarlos con los de la carpeta?'))return;
+  try{const g=JSON.parse(await (await (await d.getFileHandle('georreferencia.json')).getFile()).text());if(campusNorth(g)){georeference=g;efectos.setNorte(campusNorth(g));}}catch{ /* se conserva la georreferencia incrustada */ }
+  data=validateCampus(JSON.parse(texto));data.version=8;savedData=JSON.stringify(data);generate();updateSaveState();carpeta=d;
+  $('usarCarpeta').textContent='Carpeta en uso: '+d.name;message('Se cargaron los cambios de la carpeta; Guardar escribirá ahí.');
+ }catch(e){if(e.name!=='AbortError')message('No se pudo usar la carpeta: '+e.message);}
+}
+function dirtyChanges(){return JSON.stringify(data)!==savedData;}
 $('saveglb').onclick=async()=>{if(isSaving)return;const btn=$('saveglb');btn.disabled=true;message('Preparando modelo GLB…');const was=vegetation.visible;try{vegetation.visible=true;const result=await new GLTFExporter().parseAsync(world,{binary:true,onlyVisible:true});await save(new Blob([result],{type:'model/gltf-binary'}),'glb',UNIT.glb);}catch(e){$('error').textContent=e.message;}finally{vegetation.visible=was;btn.disabled=false;}};
 $('savejson').onclick=()=>saveEditorChanges(false);
 $('savepng').onclick=async()=>{efectos.render();const canvas=document.createElement('canvas');canvas.width=renderer.domElement.width;canvas.height=renderer.domElement.height;const ctx=canvas.getContext('2d');ctx.drawImage(renderer.domElement,0,0);const factor=canvas.width/mount.clientWidth;if($('names').checked)for(const l of labels){if(l.el.style.display==='none')continue;const x=parseFloat(l.el.style.left)*factor,y=parseFloat(l.el.style.top)*factor;ctx.font=`600 ${12*factor}px sans-serif`;const w=ctx.measureText(l.el.textContent).width+12*factor;ctx.fillStyle=l.el.classList.contains('vehicle')?'#bc3535':l.el.classList.contains('pedestrian')?'#1d72b6':'#fffdf0';ctx.fillRect(x-w/2,y-10*factor,w,20*factor);ctx.fillStyle=['vehicle','pedestrian'].some(c=>l.el.classList.contains(c))?'white':'#243b2e';ctx.textAlign='center';ctx.fillText(l.el.textContent,x,y+4*factor);}
@@ -540,6 +554,12 @@ $('saveChanges').onclick=()=>saveEditorChanges(true);
 async function startCampus(){
  if(location.protocol==='http:'){try{const geo=await fetch('./georreferencia.json',{cache:'no-store'});if(geo.ok){const candidate=await geo.json();if(campusNorth(candidate))georeference=candidate;}}catch{ /* El visor portátil mantiene su orientación de reserva. */ }}
  let notice='Listo: gira el modelo con el ratón.';
+ // Visor portátil (doble clic): build.mjs incrusta los últimos datos guardados y la georreferencia.
+ if(location.protocol!=='http:'&&globalThis.CAMPUS_GUARDADO){
+  try{data=validateCampus(structuredClone(globalThis.CAMPUS_GUARDADO));notice='Visor sin servidor: se muestran los cambios guardados al generar este archivo.';}catch{ /* se queda la base */ }
+  if(globalThis.GEORREFERENCIA_GUARDADA&&campusNorth(globalThis.GEORREFERENCIA_GUARDADA))georeference=globalThis.GEORREFERENCIA_GUARDADA;
+ }
+ if(location.protocol!=='http:'&&'showDirectoryPicker' in window){$('usarCarpeta').hidden=false;$('usarCarpeta').onclick=usarCarpeta;}
  if(location.protocol==='http:'&&['localhost','127.0.0.1'].includes(location.hostname)){
   try{const response=await fetch('./campus_editado.json',{cache:'no-store'});if(response.ok){data=validateCampus(await response.json());notice='Se cargaron tus últimos cambios guardados.';}}
   catch(e){notice='No se pudieron cargar los datos guardados. Se muestra la base; revisa el archivo antes de guardar.';}

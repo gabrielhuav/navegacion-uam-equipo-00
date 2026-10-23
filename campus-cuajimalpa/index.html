@@ -22,7 +22,7 @@
 <button id="applyObject" class="full">Aplicar posición y giro</button><div class="actions" style="margin-top:7px"><button id="resetObject">Restablecer elemento</button><button id="deleteObject">Quitar elemento</button></div></div>
 <label class="toggle"><input id="editSnap" type="checkbox" checked>Ajustar a pasos de 0.5 m</label>
 </section>
-<button id="saveChanges" class="primary full">Guardar cambios</button><p id="saveState" class="hint" role="status">Sin cambios pendientes.</p>
+<button id="usarCarpeta" class="full" hidden title="Sin servidor: lee y guarda en la carpeta campus-cuajimalpa (Chrome o Edge)">Usar la carpeta del campus</button><button id="saveChanges" class="primary full">Guardar cambios</button><p id="saveState" class="hint" role="status">Sin cambios pendientes.</p>
 <h2>Editar edificio</h2><select id="building"><option value="">Selecciona un edificio</option></select><div id="info">Haz clic en un edificio o selecciónalo en la lista.</div>
 <div id="editor" hidden><div class="edit"><label>Niveles<input id="floors" type="number" min="1" max="8" step="1"></label><label>Desplazar X (m)<input id="offsetX" type="number" step="1"></label><label>Desplazar Z (m)<input id="offsetZ" type="number" step="1"></label></div><button class="full" id="apply">Aplicar al edificio</button></div>
 <h2>Guardar</h2><button id="saveglb" class="primary full">Guardar modelo .GLB</button><button id="savejson" class="full">Guardar datos editables</button><button id="loadjson" class="full">Abrir datos guardados</button><input id="filejson" type="file" accept=".json" hidden><button id="savepng" class="full">Guardar imagen de esta vista</button>

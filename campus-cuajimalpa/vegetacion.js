@@ -524,7 +524,9 @@ const _texRelieve = new Map();
 export function texturaRelieve(nombre, ruta = './texturas/') {
   if (_texRelieve.has(nombre)) return _texRelieve.get(nombre);
   const h = {value: _plana}; _texRelieve.set(nombre, h);
-  if (typeof document !== 'undefined') new THREE.TextureLoader().load(ruta + nombre + '.jpg', t => { t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = 8; h.value = t; }, undefined, () => {});
+  // En el visor portátil (sin servidor) las texturas vienen incrustadas como data: URI (build.mjs).
+  const url = (ruta === './texturas/' && globalThis.TEXTURAS_EMBEBIDAS?.[nombre]) || ruta + nombre + '.jpg';
+  if (typeof document !== 'undefined') new THREE.TextureLoader().load(url, t => { t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = 8; h.value = t; }, undefined, () => {});
   return h;
 }
 const GLSL_RUIDO = `float rlHash(vec3 p){p=fract(p*0.3183099+0.1);p*=17.0;return fract(p.x*p.y*p.z*(p.x+p.y+p.z));}

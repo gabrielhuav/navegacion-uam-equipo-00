@@ -35,15 +35,17 @@ Líneas, porterías, redes, luminarias, árboles, carpas y alturas son interpret
 
 ## Abrir
 
-**El visor necesita el servidor de Node.js en marcha.** Con Node.js instalado (no hay que instalar paquetes: las bibliotecas locales están en `vendor/`), desde esta carpeta:
+**Sin Node.js:** abre `Visor_UAM_autonomo.html` con doble clic. Trae incrustadas las texturas, los últimos datos guardados (`campus_editado.json`) y la georreferencia del momento en que se generó. Para editar y guardar sin servidor, en Chrome o Edge pulsa **Usar la carpeta del campus** y elige esta carpeta (`campus-cuajimalpa`): el visor carga de ahí los cambios más recientes y **Guardar cambios** reescribe `UAM_Cuajimalpa.glb`, `plano_2d.png` y `campus_editado.json` en ella, como el servidor. En Firefox o Safari, sin ese botón, Guardar descarga los archivos a Descargas. `index.html` abierto como archivo sigue sin cargar: usa el autónomo.
+
+**Con Node.js** (no hay que instalar paquetes: las bibliotecas están en `vendor/`), desde esta carpeta:
 
 ```bash
 node server.mjs
 ```
 
-La terminal muestra `Visor UAM: http://127.0.0.1:8769`. Abre http://127.0.0.1:8769/Visor_UAM_autonomo.html y deja la terminal abierta mientras trabajas; `Ctrl+C` detiene el servidor. En Windows, `Abrir_visor.cmd` arranca el servidor (en una ventana minimizada) y abre el navegador. Para usar otro puerto: `PORT=8770 node server.mjs` (en PowerShell, `$env:PORT=8770; node server.mjs`).
+La terminal muestra `Visor UAM: http://127.0.0.1:8769`. Abre http://127.0.0.1:8769/Visor_UAM_autonomo.html y deja la terminal abierta mientras trabajas; `Ctrl+C` detiene el servidor. En Windows, `Abrir_visor.cmd` arranca el servidor (en una ventana minimizada) y abre el navegador; si no encuentra Node.js, abre el visor autónomo como archivo. Para usar otro puerto: `PORT=8770 node server.mjs` (en PowerShell, `$env:PORT=8770; node server.mjs`).
 
-Abrir el archivo HTML con doble clic, sin el servidor, no basta. En Chromium el navegador bloquea las texturas de `texturas/` (el modelo se ve con colores lisos), **Guardar cambios** sólo descarga `UAM_Cuajimalpa.glb`, `plano_2d.png` y `campus_editado.json` a la carpeta de Descargas en lugar de actualizarlos aquí, y `index.html` abierto como archivo no carga. Con el servidor, **Guardar cambios** reescribe esos tres archivos en esta carpeta.
+Después de cambiar `app.js`, `index.html` o los datos guardados, `node build.mjs` regenera el autónomo (es el único paso que necesita Node.js).
 
 ## Contrato de archivos
 - campus_editado.json: estado editable que se carga primero.
