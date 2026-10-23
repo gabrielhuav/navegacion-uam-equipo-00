@@ -1,6 +1,6 @@
 # navegacion-uam-equipo-00
 
-**Salones UAM · Prototipos 1 a 3: ¿dónde estoy?, el campus y las rutas**
+**Salones UAM · Prototipos 1 a 4: ¿dónde estoy?, el campus, las rutas y la ESCOM**
 
 | | |
 |---|---|
@@ -8,20 +8,21 @@
 | UEA | Administración de Proyectos de Software (1151055) · UAM Azcapotzalco |
 | Profesor | M. en C. Gabriel Hurtado Avilés |
 | Trimestre | 26-O |
-| Versión | `v0.3.0` · Prototipo 3 |
+| Versión | `v0.4.0` · Prototipo 4 |
 
 ## Introducción
 
 Un alumno de nuevo ingreso tiene su horario, pero no sabe dónde está el salón que dice. El objetivo del proyecto es que una persona que nunca ha estado en la UAM llegue sola a su salón, guiada con realidad aumentada, realidad virtual o ambas.
 
-La app se construye con **cuatro prototipos** (ver [docs/prototipos.md](docs/prototipos.md)):
+La app se construye por **prototipos** (ver [docs/prototipos.md](docs/prototipos.md)):
 
 | Prototipo | Qué hace | Versión |
 |---|---|---|
 | **P1 · ¿Dónde estoy?** | Da permiso de ubicación y el mapa se centra en donde estás. | `v0.1.0` |
 | **P2 · El campus** | El campus de tu unidad sobre el mapa real, en 2D y en 3D; temas con el color de cada unidad, modo claro u oscuro, día o noche, y las cinco unidades. | `v0.2.0` |
 | **P3 · Rutas** | En Azcapotzalco, de tu ubicación o de un lugar a otro, por el camino más corto. | `v0.3.0` |
-| **P4 · Guía** | Llegar sola o solo con AR, RV o ambas. Por empezar. | `v1.0.0` |
+| **P4 · ESCOM** | La ESCOM del IPN como campus aparte, con Mapa, 2D, 3D y rutas. | `v0.4.0` |
+| **Después · Guía** | Llegar sola o solo con AR, RV o ambas. Por definir. | |
 
 La app está hecha dos veces para que sirva de base a cualquier equipo:
 
@@ -43,6 +44,7 @@ Cada unidad tiene una carpeta con su editor web (Three.js), su modelo 3D (`UAM_<
 | Iztapalapa | [`campus-iztapalapa/`](campus-iztapalapa/README.md) |
 | Lerma | [`campus-lerma/`](campus-lerma/README.md) |
 | Xochimilco | [`campus-xochimilco/`](campus-xochimilco/README.md) |
+| ESCOM (IPN), campus aparte | [`campus-escom/`](campus-escom/README.md), con su red de caminos (`rutas.json`, borrador) |
 
 El editor de cada unidad se abre desde su carpeta con `node server.mjs`; la terminal muestra la dirección. Los croquis y la red de caminos son aproximados: no son levantamientos topográficos. Los datos derivados de OpenStreetMap están bajo ODbL; ver `FUENTES.md` de cada carpeta. Los verificadores están en la raíz (`node verificar-rutas.mjs`, `node verificar-campus-unidades.mjs`, …).
 
@@ -90,12 +92,12 @@ MEMORIA_COMPARTIDA_CAMPUS.md   decisiones, pruebas y pendientes del diseño com�
 | Commits | Conventional Commits: `feat`, `fix`, `docs`, `ci`, `chore` |
 | Pull Request | Enlaza sus issues, con evidencia de pruebas y uso de IA. En tu equipo lo aprueba otro integrante |
 | Integración continua | `.github/workflows/ci.yml`: Flutter (análisis, pruebas y APK) y KMP (pruebas y APK) |
-| Versiones | Etiquetas y releases `v0.1.0`, `v0.2.0` y `v0.3.0` |
+| Versiones | Etiquetas y releases `v0.1.0` a `v0.4.0` |
 
 ## Riesgos registrados
 
 - **AR en Flutter.** Los complementos de realidad aumentada para Flutter llevan años sin mantenimiento; en Kotlin están ARCore y ML Kit. Si el equipo elige Flutter con AR, el riesgo va a su matriz desde la Entrega 1.
-- **Reconocer lugares en iPhone.** Para el P4 se prefiere un modelo propio (por ejemplo YOLO) sobre ML Kit, porque las dos apps deben llegar a iOS.
+- **Reconocer lugares en iPhone.** Para la guía se prefiere un modelo propio (por ejemplo YOLO) sobre ML Kit, porque las dos apps deben llegar a iOS.
 - **Mapa público.** Los mosaicos de OpenStreetMap sirven para un prototipo, no para una app con muchos usuarios.
 - **Croquis aproximados.** Las huellas, la georreferencia (error de varios metros) y la red de caminos se revisan en campo.
 
