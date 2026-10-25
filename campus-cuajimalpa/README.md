@@ -13,7 +13,7 @@ Referencia: tres fotografías aportadas por Gabriel en la conversación (acceso 
 
 Segunda revisión, con foto frontal de la entrada y toma aérea: cubierta roja con dos estructuras longitudinales elevadas (función y dimensiones sin confirmar), ventanas laterales modulares, jardineras circulares y portería con torre, marquesina, tirantes, caseta y portones. No se copió el logotipo superpuesto a la foto aérea como elemento arquitectónico. El rótulo «UAM» de la portería es tipográfico simplificado.
 
-«Portería» acerca la cámara. Para ajustar su posición provisional: Activar modo edición → Mostrar elementos: Portería → Elemento: Portería · posición aproximada → arrastrar o cambiar X/Z/giro → Guardar cambios. Es un solo grupo independiente, ID estable `porteria_cuajimalpa`; sus cambios viajan en `elementEdits`, GLB y PNG. No cambia el conteo de edificios. Se puede deshacer. La foto frontal no fija su posición geográfica: el anclaje provisional `architecture.entrance.localPosition` está expresado en el marco local `CU_FRAME`. Confirmar posición y orientación con referencia cenital antes de usarla para navegación precisa.
+«Portería» acerca la cámara. Para ajustar su posición provisional: Activar modo edición → Mostrar elementos: Portería, Ágora y letras → Elemento: Portería · posición aproximada → arrastrar o cambiar X/Z/giro → Guardar cambios. Es un solo grupo independiente, ID estable `porteria_cuajimalpa`; sus cambios viajan en `elementEdits`, GLB y PNG. No cambia el conteo de edificios. Se puede deshacer. La foto frontal no fija su posición geográfica: el anclaje provisional `architecture.entrance.localPosition` está expresado en el marco local `CU_FRAME`. Confirmar posición y orientación con referencia cenital antes de usarla para navegación precisa.
 
 ### Corrección del acceso con referencia cenital
 
@@ -64,7 +64,7 @@ node server.mjs
 
 La terminal muestra `Visor UAM: http://127.0.0.1:8769`. Abre http://127.0.0.1:8769/Visor_UAM_autonomo.html y deja la terminal abierta mientras trabajas; `Ctrl+C` detiene el servidor. En Windows, `Abrir_visor.cmd` arranca el servidor (en una ventana minimizada) y abre el navegador; si no encuentra Node.js, abre el visor autónomo como archivo. Para usar otro puerto: `PORT=8770 node server.mjs` (en PowerShell, `$env:PORT=8770; node server.mjs`).
 
-Después de cambiar `app.js`, `index.html` o los datos guardados, `node build.mjs` regenera el autónomo (es el único paso que necesita Node.js).
+Después de cambiar `app.js`, `index.html`, algún módulo (`agora.js`, `plaza_trasera.js`, `geometria.js`, `vegetacion.js`, `efectos*.js`…) o los datos guardados, `node build.mjs` regenera el autónomo (es el único paso que necesita Node.js).
 
 ## Contrato de archivos
 - campus_editado.json: estado editable que se carga primero.
