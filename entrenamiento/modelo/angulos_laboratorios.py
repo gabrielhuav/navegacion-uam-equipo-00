@@ -5,7 +5,7 @@
    campus-escom/rutas.json) hasta quien tomó la foto: el lado desde el que se ve.
 2. Calibra, dejando fuera a cada alumno, el umbral de similitud para responder «laboratorios»
    con precisión >= 0,9 (una sola vista central, como el teléfono).
-Escribe <corrida>/exportado/escom_angulos.json (sin rutas ni nombres: sólo lado y rumbo).
+Escribe <corrida>/exportado/escom_extras.json (sin rutas ni nombres: sólo lado y rumbo).
 Uso: python angulos_laboratorios.py <carpeta de la corrida>
 """
 import json
@@ -113,13 +113,13 @@ def main():
 
     salida = {
         "version": 1, "corrida": galeria.get("corrida"), "referencia": "nodo LAB de campus-escom/rutas.json",
-        "laboratorios_lat_lon": lab,
-        "umbral_laboratorios": umbral,
+        "objetivo": "laboratorios", "objetivo_lat_lon": lab,
+        "umbral_objetivo": umbral,
         "umbral_nota": "Similitud mínima para responder «laboratorios», calibrada dejando fuera a cada alumno con precisión >= 0,9. Experimental.",
-        "lados_laboratorios": lados, "rumbos_laboratorios": rumbos,
+        "lados_objetivo": lados, "rumbos_objetivo": rumbos,
         "lados_nota": "Un valor por prototipo de laboratorios, en el mismo orden que la galería; null si la foto no guardó GPS.",
     }
-    (corrida / "exportado" / "escom_angulos.json").write_text(json.dumps(salida, ensure_ascii=False), encoding="utf-8")
+    (corrida / "exportado" / "escom_extras.json").write_text(json.dumps(salida, ensure_ascii=False), encoding="utf-8")
 
 
 if __name__ == "__main__":

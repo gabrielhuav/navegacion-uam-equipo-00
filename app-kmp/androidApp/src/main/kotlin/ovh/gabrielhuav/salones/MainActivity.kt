@@ -62,14 +62,14 @@ class MainActivity : ComponentActivity() {
         setContent {
             App(
                 ubicacion, mensaje, onUbicar = { pedirUbicacion() }, redes = redes,
-                onReconocer = { reconocer.launch(Intent(this, ReconocerActivity::class.java)) }, reconocido = reconocido,
+                onReconocer = { s -> reconocer.launch(Intent(this, ReconocerActivity::class.java).putExtra("sede", s.name)) }, reconocido = reconocido,
             )
         }
-        // Sólo en la app de depuración, para probar en el emulador el burro sobre la cámara:
-        // adb shell am start -n ovh.gabrielhuav.salones/.MainActivity --ez demo_reconocer true
+        // Sólo en la app de depuración, para probar en el emulador la mascota sobre la cámara (demo_sede es opcional):
+        // adb shell am start -n ovh.gabrielhuav.salones/.MainActivity --ez demo_reconocer true --es demo_sede AZCAPOTZALCO
         if ((applicationInfo.flags and android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE) != 0 &&
             intent.getBooleanExtra("demo_reconocer", false) && savedInstanceState == null) {
-            reconocer.launch(Intent(this, ReconocerActivity::class.java).putExtra("demo", true))
+            reconocer.launch(Intent(this, ReconocerActivity::class.java).putExtra("demo", true).putExtra("sede", intent.getStringExtra("demo_sede") ?: Unidad.ESCOM.name))
         }
         when {
             tienePermiso() -> ubicar()

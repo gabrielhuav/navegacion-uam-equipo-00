@@ -67,11 +67,12 @@ import kotlin.math.abs
 import kotlin.math.roundToInt
 
 /**
- * Prototipo 4 · experimento, sólo en la ESCOM: la cámara trasera, el modelo TFLite y la votación de cuadros.
+ * Experimento, sólo en los campus con galería (ver [reconocedorDe]): la cámara trasera, el modelo TFLite y la votación de cuadros.
  * Todo ocurre en el teléfono: no se guardan ni se envían imágenes. Devuelve a [MainActivity] el edificio
  * reconocido (clase, destino, puntaje) cuando el usuario pulsa «Ir a este edificio».
  *
- * Si reconoce el Edificio de Laboratorios (el de las letras ESCOM), dibuja sobre la cámara al burro blanco del IPN.
+ * Si reconoce el edificio objetivo, dibuja sobre la cámara a la mascota: en la ESCOM, el burro blanco del IPN ante las letras
+ * del Edificio de Laboratorios; en la UAM, UAMito con la playera de su unidad ante el Edificio T.
  * Con la brújula y el GPS lo coloca hacia donde está el edificio y dice desde qué lado se le ve, y cuántas
  * fotos de referencia hay de ese lado (las que guardaron GPS en el entrenamiento).
  */
@@ -81,18 +82,22 @@ class ReconocerActivity : ComponentActivity(), SensorEventListener {
     private var estable by mutableStateOf<Reconocido?>(null)
     private var rumboCamara by mutableStateOf<Double?>(null) // hacia dónde apunta la cámara (0 = norte)
     private var yo by mutableStateOf<Ubicacion?>(null)
-    private var burrito by mutableStateOf<Bitmap?>(null)
+    private var mascota by mutableStateOf<Bitmap?>(null)
     private val hilo = Executors.newSingleThreadExecutor()
     private var interprete: Interpreter? = null
     private lateinit var galeria: Galeria
     private lateinit var votacion: Votacion
     private var ultimo = 0L
-    private var laboratorios: Ubicacion? = null
+    private var objetivo: Ubicacion? = null
     private var ladosReferencia: List<String?> = emptyList()
     private lateinit var sensores: SensorManager
     private lateinit var vista: PreviewView
 
-    /** Sólo en la app de depuración: `adb shell am start … --ez demo true` simula reconocer laboratorios (para el emulador). */
+    private val sede by lazy { Unidad.valueOf(intent.getStringExtra("sede") ?: Unidad.ESCOM.name) }
+    // Sin galería propia (sólo pasa en la demo) se usa la de Azcapotzalco, para ver la playera de cualquier unidad.
+    private val reconocedor by lazy { reconocedorDe(sede) ?: reconocedorDe(Unidad.AZCAPOTZALCO)!! }
+
+    /** Sólo en la app de depuración: `adb shell am start … --ez demo true` simula reconocer el edificio objetivo (para el emulador). */
     private val demo by lazy {
         (applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0 && intent.getBooleanExtra("demo", false)
     }
@@ -107,10 +112,10 @@ class ReconocerActivity : ComponentActivity(), SensorEventListener {
         sensores = getSystemService(SENSOR_SERVICE) as SensorManager
         vista = PreviewView(this)
         setContent {
-            MaterialTheme(colorScheme = esquemaDeColor(Unidad.ESCOM, true)) {
+            MaterialTheme(colorScheme = esquemaDeColor(sede, true)) {
                 Box(Modifier.fillMaxSize()) {
                     AndroidView({ vista }, Modifier.fillMaxSize())
-                    if (estable?.clase == "laboratorios") burrito?.let { Mascota(it) }
+                    if (estable?.clase == reconocedor.objetivo) mascota?.let { Mascota(it) }
                     Card(Modifier.align(Alignment.BottomCenter).safeDrawingPadding().padding(16.dp).fillMaxWidth()) {
                         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                             Text("Reconocer edificio · experimento", style = MaterialTheme.typography.titleMedium)
@@ -127,22 +132,22 @@ class ReconocerActivity : ComponentActivity(), SensorEventListener {
         }
         hilo.execute {
             runCatching { cargarModelo() }
-                .onSuccess { runOnUiThread { texto = "Apunta a la fachada de un edificio de la ESCOM."; pedirOIniciar() } }
+                .onSuccess { runOnUiThread { texto = "Apunta a la fachada de un edificio de ${sede.titulo}."; pedirOIniciar() } }
                 .onFailure { runOnUiThread { texto = "No se pudo cargar el modelo: ${it.message}" } }
         }
         ubicar()
     }
 
     /**
-     * El burro blanco sobre la cámara, flotando. Con brújula y GPS se mueve a lo ancho hacia donde está el edificio
+     * La mascota sobre la cámara, flotando. Con brújula y GPS se mueve a lo ancho hacia donde está el edificio
      * (campo de visión horizontal de unos 60°); si queda fuera de cuadro, se queda en la orilla con una flecha.
      */
     @Composable
     private fun Mascota(imagen: Bitmap) {
-        val vaiven by rememberInfiniteTransition(label = "burrito").animateFloat(
+        val vaiven by rememberInfiniteTransition(label = "mascota").animateFloat(
             -8f, 8f, infiniteRepeatable(tween(900), RepeatMode.Reverse), label = "vaiven",
         )
-        val desvio = desvioHaciaLaboratorios()
+        val desvio = desvioHaciaObjetivo()
         BoxWithConstraints(Modifier.fillMaxSize()) {
             val mitad = maxWidth / 2
             val x = desvio?.let { (it / 30.0).coerceIn(-1.0, 1.0).toFloat() } ?: 0f
@@ -151,7 +156,7 @@ class ReconocerActivity : ComponentActivity(), SensorEventListener {
                 Modifier.align(Alignment.Center).offset(x = (mitad - 110.dp) * x, y = (-60 + vaiven).dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Image(imagen.asImageBitmap(), "Burro blanco del IPN", Modifier.width(160.dp))
+                Image(imagen.asImageBitmap(), if (sede == Unidad.ESCOM) "Burro blanco del IPN" else "UAMito, pantera negra de la UAM", Modifier.width(160.dp))
                 when {
                     desvio == null -> {}
                     desvio > 30 -> Text("Gira a la derecha →", color = MaterialTheme.colorScheme.onSurface)
@@ -162,61 +167,62 @@ class ReconocerActivity : ComponentActivity(), SensorEventListener {
     }
 
     /** Grados entre hacia dónde apunta la cámara y hacia dónde está el edificio (positivo: a la derecha). */
-    private fun desvioHaciaLaboratorios(): Double? {
+    private fun desvioHaciaObjetivo(): Double? {
         val r = rumboCamara ?: return null
         val u = yo ?: return null
-        val lab = laboratorios ?: return null
-        if (distanciaMetros(u, lab) < 8) return null // muy cerca: el rumbo no sirve
-        return diferenciaAngulo(rumbo(u, lab), r)
+        val o = objetivo ?: return null
+        if (distanciaMetros(u, o) < 8) return null // muy cerca: el rumbo no sirve
+        return diferenciaAngulo(rumbo(u, o), r)
     }
 
     /** «Lo ves desde el lado noreste (40°), a 55 m · fotos de referencia de ese lado: 4 de 24». */
     private fun angulo(): String? {
-        if (estable?.clase != "laboratorios") return null
+        if (estable?.clase != reconocedor.objetivo) return null
         val u = yo ?: return "Activa la ubicación para saber desde qué lado lo ves."
-        val lab = laboratorios ?: return null
-        val desde = rumbo(lab, u)
+        val o = objetivo ?: return null
+        val desde = rumbo(o, u)
         val lado = ladoDe(desde)
         val conLado = ladosReferencia.filterNotNull().size / 3
         val deEseLado = ladosReferencia.count { it == lado } / 3
         val total = ladosReferencia.size / 3
-        return "Lo ves desde el lado $lado (${desde.roundToInt()}°), a ${distanciaMetros(u, lab).roundToInt()} m. " +
+        return "Lo ves desde el lado $lado (${desde.roundToInt()}°), a ${distanciaMetros(u, o).roundToInt()} m. " +
             "Fotos de referencia de ese lado: $deEseLado de $total ($conLado con GPS)."
     }
 
     private fun pedirOIniciar() {
-        if (demo) simularLaboratorios()
+        if (demo) simularObjetivo()
         if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) iniciarCamara()
         else pedirCamara.launch(Manifest.permission.CAMERA)
     }
 
-    private fun simularLaboratorios() {
-        val g = galeria
-        estable = Reconocido("laboratorios", g.destinos["laboratorios"] ?: "LAB", g.umbral("laboratorios"), System.currentTimeMillis())
-        texto = "DEMO de depuración: se simula que reconoce Laboratorios."
+    private fun simularObjetivo() {
+        val c = reconocedor.objetivo
+        estable = Reconocido(c, galeria.destinos[c] ?: c, galeria.umbral(c), System.currentTimeMillis())
+        texto = "DEMO de depuración: se simula que reconoce ${nombre(c)}."
     }
 
-    /** El modelo, su galería, el umbral propio de laboratorios y los lados de sus fotos (assets/reconocimiento/). */
+    /** El modelo, la galería del campus, el umbral del edificio objetivo y los lados de sus fotos (assets/reconocimiento/). */
     private fun cargarModelo() {
         val bytes = assets.open("reconocimiento/escom_embeddings.tflite").use { it.readBytes() }
         val modelo = ByteBuffer.allocateDirect(bytes.size).order(ByteOrder.nativeOrder()).put(bytes).also { it.rewind() }
         interprete = Interpreter(modelo, Interpreter.Options().setNumThreads(4))
-        val json = JSONObject(assets.open("reconocimiento/escom_galeria.json").use { it.readBytes().decodeToString() })
+        val json = JSONObject(assets.open("reconocimiento/${reconocedor.prefijo}_galeria.json").use { it.readBytes().decodeToString() })
         val clases = json.getJSONArray("clases").let { a -> List(a.length()) { a.getString(it) } }
         val p = json.getJSONObject("prototipos")
         val prototipos = clases.associateWith { c ->
             val lista = p.getJSONArray(c)
             List(lista.length()) { i -> lista.getJSONArray(i).let { v -> FloatArray(v.length()) { v.getDouble(it).toFloat() } } }
         }
-        val d = json.getJSONObject("destinos_escom")
-        val angulos = JSONObject(assets.open("reconocimiento/escom_angulos.json").use { it.readBytes().decodeToString() })
-        val umbrales = if (angulos.isNull("umbral_laboratorios")) emptyMap()
-                       else mapOf("laboratorios" to angulos.getDouble("umbral_laboratorios").toFloat())
-        laboratorios = angulos.getJSONArray("laboratorios_lat_lon").let { Ubicacion(it.getDouble(0), it.getDouble(1)) }
-        ladosReferencia = angulos.getJSONArray("lados_laboratorios").let { a -> List(a.length()) { if (a.isNull(it)) null else a.getString(it) } }
-        galeria = Galeria(clases, prototipos, clases.associateWith { d.getString(it) }, json.getDouble("umbral_no_se").toFloat(), umbrales)
+        // Sin destino en el mapa («otro», por ejemplo) la clase compite, pero la app responde «no sé».
+        val d = json.optJSONObject("destinos") ?: json.getJSONObject("destinos_escom")
+        val extras = JSONObject(assets.open("reconocimiento/${reconocedor.prefijo}_extras.json").use { it.readBytes().decodeToString() })
+        val umbrales = if (extras.isNull("umbral_objetivo")) emptyMap()
+                       else mapOf(reconocedor.objetivo to extras.getDouble("umbral_objetivo").toFloat())
+        objetivo = extras.getJSONArray("objetivo_lat_lon").let { Ubicacion(it.getDouble(0), it.getDouble(1)) }
+        ladosReferencia = extras.getJSONArray("lados_objetivo").let { a -> List(a.length()) { if (a.isNull(it)) null else a.getString(it) } }
+        galeria = Galeria(clases, prototipos, clases.filter { d.has(it) }.associateWith { d.getString(it) }, json.getDouble("umbral_no_se").toFloat(), umbrales)
         votacion = Votacion(galeria)
-        burrito = assets.open("reconocimiento/burrito.png").use { BitmapFactory.decodeStream(it) }
+        mascota = assets.open("reconocimiento/${mascotaDe(sede)}").use { BitmapFactory.decodeStream(it) }
     }
 
     /** Una lectura de GPS al abrir (si ya hay permiso de ubicación); basta para saber de qué lado del edificio estás. */
@@ -320,7 +326,7 @@ class ReconocerActivity : ComponentActivity(), SensorEventListener {
         return buf.also { it.rewind() }
     }
 
-    private fun nombre(clase: String) = NOMBRES[clase] ?: clase
+    private fun nombre(clase: String) = NOMBRES[clase] ?: if (clase.length <= 2) "Edificio $clase" else clase
 
     private fun devolver() {
         val r = estable ?: return
@@ -338,6 +344,7 @@ class ReconocerActivity : ComponentActivity(), SensorEventListener {
         private val NOMBRES = mapOf(
             "edificio_1" to "Edificio 1", "edificio_2" to "Edificio 2", "edificio_3" to "Edificio 3",
             "edificio_4" to "Edificio 4", "gobierno" to "Gobierno · Biblioteca", "laboratorios" to "Laboratorios",
+            "COSEI" to "Plaza COSEI",
         )
     }
 }

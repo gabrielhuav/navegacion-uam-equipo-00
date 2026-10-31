@@ -3,12 +3,28 @@ package ovh.gabrielhuav.salones
 import kotlin.math.sqrt
 
 /**
- * Prototipo 4 · experimento: reconocer con la cámara el edificio de la ESCOM que se tiene enfrente.
+ * Experimento: reconocer con la cámara el edificio que se tiene enfrente, por ahora en la ESCOM y en UAM Azcapotzalco.
  * El modelo (TFLite, en Android) convierte cada cuadro en un vector de 960 números; aquí se compara
- * con la galería de fotos de los alumnos (`escom_galeria.json`, sin fotos ni nombres) y se vota entre cuadros.
+ * con la galería de fotos de los alumnos de cada campus (sin fotos ni nombres) y se vota entre cuadros.
  * Reconocer una fachada no dice dónde está parado el teléfono: sólo sugiere un destino.
  */
 data class Reconocido(val clase: String, val destino: String, val puntaje: Float, val momento: Long)
+
+/**
+ * Lo que reconoce un campus: el prefijo de sus archivos en assets/reconocimiento/ y el edificio que hace aparecer
+ * la mascota. Cada campus tiene su propia galería: nunca se mezclan edificios de campus distintos.
+ */
+data class Reconocedor(val prefijo: String, val objetivo: String)
+
+/** El reconocedor de `sede`, o null mientras ese campus no tenga galería. */
+fun reconocedorDe(sede: Unidad): Reconocedor? = when (sede) {
+    Unidad.ESCOM -> Reconocedor("escom", "laboratorios")
+    Unidad.AZCAPOTZALCO -> Reconocedor("uam_azcapotzalco", "T")
+    else -> null
+}
+
+/** La mascota que aparece sobre la cámara: el burro blanco en el IPN; en la UAM, UAMito con la playera de su unidad. */
+fun mascotaDe(sede: Unidad): String = if (sede == Unidad.ESCOM) "burrito.png" else "uamito_${sede.carpeta}.png"
 
 /**
  * Prototipos normalizados por clase, el destino de rutas.json de cada clase y el umbral de «no sé».

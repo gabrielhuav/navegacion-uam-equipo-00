@@ -502,7 +502,13 @@ Parte de Daniela Nava Martínez (maxitodev/proyectos-integradores-uam_a#37), fus
   - Sin probar en dispositivo (KMP y Flutter).
   - Ya estaban desfasadas en `campus-cuajimalpa/README.md` las notas del GLB «sin marca», de las descargas sin servidor y del peso ≈0.65 MB (contrato de archivos y sección de gráficos); `campus-cuajimalpa/Vista_actual.png` sigue fuera del `.gitignore`.
 
-## P4 · corpus de la ESCOM documentado sin fotos (Claude, 31 oct 2026, rama feature/corpus-escom)
+## UAM · reconocer el Edificio T y UAMito (Claude, 31 oct 2026, rama feature/corpus-escom, PR #23)
+
+- El reconocedor ya no es sólo de la ESCOM: `reconocedorDe(sede)` decide galería y edificio objetivo por campus, y `mascotaDe(sede)` la mascota. ESCOM sigue igual (laboratorios y burro blanco). Azcapotzalco reconoce el Edificio T y muestra a UAMito, pantera negra con la playera de su unidad. Ya están las cinco playeras con los colores de la app.
+- `escom_angulos.json` pasó a `escom_extras.json`, con el mismo formato que `uam_azcapotzalco_extras.json`.
+- **La galería de la UAM es provisional:** usa etiquetas sin confirmar, de confianza alta. Con el umbral de 0,74, en la evaluación dejando fuera a cada grupo, acierta 93 % cuando dice T y encuentra 52 %. No se ha probado frente al edificio.
+
+## Corpus documentado sin fotos (Claude, 31 oct 2026, rama feature/corpus-escom)
 
 - `entrenamiento/` trae el código, la ficha del corpus, un listado anónimo y las instrucciones de la siguiente toma. **Las fotos no entran al repositorio:** es público y tienen nombres, caras y ubicación de alumnos. Se quedan en el equipo del profesor.
 - Los seudónimos salen de una clave que tampoco está en el repositorio. Al agregar algo a esa carpeta, revisar que no traiga nombres, rutas de fotos ni GPS.
