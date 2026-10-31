@@ -30,13 +30,23 @@ import androidx.compose.ui.unit.dp
  * desde campus/ y campus-<unidad>/). Una unidad nueva sin croquis iría sin carpeta: el mapa va a su `centro`
  * y muestra un cuadro «En desarrollo…». `radio`: hasta dónde se dice «Estás en la UAM».
  * Centros: Azcapotzalco, el de siempre; las demás, el centro de su plano georreferenciado.
+ *
+ * ESCOM (IPN) no es de la UAM: va como campus aparte, con `institucion` «IPN» y el azul #006699 que usa su
+ * maqueta (aproximación de su identidad, no un color oficial UAM).
  */
-enum class Unidad(val nombre: String, val color: Color, val carpeta: String?, val centro: Ubicacion, val radio: Double) {
+enum class Unidad(
+    val nombre: String, val color: Color, val carpeta: String?, val centro: Ubicacion, val radio: Double,
+    val institucion: String = "UAM",
+) {
     AZCAPOTZALCO("Azcapotzalco", Color(0xFFCD032E), "azcapotzalco", UAM_AZCAPOTZALCO, RADIO_CAMPUS), // Pantone 186 C
     CUAJIMALPA("Cuajimalpa", Color(0xFFF08200), "cuajimalpa", Ubicacion(19.351945, -99.282701), 250.0), // Pantone 144 C
     IZTAPALAPA("Iztapalapa", Color(0xFF57A519), "iztapalapa", Ubicacion(19.361775, -99.072597), 450.0), // Pantone 369 C
     LERMA("Lerma", Color(0xFFAD25A8), "lerma", Ubicacion(19.290506, -99.498472), 350.0),               // Pantone 253 C
     XOCHIMILCO("Xochimilco", Color(0xFF0072CE), "xochimilco", Ubicacion(19.30419, -99.102905), 450.0), // Pantone 285 C
+    ESCOM("ESCOM", Color(0xFF006699), "escom", Ubicacion(19.504703, -99.146719), 250.0, institucion = "IPN");
+
+    /** «la UAM Azcapotzalco» o «la ESCOM (IPN)». */
+    val titulo: String get() = if (institucion == "UAM") "la UAM $nombre" else "la $nombre ($institucion)"
 }
 
 /**

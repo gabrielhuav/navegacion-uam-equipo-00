@@ -2,6 +2,7 @@ package ovh.gabrielhuav.salones
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -33,14 +34,43 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+    // Prototipo 4 · experimento: el edificio que reconoció la cámara en ReconocerActivity.
+    private var reconocido by mutableStateOf<Reconocido?>(null)
+
+    private val reconocer =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { r ->
+            val datos = r.data ?: return@registerForActivityResult
+            if (r.resultCode != RESULT_OK) return@registerForActivityResult
+            reconocido = Reconocido(
+                datos.getStringExtra("clase") ?: return@registerForActivityResult,
+                datos.getStringExtra("destino") ?: return@registerForActivityResult,
+                datos.getFloatExtra("puntaje", 0f),
+                System.currentTimeMillis(),
+            )
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         Preferencias.iniciar(this) // el tema y la unidad que se eligieron la última vez
         // `App()` es la pantalla compartida de `:shared` (commonMain): la misma que ve iOS.
-        // Prototipo 3: la red de caminos de Azcapotzalco (campus/rutas.json, copiada por Gradle).
-        val red = runCatching { assets.open("campus/azcapotzalco/rutas.json").use { it.readBytes().decodeToString() } }.getOrNull()
-        setContent { App(ubicacion, mensaje, onUbicar = { pedirUbicacion() }, redAzcapotzalco = red) }
+        // Prototipo 3: la red de caminos de cada campus que la tenga (campus*/rutas.json, copiada por Gradle).
+        val redes = Unidad.entries.mapNotNull { u ->
+            u.carpeta?.let { c -> runCatching { assets.open("campus/$c/rutas.json").use { it.readBytes().decodeToString() } }.getOrNull() }
+                ?.let { u to it }
+        }.toMap()
+        setContent {
+            App(
+                ubicacion, mensaje, onUbicar = { pedirUbicacion() }, redes = redes,
+                onReconocer = { reconocer.launch(Intent(this, ReconocerActivity::class.java)) }, reconocido = reconocido,
+            )
+        }
+        // Sólo en la app de depuración, para probar en el emulador el burro sobre la cámara:
+        // adb shell am start -n ovh.gabrielhuav.salones/.MainActivity --ez demo_reconocer true
+        if ((applicationInfo.flags and android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE) != 0 &&
+            intent.getBooleanExtra("demo_reconocer", false) && savedInstanceState == null) {
+            reconocer.launch(Intent(this, ReconocerActivity::class.java).putExtra("demo", true))
+        }
         when {
             tienePermiso() -> ubicar()
             // Al girar, Android recrea la actividad; el diálogo sigue abierto y no se pide dos veces.

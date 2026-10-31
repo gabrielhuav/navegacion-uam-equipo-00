@@ -77,4 +77,4 @@ fun norteEnModelo(geo: Georreferencia): Pair<Double, Double> {
  * Sin `conMarca` se ocultan las piezas «Copyright_integrado_*» del GLB (modo desarrollador).
  */
 @Composable
-expect fun Campus3D(sede: Unidad, visible: Boolean, inclinada: Boolean, noche: Boolean, conMarca: Boolean, modifier: Modifier = Modifier)
+expect fun Campus3D(sede: Unidad, visible: Boolean, inclinada: Boolean, noche: Boolean, conMarca: Boolean, ruta: Ruta? = null, modifier: Modifier = Modifier)

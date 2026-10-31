@@ -91,7 +91,8 @@ class _PantallaMapaState extends State<PantallaMapa> {
   final _aplicado3D = <Unidad, String>{};
   late Unidad _unidadAnterior = ajustesTema.value.unidad;
   bool _irALaSede = false; // «UAM» o «Ir» centran el mapa en la sede; «Ubicarme», en ti
-  Red? _red; // Prototipo 3: la red de caminos de Azcapotzalco (campus/rutas.json)
+  final _redes = <Unidad, Red>{}; // Prototipo 3: la red de caminos de cada campus que la tenga (campus*/rutas.json)
+  Red? get _red => _redes[_sede];
   Ruta? _ruta;
   String _rutaTexto = '';
   LatLng? _centrarAlVolver; // si se eligió otra sede estando en 3D, el mapa se mueve al volver a Mapa o 2D
@@ -114,9 +115,11 @@ class _PantallaMapaState extends State<PantallaMapa> {
         if (mounted) setState(() => _geo[u] = leerGeorreferencia(json));
       });
     }
-    rootBundle.loadString('assets/campus/azcapotzalco/rutas.json').then((json) {
-      if (mounted) setState(() => _red = leerRed(json));
-    }, onError: (_) {}); // sin red, no hay botón «Ruta»
+    for (final u in Unidad.values.where((u) => u.carpeta != null)) {
+      rootBundle.loadString('assets/campus/${u.carpeta}/rutas.json').then((json) {
+        if (mounted) setState(() => _redes[u] = leerRed(json));
+      }, onError: (_) {}); // sin red, no hay botón «Ruta»
+    }
     ajustesTema.addListener(_alCambiarTema);
     _ubicar();
     // Revisa la hora cada minuto: al dar las 19:00 el campus se hace de noche.
@@ -143,7 +146,7 @@ class _PantallaMapaState extends State<PantallaMapa> {
     showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('¿Ir a la UAM ${u.nombre}?'),
+        title: Text('¿Ir a ${u.titulo}?'),
         content: Text(
           u.carpeta != null
               ? 'El mapa, el plano 2D y el modelo 3D cambian a esa unidad.'
@@ -157,7 +160,10 @@ class _PantallaMapaState extends State<PantallaMapa> {
     ).then((ir) {
       if (ir != true || !mounted) return;
       ajustesTema.value = ajustesTema.value.copyWith(sede: u);
-      setState(() => _irALaSede = true);
+      setState(() {
+        _irALaSede = true;
+        _ruta = null; // la ruta era del otro campus
+      });
       if (_vista != Vista.tresD) {
         _mapa.move(u.centro, 17);
       } else {
@@ -170,7 +176,7 @@ class _PantallaMapaState extends State<PantallaMapa> {
   Future<void> _pedirRuta(LatLng? yo) async {
     final red = _red;
     if (red == null) return;
-    final elegido = await elegirRuta(context, red, conUbicacion: yo != null);
+    final elegido = await elegirRuta(context, red, lugar: _sede.titulo, conUbicacion: yo != null);
     if (elegido == null || !mounted) return;
     final (desde, hasta) = elegido;
     final calculada = desde == null
@@ -253,7 +259,7 @@ class _PantallaMapaState extends State<PantallaMapa> {
                 offstage: _vista != Vista.tresD || u != sede,
                 child: ModelViewer(
                   src: modeloDe(u, conMarca: conMarca),
-                  alt: 'Modelo 3D aproximado del campus UAM ${u.nombre}',
+                  alt: 'Modelo 3D aproximado del campus de ${u.titulo}',
                   backgroundColor: colores.surfaceContainer,
                   cameraControls: true,
                   disableTap: true,
@@ -346,7 +352,7 @@ class _PantallaMapaState extends State<PantallaMapa> {
                   ),
                 ],
                 // La ruta: una línea gruesa del color de la app con borde blanco; inicio verde.
-                if (_ruta case final r? when sede == Unidad.azcapotzalco && r.puntos.length >= 2) ...[
+                if (_ruta case final r? when r.puntos.length >= 2) ...[
                   PolylineLayer(
                     polylines: [
                       Polyline(
@@ -395,7 +401,7 @@ class _PantallaMapaState extends State<PantallaMapa> {
                             children: [
                               Text('Campus UAM', style: texto.titleLarge),
                               Text(yo != null ? describir(yo, sede) : _ubicacion.mensaje, style: texto.bodyMedium),
-                              if (_ruta != null && sede == Unidad.azcapotzalco)
+                              if (_ruta != null)
                                 Text(_rutaTexto, style: texto.bodyMedium?.copyWith(color: colores.primary)),
                               const SizedBox(height: 8),
                               // Mapa real con el plano encima, solo el plano, o el modelo 3D.
@@ -485,7 +491,7 @@ class _PantallaMapaState extends State<PantallaMapa> {
               ]
             : [
                 // Rutas: sólo en Azcapotzalco, mientras las otras unidades no tienen red de caminos.
-                if (_red != null && sede == Unidad.azcapotzalco)
+                if (_red != null)
                   FloatingActionButton.extended(
                     heroTag: 'ruta',
                     onPressed: _ruta != null ? () => setState(() => _ruta = null) : () => _pedirRuta(yo),
