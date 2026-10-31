@@ -501,3 +501,10 @@ Parte de Daniela Nava Martínez (maxitodev/proyectos-integradores-uam_a#37), fus
   - El plan de fotos del Ágora es entregable de Daniela. Alturas de arcos, mástiles y talud, posición exacta de las letras y la escalera de la esquina sur, por confirmar en campo.
   - Sin probar en dispositivo (KMP y Flutter).
   - Ya estaban desfasadas en `campus-cuajimalpa/README.md` las notas del GLB «sin marca», de las descargas sin servidor y del peso ≈0.65 MB (contrato de archivos y sección de gráficos); `campus-cuajimalpa/Vista_actual.png` sigue fuera del `.gitignore`.
+
+## P4 · corpus de la ESCOM documentado sin fotos (Claude, 31 oct 2026, rama feature/corpus-escom)
+
+- `entrenamiento/` trae el código, la ficha del corpus, un listado anónimo y las instrucciones de la siguiente toma. **Las fotos no entran al repositorio:** es público y tienen nombres, caras y ubicación de alumnos. Se quedan en el equipo del profesor.
+- Los seudónimos salen de una clave que tampoco está en el repositorio. Al agregar algo a esa carpeta, revisar que no traiga nombres, rutas de fotos ni GPS.
+- Pendientes: confirmar el origen de las 7 fotos adicionales y decidir si la galería de la app se rehace sin fotos con personas.
+- Tablero de la clase: Project público [Demo docente · Navegación UAM · 26-O](https://github.com/users/gabrielhuav/projects/1), enlazado al repositorio.

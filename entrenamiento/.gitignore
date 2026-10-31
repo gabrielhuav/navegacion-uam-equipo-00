@@ -1,0 +1,17 @@
+# Las fotos y todo lo que traiga nombres o rutas de alumnos se quedan fuera del repositorio.
+*.jpg
+*.jpeg
+*.png
+*.heic
+*.mp4
+*.zip
+*.npz
+*.npy
+__pycache__/
+modelo/.venv/
+modelo/salidas/
+modelo/corridas/
+modelo/exportado/
+modelo/*.csv
+modelo/*.html
+modelo/ULTIMA_CORRIDA_LETRAS.txt
