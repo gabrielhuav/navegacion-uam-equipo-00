@@ -12,12 +12,13 @@ void main() {
       'iztapalapa',
       'lerma',
       'xochimilco',
+      'escom',
     ]);
   });
 
   test('en el centro de cada unidad dice que estás ahí', () {
     for (final u in Unidad.values) {
-      expect(describir(u.centro, u), 'Estás en la UAM ${u.nombre}.');
+      expect(describir(u.centro, u), 'Estás en ${u.titulo}.');
     }
   });
 
@@ -25,5 +26,9 @@ void main() {
     final texto = describir(uamAzcapotzalco, Unidad.cuajimalpa);
     expect(texto, startsWith('Estás a '));
     expect(texto, endsWith(' km de la UAM Cuajimalpa.'));
+  });
+
+  test('la ESCOM es del IPN, no de la UAM', () {
+    expect(describir(Unidad.escom.centro, Unidad.escom), 'Estás en la ESCOM (IPN).');
   });
 }

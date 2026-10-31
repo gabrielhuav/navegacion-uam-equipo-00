@@ -7,12 +7,15 @@ import kotlin.math.ceil
  * La red de caminos sale de `campus/rutas.json` (la dibuja Codex en el visor web; mismo archivo en Flutter):
  * nodos con su latitud y longitud, aristas con sus metros y un nodo por destino (edificios y accesos).
  */
-data class Nodo(val id: String, val lugar: Ubicacion, val tipo: String)
+data class Nodo(val id: String, val lugar: Ubicacion, val tipo: String, val x: Double? = null, val z: Double? = null)
 data class Arista(val de: String, val a: String, val metros: Double)
 data class Destino(val id: String, val nombre: String, val nodo: String)
 
-/** Una ruta: los puntos por los que pasa (para dibujarla) y su longitud. */
-data class Ruta(val puntos: List<Ubicacion>, val metros: Double) {
+/**
+ * Una ruta: los puntos por los que pasa (para dibujarla) y su longitud.
+ * `enModelo`: los mismos puntos en metros X/Z del modelo 3D (si rutas.json los trae), para dibujarla en 3D.
+ */
+data class Ruta(val puntos: List<Ubicacion>, val metros: Double, val enModelo: List<Pair<Double, Double>> = emptyList()) {
     /** A 1.2 m/s, el paso de una persona caminando. Al menos un minuto. */
     val minutos: Int get() = maxOf(1, ceil(metros / 1.2 / 60).toInt())
 }
@@ -45,7 +48,9 @@ class Red(val nodos: Map<String, Nodo>, val aristas: List<Arista>, val destinos:
         }
         val total = distancia[hasta] ?: return null
         val camino = generateSequence(hasta) { previo[it] }.toList().reversed()
-        return Ruta(camino.map { nodos.getValue(it).lugar }, total)
+        val enCamino = camino.map { nodos.getValue(it) }
+        val enModelo = enCamino.mapNotNull { n -> n.x?.let { x -> n.z?.let { z -> x to z } } }
+        return Ruta(enCamino.map { it.lugar }, total, if (enModelo.size == enCamino.size) enModelo else emptyList())
     }
 
     /** El nodo más cercano a un punto; con `tipo`, sólo de ese tipo (por ejemplo «acceso»). */
@@ -79,7 +84,10 @@ fun leerRed(json: String): Red {
     }
     fun texto(o: String, k: String) = Regex("\"$k\"\\s*:\\s*\"([^\"]*)\"").find(o)?.groupValues?.get(1) ?: error("Falta $k en $o")
     fun numero(o: String, k: String) = Regex("\"$k\"\\s*:\\s*(-?[\\d.]+)").find(o)?.groupValues?.get(1)?.toDouble() ?: error("Falta $k en $o")
-    val nodos = lista("nodos").map { Nodo(texto(it, "id"), Ubicacion(numero(it, "lat"), numero(it, "lon")), texto(it, "tipo")) }
+    fun opcional(o: String, k: String) = Regex("\"$k\"\\s*:\\s*(-?[\\d.]+)").find(o)?.groupValues?.get(1)?.toDouble()
+    val nodos = lista("nodos").map {
+        Nodo(texto(it, "id"), Ubicacion(numero(it, "lat"), numero(it, "lon")), texto(it, "tipo"), opcional(it, "x"), opcional(it, "z"))
+    }
     return Red(
         nodos.associateBy { it.id },
         lista("aristas").map { Arista(texto(it, "de"), texto(it, "a"), numero(it, "metros")) },

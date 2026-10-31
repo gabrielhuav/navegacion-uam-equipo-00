@@ -1,6 +1,21 @@
 package ovh.gabrielhuav.salones
 
 import android.view.Choreographer
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.unit.dp
 import android.view.TextureView
 import android.view.View
 import androidx.compose.material3.MaterialTheme
@@ -52,6 +67,31 @@ private class Visor(val modelo: ModelViewer, val camara: Manipulator, val arriba
         else ultimaBuena = camara.currentBookmark
     }
     fun avisarCambio() { dibujarHasta = System.nanoTime() + 1_500_000_000L }
+
+    /**
+     * Prototipo 4: lleva puntos X/Z del modelo (metros, en el suelo) a píxeles de la pantalla.
+     * Repite lo que hace transformToUnitCube (centrar la caja del GLB en (0, 0, -4) y escalarla a 2 de ancho)
+     * y después aplica la cámara de Filament. Los puntos detrás de la cámara se omiten.
+     */
+    private val vista = DoubleArray(16)
+    private val proyeccion = DoubleArray(16)
+    fun proyectar(puntos: List<Pair<Double, Double>>, ancho: Int, alto: Int): List<Offset> {
+        val caja = modelo.asset?.boundingBox ?: return emptyList()
+        val c = caja.center
+        val escala = 1.0 / maxOf(caja.halfExtent[0], caja.halfExtent[1], caja.halfExtent[2])
+        modelo.camera.getViewMatrix(vista)
+        modelo.camera.getProjectionMatrix(proyeccion)
+        return puntos.mapNotNull { (x, z) ->
+            val m = doubleArrayOf((x - c[0]) * escala, (0.0 - c[1]) * escala + 0.004, (z - c[2]) * escala - 4.0, 1.0)
+            val v = multiplicar(vista, m)
+            val p = multiplicar(proyeccion, v)
+            if (p[3] <= 1e-6) null
+            else Offset(((p[0] / p[3] + 1) / 2 * ancho).toFloat(), ((1 - p[1] / p[3]) / 2 * alto).toFloat())
+        }
+    }
+
+    /** Matriz 4×4 de Filament (por columnas) por vector. */
+    private fun multiplicar(m: DoubleArray, v: DoubleArray) = DoubleArray(4) { f -> (0..3).sumOf { k -> m[k * 4 + f] * v[k] } }
 }
 
 /**
@@ -62,8 +102,16 @@ private class Visor(val modelo: ModelViewer, val camara: Manipulator, val arriba
  * hacía fallar a Filament (asyncCancelLoad). Oculto, no se dibuja; visible, solo un momento después de tocarlo.
  */
 @Composable
-actual fun Campus3D(sede: Unidad, visible: Boolean, inclinada: Boolean, noche: Boolean, conMarca: Boolean, modifier: Modifier) {
+actual fun Campus3D(sede: Unidad, visible: Boolean, inclinada: Boolean, noche: Boolean, conMarca: Boolean, ruta: Ruta?, modifier: Modifier) {
     val visor = remember { arrayOfNulls<Visor>(1) }
+    // Prototipo 4: la ruta en píxeles, recalculada en cada cuadro que se dibuja (encima del 3D, sin ocultarse tras edificios).
+    var trazo by remember { mutableStateOf<List<Offset>>(emptyList()) }
+    val tamano = remember { IntArray(2) }
+    val enModelo = ruta?.enModelo.orEmpty()
+    val enModeloActual = rememberUpdatedState(enModelo) // el ciclo de dibujo es de antes y debe ver la ruta nueva
+    LaunchedEffect(ruta) { visor[0]?.avisarCambio() }
+    val color = MaterialTheme.colorScheme.primary
+    Box(modifier) {
     AndroidView(
         factory = { contexto ->
             TextureView(contexto).also { superficie ->
@@ -100,8 +148,20 @@ actual fun Campus3D(sede: Unidad, visible: Boolean, inclinada: Boolean, noche: B
             }
         },
         update = { it.visibility = if (visible) View.VISIBLE else View.INVISIBLE },
-        modifier = modifier,
+        modifier = Modifier.fillMaxSize().onSizeChanged { tamano[0] = it.width; tamano[1] = it.height },
     )
+    if (visible && enModelo.size >= 2 && trazo.size >= 2) {
+        Canvas(Modifier.fillMaxSize()) {
+            val camino = Path().apply { moveTo(trazo[0].x, trazo[0].y); trazo.drop(1).forEach { lineTo(it.x, it.y) } }
+            drawPath(camino, Color.White, style = Stroke(width = 9.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round))
+            drawPath(camino, color, style = Stroke(width = 5.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round))
+            // Como en el plano 2D: inicio verde y destino del color de la app.
+            drawCircle(Color(0xFF2E7D32), 7.dp.toPx(), trazo.first())
+            drawCircle(Color.White, 9.dp.toPx(), trazo.last())
+            drawCircle(color, 7.dp.toPx(), trazo.last())
+        }
+    }
+    }
     LaunchedEffect(inclinada) {
         visor[0]?.let {
             it.camara.jumpToBookmark(if (inclinada) it.inclinada else it.arriba)
@@ -148,6 +208,8 @@ actual fun Campus3D(sede: Unidad, visible: Boolean, inclinada: Boolean, noche: B
                 if (System.nanoTime() < v.dibujarHasta) {
                     v.noBajarDelSuelo()
                     v.modelo.render(tiempo)
+                    val puntos = enModeloActual.value
+                    trazo = if (puntos.size >= 2) v.proyectar(puntos, tamano[0], tamano[1]) else emptyList()
                 }
             }
         }

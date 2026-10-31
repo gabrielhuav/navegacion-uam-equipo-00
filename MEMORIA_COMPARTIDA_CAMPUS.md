@@ -30,7 +30,8 @@ Entrenamiento original: `C:/dev/entrenamiento-escom`, conservado intacto. Respal
 
 Para integrar con Claude: incorporar la corrección del visor sobre la rama de desarrollo que contiene P4; conservar sus assets y entrenamiento. No sustituir la app P4 por el estado de app-kmp/app-flutter de esta rama. El commit de la corrección es local hasta que se publique.
 
-Actualizada: 18 de octubre de 2026. Fuente revisada: sesión de Claude «Unidad III actualización y decisiones de material», archivos locales y commit f5311cb de la rama feature/p2-campus. Este documento es el punto común para Claude y Codex; no sincroniza automáticamente los historiales de los chats.
+
+Actualizada: 20 de octubre de 2026. Última entrega al final: ESCOM, rama feature/campus-escom. Se conserva el historial de las cinco UAM y las integraciones de Claude. Este documento es el punto común para Claude y Codex; no sincroniza automáticamente los historiales de los chats.
 
 ## Fuente del diseño
 
@@ -386,6 +387,91 @@ Se conservan sin cambios **campus_editado.json, campus_base.json, model-data.js 
 - Issues: #5 [HU06] campus en Mapa/2D/3D (P2); #6 [HU02] ruta más corta y #7 [HU05] aviso sin ruta (P3); #1 [HU01] buscar el salón pasó al P4 con comentario.
 - PR #8 `feature/app-unidades` → `main` (Closes #5 #6 #7). Al integrar: releases `v0.2.0` (estado del P2, commit 42605d0) y `v0.3.0` (merge del P3).
 - README y docs/prototipos.md describen P1–P3 hechos y P4 por empezar. La Unidad III llega hasta el P3 (130 láminas); el P4 irá en la Unidad IV.
+
+## Checkpoint · ESCOM · Codex · 20 octubre 2026
+
+**Solicitud de Gabriel:** implementar la maqueta de ESCOM investigando croquis/planos, con el mismo funcionamiento que las unidades UAM. Rama nueva **feature/campus-escom**, desde **main 53967de**, que ya integra P1–P3. Estado inicial limpio. Respaldo anterior: `C:/Users/gabri/Downloads/1151055 Administracion/_respaldos/2026-10-20_antes_escom` (bundle Git completo, HEAD y memoria). Tag de entrega: **checkpoint/escom-2026-10-20**. Respaldo final: `_respaldos/2026-10-20_checkpoint_escom`. No push/merge ni instalaciones en móvil.
+
+### Nueva carpeta y archivos para Claude
+
+Entrega aislada en **C:/dev/navegacion-uam-escom/campus-escom/**. Al integrar la rama, el destino será `C:/dev/navegacion-uam-equipo-00/campus-escom/`, independiente de las cinco UAM. Slug estable **escom**, nombre **ESCOM · IPN**, puerto **8782**. Abrir `Abrir_visor.cmd` o http://127.0.0.1:8782/Visor_UAM_autonomo.html. Editor con controles y herramientas habituales; HTML portátil con dependencias/datos incorporados. Canonical JSON editable: `campus_editado.json`; base: `model-data.js` / `campus_base.json`.
+
+Assets ya exportados: **ESCOM_IPN.glb**, **ESCOM_IPN_sin_marca.glb**, **plano_2d.png**, **plano_2d_sin_marca.png**, **georreferencia.json** y **rutas.json**. Plano transparente **1220×1420**, X=[−150,155], Z=[−185,170], 4 px/m. Coordenadas de modelo: x=px−895, z=py−390, Y altura. Mantener límites y resolución al integrar; no reutilizar la georreferencia de una UAM. `Guardar cambios` valida la red y regenera las variantes con/sin marca. La marca azul repetida tiene 35 paneles, texto **copyright @gabrielhuav**, bandera `showCopyright`, grupo **Marca_copyright_modelo**, hijos **Copyright_integrado_***. Azul `#006699` es aproximación digital de identidad ESCOM, no color oficial de unidad UAM.
+
+**Apps pendientes a cargo de Claude:** registrar `escom` en selectores/modelos de campus, copiar estos assets con los nombres que use cada app, cargar su propia georreferencia y, si procede, su red. Se preservó la estructura web/API que ya usa el proyecto; el servidor guarda ESCOM con su propio nombre GLB. No se tocaron **app-kmp/** ni **app-flutter/**, ni las carpetas/assets de ninguna UAM. Añadir la carpeta por sí solo no integra ESCOM en una app ya instalada.
+
+### Evidencia y decisiones de diseño
+
+Se revisaron croquis general ICPC México 2026, los **siete planos ESCOM 2022** enlazados mediante QR (1,2,3,4,5,LAB,Gobierno), plano Protección Civil 2025-1, croquis histórico 2019, láminas fotográficas de accesos/cafetería/escaleras del plan oficial 2020 y directorio/biblioteca actuales. También se contrastaron huellas OSM con teselas Esri z19. Fuentes, enlaces, discrepancias y límites en **campus-escom/FUENTES.md**; galería consultable en **referencias.html**; controles métricos en **calibracion/puntos.json**, huellas en **huellas.json**. Las fotos/teselas no se incorporaron como texturas distribuidas; se genera geometría propia. Atribución OSM/ODbL conservada.
+
+**Diez cuerpos:** 1–5 y LAB con **PB+P1+P2 documentados**; Gobierno con **PB/P1** y patio abierto, biblioteca integrada; Auditorio, Cafetería y Barra de café. Filas 1/3 al poniente y 2/4 al oriente, LAB y 5 centrales, Gobierno al norte, dos patios longitudinales, cubiertas rojizas, bandas claras y ventanas oscuras; áreas de estudio con mesas/palapas, tres canchas, estacionamientos y jardines. OSM agrega filas enteras como 1/2 y asigna 3/4 a partes del cuerpo central sur: se corrigen esas etiquetas con los croquis oficiales, no se copian literalmente.
+
+Ocho correspondencias de esquinas, ajuste afín guardado, **RMS interno 0,816 m**, máximo **1,4674 m**. No es validación GPS independiente: controles tomados de las mismas referencias, paralaje/antigüedad del mosaico y trazado manual. Incertidumbre absoluta **orientativa 5–12 m**, por confirmar en campo. `node campus-escom/calibracion/recalcular.mjs` recalcula residuos sin modificar archivos. Entrepisos de 3,4 m y detalles de fachadas/puentes/mobiliario interpretados; no se afirman cotas arquitectónicas medidas.
+
+### Red y herramientas
+
+`rutas.json`: **126 nodos, 135 tramos no dirigidos, 19 destinos**, un componente, lat/lon con la misma georreferencia. Cubre edificios, patios/explanada, tres accesos y servicios de Gobierno. Biblioteca/Gestión/Servicios de Salud comparten el acceso exterior de Gobierno, no una ruta interior simulada. **Borrador exterior**, sin recorrido de campo: todas las aristas tienen `accesible:false` hasta revisión. No confundirlo con un plano de evacuación. El generador evita huellas cerradas y divide intersecciones; sigue referencias exteriores aproximadas, no certifica pavimento, rampas ni apertura actual. Principal/Gobierno contrastados; acceso de Cafetería documentado históricamente, apertura actual pendiente.
+
+Editor de caminos con selección, alta/movimiento de nodos, unión/división de tramos, destinos, atributos, importación, deshacer/rehacer y validación. La capa no se hornea en GLB/PNG. También son editables árboles, asta, rótulo y estacionamientos, incluidos los dos existentes; se pueden dibujar estacionamientos adicionales. El enlace del edificio abre su plano oficial. `generar-rutas.mjs --write` **reemplaza** la red base: no ejecutarlo sobre cambios guardados por Gabriel sin conservarlos.
+
+### Pruebas de esta entrega y pendientes
+
+`node verificar-campus-escom.mjs`: correcto. Comprueba contrato y niveles, base/estado/exportaciones coherentes, dimensiones/transparencia PNG, esquinas/matriz/residuos, red conectada sin cortes de cuerpos cerrados, destinos, IDs, longitudes, versiones GLB embebidas con/sin marca y ausencia de cambios en cinco UAM/apps respecto a 53967de. Casos inválidos probados: ID duplicado, nodo inexistente, longitud falsa, destino ausente, red desconectada, lat/lon discordante y nodo dentro de edificio.
+
+Pruebas reales en navegador: carga de maqueta, vista superior y de detalle, comprobar red, mover nodo y deshacer, mover estacionamiento y deshacer, estado «Sin cambios pendientes», cambio/restauración de copyright y **Guardar cambios con reexportación de todos los assets**. Servidor rechazó rutas inválidas con HTTP 400 y conservó el hash del archivo. Consola sin errores capturados. Captura: **docs/capturas/escom_checkpoint_2026-10-20.png**.
+
+Pendiente: revisión presencial de puertas, límites, apertura de accesos y accesibilidad; confirmar usos/servicios después de 2022; interiores transitables/rutas por piso no modelados. Sótano del 5/estacionamiento subterráneo está documentado pero no se inventó una geometría sin cotas. Integración móvil sigue con Claude. Esta entrega es una maqueta métrica aproximada respaldada por fuentes, no un levantamiento ni un BIM completo.
+
+**Incidencia recuperada al cerrar:** GitHub Desktop cambió de feature/campus-escom a main y guardó los archivos en stash `b6a7f6ee4ec76701d8afa31aa44372c7dd45ed63` durante el trabajo. Se recuperó ese estado en un worktree aislado **C:/dev/navegacion-uam-escom**, conservando el stash y dejando main limpio. La rama de entrega sigue siendo feature/campus-escom; el visor activo pasó a **8782** para no interferir con el servidor anterior. No trabajar en la carpeta campus-escom vacía de main antes de integrar la rama. La memoria actualizada para Claude es la de este worktree.
+
+### Entrega a Claude confirmada por Gabriel · 20 octubre 2026
+
+Implementación y assets guardados en **commit c463add**, rama local **feature/campus-escom**; checkpoint **checkpoint/escom-2026-10-20**. Respaldo completo final verificado en `C:/Users/gabri/Downloads/1151055 Administracion/_respaldos/2026-10-20_checkpoint_escom/` con bundle Git, copia de campus-escom, memoria, verificador, captura y hashes SHA-256. No se hizo push ni merge.
+
+Claude debe leer primero **C:/dev/navegacion-uam-escom/MEMORIA_COMPARTIDA_CAMPUS.md** y **campus-escom/README.md** de ese worktree. La memoria que se ve en main del checkout habitual todavía no contiene esta entrega hasta integrar la rama. Revisar el estado de su checkout y preservar trabajo propio antes de integrar feature/campus-escom; el commit c463add contiene la maqueta y esta rama añade la nota documental de entrega. Evitar aplicar el stash antiguo sobre estos archivos ya recuperados.
+
+Siguiente trabajo móvil: incorporar ESCOM como campus independiente de IPN, conservando las cinco UAM; registrar slug `escom`, empaquetar assets con/sin marca, respetar su georreferencia/encuadre y conservar las preferencias existentes de copyright. La red exterior puede integrarse como borrador, sin presentar `accesible:false` como accesibilidad verificada. Validar Mapa/2D/3D y actualizar esta memoria con decisiones, pruebas y pendientes de las apps. El trabajo de Codex en esta entrega no modificó ninguna app.
+
+## ESCOM en las apps (Claude, 20 oct 2026, rama `feature/p2-p3-escom`)
+
+Rama creada desde `main` (53967de) con avance rápido de `feature/campus-escom` (c463add, 80c79f3); no se usó ningún stash. `campus-escom/` no se modificó.
+
+- **Sede `ESCOM`** (`Unidad.ESCOM` en Tema.kt, `Unidad.escom` en tema.dart), carpeta `escom`, institución «IPN», color #006699 (el de la maqueta; no es color UAM), centro 19.504703, -99.146719 (origen de la calibración), radio 250 m. Los mensajes dicen «Estás en la ESCOM (IPN).» y «¿Ir a la ESCOM (IPN)?»; las UAM siguen con «la UAM …» (propiedad `titulo`).
+- **Assets**: KMP copia `ESCOM_IPN.glb`/`_sin_marca.glb`, los dos PNG, `georreferencia.json` y `rutas.json` a `campus/escom/`; Flutter igual a `assets/campus/escom/` (patrones `(UAM|ESCOM)_*.glb`; `LEEME.md` versionado para `flutter analyze`). Georreferencia y plano 1220×1420 se usan tal cual. `campus_editado.json` no se empaqueta: la app no lo usa.
+- **Rutas por campus**: las apps cargan `campus/<carpeta>/rutas.json` de cada sede que lo tenga (hoy Azcapotzalco y ESCOM); el botón «Ruta» aparece sólo si la sede tiene red; al cambiar de sede se borra la ruta; el título del diálogo dice el campus. La app no muestra ni usa `accesible`, así que el borrador no se presenta como accesible.
+- **Pruebas**: KMP `:shared:testAndroidHostTest` y `assembleDebug` OK (SedesTest con ESCOM); Flutter `analyze` sin observaciones, 18 pruebas, APK OK; los dos APK contienen `campus/escom/*`.
+- **Emulador** (ubicación fija en el centro de ESCOM): KMP y Flutter muestran ESCOM en Mapa (plano sobre Av. Juan de Dios Bátiz y el Corredor Computacional IPN), 2D, 3D e inclinado; «Estás en la ESCOM (IPN).»; ruta de mi ubicación → Auditorio 294 m · 5 min (KMP); modo desarrollador sin marca quita la marca del 3D y de la app (Flutter).
+
+Pendientes: el botón «UAM» y el título «Campus UAM» siguen diciendo UAM también en ESCOM (decidir el texto); revisión presencial de la red ESCOM; iOS sin probar. Decidido por Gabriel (20 oct): ESCOM es el **Prototipo 4 · `v0.4.0`** (versionCode 9); la guía AR/RV queda para después, empezando por reconocer 4 edificios de la ESCOM con fotos.
+
+### Contexto reutilizable para nuevas conversaciones · 20 octubre 2026
+
+A petición de Gabriel se preparó **contexto-compartido/campus/**, con entrada **LEER_PRIMERO.md**, método completo en **METODO_CONSTRUCCION.md** y ficha **DATOS_DEL_NUEVO_CAMPUS.md**. Ruta de esta entrega: **C:/dev/navegacion-uam-escom/contexto-compartido/campus/**; viaja con feature/campus-escom al integrar la rama. Permite iniciar otro campus leyendo el contexto, la memoria vigente y el código real de ESCOM, sin depender del historial del chat. Distingue método general y detalles particulares; no reutilizar coordenadas, medidas, error o etiquetas de ESCOM para un plantel nuevo. Incluye investigación/QR, orientación, huellas/patios, calibración, contratos de assets, edición/red, exportaciones, comprobaciones, UTF-8 y trabajo aislado ante cambios de rama. No se cambiaron geometrías ni apps al preparar esta documentación.
+
+## P4 · reconocer edificio (experimento) y rutas en 3D (Claude, 21 oct 2026, rama feature/p4-reconocer-escom)
+
+- **Reconocer edificio**, sólo en la ESCOM y sólo en Android: `ReconocerActivity` (CameraX + LiteRT 1.4.2) analiza ~3 cuadros/s, recorte central 224×224, vota 7 cuadros y aplica `umbral_no_se` (0,80). Si reconoce, abre «Ruta» con ese destino ya elegido; el usuario confirma y la ruta parte de su GPS. La fachada no mueve el punto azul.
+- Modelo y galería en `app-kmp/androidApp/src/main/assets/reconocimiento/`, de la corrida `20261021_130004_letras_escom` (fuera del repo, en `C:\dev\entrenamiento-escom\`). Sin fotos ni nombres. Clases: edificio_1–4, gobierno (con biblioteca) y laboratorios. Experimental: noche 61 %, día sin evidencia.
+- Lógica compartida en `Reconocimiento.kt` (puntajes y votación); iOS no tiene cámara todavía.
+- **Rutas en 3D**: `Campus3D` recibe la ruta y la dibuja encima del modelo con los X/Z de `rutas.json` (misma transformación que `transformToUnitCube`). No se oculta tras los edificios. Probado en AZC: coincide con 2D.
+- Probado en emulator-5554 (HolaMundo_Phone): el reconocedor carga y responde «no sé» ante la sala virtual; la prueba positiva queda para un teléfono en la ESCOM. El APK de depuración pesa 79 MB por las librerías nativas de LiteRT para 4 arquitecturas; el AAB las separa.
+- **Burro blanco en AR (laboratorios)**: si el voto estable es «laboratorios», `ReconocerActivity` dibuja `assets/reconocimiento/burrito.png` sobre la cámara. Con brújula (TYPE_ROTATION_VECTOR, corregida al norte verdadero) y GPS lo desplaza hacia el edificio (unos 60° de campo de visión) o indica «Gira a la izquierda/derecha». También dice desde qué lado se ve el edificio y cuántas fotos de referencia hay de ese lado (`escom_angulos.json`, calculado del GPS EXIF con `entrenamiento-escom/modelo/angulos_laboratorios.py`).
+- Umbral propio de laboratorios: 0,71 (precisión 0,92, dejando fuera a cada alumno); las demás clases siguen en 0,80. La similitud no es un porcentaje de certeza; la pantalla ya lo dice.
+- Demo sólo en la app de depuración: `adb shell am start -n ovh.gabrielhuav.salones/.MainActivity --ez demo_reconocer true`.
+- Pendiente: la galería en JSON (5,4 MB) tarda unos 15 s en cargar en el emulador; conviene pasarla a binario.
+
+## ESCOM · revisión de la red peatonal (Codex, 21 oct 2026)
+
+- Visor local `campus-escom/Visor_UAM_autonomo.html`, plano superior y «Comprobar red»: 166 nodos, 221 tramos, 19 destinos, un componente. Se conservan IDs de destino y nodos n1–n126, además de X/Z en todos los nodos (reconocedor y rutas 3D).
+- Se conectaron explanada, aulas 1–5, LAB, patios laterales y aproximación de cafetería. Los cruces se dividieron en nodos comunes. Acceso principal n5 → Edificio 5 n119: 353,56 m antes → 169,24 m después en el JSON respaldado. No se reprodujeron los 443 m de la app para ese par concreto; una instalación anterior no incorpora automáticamente el JSON nuevo.
+- Entradas exteriores según `buildings[].entry`; si cae en la huella simplificada se proyecta al borde y se separa 35 cm al exterior. No se afirma exactitud de puerta levantada en campo. Biblioteca/Gestión/Salud comparten Gobierno.
+- Tres franjas PB estrechas en `route-space.js` corrigen pasos tapados por las huellas simplificadas: acceso principal–explanada (2), junta LAB–5 y paso junto a LAB al oriente. Sólo aristas `pasillo` pueden usarlas; el validador revisa intervalos dentro de la huella. No habilita interiores completos. Puentes P1/P2 sólo visuales: la app no distingue pisos y no se falsearon como PB. Accesibilidad sigue sin verificar.
+- Regenerados route-data.js y HTML, sin cambiar geometría/GLB/PNG/georreferencia. Verificador actualizado con regresiones de pasos cortos/IDs/puertas y pruebas negativas de interiores. Se sustituyó la comparación histórica de apps con 53967de (obsoleta tras integrar ESCOM) por un manifiesto SHA-256 opcional de archivos previos; se conserva la comparación histórica de los cinco UAM.
+- Respaldo y evidencia: `C:\Users\gabri\Downloads\1151055 Administracion\Proyecto\respaldo_rutas_escom_20261021\`. Se observaron cambios simultáneos AJENOS en MainActivity.kt y ReconocerActivity.kt; se conservaron, documentados en ediciones_concurrentes.json. Los otros 282 archivos protegidos coincidieron con el manifiesto anterior. No se editó código móvil ni se publicó nada en esta revisión.
+- Detalle y límites en campus-escom/RUTAS.md. No regenerar la red inicial con `generar-rutas.mjs --write` sobre esta edición. El visor queda abierto con la red validada y sin cambios pendientes.
+### Ampliación: interior de LAB entre 3 y 4 (21 oct 2026)
+
+Gabriel confirma que se puede atravesar Laboratorios para conectar 3 y 4. Añadido `interior_lab_3_4` como franja PB limitada al pasillo (ancho y eje aproximados), con accesos n167/n169 y nodo interior n168. Red actual: 173 nodos, 233 tramos, mismos 19 destinos y X/Z. Ruta 3→4: 74,53→56,44 m, usa el nodo interior; se prueba que bloquearlo obliga a volver a una ruta mayor. Principal→5: 169,25 m (redondeo al subdividir). Se conserva LAB en n118 y no se habilitan otros interiores. `route-data.js` y visor regenerados; respaldo incremental en Proyecto/respaldo_rutas_escom_interior_20261021. No se cambian geometría, apps ni georreferencia.
 
 ## Cuajimalpa · entrada, caminos y canchas del equipo de Práctica 3 · 22 octubre 2026
 

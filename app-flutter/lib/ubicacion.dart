@@ -57,6 +57,6 @@ LocationSettings _ajustes() {
 /// Dice si el punto está en la unidad (por omisión, Azcapotzalco) o a cuántos kilómetros queda.
 String describir(LatLng punto, [Unidad sede = Unidad.azcapotzalco]) {
   final metros = const Distance().distance(sede.centro, punto);
-  if (metros <= sede.radio) return 'Estás en la UAM ${sede.nombre}.';
-  return 'Estás a ${(metros / 1000).toStringAsFixed(1)} km de la UAM ${sede.nombre}.';
+  if (metros <= sede.radio) return 'Estás en ${sede.titulo}.';
+  return 'Estás a ${(metros / 1000).toStringAsFixed(1)} km de ${sede.titulo}.';
 }

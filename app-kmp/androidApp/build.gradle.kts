@@ -1,9 +1,18 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     // AGP 9 trae Kotlin integrado: NO se aplica `org.jetbrains.kotlin.android`.
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+}
+
+// Configuración local: las contraseñas y la llave nunca se versionan.
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystoreProperties = Properties().apply {
+    if (keystorePropertiesFile.isFile) {
+        keystorePropertiesFile.inputStream().use { load(it) }
+    }
 }
 
 android {
@@ -14,8 +23,8 @@ android {
         applicationId = "ovh.gabrielhuav.salones"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 8
-        versionName = "0.3.0"
+        versionCode = 9
+        versionName = "0.4.0"
     }
 
     compileOptions {
@@ -25,6 +34,23 @@ android {
 
     buildFeatures {
         compose = true
+    }
+
+    if (keystorePropertiesFile.isFile) {
+        signingConfigs {
+            create("release") {
+                fun required(name: String): String =
+                    keystoreProperties.getProperty(name)?.takeIf { it.isNotBlank() }
+                        ?: error("Falta $name en keystore.properties")
+                storeFile = file(required("storeFile"))
+                storePassword = required("storePassword")
+                keyAlias = required("keyAlias")
+                keyPassword = required("keyPassword")
+            }
+        }
+        buildTypes.getByName("release") {
+            signingConfig = signingConfigs.getByName("release")
+        }
     }
 }
 
@@ -67,13 +93,14 @@ val copiarCampus = tasks.register<CopiarCampus>("copiarCampus") {
         "campus-iztapalapa" to "UAM_Iztapalapa.glb",
         "campus-lerma" to "UAM_Lerma.glb",
         "campus-xochimilco" to "UAM_Xochimilco.glb",
+        "campus-escom" to "ESCOM_IPN.glb", // IPN, campus aparte
     ).forEach { (carpeta, glb) ->
         // Con y sin marca de agua: la segunda la usa el modo desarrollador.
         val sinMarca = glb.removeSuffix(".glb") + "_sin_marca.glb"
         archivos.from(
             listOf(glb, sinMarca, "plano_2d.png", "plano_2d_sin_marca.png", "georreferencia.json", "rutas.json")
                 .map { rootProject.file("../$carpeta/$it") }
-                .filter { it.exists() }, // rutas.json: por ahora sólo Azcapotzalco
+                .filter { it.exists() }, // rutas.json: por ahora sólo Azcapotzalco y ESCOM
         )
     }
 }
@@ -87,5 +114,14 @@ androidComponents {
 dependencies {
     implementation(project(":shared"))
     implementation(libs.androidx.activity.compose)
+    // Location trae Fragment 1.1.0 de forma transitiva; Activity Result requiere >= 1.3.0.
+    implementation("androidx.fragment:fragment:1.8.9")
     implementation(libs.play.services.location)
+    // Prototipo 4 · experimento: cámara (CameraX) y modelo de reconocimiento (LiteRT, antes TFLite).
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.material3)
+    implementation(libs.camera.camera2)
+    implementation(libs.camera.lifecycle)
+    implementation(libs.camera.view)
+    implementation(libs.litert)
 }

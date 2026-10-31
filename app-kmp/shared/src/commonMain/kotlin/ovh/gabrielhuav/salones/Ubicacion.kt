@@ -31,9 +31,9 @@ fun distanciaMetros(a: Ubicacion, b: Ubicacion): Double {
 /** Dice si el punto está en la unidad (por omisión, Azcapotzalco) o a cuántos kilómetros queda. */
 fun describir(yo: Ubicacion, sede: Unidad = Unidad.AZCAPOTZALCO): String {
     val metros = distanciaMetros(yo, sede.centro)
-    if (metros <= sede.radio) return "Estás en la UAM ${sede.nombre}."
+    if (metros <= sede.radio) return "Estás en ${sede.titulo}."
     val km = (metros / 100).roundToInt() / 10.0
-    return "Estás a $km km de la UAM ${sede.nombre}."
+    return "Estás a $km km de ${sede.titulo}."
 }
 
 /** Un proveedor de mapas: nombre, plantilla de teselas, crédito y el zoom más alto que tiene. Ninguno pide API key. */

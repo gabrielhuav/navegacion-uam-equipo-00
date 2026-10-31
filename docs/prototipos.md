@@ -14,16 +14,17 @@ Es el modelo de prototipos (Pressman, 2009) dentro de un ciclo de vida iterativo
 
 Los prototipos de este repositorio son **evolutivos**: el código que pasa sus pruebas se conserva y crece. Un experimento que sólo sirve para aprender (por ejemplo, probar un complemento de AR) va en una rama `spike/…` y no se integra a `main`.
 
-## Los cuatro prototipos
+## Los prototipos
 
 | Prototipo | Pregunta que responde | Historias | Entra | Versión y estado |
 |---|---|---|---|---|
 | **P1 · ¿Dónde estoy?** | ¿La app muestra en el mapa dónde está el alumno dentro de la UAM? | HU03 | Permiso y ubicación del teléfono, mapa de OpenStreetMap | `v0.1.0` · hecho, antes de la Entrega 1 (22 oct) |
 | **P2 · El campus** | ¿El alumno se orienta mejor con el campus de su unidad en Mapa, 2D y 3D, con su tema y de día o de noche? | HU06 | Plano 2D georreferenciado y modelo 3D por unidad; temas UAM, claro u oscuro, día o noche; las cinco unidades; Ajustes con modo desarrollador | `v0.2.0` · hecho |
 | **P3 · Rutas** | ¿La app lo lleva de un punto a otro de Azcapotzalco por el camino más corto? | HU02 y HU05 | Red de caminos (`campus/rutas.json`), Dijkstra, origen por ubicación o lugar, metros y minutos | `v0.3.0` · hecho, para la Entrega 2 (5 nov) |
-| **P4 · Guía** | ¿Una persona que no conoce la UAM llega sola con AR, RV o ambas? | HU01 y HU04 | Buscar el salón, reconocer el lugar con la cámara, flechas o recorrido, aviso de llegada, prueba con 3 personas | `v1.0.0` · por empezar, Entrega 3 (26 nov) |
+| **P4 · ESCOM** | ¿La app sirve también fuera de la UAM, en un campus de otra institución? | HU06 (campus) y HU02 (rutas) | La ESCOM del IPN como campus aparte: Mapa, 2D, 3D, sin marca y rutas exteriores (borrador) | `v0.4.0` · hecho |
+| **Después · Guía** | ¿Una persona que no conoce el campus llega sola con AR, RV o ambas? | HU01 y HU04 | Buscar el salón, reconocer el edificio con la cámara (primero 4 edificios de la ESCOM), flechas, aviso de llegada, prueba con 3 personas | por definir · Unidad IV |
 
-Las fechas son las de la planeación del curso. Cada equipo ajusta su plan, pero cada prototipo debe tener sus issues, su milestone, su PR y su versión. La prueba con usuarios del P4 se repite en la presentación final (1 y 3 de diciembre).
+Las fechas son las de la planeación del curso. Cada equipo ajusta su plan, pero cada prototipo debe tener sus issues, su milestone, su PR y su versión. La prueba con usuarios de la guía se repite en la presentación final (1 y 3 de diciembre).
 
 ### El plan cambió y quedó escrito
 
@@ -33,7 +34,7 @@ Las fechas son las de la planeación del curso. Cada equipo ajusta su plan, pero
 ## Riesgos que se registran
 
 - En Flutter, los complementos de realidad aumentada llevan años sin mantenimiento; en Kotlin están ARCore y ML Kit, de Google. Si el equipo elige Flutter con AR, ese riesgo va a su matriz de riesgos desde la Entrega 1 (enunciado del proyecto).
-- Para reconocer lugares en el P4 se prefiere un modelo propio (por ejemplo YOLO) sobre ML Kit, porque las dos apps deben llegar a iPhone. Aún no se decide.
+- Para reconocer lugares en la guía se prefiere un modelo propio (por ejemplo YOLO) sobre ML Kit, porque las dos apps deben llegar a iPhone. Aún no se decide.
 
 ## Cómo se evalúa cada prototipo
 
@@ -46,3 +47,4 @@ Las fechas son las de la planeación del curso. Cada equipo ajusta su plan, pero
 - Pressman, R. S. (2009). *Software engineering: A practitioner's approach* (7th ed.). McGraw-Hill.
 - Project Management Institute & Agile Alliance. (2017). *Agile practice guide*. Project Management Institute.
 - Hurtado Avilés, G. (2026). *Proyectos integradores: planteamiento y requisitos* [Material del curso 1151055]. UAM Azcapotzalco.
+- El 20 de octubre la ESCOM pasó a ser el P4 (`v0.4.0`); la guía con AR/RV queda para después, cuando se sepa con las fotos si la cámara reconoce los edificios.

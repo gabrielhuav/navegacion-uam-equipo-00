@@ -14,13 +14,20 @@ android-minSdk = "24"
 playServicesLocation = "21.3.0"
 # Filament (Google) dibuja el modelo 3D del campus (GLB) en Android, sin WebView.
 filament = "1.77.1"
+# Prototipo 4 · experimento: cámara y reconocimiento del edificio (API Interpreter de LiteRT 1.x).
+camerax = "1.6.2"
+litert = "1.4.2"
 
 [libraries]
 filament-android = { module = "com.google.android.filament:filament-android", version.ref = "filament" }
 filament-gltfio = { module = "com.google.android.filament:gltfio-android", version.ref = "filament" }
 filament-utils = { module = "com.google.android.filament:filament-utils-android", version.ref = "filament" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
-androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "camerax" }
+camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "camerax" }
+camera-view = { module = "androidx.camera:camera-view", version.ref = "camerax" }
+litert = { module = "com.google.ai.edge.litert:litert", version.ref = "litert" }
+androidx-activity-compose ={ module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 # Compose Multiplatform. En Android el plugin los cambia por los `androidx.compose.*` de siempre.
 compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "composeMultiplatform" }
 compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "composeMultiplatform" }

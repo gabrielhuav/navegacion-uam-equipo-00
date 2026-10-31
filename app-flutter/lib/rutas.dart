@@ -111,7 +111,7 @@ Red leerRed(String json) {
 }
 
 /// Elegir de dónde a dónde. Origen: tu ubicación (null) o un lugar; destino: un lugar. Igual que ElegirRuta.kt.
-Future<(Destino?, Destino)?> elegirRuta(BuildContext context, Red red, {required bool conUbicacion}) {
+Future<(Destino?, Destino)?> elegirRuta(BuildContext context, Red red, {required String lugar, required bool conUbicacion}) {
   final lugares = [...red.destinos]..sort((a, b) => a.nombre.compareTo(b.nombre));
   Destino? desde, hasta;
   return showDialog<(Destino?, Destino)>(
@@ -132,7 +132,7 @@ Future<(Destino?, Destino)?> elegirRuta(BuildContext context, Red red, {required
             );
         final listo = hasta != null && (desde != null || conUbicacion) && desde != hasta;
         return AlertDialog(
-          title: const Text('Ruta en la UAM Azcapotzalco'),
+          title: Text('Ruta en $lugar'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,

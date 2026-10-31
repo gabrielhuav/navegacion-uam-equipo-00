@@ -12,19 +12,27 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// [carpeta]: dónde están su modelo 3D, su plano y su georreferencia en assets/campus/ (los copia Gradle desde
 /// `campus/` y `campus-<unidad>/`). Una unidad nueva sin croquis iría sin carpeta: el mapa va a su [centro] y muestra
 /// un cuadro «En desarrollo…». [radio]: hasta dónde se dice «Estás en la UAM». Igual que Tema.kt.
+///
+/// ESCOM (IPN) no es de la UAM: va como campus aparte, con [institucion] «IPN» y el azul #006699 que usa su
+/// maqueta (aproximación de su identidad, no un color oficial UAM).
 enum Unidad {
   azcapotzalco('Azcapotzalco', Color(0xFFCD032E), 'azcapotzalco', LatLng(19.50306, -99.18694), 350), // Pantone 186 C
   cuajimalpa('Cuajimalpa', Color(0xFFF08200), 'cuajimalpa', LatLng(19.351945, -99.282701), 250), // Pantone 144 C
   iztapalapa('Iztapalapa', Color(0xFF57A519), 'iztapalapa', LatLng(19.361775, -99.072597), 450), // Pantone 369 C
   lerma('Lerma', Color(0xFFAD25A8), 'lerma', LatLng(19.290506, -99.498472), 350), // Pantone 253 C
-  xochimilco('Xochimilco', Color(0xFF0072CE), 'xochimilco', LatLng(19.30419, -99.102905), 450); // Pantone 285 C
+  xochimilco('Xochimilco', Color(0xFF0072CE), 'xochimilco', LatLng(19.30419, -99.102905), 450), // Pantone 285 C
+  escom('ESCOM', Color(0xFF006699), 'escom', LatLng(19.504703, -99.146719), 250, institucion: 'IPN');
 
-  const Unidad(this.nombre, this.color, this.carpeta, this.centro, this.radio);
+  const Unidad(this.nombre, this.color, this.carpeta, this.centro, this.radio, {this.institucion = 'UAM'});
   final String nombre;
   final Color color;
   final String? carpeta;
   final LatLng centro;
   final double radio;
+  final String institucion;
+
+  /// «la UAM Azcapotzalco» o «la ESCOM (IPN)».
+  String get titulo => institucion == 'UAM' ? 'la UAM $nombre' : 'la $nombre ($institucion)';
 }
 
 /// Iluminación del campus en 2D y 3D. Por defecto sigue la hora del teléfono; también se fija a mano.
