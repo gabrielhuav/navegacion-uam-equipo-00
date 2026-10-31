@@ -58,8 +58,8 @@ expect fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar
 @Composable
 fun App(
     ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}, redes: Map<Unidad, String> = emptyMap(),
-    // Prototipo 4 · experimento: reconocer el edificio con la cámara, sólo en la ESCOM (por ahora sólo Android).
-    onReconocer: (() -> Unit)? = null, reconocido: Reconocido? = null,
+    // Experimento: reconocer el edificio con la cámara en los campus con galería (por ahora sólo Android).
+    onReconocer: ((Unidad) -> Unit)? = null, reconocido: Reconocido? = null,
 ) {
     val sistemaOscuro = isSystemInDarkTheme()
     // Lo último que se eligió en «Tema ▾»; la primera vez, claro u oscuro como el teléfono.
@@ -84,7 +84,7 @@ fun App(
     LaunchedEffect(reconocido) {
         val r = reconocido ?: return@LaunchedEffect
         sugerido = red?.destinos?.find { it.id == r.destino }
-        if (sede == Unidad.ESCOM && sugerido != null) eligiendoRuta = true
+        if (reconocedorDe(sede) != null && sugerido != null) eligiendoRuta = true
     }
     var hora by remember { mutableStateOf(horaLocal()) }
     LaunchedEffect(Unit) {
@@ -190,8 +190,8 @@ fun App(
                         Text(if (inclinada) "Desde arriba" else "Inclinar")
                     }
                 } else {
-                    if (sede == Unidad.ESCOM && red != null && onReconocer != null) {
-                        ExtendedFloatingActionButton(onClick = onReconocer) { Text("Reconocer edificio") }
+                    if (reconocedorDe(sede) != null && red != null && onReconocer != null) {
+                        ExtendedFloatingActionButton(onClick = { onReconocer(sede) }) { Text("Reconocer edificio") }
                     }
                     ExtendedFloatingActionButton(onClick = { enLaUam = true; centrar++ }) { Text("UAM") }
                     ExtendedFloatingActionButton(onClick = { enLaUam = false; centrar++; onUbicar() }) { Text("Ubicarme") }
