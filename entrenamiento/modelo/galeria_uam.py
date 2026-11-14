@@ -26,7 +26,7 @@ from embeddings import vistas
 
 OBJETIVO = "T"
 LADOS = ["norte", "noreste", "este", "sureste", "sur", "suroeste", "oeste", "noroeste"]
-DESTINOS = {"T": "T", "G": "G", "W": "W", "COSEI": "COSEI", "R": "R", "F": "F"}  # 2P y CIAD aún no se vinculan con el mapa
+DESTINOS = {c: c for c in ("T", "G", "I", "P2", "W", "COSEI", "R", "F")}  # clases que también son destinos del mapa
 MIN_FOTOS, MIN_GRUPOS = 5, 2
 
 
@@ -59,9 +59,9 @@ def lado(obj, pos):
 def main():
     corpus, tflite, rutas, salida = map(pathlib.Path, sys.argv[1:5])
     salida.mkdir(parents=True, exist_ok=True)
-    u = corpus / "uam_azcapotzalco"
+    u = corpus / "uam_azcapotzalco" / "_datos"  # el HTML y las fotos quedan arriba; los datos, aquí
     meta = {x["id"]: x for x in leer(u / "corpus.csv") + leer(u / "corpus_suplemento_20261031.csv")}
-    confirmadas = u / "etiquetas_uam_azcapotzalco.csv"
+    confirmadas = u.parent / "etiquetas_uam_azcapotzalco.csv"
     provisional = not confirmadas.exists()
     if provisional:
         filas = [(x["id"], x["clase_sugerida"], x["interior"]) for x in leer(u / "etiquetas_sugeridas.csv") if x["confianza"] == "alta" and x["clase_sugerida"]]

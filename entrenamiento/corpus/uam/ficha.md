@@ -2,45 +2,40 @@
 
 Generada para el reconocimiento del Edificio T. **Las fotos no están en este repositorio**: son de alumnos y se quedan en el equipo del profesor. Aquí sólo hay conteos y un [listado anónimo](manifiesto_anonimo.csv).
 
-**La galería es provisional.** Las etiquetas todavía no están confirmadas: salen de las pistas que dejaron los alumnos y se usaron sólo las de confianza alta. Al confirmarlas, `modelo/galeria_uam.py` se vuelve a correr y usa las etiquetas confirmadas.
+**Las etiquetas están confirmadas.** El profesor revisó a mano las 157 imágenes. `modelo/galeria_uam.py` usa esas etiquetas.
 
 ## Contenido
 
-157 imágenes: 100 de la Tarea 2 de Métodos Numéricos, 54 de los issues #17 y #9, y 3 de la Práctica 3.
+157 imágenes: 100 de la Tarea 2 de Métodos Numéricos, 54 de los issues #17 y #9, y 3 de la Práctica 3. Las 157 tienen etiqueta confirmada.
 
-| Estado de la etiqueta | Imágenes |
-|---|---:|
-| Confirmada | 0 |
-| Pista clara | 99 |
-| Pista parcial | 12 |
-| Sin pista suficiente | 46 |
+Se quedan fuera de la galería los interiores, las fotos marcadas «descartar» o «no sé» y las copias exactas de otra foto.
 
-Las pistas son los nombres de archivo, los pies de foto de PDF y Word, los títulos de los issues, el GPS con brújula y las copias exactas de otras fotos. El parecido visual sólo orienta: no cuenta como evidencia.
+## Galería
 
-## Galería provisional
-
-88 fotos únicas de exteriores, de 13 grupos de autores. Quienes compartieron la misma foto cuentan como un solo grupo.
+118 fotos únicas de exteriores, de 22 grupos de autores. Quienes compartieron la misma foto cuentan como un solo grupo.
 
 | Clase | Fotos | Grupos |
 |---|---:|---:|
-| T | 50 | 10 |
-| W | 5 | 3 |
-| otro | 33 | 8 |
+| T | 50 | 17 |
+| I | 8 | 5 |
+| G | 7 | 3 |
+| W | 6 | 3 |
+| P2 | 6 | 3 |
+| otro | 41 | 10 |
 
-`otro` reúne lugares con pocas fotos, como la Plaza COSEI o el Edificio G. Compite contra T, pero nunca da una respuesta: la app dice «no sé».
+Una clase necesita al menos 5 fotos de 2 grupos. Las demás, como la Plaza COSEI o la Plaza Roja, van a `otro`. `otro` compite contra T, pero nunca da una respuesta: la app dice «no sé». Las clases T, I, G, W y P2 llevan a su destino en el mapa.
 
 ## Evaluación
 
 Misma red que la ESCOM (MobileNetV3 congelada), con galería y umbral propios. Se deja fuera a cada grupo y se consulta un recorte central, como en el teléfono.
 
-- Exactitud en las tres clases: 68 %.
-- Sin umbral, T encuentra 41 de sus 50 fotos, con 18 falsos positivos.
-- **Con el umbral de 0,74, cuando dice T acierta el 93 % y encuentra el 52 % de sus fotos.**
+- Exactitud en las seis clases: 54 %. Las clases pequeñas se confunden entre sí y con T.
+- Sin umbral, T encuentra 46 de sus 50 fotos, con 33 falsos positivos.
+- **Con el umbral de 0,74, cuando dice T acierta el 90 % y encuentra el 76 % de sus fotos.** Con la galería provisional, encontraba el 52 %.
 
-La similitud no es un porcentaje de certeza. Son pocas fotos, no se probó todavía frente al edificio y las etiquetas siguen sin confirmar. Estas cifras pueden cambiar.
+La similitud no es un porcentaje de certeza. Son pocas fotos y no se ha probado frente al edificio.
 
 ## Pendiente
 
-- Confirmar las etiquetas.
-- Vincular «2P» con un edificio del mapa y decidir qué hacer con «CIAD», que no está en el mapa.
 - Probar frente al Edificio T, de día y de noche.
+- Juntar más fotos de I, G, W y P2 para que dejen de confundirse con T.
