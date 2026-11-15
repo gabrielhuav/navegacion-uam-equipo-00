@@ -1,0 +1,2422 @@
+{
+ "imagen_0001.png": [],
+ "imagen_0002.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    469,
+    698,
+    482,
+    714
+   ],
+   "grid": [
+    3,
+    4
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0003.png": [],
+ "imagen_0004.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    498,
+    366,
+    520,
+    394
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    420,
+    382,
+    431,
+    396
+   ],
+   "grid": [
+    2,
+    3
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    320,
+    374,
+    329,
+    385
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    294,
+    370,
+    304,
+    381
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0005.png": [],
+ "imagen_0006.png": [],
+ "imagen_0007.png": [],
+ "imagen_0008.png": [],
+ "imagen_0009.png": [],
+ "imagen_0010.png": [],
+ "imagen_0011.png": [],
+ "imagen_0012.png": [],
+ "imagen_0013.png": [],
+ "imagen_0014.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    740,
+    378,
+    753,
+    393
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    517,
+    569,
+    529,
+    584
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    430,
+    394,
+    440,
+    405
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0015.png": [],
+ "imagen_0016.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    199,
+    432,
+    216,
+    455
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0017.png": [],
+ "imagen_0018.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    624,
+    337,
+    635,
+    350
+   ],
+   "grid": [
+    2,
+    3
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    598,
+    320,
+    607,
+    330
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0019.png": [],
+ "imagen_0020.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    446,
+    433,
+    456,
+    445
+   ],
+   "grid": [
+    2,
+    3
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0021.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    178,
+    639,
+    205,
+    673
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0022.png": [],
+ "imagen_0023.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    737,
+    468,
+    765,
+    502
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    646,
+    466,
+    674,
+    501
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    590,
+    476,
+    616,
+    506
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0024.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    312,
+    497,
+    323,
+    509
+   ],
+   "grid": [
+    2,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    301,
+    513,
+    309,
+    522
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    292,
+    490,
+    299,
+    497
+   ],
+   "grid": [
+    1,
+    1
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    254,
+    576,
+    262,
+    586
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_revision_visual"
+  }
+ ],
+ "imagen_0025.png": [],
+ "imagen_0026.png": [],
+ "imagen_0027.png": [],
+ "imagen_0028.png": [],
+ "imagen_0029.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    312,
+    497,
+    323,
+    509
+   ],
+   "grid": [
+    2,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    301,
+    513,
+    309,
+    522
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    292,
+    490,
+    299,
+    497
+   ],
+   "grid": [
+    1,
+    1
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    254,
+    576,
+    262,
+    586
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_revision_visual"
+  }
+ ],
+ "imagen_0030.png": [],
+ "imagen_0031.png": [],
+ "imagen_0032.png": [],
+ "imagen_0033.png": [],
+ "imagen_0034.png": [],
+ "imagen_0035.png": [],
+ "imagen_0036.png": [],
+ "imagen_0037.png": [],
+ "imagen_0038.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    679,
+    295,
+    695,
+    312
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    504,
+    451,
+    520,
+    468
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    417,
+    319,
+    431,
+    335
+   ],
+   "grid": [
+    3,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    83,
+    448,
+    99,
+    465
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  }
+ ],
+ "imagen_0039.png": [],
+ "imagen_0040.png": [],
+ "imagen_0041.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    312,
+    497,
+    323,
+    509
+   ],
+   "grid": [
+    2,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    301,
+    513,
+    309,
+    522
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    292,
+    490,
+    299,
+    497
+   ],
+   "grid": [
+    1,
+    1
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    254,
+    576,
+    262,
+    586
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_revision_visual"
+  }
+ ],
+ "imagen_0042.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    624,
+    337,
+    635,
+    350
+   ],
+   "grid": [
+    2,
+    3
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    598,
+    320,
+    607,
+    330
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0043.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    624,
+    337,
+    635,
+    350
+   ],
+   "grid": [
+    2,
+    3
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    598,
+    320,
+    607,
+    330
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0044.png": [],
+ "imagen_0045.png": [],
+ "imagen_0046.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    306,
+    477,
+    316,
+    490
+   ],
+   "grid": [
+    2,
+    3
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0047.png": [],
+ "imagen_0048.png": [],
+ "imagen_0049.png": [],
+ "imagen_0050.png": [],
+ "imagen_0051.png": [],
+ "imagen_0052.png": [],
+ "imagen_0053.png": [],
+ "imagen_0054.png": [],
+ "imagen_0055.png": [],
+ "imagen_0056.png": [],
+ "imagen_0057.png": [],
+ "imagen_0058.png": [],
+ "imagen_0059.png": [],
+ "imagen_0060.png": [],
+ "imagen_0061.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    604,
+    398,
+    615,
+    410
+   ],
+   "grid": [
+    2,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    495,
+    404,
+    506,
+    416
+   ],
+   "grid": [
+    2,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    621,
+    369,
+    630,
+    380
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    631,
+    386,
+    640,
+    397
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0062.png": [],
+ "imagen_0063.png": [],
+ "imagen_0064.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    820,
+    439,
+    833,
+    454
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    809,
+    440,
+    821,
+    453
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  }
+ ],
+ "imagen_0065.png": [],
+ "imagen_0066.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    67,
+    589,
+    79,
+    603
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    118,
+    588,
+    128,
+    600
+   ],
+   "grid": [
+    2,
+    3
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0067.png": [],
+ "imagen_0068.png": [],
+ "imagen_0069.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    955,
+    56,
+    973,
+    78
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    792,
+    68,
+    814,
+    92
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    766,
+    69,
+    783,
+    87
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    573,
+    1,
+    591,
+    23
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    156,
+    350,
+    170,
+    365
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  }
+ ],
+ "imagen_0070.png": [],
+ "imagen_0071.png": [],
+ "imagen_0072.png": [],
+ "imagen_0073.png": [],
+ "imagen_0074.png": [],
+ "imagen_0075.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    925,
+    333,
+    937,
+    348
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    971,
+    333,
+    982,
+    347
+   ],
+   "grid": [
+    2,
+    3
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0076.png": [],
+ "imagen_0077.png": [],
+ "imagen_0078.png": [],
+ "imagen_0079.png": [],
+ "imagen_0080.png": [],
+ "imagen_0081.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    742,
+    281,
+    751,
+    290
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0082.png": [],
+ "imagen_0083.png": [],
+ "imagen_0084.png": [],
+ "imagen_0085.png": [],
+ "imagen_0086.png": [],
+ "imagen_0087.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    200,
+    390,
+    216,
+    406
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    141,
+    565,
+    155,
+    579
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    130,
+    558,
+    144,
+    573
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    916,
+    554,
+    941,
+    582
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    572,
+    420,
+    584,
+    433
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    386,
+    575,
+    400,
+    592
+   ],
+   "grid": [
+    3,
+    4
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    303,
+    568,
+    312,
+    580
+   ],
+   "grid": [
+    2,
+    3
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0088.png": [],
+ "imagen_0089.png": [],
+ "imagen_0090.png": [],
+ "imagen_0091.png": [],
+ "imagen_0092.png": [],
+ "imagen_0093.png": [],
+ "imagen_0094.png": [],
+ "imagen_0095.png": [],
+ "imagen_0096.png": [],
+ "imagen_0097.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    576,
+    218,
+    585,
+    229
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    599,
+    219,
+    608,
+    230
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0098.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    808,
+    346,
+    829,
+    370
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0099.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    488,
+    574,
+    497,
+    585
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    365,
+    680,
+    376,
+    692
+   ],
+   "grid": [
+    2,
+    3
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0100.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    568,
+    765,
+    580,
+    780
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    432,
+    649,
+    441,
+    660
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0101.png": [],
+ "imagen_0102.png": [],
+ "imagen_0103.png": [],
+ "imagen_0104.png": [],
+ "imagen_0105.png": [],
+ "imagen_0106.png": [],
+ "imagen_0107.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    32,
+    481,
+    44,
+    495
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  }
+ ],
+ "imagen_0108.png": [],
+ "imagen_0109.png": [],
+ "imagen_0110.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    32,
+    481,
+    44,
+    495
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  }
+ ],
+ "imagen_0111.png": [],
+ "imagen_0112.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    706,
+    460,
+    719,
+    475
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    15,
+    456,
+    28,
+    471
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    0,
+    459,
+    8,
+    474
+   ],
+   "grid": [
+    2,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  }
+ ],
+ "imagen_0113.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    730,
+    191,
+    744,
+    206
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    607,
+    189,
+    621,
+    205
+   ],
+   "grid": [
+    3,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    453,
+    401,
+    474,
+    423
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    908,
+    132,
+    921,
+    148
+   ],
+   "grid": [
+    3,
+    4
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0114.png": [],
+ "imagen_0115.png": [],
+ "imagen_0116.png": [],
+ "imagen_0117.png": [],
+ "imagen_0118.png": [],
+ "imagen_0119.png": [],
+ "imagen_0120.png": [],
+ "imagen_0121.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    800,
+    401,
+    813,
+    415
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0122.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    19,
+    370,
+    46,
+    401
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0123.png": [],
+ "imagen_0124.png": [],
+ "imagen_0125.png": [],
+ "imagen_0126.png": [],
+ "imagen_0127.png": [],
+ "imagen_0128.png": [],
+ "imagen_0129.png": [],
+ "imagen_0130.png": [],
+ "imagen_0131.png": [],
+ "imagen_0132.png": [],
+ "imagen_0133.png": [],
+ "imagen_0134.png": [],
+ "imagen_0135.png": [],
+ "imagen_0136.png": [],
+ "imagen_0137.png": [],
+ "imagen_0138.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    195,
+    468,
+    207,
+    481
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0139.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    964,
+    527,
+    981,
+    548
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0140.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    152,
+    497,
+    166,
+    513
+   ],
+   "grid": [
+    3,
+    4
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    133,
+    494,
+    144,
+    506
+   ],
+   "grid": [
+    2,
+    3
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    218,
+    496,
+    228,
+    508
+   ],
+   "grid": [
+    2,
+    3
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0141.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    898,
+    268,
+    909,
+    281
+   ],
+   "grid": [
+    2,
+    3
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    511,
+    259,
+    521,
+    271
+   ],
+   "grid": [
+    2,
+    3
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    933,
+    274,
+    943,
+    285
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0142.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    159,
+    222,
+    206,
+    277
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    424,
+    186,
+    433,
+    197
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0143.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    978,
+    239,
+    988,
+    250
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    897,
+    245,
+    908,
+    256
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0144.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    562,
+    294,
+    570,
+    302
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    318,
+    282,
+    328,
+    293
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    604,
+    285,
+    613,
+    296
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0145.png": [],
+ "imagen_0146.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    626,
+    255,
+    638,
+    269
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    604,
+    246,
+    616,
+    259
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    592,
+    250,
+    605,
+    265
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    474,
+    250,
+    485,
+    264
+   ],
+   "grid": [
+    2,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    360,
+    260,
+    371,
+    273
+   ],
+   "grid": [
+    2,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    245,
+    266,
+    259,
+    281
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    68,
+    257,
+    80,
+    272
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    573,
+    254,
+    582,
+    265
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0147.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    820,
+    285,
+    838,
+    306
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    226,
+    284,
+    241,
+    301
+   ],
+   "grid": [
+    3,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    109,
+    282,
+    124,
+    299
+   ],
+   "grid": [
+    3,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    0,
+    313,
+    17,
+    335
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    197,
+    282,
+    210,
+    297
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0148.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    748,
+    199,
+    771,
+    223
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    0,
+    226,
+    20,
+    251
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  }
+ ],
+ "imagen_0149.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    289,
+    114,
+    312,
+    142
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    612,
+    104,
+    634,
+    133
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0150.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    832,
+    241,
+    843,
+    254
+   ],
+   "grid": [
+    2,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    805,
+    253,
+    814,
+    264
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    800,
+    252,
+    810,
+    264
+   ],
+   "grid": [
+    2,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    797,
+    253,
+    806,
+    264
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    786,
+    237,
+    794,
+    247
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    783,
+    249,
+    793,
+    260
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    738,
+    235,
+    747,
+    246
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    533,
+    221,
+    542,
+    230
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    29,
+    171,
+    41,
+    185
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  }
+ ],
+ "imagen_0151.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    820,
+    220,
+    832,
+    235
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    749,
+    224,
+    761,
+    238
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    385,
+    248,
+    400,
+    265
+   ],
+   "grid": [
+    3,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    242,
+    273,
+    255,
+    288
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  }
+ ],
+ "imagen_0152.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    636,
+    186,
+    649,
+    202
+   ],
+   "grid": [
+    3,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    492,
+    150,
+    506,
+    166
+   ],
+   "grid": [
+    3,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    469,
+    148,
+    484,
+    166
+   ],
+   "grid": [
+    3,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    228,
+    150,
+    243,
+    166
+   ],
+   "grid": [
+    3,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    449,
+    142,
+    462,
+    158
+   ],
+   "grid": [
+    3,
+    4
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    168,
+    146,
+    181,
+    162
+   ],
+   "grid": [
+    3,
+    4
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    711,
+    199,
+    729,
+    222
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    87,
+    171,
+    102,
+    188
+   ],
+   "grid": [
+    3,
+    4
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0153.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    896,
+    139,
+    907,
+    152
+   ],
+   "grid": [
+    2,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    861,
+    151,
+    875,
+    165
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    811,
+    150,
+    823,
+    164
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    168,
+    176,
+    178,
+    187
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    150,
+    176,
+    159,
+    187
+   ],
+   "grid": [
+    2,
+    2
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    47,
+    169,
+    61,
+    185
+   ],
+   "grid": [
+    3,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    980,
+    134,
+    992,
+    150
+   ],
+   "grid": [
+    3,
+    4
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    911,
+    137,
+    926,
+    155
+   ],
+   "grid": [
+    3,
+    4
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    581,
+    181,
+    594,
+    196
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0154.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    886,
+    261,
+    903,
+    279
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    868,
+    260,
+    882,
+    275
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    149,
+    231,
+    161,
+    245
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0155.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    591,
+    272,
+    603,
+    285
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    576,
+    271,
+    588,
+    284
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    529,
+    292,
+    543,
+    307
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    392,
+    283,
+    407,
+    300
+   ],
+   "grid": [
+    3,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    365,
+    272,
+    378,
+    288
+   ],
+   "grid": [
+    3,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    347,
+    281,
+    361,
+    297
+   ],
+   "grid": [
+    3,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    882,
+    274,
+    903,
+    296
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_detector"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    826,
+    280,
+    844,
+    302
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ],
+ "imagen_0156.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    750,
+    182,
+    763,
+    196
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    738,
+    183,
+    751,
+    196
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    724,
+    182,
+    736,
+    196
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    453,
+    172,
+    465,
+    185
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    319,
+    166,
+    333,
+    181
+   ],
+   "grid": [
+    3,
+    3
+   ],
+   "origen_region": "rostro_revision_visual"
+  }
+ ],
+ "imagen_0157.png": [
+  {
+   "tipo": "rostro",
+   "box": [
+    939,
+    299,
+    955,
+    315
+   ],
+   "grid": [
+    4,
+    4
+   ],
+   "origen_region": "rostro_revision_visual"
+  },
+  {
+   "tipo": "rostro",
+   "box": [
+    97,
+    273,
+    107,
+    285
+   ],
+   "grid": [
+    2,
+    3
+   ],
+   "origen_region": "rostro_detector"
+  }
+ ]
+}

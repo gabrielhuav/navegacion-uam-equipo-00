@@ -1,6 +1,6 @@
 # Ficha del corpus UAM Azcapotzalco
 
-Generada para el reconocimiento del Edificio T. **Las fotos no están en este repositorio**: son de alumnos y se quedan en el equipo del profesor. Aquí sólo hay conteos y un [listado anónimo](manifiesto_anonimo.csv).
+Generada para el reconocimiento del Edificio T. **Los originales y sus correspondencias con alumnos permanecen privados.** Aquí están los conteos, el [listado anónimo](manifiesto_anonimo.csv) y la [copia derivada con sólo caras pixeladas](solo_caras/README.md) autorizada para revisión en el PR #23. La galería candidata pixelada se entrega por separado; los assets de la app se conservan.
 
 **Las etiquetas están confirmadas.** El profesor revisó a mano las 157 imágenes. `modelo/galeria_uam.py` usa esas etiquetas.
 

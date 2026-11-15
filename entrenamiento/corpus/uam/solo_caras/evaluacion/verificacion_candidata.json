@@ -1,0 +1,28 @@
+{
+  "variant": "solo_caras_pixeladas",
+  "candidate_sha256": "923cb093ef08ac0be5200df6702447761ae28316d67327dfd244abcd2f1fb213",
+  "model_sha256": "d01e31483ac10fc887e5b4e7d47ee0e7a93cc196c56286312329401e219474bd",
+  "model_hash_matches": true,
+  "photos": 118,
+  "original_groups": 22,
+  "prototype_counts": {
+    "G": 21,
+    "I": 24,
+    "P2": 18,
+    "T": 150,
+    "W": 18,
+    "otro": 123
+  },
+  "all_vector_dimensions_960": true,
+  "candidate_vectors_equal_compared_cache": true,
+  "current_censored_input_set_sha256": "a4557a1f4f7ccfac0d8ea30c69481b9c1f16bcebf3bc3ea3a0c2ebcd5b09bb75",
+  "current_inputs_equal_evaluated_inputs": true,
+  "fixed_T_threshold": 0.74,
+  "T_acceptance_decision_changes": [],
+  "six_class_prediction_changes": [
+    "imagen_0054.png",
+    "imagen_0152.png"
+  ],
+  "integrated_in_0_5_0": false,
+  "status": "solo caras pixeladas; evaluación local; no integrada en 0.5.0"
+}
