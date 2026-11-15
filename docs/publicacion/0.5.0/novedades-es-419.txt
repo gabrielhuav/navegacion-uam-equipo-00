@@ -1,0 +1,1 @@
+Reconocimiento experimental del Edificio T de UAM Azcapotzalco con la cámara y UAMito. El análisis se realiza en el teléfono: las imágenes de la cámara no se guardan ni se envían. Se mantiene el reconocimiento de la ESCOM y puedes abrir una ruta al edificio identificado.

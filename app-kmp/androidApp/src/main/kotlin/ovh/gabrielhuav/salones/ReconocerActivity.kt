@@ -56,6 +56,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import org.json.JSONObject
@@ -277,7 +278,7 @@ class ReconocerActivity : ComponentActivity(), SensorEventListener {
             analisis.setAnalyzer(hilo, ::analizar)
             proveedor.unbindAll()
             proveedor.bindToLifecycle(this, CameraSelector.DEFAULT_BACK_CAMERA, vistaPrevia, analisis)
-        }, mainExecutor)
+        }, ContextCompat.getMainExecutor(this))
     }
 
     /** Unas tres veces por segundo: recorte central de 224×224, vector del modelo y votación. */
