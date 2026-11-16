@@ -52,6 +52,24 @@ def tabla(encabezado, filas):
     return lineas + ["| " + " | ".join(str(c) for c in f) + " |" for f in filas]
 
 
+def leer_extras(corrida):
+    """Prefiere el esquema actual; sólo usa el legado cuando no existe el nuevo."""
+    actual = corrida / "exportado" / "escom_extras.json"
+    es_actual = actual.exists()
+    ruta = actual if es_actual else corrida / "exportado" / "escom_angulos.json"
+    datos = json.loads(ruta.read_text(encoding="utf-8"))
+    if not isinstance(datos, dict):
+        raise ValueError("Los extras de ESCOM deben ser un objeto JSON.")
+    if (es_actual or "objetivo" in datos) and datos.get("objetivo") != "laboratorios":
+        raise ValueError("Los extras de ESCOM deben declarar objetivo='laboratorios'.")
+    lados = "lados_objetivo" if es_actual else "lados_laboratorios"
+    umbral = "umbral_objetivo" if es_actual else "umbral_laboratorios"
+    if lados not in datos or umbral not in datos:
+        raise ValueError(f"Faltan {lados} o {umbral} en los extras de ESCOM.")
+    return {**datos, "objetivo": "laboratorios",
+            "lados_objetivo": datos[lados], "umbral_objetivo": datos[umbral]}
+
+
 def main():
     corrida, salida = pathlib.Path(sys.argv[1]), pathlib.Path(sys.argv[2])
     salida.mkdir(parents=True, exist_ok=True)
@@ -59,7 +77,7 @@ def main():
     filas = json.loads((corrida / "manifiesto.json").read_text(encoding="utf-8"))
     galeria = json.loads((corrida / "exportado" / "escom_galeria.json").read_text(encoding="utf-8"))
     informe = json.loads((corrida / "informe.json").read_text(encoding="utf-8"))
-    angulos = json.loads((corrida / "exportado" / "escom_angulos.json").read_text(encoding="utf-8"))
+    extras = leer_extras(corrida)
 
     # Qué fotos están en la galería: se compara cada prototipo con las vistas de cada foto.
     d = np.load(corrida / "embeddings_tflite.npz", allow_pickle=True)
@@ -105,7 +123,7 @@ def main():
     origenes = collections.Counter(s["origen"] for s in salidas)
     fotos_alumno = collections.Counter(s["fuente"] for s in salidas if s["fuente"] != "fuente_adicional")
     res = informe["comparacion"]["galeria"]["despues"]
-    lados = collections.Counter(l for l in angulos["lados_laboratorios"][::3] if l)
+    lados = collections.Counter(l for l in extras["lados_objetivo"][::3] if l)
     ficha = [
         "# Ficha del corpus ESCOM",
         "",
@@ -136,7 +154,7 @@ def main():
     ficha += tabla(["Clase", "Fotos", "Recobrado", "Precisión"],
                    [[c, v["n"], f"{v['recobrado']:.0%}", f"{v['precision']:.0%}" if v["precision"] is not None else "—"]
                     for c, v in res["por_clase"].items()])
-    ficha += ["", f"Umbral de «no sé»: {galeria['umbral_no_se']} general y {angulos['umbral_laboratorios']} en laboratorios. "
+    ficha += ["", f"Umbral de «no sé»: {galeria['umbral_no_se']} general y {extras['umbral_objetivo']} en laboratorios. "
               "La similitud no es un porcentaje de certeza.",
               "De día todavía no hay evidencia suficiente: faltan fotos y videos de todos los edificios.",
               "", "## Qué no se publica", "",
