@@ -1,4 +1,4 @@
-# Las fotos y todo lo que traiga nombres o rutas de alumnos se quedan fuera del repositorio.
+# Los originales y todo lo que traiga nombres o rutas de alumnos se quedan fuera del repositorio.
 *.jpg
 *.jpeg
 *.png
@@ -15,3 +15,7 @@ modelo/exportado/
 modelo/*.csv
 modelo/*.html
 modelo/ULTIMA_CORRIDA_LETRAS.txt
+
+# Sólo PNG derivados y láminas de la copia UAM autorizada.
+!corpus/uam/solo_caras/corpus/imagenes/imagen_[0-9][0-9][0-9][0-9].png
+!corpus/uam/solo_caras/revision/lamina_[0-9][0-9].png

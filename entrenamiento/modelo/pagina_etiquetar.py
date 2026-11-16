@@ -40,10 +40,13 @@ def sugerencias(filas):
 def main():
     filas = leer_corpus()
     revisadas = {}
+    campos = ["ruta", "clase_original", "clase_nueva", "nota", "fecha", "interior"]
     clave = "etiquetas-escom-v2-sin-base"
     if ETIQUETAS_REVISADAS.exists():
         with ETIQUETAS_REVISADAS.open(encoding="utf-8-sig", newline="") as fh:
-            revisadas = {r["ruta"]: r for r in csv.DictReader(fh)}
+            lector = csv.DictReader(fh)
+            campos = list(dict.fromkeys((lector.fieldnames or []) + campos))
+            revisadas = {r["ruta"]: r for r in lector}
         # Un borrador antiguo no debe tapar las etiquetas actualmente aplicadas.
         # No se borra el almacenamiento anterior del navegador.
         clave = "etiquetas-escom-v2-" + hashlib.sha256(ETIQUETAS_REVISADAS.read_bytes()).hexdigest()[:16]
@@ -57,9 +60,12 @@ def main():
         for c, v in s:
             votos[c] = votos.get(c, 0) + v
         propuesta = max(votos, key=votos.get)
+        clases = [""] + CLASES_PAGINA
+        if f["clase"] not in clases and f["clase"] != "_sin_clasificar":
+            clases.append(f["clase"])
         opciones = "".join(
-            f'<option value="{c}"{" selected" if c == f["clase"] and c != "_sin_clasificar" else ""}>{c}</option>'
-            for c in [""] + CLASES_PAGINA
+            f'<option value="{html.escape(c, quote=True)}"{" selected" if c == f["clase"] and c != "_sin_clasificar" else ""}>{html.escape(c)}</option>'
+            for c in clases
         )
         tarjetas.append(f"""
 <article data-ruta="{html.escape(f['ruta'])}" data-orig="{html.escape(f['clase_original'])}" data-sesion="{f['sesion']}">
@@ -69,9 +75,13 @@ def main():
   <div class="obs">{html.escape(f['observaciones'])}</div>
   <div class="sug">Sugerencia (similitud): <b>{propuesta}</b> <small>{' · '.join(f'{c} {v}' for c, v in s)}</small></div>
   <label>Clase <select>{opciones}</select></label>
+  <label><input type="checkbox" class="interior"{' checked' if f['interior'] else ''}> Interior</label>
   <input class="nota" placeholder="nota (opcional)" value="{html.escape(revisadas.get(f['ruta'], {}).get('nota', ''), quote=True)}">
 </article>""")
 
+    # El CSV puede contener revisiones que no aparecen entre las tarjetas.
+    # Escapar '<' evita que una nota cierre el bloque script de la página local.
+    base_json = json.dumps(list(revisadas.values()), ensure_ascii=True).replace("<", "\\u003c")
     pagina = f"""<!doctype html><html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Etiquetar fotos ESCOM</title>
@@ -95,21 +105,32 @@ button{{background:var(--ac);color:#fff;border:0;border-radius:6px;padding:6px 1
 <label><input type="checkbox" id="solo"> sólo pendientes</label>
 <button id="aceptar">Usar sugerencia en las vacías</button>
 <button id="bajar">Descargar etiquetas_revisadas.csv</button>
-<small id="origen">Clases y notas cargadas desde etiquetas_revisadas.csv. Corrige y descarga el CSV al terminar; los cambios no modifican el entrenamiento automáticamente.</small></header>
+<small id="origen">Clases, notas e interiores cargados desde etiquetas_revisadas.csv. Las revisiones previas se conservan. Corrige y descarga el CSV al terminar; los cambios no modifican el entrenamiento automáticamente.</small></header>
 <main>{''.join(tarjetas)}</main>
 <script>
 const K={json.dumps(clave)};
+const REVISIONES={base_json};
+const CAMPOS={json.dumps(campos)};
 const arts=[...document.querySelectorAll('article')];
 let guard={{}};try{{guard=JSON.parse(localStorage.getItem(K)||'{{}}')}}catch(e){{}}
-arts.forEach(a=>{{const g=guard[a.dataset.ruta];if(g){{a.querySelector('select').value=g.c;a.querySelector('.nota').value=g.n||''}}}});
+arts.forEach(a=>{{const g=guard[a.dataset.ruta];if(g){{
+if(Object.hasOwn(g,'c'))a.querySelector('select').value=g.c;
+if(Object.hasOwn(g,'n'))a.querySelector('.nota').value=g.n||'';
+if(Object.hasOwn(g,'i'))a.querySelector('.interior').checked=!!g.i;
+}}}});
 function act(){{const d={{}};let n=0;arts.forEach(a=>{{const c=a.querySelector('select').value;a.classList.toggle('hecho',!!c);if(c)n++;
-d[a.dataset.ruta]={{c,n:a.querySelector('.nota').value}};a.style.display=(document.getElementById('solo').checked&&c)?'none':''}});
+d[a.dataset.ruta]={{c,n:a.querySelector('.nota').value,i:a.querySelector('.interior').checked}};a.style.display=(document.getElementById('solo').checked&&c)?'none':''}});
 document.getElementById('cuenta').textContent=n+' / '+arts.length+' elegidas';try{{localStorage.setItem(K,JSON.stringify(d))}}catch(e){{}}}}
 document.addEventListener('change',act);document.addEventListener('input',act);
 document.getElementById('aceptar').onclick=()=>{{arts.forEach(a=>{{const s=a.querySelector('select');if(!s.value)s.value=a.querySelector('.sug b').textContent}});act()}};
-document.getElementById('bajar').onclick=()=>{{const q=v=>'"'+String(v).replace(/"/g,'""')+'"';
-const f=new Date().toISOString();let t='ruta,clase_original,clase_nueva,nota,fecha\\n';
-arts.forEach(a=>{{const c=a.querySelector('select').value;if(c)t+=[a.dataset.ruta,a.dataset.orig,c,a.querySelector('.nota').value,f].map(q).join(',')+'\\n'}});
+document.getElementById('bajar').onclick=()=>{{const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+const f=new Date().toISOString();const salida=new Map(REVISIONES.map(r=>[r.ruta,{{...r}}]));
+arts.forEach(a=>{{const c=a.querySelector('select').value;if(c){{const previa=salida.get(a.dataset.ruta)||{{}};
+salida.set(a.dataset.ruta,{{...previa,ruta:a.dataset.ruta,clase_original:previa.clase_original??a.dataset.orig,
+clase_nueva:c,nota:a.querySelector('.nota').value,fecha:f,
+interior:a.querySelector('.interior').checked?'si':(previa.interior==='si'?'':(previa.interior||''))}});
+}}}});
+let t=CAMPOS.map(q).join(',')+'\\n';salida.forEach(r=>{{t+=CAMPOS.map(c=>q(r[c])).join(',')+'\\n'}});
 const u=URL.createObjectURL(new Blob(['\\ufeff'+t],{{type:'text/csv'}}));const l=document.createElement('a');l.href=u;l.download='etiquetas_revisadas.csv';l.click()}};
 act();
 </script></body></html>"""

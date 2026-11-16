@@ -2,7 +2,7 @@
 
 Código y documentación del reconocimiento de edificios con la cámara. El foco actual es **UAM Azcapotzalco y su Edificio T**. La ESCOM fue el piloto: ya se probó y funciona.
 
-**Las fotos no están aquí, ni van a estar.** Tienen nombres, caras y ubicación de alumnos, y este repositorio es público. Se quedan en la computadora del profesor. Esta carpeta sólo trae el código y las fichas con listados anónimos: [UAM Azcapotzalco](corpus/uam/ficha.md) y [ESCOM](corpus/ficha.md).
+**Los originales y las correspondencias con alumnos permanecen privados.** Esta carpeta contiene el código y las fichas con listados anónimos: [UAM Azcapotzalco](corpus/uam/ficha.md) y [ESCOM](corpus/ficha.md). Para UAM se incorpora también la [copia derivada con sólo caras pixeladas](corpus/uam/solo_caras/README.md), cuya subida al PR #23 autorizó el propietario. Incluye la comparación con la galería actual; la candidata permanece separada de los assets de la app.
 
 ## Cómo funciona
 
@@ -72,4 +72,4 @@ modelo/.venv/Scripts/python.exe modelo/galeria_uam.py <corpus-campus> <modelo.tf
 
 ## Antes de agregar algo a esta carpeta
 
-Revisa que no traiga nombres, rutas de fotos ni GPS. `.gitignore` bloquea imágenes y corridas, pero no sustituye esa revisión.
+Revisa que no traiga nombres, rutas de fotos ni GPS. `.gitignore` bloquea originales y corridas; sólo permite los PNG derivados y las láminas de la copia UAM revisada. No sustituye la revisión de contenidos visibles.
