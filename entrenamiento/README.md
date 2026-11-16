@@ -1,6 +1,12 @@
 # Entrenamiento del reconocedor de edificios · UAM
 
-Código y documentación del reconocimiento de edificios con la cámara. El foco actual es **UAM Azcapotzalco y su Edificio T**. La ESCOM fue el piloto: ya se probó y funciona.
+Código y documentación del reconocimiento de edificios con la cámara en **UAM Azcapotzalco y ESCOM**. El reconocimiento sigue siendo experimental; las evaluaciones del corpus no sustituyen una prueba de campo.
+
+## Selector y comparación de corpus
+
+Android permite elegir **Actual (0.5.0)**, **Maestro confirmado** o **Combinado experimental** por campus. Actual es la primera elección; sus assets y el AAB de 0.5.0 se conservan. Se publican las galerías numéricas nuevas, el procedimiento y los resultados, sin añadir las fotos del maestro privado.
+
+La combinada mejora ESCOM en la validación interna, pero empeora T en AZC. El maestro completo tampoco supera todos los indicadores de la actual. [Comparación, reproducción y límites](comparacion_corpus/README.md) · [Resultados](comparacion_corpus/RESULTADOS.md) · [Permisos y maestro privado](comparacion_corpus/CORPUS_PRIVADO.md).
 
 **Los originales y las correspondencias con alumnos permanecen privados.** Esta carpeta contiene el código y las fichas con listados anónimos: [UAM Azcapotzalco](corpus/uam/ficha.md) y [ESCOM](corpus/ficha.md). Para UAM se incorpora también la [copia derivada con sólo caras pixeladas](corpus/uam/solo_caras/README.md), cuya subida al PR #23 autorizó el propietario. Incluye la comparación con la galería actual; la candidata permanece separada de los assets de la app.
 
@@ -8,12 +14,12 @@ Código y documentación del reconocimiento de edificios con la cámara. El foco
 
 1. MobileNetV3Large, preentrenada en ImageNet y congelada, convierte cada imagen en un vector de 960 números.
 2. La galería guarda los vectores de las fotos de referencia, tres vistas por foto.
-3. El teléfono compara cada cuadro con la galería: el puntaje de una clase es la media de sus tres similitudes más altas.
+3. El teléfono compara cada cuadro con la galería: en Actual, la media de las tres similitudes de prototipo más altas; en las candidatas, el método y los umbrales declarados en su configuración.
 4. Vota entre 7 cuadros y, si no alcanza el umbral, responde «no sé».
 
 No se reentrena la red: «entrenar» es actualizar la galería. Con tan pocas fotos, esto funcionó mejor que ajustar una capa final.
 
-La evaluación nunca separa al azar fotos de una misma persona: siempre se deja fuera a un alumno completo.
+La evaluación agrupa la procedencia y las fotos compartidas; no separa al azar vistas de una misma foto. La comparación nueva deja fuera grupos completos y usa otra separación interna para elegir ajustes.
 
 ## Carpetas
 

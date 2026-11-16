@@ -15,6 +15,12 @@ modelo/exportado/
 modelo/*.csv
 modelo/*.html
 modelo/ULTIMA_CORRIDA_LETRAS.txt
+# Las entradas, correspondencias y predicciones individuales de la comparación
+# permanecen en el equipo del propietario. Se publican sólo agregados revisados.
+**/privado/
+**/cache_features/
+**/cache_scores_privado/
+**/*_privado.json
 
 # Sólo PNG derivados y láminas de la copia UAM autorizada.
 !corpus/uam/solo_caras/corpus/imagenes/imagen_[0-9][0-9][0-9][0-9].png

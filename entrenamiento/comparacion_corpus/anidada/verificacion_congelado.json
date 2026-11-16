@@ -1,0 +1,8 @@
+{
+  "technical_approval": true,
+  "frozen_bytes_match_verified_bytes": true,
+  "protocol_sha256": "0de4cc0a18b5afd02d614141e86f13a8f6cc53e775729c8cf8b9db664c1ae66b",
+  "outer_queries_evaluated": 0,
+  "comparators": 1,
+  "recipes": 29
+}

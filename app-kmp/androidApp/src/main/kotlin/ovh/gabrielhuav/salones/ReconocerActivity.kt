@@ -44,6 +44,8 @@ import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -66,6 +68,7 @@ import java.nio.ByteOrder
 import java.util.concurrent.Executors
 import kotlin.math.abs
 import kotlin.math.roundToInt
+import kotlin.math.round
 
 /**
  * Experimento, sólo en los campus con galería (ver [reconocedorDe]): la cámara trasera, el modelo TFLite y la votación de cuadros.
@@ -84,6 +87,12 @@ class ReconocerActivity : ComponentActivity(), SensorEventListener {
     private var rumboCamara by mutableStateOf<Double?>(null) // hacia dónde apunta la cámara (0 = norte)
     private var yo by mutableStateOf<Ubicacion?>(null)
     private var mascota by mutableStateOf<Bitmap?>(null)
+    private var corpus by mutableStateOf(CorpusReconocimiento.ACTUAL)
+    private var cargando by mutableStateOf(true)
+    private var mostrarCorpus by mutableStateOf(false)
+    @Volatile private var generacion = 0L
+    @Volatile private var generacionPreparada = -1L
+    @Volatile private var cerrando = false
     private val hilo = Executors.newSingleThreadExecutor()
     private var interprete: Interpreter? = null
     private lateinit var galeria: Galeria
@@ -93,6 +102,9 @@ class ReconocerActivity : ComponentActivity(), SensorEventListener {
     private var ladosReferencia: List<String?> = emptyList()
     private lateinit var sensores: SensorManager
     private lateinit var vista: PreviewView
+    private var proveedorCamara: ProcessCameraProvider? = null
+    private var camaraIniciada = false
+    private val preferencias by lazy { getSharedPreferences("reconocimiento", MODE_PRIVATE) }
 
     private val sede by lazy { Unidad.valueOf(intent.getStringExtra("sede") ?: Unidad.ESCOM.name) }
     // Sin galería propia (sólo pasa en la demo) se usa la de Azcapotzalco, para ver la playera de cualquier unidad.
@@ -112,6 +124,8 @@ class ReconocerActivity : ComponentActivity(), SensorEventListener {
         super.onCreate(savedInstanceState)
         sensores = getSystemService(SENSOR_SERVICE) as SensorManager
         vista = PreviewView(this)
+        corpus = if (reconocedorDe(sede) == null) CorpusReconocimiento.ACTUAL else
+            CorpusReconocimiento.desdeId(preferencias.getString("corpus_${sede.name}", null))
         setContent {
             MaterialTheme(colorScheme = esquemaDeColor(sede, true)) {
                 Box(Modifier.fillMaxSize()) {
@@ -120,22 +134,43 @@ class ReconocerActivity : ComponentActivity(), SensorEventListener {
                     Card(Modifier.align(Alignment.BottomCenter).safeDrawingPadding().padding(16.dp).fillMaxWidth()) {
                         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                             Text("Reconocer edificio · experimento", style = MaterialTheme.typography.titleMedium)
+                            if (reconocedorDe(sede) != null) {
+                                Box {
+                                    OutlinedButton(enabled = !cargando, onClick = { mostrarCorpus = true }) {
+                                        Text("Corpus: ${corpus.titulo} ▾")
+                                    }
+                                    DropdownMenu(expanded = mostrarCorpus, onDismissRequest = { mostrarCorpus = false }) {
+                                        CorpusReconocimiento.entries.forEach { opcion ->
+                                            DropdownMenuItem(text = { Text(opcion.titulo) }, onClick = {
+                                                mostrarCorpus = false
+                                                cambiarCorpus(opcion)
+                                            })
+                                        }
+                                    }
+                                }
+                                if (corpus != CorpusReconocimiento.ACTUAL) Text(
+                                    when {
+                                        sede == Unidad.AZCAPOTZALCO && corpus == CorpusReconocimiento.COMBINADO ->
+                                            "En la prueba de Azcapotzalco, Actual dio mejores resultados. Esta opción solo confirma el Edificio T."
+                                        sede == Unidad.AZCAPOTZALCO -> "En la prueba de Azcapotzalco, Actual dio mejores resultados."
+                                        corpus == CorpusReconocimiento.MAESTRO -> "Amplía las clases confirmadas; reconoce menos casos con suficiente similitud."
+                                        else -> "Mejoró en la prueba interna; falta comprobarlo en el campus. Esta opción solo confirma Laboratorios."
+                                    },
+                                    style = MaterialTheme.typography.bodySmall,
+                                )
+                            }
                             Text(texto, style = MaterialTheme.typography.bodyMedium)
                             angulo()?.let { Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.primary) }
                             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                                 OutlinedButton(onClick = { finish() }) { Text("Cancelar") }
-                                Button(enabled = estable != null, onClick = { devolver() }) { Text("Ir a este edificio") }
+                                Button(enabled = !cargando && estable != null, onClick = { devolver() }) { Text("Ir a este edificio") }
                             }
                         }
                     }
                 }
             }
         }
-        hilo.execute {
-            runCatching { cargarModelo() }
-                .onSuccess { runOnUiThread { texto = "Apunta a la fachada de un edificio de ${sede.titulo}."; pedirOIniciar() } }
-                .onFailure { runOnUiThread { texto = "No se pudo cargar el modelo: ${it.message}" } }
-        }
+        cambiarCorpus(corpus)
         ubicar()
     }
 
@@ -178,6 +213,7 @@ class ReconocerActivity : ComponentActivity(), SensorEventListener {
 
     /** «Lo ves desde el lado noreste (40°), a 55 m · fotos de referencia de ese lado: 4 de 24». */
     private fun angulo(): String? {
+        if (corpus != CorpusReconocimiento.ACTUAL) return null
         if (estable?.clase != reconocedor.objetivo) return null
         val u = yo ?: return "Activa la ubicación para saber desde qué lado lo ves."
         val o = objetivo ?: return null
@@ -202,28 +238,60 @@ class ReconocerActivity : ComponentActivity(), SensorEventListener {
         texto = "DEMO de depuración: se simula que reconoce ${nombre(c)}."
     }
 
-    /** El modelo, la galería del campus, el umbral del edificio objetivo y los lados de sus fotos (assets/reconocimiento/). */
-    private fun cargarModelo() {
-        val bytes = assets.open("reconocimiento/escom_embeddings.tflite").use { it.readBytes() }
-        val modelo = ByteBuffer.allocateDirect(bytes.size).order(ByteOrder.nativeOrder()).put(bytes).also { it.rewind() }
-        interprete = Interpreter(modelo, Interpreter.Options().setNumThreads(4))
-        val json = JSONObject(assets.open("reconocimiento/${reconocedor.prefijo}_galeria.json").use { it.readBytes().decodeToString() })
-        val clases = json.getJSONArray("clases").let { a -> List(a.length()) { a.getString(it) } }
-        val p = json.getJSONObject("prototipos")
-        val prototipos = clases.associateWith { c ->
-            val lista = p.getJSONArray(c)
-            List(lista.length()) { i -> lista.getJSONArray(i).let { v -> FloatArray(v.length()) { v.getDouble(it).toFloat() } } }
+    /** La carga y el análisis comparten un único hilo; las generaciones invalidan resultados de la selección previa. */
+    private fun cambiarCorpus(elegido: CorpusReconocimiento) {
+        val numero = ++generacion
+        cargando = true
+        estable = null
+        corpus = elegido
+        texto = "Cargando ${elegido.titulo}…"
+        hilo.execute {
+            val resultado = runCatching {
+                if (interprete == null) {
+                    val bytes = assets.open("reconocimiento/escom_embeddings.tflite").use { it.readBytes() }
+                    val modelo = ByteBuffer.allocateDirect(bytes.size).order(ByteOrder.nativeOrder()).put(bytes).also { it.rewind() }
+                    interprete = Interpreter(modelo, Interpreter.Options().setNumThreads(4))
+                }
+                val extras = JSONObject(assets.open("reconocimiento/${reconocedor.prefijo}_extras.json").use { it.readBytes().decodeToString() })
+                var seleccionado = elegido
+                var aviso: String? = null
+                val nueva = runCatching { cargarGaleria(assets, reconocedor, elegido, extras) }.getOrElse { error ->
+                    if (elegido == CorpusReconocimiento.ACTUAL) throw error
+                    seleccionado = CorpusReconocimiento.ACTUAL
+                    aviso = "No se pudo cargar ${elegido.titulo}. Se ha restaurado Actual (0.5.0)."
+                    cargarGaleria(assets, reconocedor, seleccionado, extras)
+                }
+                val posicion = extras.getJSONArray("objetivo_lat_lon").let { Ubicacion(it.getDouble(0), it.getDouble(1)) }
+                val lados = if (seleccionado == CorpusReconocimiento.ACTUAL)
+                    extras.getJSONArray("lados_objetivo").let { a -> List(a.length()) { if (a.isNull(it)) null else a.getString(it) } }
+                else emptyList()
+                val imagenMascota = assets.open("reconocimiento/${mascotaDe(sede)}").use { BitmapFactory.decodeStream(it) }
+                if (numero != generacion || cerrando) return@execute
+                galeria = nueva
+                votacion = Votacion(nueva)
+                ultimo = 0L
+                generacionPreparada = numero
+                runOnUiThread {
+                    if (numero != generacion || cerrando) return@runOnUiThread
+                    corpus = seleccionado
+                    objetivo = posicion
+                    ladosReferencia = lados
+                    mascota = imagenMascota
+                    preferencias.edit().putString("corpus_${sede.name}", seleccionado.id).apply()
+                    cargando = false
+                    texto = aviso ?: "Apunta a la fachada de un edificio de ${sede.titulo}."
+                    if (!camaraIniciada) pedirOIniciar() else if (demo) simularObjetivo()
+                }
+            }
+            resultado.onFailure {
+                runOnUiThread {
+                    if (numero == generacion && !cerrando) {
+                        cargando = false
+                        texto = "No se pudo cargar el reconocimiento. Vuelve a elegir un corpus o usa «Ruta»."
+                    }
+                }
+            }
         }
-        // Sin destino en el mapa («otro», por ejemplo) la clase compite, pero la app responde «no sé».
-        val d = json.optJSONObject("destinos") ?: json.getJSONObject("destinos_escom")
-        val extras = JSONObject(assets.open("reconocimiento/${reconocedor.prefijo}_extras.json").use { it.readBytes().decodeToString() })
-        val umbrales = if (extras.isNull("umbral_objetivo")) emptyMap()
-                       else mapOf(reconocedor.objetivo to extras.getDouble("umbral_objetivo").toFloat())
-        objetivo = extras.getJSONArray("objetivo_lat_lon").let { Ubicacion(it.getDouble(0), it.getDouble(1)) }
-        ladosReferencia = extras.getJSONArray("lados_objetivo").let { a -> List(a.length()) { if (a.isNull(it)) null else a.getString(it) } }
-        galeria = Galeria(clases, prototipos, clases.filter { d.has(it) }.associateWith { d.getString(it) }, json.getDouble("umbral_no_se").toFloat(), umbrales)
-        votacion = Votacion(galeria)
-        mascota = assets.open("reconocimiento/${mascotaDe(sede)}").use { BitmapFactory.decodeStream(it) }
     }
 
     /** Una lectura de GPS al abrir (si ya hay permiso de ubicación); basta para saber de qué lado del edificio estás. */
@@ -269,7 +337,9 @@ class ReconocerActivity : ComponentActivity(), SensorEventListener {
     private fun iniciarCamara() {
         val futuro = ProcessCameraProvider.getInstance(this)
         futuro.addListener({
+            if (cerrando) return@addListener
             val proveedor = futuro.get()
+            proveedorCamara = proveedor
             val vistaPrevia = Preview.Builder().build().also { it.setSurfaceProvider(vista.surfaceProvider) }
             val analisis = ImageAnalysis.Builder()
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
@@ -278,23 +348,35 @@ class ReconocerActivity : ComponentActivity(), SensorEventListener {
             analisis.setAnalyzer(hilo, ::analizar)
             proveedor.unbindAll()
             proveedor.bindToLifecycle(this, CameraSelector.DEFAULT_BACK_CAMERA, vistaPrevia, analisis)
+            camaraIniciada = true
         }, ContextCompat.getMainExecutor(this))
     }
 
     /** Unas tres veces por segundo: recorte central de 224×224, vector del modelo y votación. */
     private fun analizar(imagen: ImageProxy) {
         imagen.use {
+            val numero = generacion
             val ahora = SystemClock.elapsedRealtime()
             val modelo = interprete ?: return
-            if (demo || ahora - ultimo < 300) return // en la demo manda el resultado simulado
+            if (cerrando || generacionPreparada != numero || demo || ahora - ultimo < 300) return
             ultimo = ahora
-            val cuadro = recorteCentral(it.toBitmap(), it.imageInfo.rotationDegrees)
-            val salida = Array(1) { FloatArray(960) }
-            modelo.run(entrada(cuadro), salida)
-            votacion.agregar(galeria.puntajes(salida[0]))
+            val bitmap = it.toBitmap()
+            val cuadros = if (galeria.vistasConsulta == 1) listOf(recorteCentral(bitmap, it.imageInfo.rotationDegrees))
+                else vistasConsulta(bitmap, it.imageInfo.rotationDegrees)
+            val vectores = try {
+                cuadros.map { cuadro ->
+                    val salida = Array(1) { FloatArray(960) }
+                    modelo.run(entrada(cuadro), salida)
+                    salida[0]
+                }
+            } finally {
+                (cuadros + bitmap).distinct().forEach { b -> b.recycle() }
+            }
+            votacion.agregar(galeria.puntajes(vectores))
             val r = votacion.resultado(System.currentTimeMillis())
             val mejor = votacion.mejor()
             runOnUiThread {
+                if (numero != generacion || cerrando || cargando) return@runOnUiThread
                 estable = r
                 texto = when {
                     r != null -> "Posible edificio: ${nombre(r.clase)} (similitud ${"%.2f".format(r.puntaje)})"
@@ -305,6 +387,37 @@ class ReconocerActivity : ComponentActivity(), SensorEventListener {
                 }
             }
         }
+    }
+
+    /** Tres vistas naturales de la misma toma; su media cuenta como un único cuadro temporal. */
+    private fun vistasConsulta(original: Bitmap, grados: Int): List<Bitmap> {
+        val orientada = Bitmap.createBitmap(original, 0, 0, original.width, original.height,
+            Matrix().apply { postRotate(grados.toFloat()) }, true)
+        val factor = minOf(1f, 1024f / maxOf(orientada.width, orientada.height))
+        val base = if (factor < 1f) Bitmap.createScaledBitmap(orientada,
+            maxOf(1, round(orientada.width * factor).toInt()), maxOf(1, round(orientada.height * factor).toInt()), true) else orientada
+        val w = base.width
+        val h = base.height
+        val laterales = if (w > h) listOf(
+            Bitmap.createBitmap(base, 0, 0, maxOf(1, (w * .66).toInt()), h),
+            Bitmap.createBitmap(base, (w * .34).toInt(), 0, w - (w * .34).toInt(), h),
+        ) else listOf(
+            Bitmap.createBitmap(base, 0, 0, w, maxOf(1, (h * .66).toInt())),
+            Bitmap.createBitmap(base, 0, (h * .34).toInt(), w, h - (h * .34).toInt()),
+        )
+        val temporales = mutableListOf(orientada, base)
+        temporales.addAll(laterales)
+        // Bilineal nativo Android: el contrato geométrico coincide, no se presupone igualdad píxel a píxel con Pillow.
+        val resultado = (listOf(base) + laterales).map { b ->
+            val escala = 224.0 / minOf(b.width, b.height)
+            val ancho = maxOf(224, round(b.width * escala).toInt())
+            val alto = maxOf(224, round(b.height * escala).toInt())
+            val redimensionada = Bitmap.createScaledBitmap(b, ancho, alto, true)
+            temporales.add(redimensionada)
+            Bitmap.createBitmap(redimensionada, (ancho - 224) / 2, (alto - 224) / 2, 224, 224)
+        }
+        temporales.distinct().filter { it !== original && it !in resultado }.forEach { it.recycle() }
+        return resultado
     }
 
     /** Gira según el sensor, recorta el cuadrado central y lo reduce a 224×224 (bilineal), como en el entrenamiento. */
@@ -330,12 +443,16 @@ class ReconocerActivity : ComponentActivity(), SensorEventListener {
     private fun nombre(clase: String) = NOMBRES[clase] ?: if (clase.length <= 2) "Edificio $clase" else clase
 
     private fun devolver() {
+        if (cargando || generacionPreparada != generacion) return
         val r = estable ?: return
         setResult(RESULT_OK, Intent().putExtra("clase", r.clase).putExtra("destino", r.destino).putExtra("puntaje", r.puntaje))
         finish()
     }
 
     override fun onDestroy() {
+        cerrando = true
+        ++generacion
+        proveedorCamara?.unbindAll()
         super.onDestroy()
         hilo.execute { interprete?.close(); interprete = null }
         hilo.shutdown()
@@ -344,8 +461,10 @@ class ReconocerActivity : ComponentActivity(), SensorEventListener {
     companion object {
         private val NOMBRES = mapOf(
             "edificio_1" to "Edificio 1", "edificio_2" to "Edificio 2", "edificio_3" to "Edificio 3",
-            "edificio_4" to "Edificio 4", "gobierno" to "Gobierno · Biblioteca", "laboratorios" to "Laboratorios",
-            "COSEI" to "Plaza COSEI",
+            "edificio_4" to "Edificio 4", "edificio_5" to "Edificio 5", "gobierno" to "Gobierno · Biblioteca",
+            "laboratorios" to "Laboratorios", "biblioteca" to "Biblioteca", "cafeteria" to "Cafetería",
+            "COSEI" to "Plaza COSEI", "plaza_roja" to "Plaza Roja", "auditorio" to "Auditorio",
+            "explanada_principal" to "Explanada principal", "otro" to "otra zona",
         )
     }
 }
