@@ -1,0 +1,2 @@
+# Verificadores geométricos: sin TensorFlow, fotos ni inferencias.
+numpy==1.26.4

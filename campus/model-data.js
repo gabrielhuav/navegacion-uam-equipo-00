@@ -99,6 +99,7 @@ export const ORIGINAL = {
     },
     {
       "id": "G",
+      "name": "G · Cubículos y aulas CBI",
       "floors": 4,
       "reinforced": true,
       "rects": [
@@ -108,7 +109,26 @@ export const ORIGINAL = {
           690,
           656
         ]
-      ]
+      ],
+      "facadeReference": {
+        "revision": "2026-11-15",
+        "photos": [
+          "imagen_0066.png",
+          "imagen_0080.png",
+          "imagen_0086.png",
+          "imagen_0142.png",
+          "imagen_0143.png",
+          "imagen_0144.png",
+          "imagen_0145.png"
+        ],
+        "details": [
+          "machones y fascia en paneles gris grafito",
+          "arriostramientos rojos trapezoidales en ambas fachadas",
+          "pórtico de paso central en PB entre Plaza Roja y COSEI",
+          "banca corrida de concreto en PB y domos de ventilación"
+        ],
+        "approximate": true
+      }
     },
     {
       "id": "H",
@@ -199,7 +219,27 @@ export const ORIGINAL = {
           905,
           656
         ]
-      ]
+      ],
+      "facadeReference": {
+        "revision": "2026-11-15",
+        "photos": [
+          "imagen_0018.png",
+          "imagen_0020.png",
+          "imagen_0034.png",
+          "imagen_0058.png",
+          "imagen_0117.png",
+          "imagen_0141.png",
+          "imagen_0152.png",
+          "imagen_0153.png"
+        ],
+        "details": [
+          "muro macizo oriente con rótulo rojo i, mural esquemático y banca",
+          "pórtico retranqueado de acceso con relieve institucional UAM",
+          "muro cortina oscuro de dos niveles bajo gran dintel de concreto",
+          "fachada posterior sur con tres franjas de ventanales corridos"
+        ],
+        "approximate": true
+      }
     },
     {
       "id": "J",
@@ -286,7 +326,8 @@ export const ORIGINAL = {
     },
     {
       "id": "P1",
-      "floors": 4,
+      "name": "P1 · Talleres y laboratorios (1P)",
+      "floors": 2,
       "rects": [
         [
           1157,
@@ -294,11 +335,26 @@ export const ORIGINAL = {
           1194,
           568
         ]
-      ]
+      ],
+      "facadeReference": {
+        "revision": "2026-11-15",
+        "photos": [
+          "imagen_0002.png",
+          "imagen_0009.png",
+          "imagen_0013.png"
+        ],
+        "details": [
+          "dos niveles gris claro con marcos de ventana y puertas rojas",
+          "torre vertical revestida en azulejo azul y escalera exterior",
+          "marquesina ligera translúcida con estructura roja"
+        ],
+        "approximate": true
+      }
     },
     {
       "id": "P2",
-      "floors": 4,
+      "name": "P2 · Talleres y cubículos de Energía (2P)",
+      "floors": 2,
       "rects": [
         [
           1280,
@@ -306,11 +362,33 @@ export const ORIGINAL = {
           1320,
           568
         ]
-      ]
+      ],
+      "facadeReference": {
+        "revision": "2026-11-15",
+        "photos": [
+          "imagen_0036.png",
+          "imagen_0047.png",
+          "imagen_0048.png",
+          "imagen_0059.png",
+          "imagen_0065.png",
+          "imagen_0088.png",
+          "imagen_0093.png",
+          "imagen_0094.png"
+        ],
+        "details": [
+          "dos niveles gris claro con marcos de ventana rojos salientes",
+          "rótulo volumétrico rojo 2P en esquina superior",
+          "portones industriales azules de taller mecánico (TMEC)",
+          "anexo bajo terracota con persiana roja y equipos en azotea",
+          "marquesina ligera con estructura roja e invernadero lateral"
+        ],
+        "approximate": true
+      }
     },
     {
       "id": "P3",
-      "floors": 4,
+      "name": "P3 · Talleres y laboratorios (3P)",
+      "floors": 2,
       "rects": [
         [
           1390,
@@ -318,10 +396,24 @@ export const ORIGINAL = {
           1430,
           568
         ]
-      ]
+      ],
+      "facadeReference": {
+        "revision": "2026-11-15",
+        "photos": [
+          "imagen_0022.png",
+          "imagen_0027.png",
+          "imagen_0035.png"
+        ],
+        "details": [
+          "dos niveles de talleres con franjas terracota y cubierta abovedada parcial",
+          "andador cubierto con columnas cilíndricas y techumbre ligera sobre estructura roja"
+        ],
+        "approximate": true
+      }
     },
     {
       "id": "P4",
+      "name": "P4 · Aulas y laboratorios (P-4)",
       "floors": 4,
       "rects": [
         [
@@ -336,7 +428,25 @@ export const ORIGINAL = {
           1390,
           448
         ]
-      ]
+      ],
+      "facadeReference": {
+        "revision": "2026-11-15",
+        "photos": [
+          "imagen_0015.png",
+          "imagen_0016.png",
+          "imagen_0019.png",
+          "imagen_0021.png",
+          "imagen_0022.png",
+          "imagen_0027.png",
+          "imagen_0032.png"
+        ],
+        "details": [
+          "cuatro niveles con entrepaños terracota y estructura de concreto",
+          "acceso acristalado con escalinata y rampa lateral con barandal rojo",
+          "patio de estudio cubierto con estructura tubular roja y pavimento circular"
+        ],
+        "approximate": true
+      }
     },
     {
       "id": "Q",
@@ -376,6 +486,7 @@ export const ORIGINAL = {
     },
     {
       "id": "T",
+      "name": "T · Sistemas Escolares y Salas de Cómputo",
       "floors": 2,
       "noStreetExit": true,
       "rects": [
@@ -387,26 +498,47 @@ export const ORIGINAL = {
         ]
       ],
       "facadeReference": {
-        "revision": "2026-10-18",
+        "revision": "2026-11-15",
         "photos": [
           "codex-clipboard-b41829a0-6ea4-41a0-a505-d2042bb84073.png",
-          "codex-clipboard-6cb75c1c-904c-4e28-bf1f-b13534662887.png"
+          "codex-clipboard-6cb75c1c-904c-4e28-bf1f-b13534662887.png",
+          "imagen_0008.png",
+          "imagen_0010.png",
+          "imagen_0023.png",
+          "imagen_0044.png",
+          "imagen_0052.png",
+          "imagen_0053.png",
+          "imagen_0056.png",
+          "imagen_0057.png",
+          "imagen_0063.png",
+          "imagen_0079.png",
+          "imagen_0107.png",
+          "imagen_0113.png",
+          "imagen_0118.png",
+          "imagen_0127.png",
+          "imagen_0130.png",
+          "imagen_0137.png",
+          "imagen_0140.png"
         ],
         "details": [
           "escalera exterior al patio",
           "muro inclinado terracota",
           "barandales rojos",
-          "PB retranqueada",
-          "galería y marquesina",
+          "PB retranqueada con columnas cilíndricas y ventanillas rojas en zigzag (CSE)",
+          "galería superior con cubierta curva translúcida sobre estructura tubular roja",
+          "cicloestacionamiento techado rojo y tótem junto a escalera",
+          "jardineras circulares y escultura de acero oxidado en patio interior",
+          "fachada posterior sur con tres franjas de celosía de ladrillo y remetimiento acristalado",
           "rótulo t rojo"
         ],
         "approximate": true,
-        "orientationPending": true,
+        "orientationPending": false,
         "noStreetExit": true
       }
     },
     {
       "id": "W",
+      "name": "W · Laboratorios e Investigación CBI",
       "floors": 3,
       "rects": [
         [
@@ -415,7 +547,25 @@ export const ORIGINAL = {
           1288,
           334
         ]
-      ]
+      ],
+      "facadeReference": {
+        "revision": "2026-11-15",
+        "photos": [
+          "imagen_0030.png",
+          "imagen_0062.png",
+          "imagen_0092.png",
+          "imagen_0101.png",
+          "imagen_0102.png",
+          "imagen_0103.png"
+        ],
+        "details": [
+          "paneles de concreto gris claro con retícula modular y barandal en azotea",
+          "volúmenes bajos escalonados en PB hacia estacionamiento y bloques de ventanales reticulares",
+          "pórtico de triple altura con cerchas metálicas rojas y muro curvo con puertas rojas",
+          "escalera monumental con descansos curvos de concreto, barandal rojo y escultura negra en acceso"
+        ],
+        "approximate": true
+      }
     }
   ],
   "bridges": [],

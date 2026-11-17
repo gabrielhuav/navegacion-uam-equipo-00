@@ -1,0 +1,192 @@
+{
+  "date": "2026-11-17",
+  "independent_read_only_audit": true,
+  "baseline": "Gemini editable/exported snapshot before Codex geometry corrections",
+  "parking": {
+    "method": "Actual top-face triangles clipped against transformed canonical convex footprints; pavilion diamond corners preserved",
+    "before_intersecting_pairs": 15,
+    "after_intersecting_pairs": 0,
+    "passes_strict": true,
+    "checked_exported_detail_meshes": 1800
+  },
+  "pedestrian_centrelines": {
+    "method": "World-inverse segment against every exported building BoxGeometry, threshold .2 model units, no named exceptions",
+    "heights": [
+      {
+        "height_model_units": 1.0,
+        "before": 8,
+        "after": 0,
+        "checked_building_boxes": 4487
+      },
+      {
+        "height_model_units": 1.8,
+        "before": 3,
+        "after": 0,
+        "checked_building_boxes": 4487
+      },
+      {
+        "height_model_units": 2.2,
+        "before": 2,
+        "after": 0,
+        "checked_building_boxes": 4487
+      }
+    ],
+    "passes_strict": true
+  },
+  "optional_parallel_probes": {
+    "height_model_units": 1,
+    "width_model_units": 1.2,
+    "before": 54,
+    "after": 31,
+    "new_affected_objects_and_sides": 0,
+    "remaining_by_building": {
+      "Edificio_E": 25,
+      "Edificio_K": 1,
+      "Edificio_P": 3,
+      "Edificio_G": 2
+    },
+    "interpretation": "All remaining probes were present in the Gemini snapshot. This is not continuous clearance nor an accessibility certificate.",
+    "comparison": "Edge, mesh name/building, probe offset and world centre rounded to 0.0001 model units"
+  },
+  "contract": {
+    "buildings": 26,
+    "editable_parking": 7,
+    "route_nodes": 115,
+    "route_edges": 120,
+    "route_destinations": 31,
+    "route_components": 1,
+    "png_dimensions": [
+      1560,
+      640
+    ],
+    "saved_object_edits_preserved": 3,
+    "copyright_node_difference": 34,
+    "unchanged_against_Gemini": [
+      "georeference",
+      "route_graph",
+      "building_ids_and_footprints_offsets",
+      "site",
+      "parking_rectangles",
+      "gates",
+      "metersPerPixel",
+      "storeyHeight"
+    ]
+  },
+  "analytical_geometry_unit_tests": {
+    "passed": 16,
+    "failed": 0,
+    "command": "python -m unittest discover -s campus/validacion -p 'test_*.py' -v"
+  },
+  "final_files": {
+    "UAM_Azcapotzalco.glb": {
+      "sha256": "fd35af40cfc025588542c5ebe8e7dadcaeed787fef35d175eac7837b25f9769b",
+      "bytes": 2856464,
+      "nodes": 8813,
+      "mesh_nodes": 8487,
+      "mesh_definitions": 573
+    },
+    "UAM_Azcapotzalco_sin_marca.glb": {
+      "sha256": "852167a6dda810ef2c536ae22a20c367c5941f8e789f585d354ca9f8f0c5b73d",
+      "bytes": 2737844,
+      "nodes": 8779,
+      "mesh_nodes": 8454,
+      "mesh_definitions": 540
+    },
+    "plano_2d.png": {
+      "sha256": "91226c5fe6d6a2833f9d2693c2f8baf422c4692c625a704e8e05612c448b8924",
+      "bytes": 668615
+    },
+    "plano_2d_sin_marca.png": {
+      "sha256": "5d59fc791347acd468f5ee154223fbb050b999ccb98caed95e15d206ec5eb92f",
+      "bytes": 136518
+    },
+    "georreferencia.json": {
+      "sha256": "d983ef424981b3b617ac2a4bf6232a60a5e8002e12b2320f7a5f30887065632b",
+      "bytes": 551,
+      "sha256_normalized_lf": "78d2d0b807f691b21a312d3fe6a8b531cd643a13c6cca4cbea19b7cec57c50d8",
+      "bytes_normalized_lf": 532,
+      "git_baseline_blob_sha256": "78d2d0b807f691b21a312d3fe6a8b531cd643a13c6cca4cbea19b7cec57c50d8",
+      "normalized_lf_matches_git_baseline": true,
+      "hash_note": "sha256/bytes describe the exact local checkout; use normalized_lf for Windows/Linux comparisons. Git text=auto stores LF."
+    },
+    "rutas.json": {
+      "sha256": "fe511c6cf97370467f194ae4ee204341d8f57f8589371fdf3ca7a5f921e7daa6",
+      "bytes": 38611,
+      "sha256_normalized_lf": "62fb5b134ade9af369ef7f3b928cdbcabd1b4d87abf2ceb23232c8f46ddc6041",
+      "bytes_normalized_lf": 36572,
+      "git_baseline_blob_sha256": "62fb5b134ade9af369ef7f3b928cdbcabd1b4d87abf2ceb23232c8f46ddc6041",
+      "normalized_lf_matches_git_baseline": true,
+      "hash_note": "sha256/bytes describe the exact local checkout; use normalized_lf for Windows/Linux comparisons. Git text=auto stores LF."
+    }
+  },
+  "limitations": [
+    "No topographic ground truth is inferred from model geometry.",
+    "Building centrelines test only BoxGeometry at three heights, with a 0.2-model-unit penetration threshold.",
+    "The separate corpus-environment audit uses actual triangles and continuous route capsules, only for explicitly tagged meshes; other old furniture and trees remain outside its scope.",
+    "The complete greenhouse enclosure is checked against conservative 3D world boxes of all other building meshes, at every height, including ramps and transparent meshes; this is model separation, not a location survey.",
+    "The 1.2-unit lateral probes remain approximate parallel samples rather than continuous clearance or an accessibility certificate.",
+    "Field verification remains necessary; no Play upload or application install was performed by this audit."
+  ],
+  "baseline_glb_sha256": "15bc86bbb619aa645dc73d5c7ee06272083de95b26f809a48bd27a096d58fe27",
+  "corpus_environment_obstacles": {
+    "read_only": true,
+    "glb_sha256": "fd35af40cfc025588542c5ebe8e7dadcaeed787fef35d175eac7837b25f9769b",
+    "scope": "tagged_environment_actual_triangles_vs_continuous_route_capsules",
+    "route_width_model_units": 1.8,
+    "round_end_caps": true,
+    "canonical_edges": 120,
+    "tagged_meshes": 113,
+    "physical_obstacle_meshes": 86,
+    "ground_or_non_obstacle_meshes_excluded": 27,
+    "existing_footprint_meshes": 9,
+    "new_footprint_meshes": 77,
+    "collisions": [],
+    "collision_count": 0,
+    "new_footprint_collision_count": 0,
+    "preserved_footprint_collision_count": 0,
+    "passed": true,
+    "limitations": [
+      "No es un certificado completo de transitabilidad ni accesibilidad.",
+      "Sólo mallas corpusEnvironment=2026-11-17-entorno; se excluye mobiliario antiguo sin etiqueta.",
+      "No filtra altura: se compara la proyección física de los triángulos contra el corredor continuo.",
+      "El área auxiliar corresponde al mayor triángulo contra el rectángulo, no al área unión del mueble."
+    ],
+    "method": "Actual exported mesh triangles transformed to world XZ; exact segment-to-triangle distance against the continuous 1.8-model-unit corridor with round end caps. Preserved footprints are not exempt.",
+    "passes_strict": true
+  },
+  "greenhouse_building_separation": {
+    "greenhouse_world_bounds": {
+      "low": [
+        164.199429197654,
+        0.0256268024444574,
+        37.86479041916168
+      ],
+      "high": [
+        168.09817559276513,
+        2.872732294447011,
+        44.264790419161685
+      ]
+    },
+    "greenhouse_meshes": 38,
+    "building_meshes_checked": 4835,
+    "minimum_building_aabb_distance_model_units": 0.0601197604790471,
+    "collision_count": 0,
+    "collisions": [],
+    "passed": true,
+    "read_only": true,
+    "glb_sha256": "fd35af40cfc025588542c5ebe8e7dadcaeed787fef35d175eac7837b25f9769b",
+    "scope": "full_greenhouse_world_vertex_AABB_vs_every_other_exported_building_mesh_AABB",
+    "greenhouse_roots": {
+      "P2_invernadero_lateral": 1,
+      "P2_marco_invernadero": 3,
+      "P2_bastidor_longitudinal_corpus": 1
+    },
+    "no_height_or_transparency_filter": true,
+    "limitations": [
+      "Conservative world-axis-aligned boxes can warn about empty corners.",
+      "Zero overlap establishes separation against these boxes, not a topographic or accessibility certificate.",
+      "Only building meshes are compared; the greenhouse itself is the sole exclusion."
+    ],
+    "passes_strict": true
+  }
+}
