@@ -1,5 +1,9 @@
 # Campus UAM Azcapotzalco · modelo 2D/3D
 
+## Piloto de rutas para T, G y la biblioteca · 20 noviembre 2026
+
+El candidato local conecta Plaza Roja con Plaza COSEI por el paso de planta baja de G, lleva a T por el patio interior y guía a la biblioteca por su escalinata hasta el pórtico. Usa el perímetro para iniciar el recorrido en un acceso peatonal cuando el GPS está fuera y añade 22 destinos consultables con piso verificado. [Comparación de recorridos, fuentes y comprobaciones](PILOTO_T_G_BIBLIOTECA.md).
+
 ## Revisión detallada del mapa · 17 noviembre 2026
 
 Se incorporó la base de Gemini conservando sus fachadas y niveles. La revisión posterior corrige el trazado de estacionamientos mediante exclusión de huellas completas y sus transformaciones, libera nueve aproximaciones a entradas y pasillos ya presentes en la red y completa las juntas de concreto de W y la retícula cerámica azul de P1 con evidencia del corpus. La ampliación fotográfica reconstruye la cubierta traslúcida y las mesas del patio P4, el exhibidor amarillo con perfiles I y uniones abiertas, y el invernadero de P2 con bastidores blancos y techo a dos aguas. En las plazas se completan los botes, se añaden pavimento y delimitadores de jardín, una rejilla circular y una mesa hexagonal; las bancas de J quedan apoyadas sobre el piso y un arco se reubica dentro de su pavimento para despejar la ruta existente. Las rampas se representan visualmente; sus pendientes y anchos reales requieren comprobación de campo.

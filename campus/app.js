@@ -5,6 +5,7 @@ import {ORIGINAL} from 'model-data';
 import {copyrightPanelsForSite} from 'copyright-layout';
 import {createRouteEditor} from 'route-editor';
 import {BASE_ROUTES,ROUTE_GEO} from 'route-data';
+import {gPassage} from 'route-space';
 import {rectanglePolygon,segmentPolygon,convexHull,polygonArea,polygonsOverlap,subtractObstacles,intersectConvex} from 'site-clearance';
 import {agregarDetallesCorpus} from 'detalles-corpus';
 import {liberarAccesosModelados} from 'accesos-modelados';
@@ -113,7 +114,7 @@ function reinforceG(parent,w,d,h,floors){
 }
 
 function azcBuildingG(part,b,w,d,h){
- const story=data.storeyHeight,bays=7,step=(d-2)/bays,z0=-d/2+1+3*step,z1=-d/2+1+4*step,zCenter=(z0+z1)/2;
+ const story=data.storeyHeight,{step,z0,z1,zCenter}=gPassage(d);
  const northLen=z0-(-d/2),southLen=d/2-z1;
  // PB dividida en dos cuerpos para dejar el vano central (1 solo cuadro) abierto de lado a lado entre COSEI y Plaza Roja.
  box(part,'Cuerpo_PB_norte_G',0,story/2,-d/2+northLen/2,w,story,northLen,'#d4d6d1');

@@ -15,7 +15,8 @@ export function createRouteEditor({scene,canvas,getCamera,getData,getGeo,initial
   group.visible=$('showRoutes').checked;
   rebuildOptions($('routeNode'),[['','Selecciona un nodo'],...net.nodos.map(n=>[n.id,n.id+' · '+n.tipo])],selected);
   rebuildOptions($('routeEdge'),[['','Selecciona un tramo'],...net.aristas.map((e,i)=>[String(i),e.de+' ↔ '+e.a+' · '+e.metros+' m'])],edgeIndex<0?'':String(edgeIndex));
-  const dest=$('routeDestination').value;rebuildOptions($('routeDestination'),net.destinos.map(d=>[d.id,d.nombre]),dest||net.destinos[0]?.id);fields();status();onDirty();
+  const destinations=net.destinos.filter(d=>!d.edificio),dest=$('routeDestination').value;
+  rebuildOptions($('routeDestination'),destinations.map(d=>[d.id,d.nombre]),dest||destinations[0]?.id);fields();status();onDirty();
  }
  function chooseNode(id){selected=id;edgeIndex=-1;if($('routeTool').value==='link'&&!linkFrom)linkFrom=id;refresh();}
  function mutate(fn,{geometry=true}={}){if(busy())return;const old=structuredClone(net);fn();const errors=geometry?issues(false):[];if(errors.length){net=old;refresh();message(errors[0]);return;}past.push(old);if(past.length>60)past.shift();future=[];refresh();}
@@ -45,7 +46,10 @@ export function createRouteEditor({scene,canvas,getCamera,getData,getGeo,initial
  $('routeApplyNode').onclick=()=>{const n=net.nodos.find(n=>n.id===selected),x=Number($('routeNodeX').value),z=Number($('routeNodeZ').value);if(!n||![x,z].every(Number.isFinite)){message('Selecciona un nodo e introduce X/Z válidos.');return;}mutate(()=>{updateNode(n,x,z);n.tipo=$('routeNodeType').value;});};
  $('routeApplyEdge').onclick=()=>{if(!net.aristas[edgeIndex])return;mutate(()=>Object.assign(net.aristas[edgeIndex],{tipo:$('routeEdgeType').value,accesible:$('routeAccessible').checked}));};
  $('routeDelete').onclick=()=>{if(selected){if(net.destinos.some(d=>d.nodo===selected)){message('Reasigna el destino antes de quitar su nodo.');return;}mutate(()=>{net.nodos=net.nodos.filter(n=>n.id!==selected);net.aristas=net.aristas.filter(e=>e.de!==selected&&e.a!==selected);selected='';},{geometry:false});}else if(edgeIndex>=0)mutate(()=>{net.aristas.splice(edgeIndex,1);edgeIndex=-1;},{geometry:false});};
- $('routeAssign').onclick=()=>{if(!selected)return;mutate(()=>{const dest=net.destinos.find(d=>d.id===$('routeDestination').value);dest.nodo=selected;net.nodos.find(n=>n.id===selected).tipo=dest.id.startsWith('ACCESO_')?'acceso':'entrada';});};
+ $('routeAssign').onclick=()=>{const id=$('routeDestination').value;if(!selected||!id)return;mutate(()=>{
+  for(const d of net.destinos)if(d.id===id||d.edificio===id)d.nodo=selected;
+  net.nodos.find(n=>n.id===selected).tipo=id.startsWith('ACCESO_')?'acceso':'entrada';
+ });};
  $('routeUndo').onclick=()=>{if(busy()||!past.length)return;future.push(net);net=past.pop();selected='';edgeIndex=-1;refresh();};
  $('routeRedo').onclick=()=>{if(busy()||!future.length)return;past.push(net);net=future.pop();selected='';edgeIndex=-1;refresh();};
  $('routeValidate').onclick=()=>{status();message(issues()[0]||'Red válida: conectada, destinos completos y sin cortes de edificios cerrados.');};

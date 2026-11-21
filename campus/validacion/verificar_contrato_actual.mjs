@@ -13,7 +13,7 @@ const data=JSON.parse(await read('campus_editado.json'));
 const geo=JSON.parse(await read('georreferencia.json'));
 const net=JSON.parse(await read('rutas.json'));
 const {ORIGINAL}=await import(pathToFileURL(path.join(campus,'model-data.js')).href);
-const {routeIssues,modelToGeo,edgeMeters}=await import(pathToFileURL(path.join(campus,'route-space.js')).href);
+const {routeIssues,modelToGeo}=await import(pathToFileURL(path.join(campus,'route-space.js')).href);
 const {BASE_ROUTES,ROUTE_GEO}=await import(pathToFileURL(path.join(campus,'route-data.js')).href);
 const parseGlb=async name=>{
   const raw=await file(name);
@@ -25,7 +25,12 @@ const parseGlb=async name=>{
 assert.deepEqual(JSON.parse(await read('campus_base.json')),ORIGINAL,'Base incompatible con model-data.js');
 assert.deepEqual(net,BASE_ROUTES,'Portátil/red incorporada obsoletos');assert.deepEqual(geo,ROUTE_GEO);
 assert.deepEqual(routeIssues(net,data,geo),[],'Rutas cortan obstáculos canónicos o tienen datos inválidos');
-assert.equal(net.nodos.length,115);assert.equal(net.aristas.length,120);assert.equal(net.destinos.length,31);
+assert.ok(net.nodos.length>=115&&net.aristas.length>=120);
+assert.equal(net.destinos.filter(d=>!d.edificio).length,31);
+assert.ok(net.perimetro?.length>=3,'Falta el límite para iniciar rutas desde el GPS');
+assert.ok(net.destinos.some(d=>d.edificio==='G'&&d.id==='G302-A'));
+assert.ok(net.destinos.some(d=>d.edificio==='T'&&d.id==='T_CSE'));
+assert.ok(net.destinos.some(d=>d.edificio==='I'&&d.id==='I_HEMEROTECA'));
 assert.equal(data.buildings.length,26);
 assert.equal(data.gates.filter(x=>x.type==='vehicle').length,3);
 assert.equal(data.gates.filter(x=>x.type==='pedestrian').length,3);
@@ -41,7 +46,10 @@ for(const [mutate,pattern] of [
   [n=>n.aristas[0].metros+=10,/Metros incoherentes/],
   [n=>n.nodos[0].lat+=.001,/Lat\/lon/],
   [n=>n.destinos[0].nodo='no-existe',/Destino sin nodo/],
-  [n=>n.destinos.pop(),/Falta destino/],
+  [n=>n.destinos=n.destinos.filter(d=>d.id!=='T'),/Falta destino/],
+  [n=>n.perimetro[0].lat+=.001,/perímetro GPS/],
+  [n=>n.nodos.find(p=>p.id===n.destinos.find(d=>d.id==='ACCESO_P3').nodo).tipo='cruce',/Acceso peatonal sin tipo/],
+  [n=>n.destinos.find(d=>d.id==='G302-A').nodo='n1',/Destino interior/],
 ]){const copy=structuredClone(net);mutate(copy);assert.ok(routeIssues(copy,data,geo).some(x=>pattern.test(x)));}
 // Conectividad real, no sólo cantidad de nodos.
 const links=new Map(net.nodos.map(n=>[n.id,[]]));
@@ -78,14 +86,18 @@ for(const name of ['plano_2d.png','plano_2d_sin_marca.png']){
 if(baseline){
   const old=JSON.parse(await fs.readFile(path.join(baseline,'campus_editado.json'),'utf8'));
   assert.deepEqual(geo,JSON.parse(await fs.readFile(path.join(baseline,'georreferencia.json'),'utf8')));
-  assert.deepEqual(net,JSON.parse(await fs.readFile(path.join(baseline,'rutas.json'),'utf8')));
+  const oldNet=JSON.parse(await fs.readFile(path.join(baseline,'rutas.json'),'utf8'));
+  for(const key of ['nodos','destinos']){
+    const ids=new Set(net[key].map(item=>item.id));
+    for(const item of oldNet[key])assert.ok(ids.has(item.id),'Falta el ID previo '+item.id);
+  }
   assert.equal(data.metersPerPixel,old.metersPerPixel);assert.equal(data.storeyHeight,old.storeyHeight);
   assert.deepEqual(data.site,old.site);assert.deepEqual(data.parking,old.parking);assert.deepEqual(data.gates,old.gates);
   assert.deepEqual(data.buildings.map(b=>({id:b.id,rects:b.rects,offsetX:b.offsetX,offsetZ:b.offsetZ})),
                    old.buildings.map(b=>({id:b.id,rects:b.rects,offsetX:b.offsetX,offsetZ:b.offsetZ})));
 }
 console.log(JSON.stringify({pass:true,read_only:true,buildings:26,parking:data.parking.length,
-  routeNodes:115,routeEdges:120,routeDestinations:31,routeComponent:1,png:[1560,640],
+  routeNodes:net.nodos.length,routeEdges:net.aristas.length,routeDestinations:net.destinos.length,routeComponent:1,png:[1560,640],
   marked:{sha256:marked.sha256,bytes:marked.bytes,nodes:marked.gltf.nodes.length},
   plain:{sha256:plain.sha256,bytes:plain.bytes,nodes:plain.gltf.nodes.length},
   savedEditsPreserved:Object.keys(data.elementEdits||{}).length,baselineCompared:!!baseline}));

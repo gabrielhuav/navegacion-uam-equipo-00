@@ -2,6 +2,7 @@ package ovh.gabrielhuav.salones
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
@@ -50,5 +51,79 @@ class RutasTest {
     fun leeDestinosYAristas() {
         assertEquals("Edificio C", red.destinos.single().nombre)
         assertEquals(3, red.aristas.size)
+    }
+
+    private val piloto = leerRed("""
+        {
+          "version": 1,
+          "unidad": "azcapotzalco",
+          "perimetro": [
+            { "lat": 19.5000, "lon": -99.1910 }, { "lat": 19.5000, "lon": -99.1890 },
+            { "lat": 19.5020, "lon": -99.1890 }, { "lat": 19.5020, "lon": -99.1910 }
+          ],
+          "nodos": [
+            { "id": "A", "lat": 19.5000, "lon": -99.1900, "x": 0, "z": 0, "tipo": "acceso" },
+            { "id": "B", "lat": 19.5010, "lon": -99.1900, "x": 0, "z": 100, "tipo": "cruce" },
+            { "id": "C", "lat": 19.5010, "lon": -99.1899, "x": 10, "z": 100, "tipo": "entrada" },
+            { "id": "D", "lat": 19.5020, "lon": -99.1890, "x": 100, "z": 200, "tipo": "acceso" },
+            { "id": "V", "lat": 19.5019, "lon": -99.1890, "x": 100, "z": 190, "tipo": "acceso" }
+          ],
+          "aristas": [
+            { "de": "A", "a": "B", "metros": 110, "tipo": "pasillo" },
+            { "de": "B", "a": "C", "metros": 10, "tipo": "escalera" },
+            { "de": "C", "a": "V", "metros": 135, "tipo": "exterior" }
+          ],
+          "destinos": [
+            { "id": "ACCESO_P1", "nombre": "Acceso peatonal P1", "nodo": "A" },
+            { "id": "ACCESO_P2", "nombre": "Acceso peatonal P2", "nodo": "D" },
+            { "id": "ACCESO_V1", "nombre": "Acceso vehicular V1", "nodo": "V" },
+            { "id": "C", "nombre": "Edificio C", "nodo": "C" },
+            { "id": "C101", "nombre": "C101", "nodo": "C", "edificio": "C", "nivel": 1,
+              "referencia": "Acceso por la plaza" }
+          ]
+        }
+    """.trimIndent())
+    private val salon = piloto.destinos.last()
+
+    @Test
+    fun desdeFueraSoloEmpiezaEnUnAccesoPeatonalConectado() {
+        // Aunque hay dos nodos de acceso a menos de 20 m, uno no está conectado y el otro es vehicular.
+        val (ruta, porAcceso) = piloto.rutaDesde(Ubicacion(19.50201, -99.1890), salon)!!
+        assertTrue(porAcceso)
+        assertEquals("ACCESO_P1", ruta.inicioAcceso)
+        assertEquals(piloto.nodos.getValue("A").lugar, ruta.puntos.first())
+        assertEquals(120.0, ruta.metros)
+        assertTrue(ruta.incluyeEscaleras)
+    }
+
+    @Test
+    fun proyectaAlAndadorYContinuaPorElExtremoQueAcortaElRecorrido() {
+        val (ruta, porAcceso) = piloto.rutaDesde(Ubicacion(19.50025, -99.19002), salon)!!
+        assertFalse(porAcceso)
+        assertEquals(Ubicacion(19.50025, -99.1900), ruta.puntos.first())
+        assertEquals(piloto.nodos.getValue("B").lugar, ruta.puntos[1])
+        assertEquals(92.5, ruta.metros, 1e-6)
+        assertEquals(0.0, ruta.enModelo.first().first, 1e-9)
+        assertEquals(25.0, ruta.enModelo.first().second, 1e-6)
+        assertTrue(ruta.incluyeEscaleras)
+    }
+
+    @Test
+    fun exigeUnOrigenManualCuandoNoHayAndadorCercano() {
+        val origen = Ubicacion(19.50025, -99.1908)
+        assertEquals(true, piloto.ubicacionDentroDelPerimetro(origen))
+        assertNull(piloto.rutaDesde(origen, salon))
+        assertNull(red.ubicacionDentroDelPerimetro(origen))
+    }
+
+    @Test
+    fun leePisoYReferenciaSinModificarLaLlegadaNiColocarUnTramoInterior() {
+        assertEquals("C", salon.edificio)
+        assertEquals(1, salon.nivel)
+        assertEquals("Acceso por la plaza", salon.referencia)
+        val llegada = piloto.rutaMasCorta("A", salon.nodo)!!
+        assertEquals(piloto.nodos.getValue("C").lugar, llegada.puntos.last())
+        assertTrue(piloto.rutaMasCorta("C", "A")!!.incluyeEscaleras)
+        assertFalse(piloto.rutaMasCorta("A", "B")!!.incluyeEscaleras)
     }
 }
