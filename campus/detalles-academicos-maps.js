@@ -41,6 +41,15 @@ export function detallarFachadaH({part,b,w,d,idx,box,data}) {
   box(part,'H_travesano_de_acceso',x,1.78,back+.083,step-.14,.052,.034,metal);
   box(part,'H_montante_de_acceso',x+step/2-.07,1.39,back+.085,.056,1.62,.046,metal);
  }
+ // Recorrido en RV, 5:22–5:53: el primer piso mira al jardín por una cara abierta.
+ // La cancelería con zócalo rojo está en el lado de las aulas, detrás del antepecho.
+ if(b.floors>2){
+  box(part,'H_zocalo_rojo_galeria_piso_1',0,floor+.44,back+.04,span,.88,.073,'#a93d3b');
+  box(part,'H_cristal_galeria_piso_1',0,floor+1.69,back+.043,span,1.57,.077,'#536766');
+  box(part,'H_travesano_galeria_piso_1',0,floor+1.93,back+.092,span,.053,.045,'#353e3c');
+  for(let x=-span/2+.08;x<span/2;x+=1.45)box(part,'H_montante_galeria_piso_1',x,floor+1.28,back+.093,.049,2.56,.049,'#414947');
+  for(let x=-span/2+2.5;x<span/2-1.7;x+=4.9)box(part,'H_luminaria_galeria_piso_1',x,2*floor-.323,back+gallery*.5,1.07,.036,.37,'#e9ede9');
+ }
  box(part,'H_pavimento_rojo_de_galeria',0,.356,edge-gallery*.33,span,.018,gallery*.58,'#995f54');
 }
 

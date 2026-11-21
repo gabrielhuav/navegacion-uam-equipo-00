@@ -1,5 +1,17 @@
 # Campus UAM Azcapotzalco · modelo 2D/3D
 
+## Jardines de H, HP y HO · 21 noviembre 2026
+
+El jardín continuo entre Serpentina II y Las tres Gracias pasa de 189 a unos 1.840 m² en la maqueta. Se añadió el andador de losas, se recortó el asfalto y se reorientaron las filas junto a los separadores arbolados. El visor también incluye la Plaza de Egresados de HO, basada en su planta y en las fotos de la inauguración. [Cambios, fuentes y comprobaciones](JARDINES_H_HP.md).
+
+## Recorrido virtual y Street View · 21 noviembre 2026
+
+El video de 360° y las fotos esféricas sirvieron para remodelar las ventanillas de T, detallar el primer piso de la galería de H, perfilar una junta de COSEI y añadir el muro de vidrio al corte de W. El catálogo de la UAM y la vista aérea permitieron recuperar el jardín y colocar **Las tres Gracias** frente a HP. [Evidencias con tiempos, marcadores y verificaciones](RECORRIDO_VIRTUAL_Y_STREET_VIEW_AZC.md).
+
+## Auditoría de galerías de Maps · 21 noviembre 2026
+
+Se recorrieron las 279 miniaturas de fotos de la ficha general de UAM Azcapotzalco y las 55 de Cafetería J. El [registro de galerías](AUDITORIA_GALERIAS_MAPS_AZC_2026-11-21.md) indica por ficha qué se revisó en miniatura o en grande y qué queda por localizar. El visor local añade los cortes de W, con su atrio de galerías y cubierta arqueada, y R, con la cancha de duela, gradas y cerchas. Los dos cortes se abren en **Interiores**.
+
 ## Recorrido de Maps y zona deportiva · 21 noviembre 2026
 
 La revisión de Maps en Edge y el contraste con fotos de la UAM y los corpus amplía el vestíbulo de L, las fachadas de H, HO, J y R, y el sector deportivo. El visor ofrece un corte separado de L y cámaras para recorrer los sectores. El plano distingue el campo natural, las multicanchas y fútbol 7. [Evidencias, cambios y verificaciones](RECORRIDO_MAPS_AZC_2026-11-21.md).
