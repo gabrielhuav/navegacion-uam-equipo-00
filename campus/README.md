@@ -1,5 +1,13 @@
 # Campus UAM Azcapotzalco · modelo 2D/3D
 
+## Recorrido de Maps y zona deportiva · 21 noviembre 2026
+
+La revisión de Maps en Edge y el contraste con fotos de la UAM y los corpus amplía el vestíbulo de L, las fachadas de H, HO, J y R, y el sector deportivo. El visor ofrece un corte separado de L y cámaras para recorrer los sectores. El plano distingue el campo natural, las multicanchas y fútbol 7. [Evidencias, cambios y verificaciones](RECORRIDO_MAPS_AZC_2026-11-21.md).
+
+## Monumentos y vistas interiores · 21 noviembre 2026
+
+Las fichas de Maps y los corpus permitieron corregir la ubicación de Universitas y Casa Abierta al Tiempo en los jardines, reconstruir Uroboros, Primera letra y Pérgola animada, e identificar la Caja del Tiempo. Se actualizó el pórtico de Biblioteca I y el visor incorpora tres cortes esquemáticos de I, J y G302-A. [Cambios, fuentes y verificaciones](REVISION_VISUAL_AZC_2026-11-21.md).
+
 ## Piloto de rutas para T, G y la biblioteca · 20 noviembre 2026
 
 El candidato local conecta Plaza Roja con Plaza COSEI por el paso de planta baja de G, lleva a T por el patio interior y guía a la biblioteca por su escalinata hasta el pórtico. Usa el perímetro para iniciar el recorrido en un acceso peatonal cuando el GPS está fuera y añade 22 destinos consultables con piso verificado. [Comparación de recorridos, fuentes y comprobaciones](PILOTO_T_G_BIBLIOTECA.md).

@@ -925,10 +925,11 @@ export const ORIGINAL = {
   "sculpture": {
     "position": [
       715,
-      526
+      535
     ],
     "side": "COSEI",
-    "building": "G"
+    "building": "G",
+    "reference": "Pérgola animada de Gilberto Aceves Navarro, EAE15. Foto del corpus imagen_0080 y recorrido CyAD de 2024 junto al pasaje hacia biblioteca."
   },
   "gates": [
     {
@@ -993,21 +994,21 @@ export const ORIGINAL = {
   },
   "universitas": {
     "position": [
-      780,
-      252
+      635.4,
+      325.6
     ],
     "scale": 1,
     "approximate": true,
-    "reference": "Escultura 'Universitas' (acero azul sobre pedestal circular de piedra, ~6 m de alto). Colocada junto a Serpentina para moverla con el editor; ubicación real por confirmar. Issue #10."
+    "reference": "Ficha Universitas de Google Maps, foto comunitaria de septiembre de 2024 y catálogo de obra de Sebastián. Anclaje aproximado del jardín; acero azul y pedestal bajo."
   },
   "casaAbierta": {
     "position": [
-      906,
-      248
+      613.53,
+      270.53
     ],
     "scale": 1,
     "approximate": true,
-    "reference": "Escultura 'Casa abierta al tiempo' (tres poliedros dorados apilados sobre pedestal circular, ~7 m de alto). Colocada junto a Serpentina para moverla con el editor; ubicación real por confirmar. Issue #10."
+    "reference": "Ficha Casa Abierta al Tiempo de Google Maps, foto comunitaria de septiembre de 2024. Obra dorada del jardín; la obra roja homónima de Sebastián está en la biblioteca."
   },
   "copyrightStyle": {
     "version": 2,
@@ -1041,6 +1042,6 @@ export const ORIGINAL = {
     ],
     "scale": 1,
     "approximate": true,
-    "reference": "Fotografía de Gabriel del 22 octubre 2026: escultura con vidrio, cuerpo inferior opaco, dos formas facetadas y pedestal de concreto en Plaza COSEI, junto a G/E. Nombre, medidas y ubicación exacta pendientes de confirmar."
+    "reference": "Caja del Tiempo. Informe de Rectoría 2014 y fotografías de la inauguración en Aleph UAM Azcapotzalco; corroborada con imagen_0145 del corpus."
   }
 };

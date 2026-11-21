@@ -72,6 +72,7 @@ for(const {gltf} of [marked,plain]){
   assert.equal(new Set(ids).size,ids.length);
   for(let i=0;i<data.parking.length;i++)assert.ok(ids.includes('parking_'+i));
   assert.ok(!gltf.nodes.some(n=>['Selección_editor','Vista_previa_estacionamiento'].includes(n.name)||/Editor_red|^Nodo_n|^Arista_/.test(n.name||'')));
+  assert.ok(!gltf.nodes.some(n=>/^Interior_(I_|J_|L_|G302_)/.test(n.name||'')),'Una vista interior entró en el GLB del campus');
 }
 assert.equal(plain.gltf.nodes.some(x=>x.name==='Marca_copyright_modelo'||x.name?.startsWith('Copyright_integrado_')),false);
 if(data.showCopyright!==false){
