@@ -23,8 +23,8 @@ android {
         applicationId = "ovh.gabrielhuav.salones"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 9
-        versionName = "0.4.0"
+        versionCode = 10
+        versionName = "0.5.0"
     }
 
     compileOptions {

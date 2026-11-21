@@ -1,0 +1,2 @@
+# Entorno de la comparación congelada; no descarga ni ejecuta la red neuronal.
+numpy==1.26.4

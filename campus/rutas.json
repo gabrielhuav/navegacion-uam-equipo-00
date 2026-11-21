@@ -1,6 +1,24 @@
 {
   "version": 1,
   "unidad": "azcapotzalco",
+  "perimetro": [
+    {
+      "lat": 19.50123944,
+      "lon": -99.18375476
+    },
+    {
+      "lat": 19.50292033,
+      "lon": -99.19052565
+    },
+    {
+      "lat": 19.5050663,
+      "lon": -99.19087449
+    },
+    {
+      "lat": 19.50389274,
+      "lon": -99.18329253
+    }
+  ],
   "nodos": [
     {
       "id": "n1",
@@ -670,10 +688,10 @@
     },
     {
       "id": "n75",
-      "lat": 19.50336428,
-      "lon": -99.18683486,
-      "x": -42.0958,
-      "z": 28.8024,
+      "lat": 19.50345,
+      "lon": -99.18676397,
+      "x": -47.4132,
+      "z": 38.5509,
       "nivel": 0,
       "tipo": "entrada"
     },
@@ -724,12 +742,12 @@
     },
     {
       "id": "n81",
-      "lat": 19.50415774,
-      "lon": -99.18750324,
-      "x": 34.5629,
-      "z": 98.3713,
+      "lat": 19.50417163,
+      "lon": -99.18750782,
+      "x": 35.2275,
+      "z": 99.7006,
       "nivel": 0,
-      "tipo": "cruce"
+      "tipo": "entrada"
     },
     {
       "id": "n82",
@@ -742,37 +760,37 @@
     },
     {
       "id": "n83",
-      "lat": 19.50359817,
-      "lon": -99.1869573,
-      "x": -26.5868,
-      "z": 50.4738,
+      "lat": 19.50361009,
+      "lon": -99.18703448,
+      "x": -19.0539,
+      "z": 50.4707,
       "nivel": 0,
       "tipo": "cruce"
     },
     {
       "id": "n84",
-      "lat": 19.50362425,
-      "lon": -99.18695275,
-      "x": -26.5868,
-      "z": 53.1737,
+      "lat": 19.50363834,
+      "lon": -99.18702956,
+      "x": -19.0539,
+      "z": 53.3952,
       "nivel": 0,
       "tipo": "cruce"
     },
     {
       "id": "n85",
-      "lat": 19.50383822,
-      "lon": -99.18691548,
-      "x": -26.5868,
+      "lat": 19.50385017,
+      "lon": -99.18699266,
+      "x": -19.0539,
       "z": 75.3293,
       "nivel": 0,
       "tipo": "cruce"
     },
     {
       "id": "n86",
-      "lat": 19.50391526,
-      "lon": -99.18690206,
-      "x": -26.5868,
-      "z": 83.3054,
+      "lat": 19.50392105,
+      "lon": -99.18699057,
+      "x": -18.079,
+      "z": 82.5078,
       "nivel": 0,
       "tipo": "entrada"
     },
@@ -1036,6 +1054,78 @@
       "z": 57.6048,
       "nivel": 0,
       "tipo": "entrada"
+    },
+    {
+      "id": "n116",
+      "lat": 19.5035774,
+      "lon": -99.18591185,
+      "x": -126.2874,
+      "z": 64.6946,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n117",
+      "lat": 19.50353079,
+      "lon": -99.18634892,
+      "x": -85.521,
+      "z": 53.1737,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n118",
+      "lat": 19.50360782,
+      "lon": -99.1863355,
+      "x": -85.521,
+      "z": 61.1497,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n119",
+      "lat": 19.50364767,
+      "lon": -99.18636586,
+      "x": -81.976,
+      "z": 64.6946,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n120",
+      "lat": 19.50395735,
+      "lon": -99.18632217,
+      "x": -81.0012,
+      "z": 96.5988,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n121",
+      "lat": 19.50348865,
+      "lon": -99.18701368,
+      "x": -23.0419,
+      "z": 38.5509,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n122",
+      "lat": 19.50365649,
+      "lon": -99.18656481,
+      "x": -62.9222,
+      "z": 62.479,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n123",
+      "lat": 19.50343249,
+      "lon": -99.18662248,
+      "x": -61.1497,
+      "z": 38.994,
+      "nivel": 0,
+      "tipo": "cruce"
     }
   ],
   "aristas": [
@@ -1567,14 +1657,21 @@
     {
       "de": "n74",
       "a": "n75",
-      "metros": 43.4,
+      "metros": 39.08,
       "tipo": "exterior",
       "accesible": true
     },
     {
       "de": "n75",
+      "a": "n121",
+      "metros": 26.52,
+      "tipo": "exterior",
+      "accesible": true
+    },
+    {
+      "de": "n121",
       "a": "n76",
-      "metros": 16.88,
+      "metros": 11.29,
       "tipo": "exterior",
       "accesible": true
     },
@@ -1594,8 +1691,36 @@
     },
     {
       "de": "n74",
+      "a": "n117",
+      "metros": 26.8,
+      "tipo": "exterior",
+      "accesible": true
+    },
+    {
+      "de": "n117",
+      "a": "n118",
+      "metros": 8.68,
+      "tipo": "exterior",
+      "accesible": true
+    },
+    {
+      "de": "n118",
+      "a": "n119",
+      "metros": 5.46,
+      "tipo": "exterior",
+      "accesible": true
+    },
+    {
+      "de": "n119",
+      "a": "n120",
+      "metros": 34.74,
+      "tipo": "exterior",
+      "accesible": true
+    },
+    {
+      "de": "n120",
       "a": "n19",
-      "metros": 103.68,
+      "metros": 29.92,
       "tipo": "exterior",
       "accesible": true
     },
@@ -1623,7 +1748,7 @@
     {
       "de": "n80",
       "a": "n81",
-      "metros": 44.37,
+      "metros": 45.82,
       "tipo": "exterior",
       "accesible": true
     },
@@ -1635,30 +1760,30 @@
       "accesible": true
     },
     {
-      "de": "n76",
+      "de": "n121",
       "a": "n83",
-      "metros": 23.58,
+      "metros": 13.68,
       "tipo": "exterior",
       "accesible": true
     },
     {
       "de": "n83",
       "a": "n84",
-      "metros": 2.94,
+      "metros": 3.18,
       "tipo": "escalera",
       "accesible": false
     },
     {
       "de": "n84",
       "a": "n85",
-      "metros": 24.11,
+      "metros": 23.87,
       "tipo": "exterior",
       "accesible": true
     },
     {
       "de": "n85",
       "a": "n86",
-      "metros": 8.68,
+      "metros": 7.88,
       "tipo": "exterior",
       "accesible": true
     },
@@ -1878,6 +2003,41 @@
       "metros": 9.64,
       "tipo": "exterior",
       "accesible": true
+    },
+    {
+      "de": "n71",
+      "a": "n116",
+      "metros": 22.18,
+      "tipo": "exterior",
+      "accesible": true
+    },
+    {
+      "de": "n116",
+      "a": "n119",
+      "metros": 48.22,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n119",
+      "a": "n122",
+      "metros": 20.88,
+      "tipo": "exterior",
+      "accesible": true
+    },
+    {
+      "de": "n122",
+      "a": "n123",
+      "metros": 25.63,
+      "tipo": "exterior",
+      "accesible": true
+    },
+    {
+      "de": "n123",
+      "a": "n75",
+      "metros": 14.96,
+      "tipo": "exterior",
+      "accesible": true
     }
   ],
   "destinos": [
@@ -1914,7 +2074,8 @@
     {
       "id": "G",
       "nombre": "Edificio G",
-      "nodo": "n88"
+      "nodo": "n88",
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
     },
     {
       "id": "H",
@@ -1934,7 +2095,8 @@
     {
       "id": "I",
       "nombre": "I · Biblioteca / COSEI",
-      "nodo": "n86"
+      "nodo": "n86",
+      "referencia": "Busca el pórtico acristalado y el rótulo rojo «i» frente a Plaza COSEI."
     },
     {
       "id": "J",
@@ -2004,7 +2166,8 @@
     {
       "id": "T",
       "nombre": "Edificio T",
-      "nodo": "n89"
+      "nodo": "n81",
+      "referencia": "Entra por el patio interior, hacia la galería con las ventanillas rojas de Sistemas Escolares."
     },
     {
       "id": "W",
@@ -2014,7 +2177,8 @@
     {
       "id": "COSEI",
       "nombre": "Plaza COSEI",
-      "nodo": "n75"
+      "nodo": "n75",
+      "referencia": "La biblioteca queda frente a las palmas y al asta, al otro lado de los escalones."
     },
     {
       "id": "PLAZA_ROJA",
@@ -2035,6 +2199,182 @@
       "id": "ACCESO_P3",
       "nombre": "Acceso peatonal P3",
       "nodo": "n93"
+    },
+    {
+      "id": "G006",
+      "nombre": "G006 · Laboratorio de Electricidad y Magnetismo",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 0,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "G007",
+      "nombre": "G007 · Laboratorio del Cuerpo Rígido y Oscilador",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 0,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "G302-A",
+      "nombre": "G302-A · Aula de Redes",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 3,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "G302-B",
+      "nombre": "G302-B · Aula de Redes",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 3,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "G307",
+      "nombre": "G307 · Aula de Robótica",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 3,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "G310-A",
+      "nombre": "G310-A · Aula de Proyectos Terminales",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 3,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "G314",
+      "nombre": "G314 · Aula Audiovisual",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 3,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "G304",
+      "nombre": "G304 · Laboratorio de Control",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 3,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "G304-BIS",
+      "nombre": "G304-BIS · Laboratorio de Caracterización de Dispositivos Semiconductores y Circuitos Integrados",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 3,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "G306",
+      "nombre": "G306 · Laboratorio de Electrónica",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 3,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "G308",
+      "nombre": "G308 · Laboratorio de Electrónica de Potencia",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 3,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "G309",
+      "nombre": "G309 · Centro de Apoyo para la Docencia e Investigación (CADI)",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 3,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "G312",
+      "nombre": "G312 · Laboratorio de Mecatrónica y Robótica Cognitiva",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 3,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "G316",
+      "nombre": "G316 · Taller Mecánico",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 3,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "I_HEMEROTECA",
+      "nombre": "Biblioteca · Hemeroteca",
+      "nodo": "n86",
+      "edificio": "I",
+      "nivel": 0,
+      "referencia": "Busca el pórtico acristalado y el rótulo rojo «i» frente a Plaza COSEI."
+    },
+    {
+      "id": "I_DOCUMENTACION",
+      "nombre": "Biblioteca · Sección de Documentación",
+      "nodo": "n86",
+      "edificio": "I",
+      "nivel": 0,
+      "referencia": "Busca el pórtico acristalado y el rótulo rojo «i» frente a Plaza COSEI."
+    },
+    {
+      "id": "I_AUDIOVISUAL",
+      "nombre": "Biblioteca · Colección Audiovisual",
+      "nodo": "n86",
+      "edificio": "I",
+      "nivel": 1,
+      "referencia": "Busca el pórtico acristalado y el rótulo rojo «i» frente a Plaza COSEI."
+    },
+    {
+      "id": "I_GENERAL_Q_Z",
+      "nombre": "Biblioteca · Colección General Q–Z",
+      "nodo": "n86",
+      "edificio": "I",
+      "nivel": 1,
+      "referencia": "Busca el pórtico acristalado y el rótulo rojo «i» frente a Plaza COSEI."
+    },
+    {
+      "id": "I_GENERAL_A_P",
+      "nombre": "Biblioteca · Colección General A–P",
+      "nodo": "n86",
+      "edificio": "I",
+      "nivel": 2,
+      "referencia": "Busca el pórtico acristalado y el rótulo rojo «i» frente a Plaza COSEI."
+    },
+    {
+      "id": "T_CSE",
+      "nombre": "T · Sistemas Escolares",
+      "nodo": "n81",
+      "edificio": "T",
+      "nivel": 0,
+      "referencia": "Entra por el patio interior, hacia la galería con las ventanillas rojas de Sistemas Escolares."
+    },
+    {
+      "id": "T_NEUMANN",
+      "nombre": "T · Sala John Von Neumann",
+      "nodo": "n81",
+      "edificio": "T",
+      "nivel": 1,
+      "referencia": "Entra por el patio interior, hacia la galería con las ventanillas rojas de Sistemas Escolares."
+    },
+    {
+      "id": "T_SOPORTE",
+      "nombre": "T · Soporte Técnico y Redes",
+      "nodo": "n81",
+      "edificio": "T",
+      "nivel": 0,
+      "referencia": "Entra por el patio interior, hacia la galería con las ventanillas rojas de Sistemas Escolares."
     }
   ]
 }

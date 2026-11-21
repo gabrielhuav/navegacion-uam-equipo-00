@@ -1,0 +1,16 @@
+{
+  "version_proceso": "solo-caras-pixeladas-v1",
+  "scope": "solo_caras",
+  "imagenes": 157,
+  "caras_rectangulos": 158,
+  "imagenes_con_caras_pixeladas": 51,
+  "porcentaje_global_pixeles_modificados": 0.03210384988406314,
+  "metodo": "cara: margen6% minimo1px; reducción BOX a máximo4x4; ampliación NEAREST al tamaño de la cara; fuera de rectángulos idéntico",
+  "umbral_candidato_rostro_automatico": 0.8,
+  "relleno_gris": false,
+  "censura_cuerpos": false,
+  "censura_texto": false,
+  "metadatos_originales": false,
+  "originales_y_0_5_0": "sin cambios",
+  "uploads_durante_preparacion_local": 0
+}

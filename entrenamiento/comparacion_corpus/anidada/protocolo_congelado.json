@@ -1,0 +1,754 @@
+{
+  "schema_version": 1,
+  "protocol_id": "ajuste_galerias_nested_logo_20261116_v1",
+  "status": "predeclared_before_outer",
+  "date": "2026-11-16",
+  "purpose": "Exploratory nested group evaluation of a frozen 960-dimensional encoder and 29 predeclared gallery recipes.",
+  "limitations": [
+    "The available photographs and previous errors have already been inspected. No resulting number is an external blind-test estimate.",
+    "Inner constraints are deliberately conservative product preferences declared before outer scoring. They are not statistical non-inferiority guarantees.",
+    "Each outer fold selects independently using only its inner folds. An aggregate outer result cannot choose a recipe, threshold, class subset or exception.",
+    "A final full-data fit may use the same inner-only rule after evaluation, but its training-data score is not an outer estimate."
+  ],
+  "model": {
+    "architecture": "MobileNetV3Large",
+    "dimension": 960,
+    "sha256": "d01e31483ac10fc887e5b4e7d47ee0e7a93cc196c56286312329401e219474bd",
+    "frozen": true,
+    "new_inference_allowed": false,
+    "feature_source": "Existing verified cache only; reference and natural query views remain distinct arrays."
+  },
+  "inputs": {
+    "metadata": "../privado/bancos_ajuste_metadata.json",
+    "features": "../privado/bancos_ajuste.npz",
+    "receipt": "../privado/recibo_bancos_ajuste.json",
+    "npz_sha256": "93d4e07b2b44641dab5b87c18109b1d5b0873a781b73ede8f876c119bb405d0a",
+    "arrays_signature_sha256": "48c219626ec05c740d9c40d4621b915b4cbe95113b840a4007f92e195bc41449",
+    "teacher_labels_signature_sha256": "b0acbc8dc303d8c81d904f9d9f553e16fb39da36f6ef7053d3f041901b393473"
+  },
+  "ground_truth": {
+    "native_human_photos": 217,
+    "native_labels_immutable": true,
+    "web_and_inherited_unconfirmed_are_ground_truth": false,
+    "legacy_is_a_separate_projection": true,
+    "native_and_legacy_overlap_is_not_independent_evidence": true,
+    "same_rgb_one_query_one_vote": true,
+    "same_photo_three_views_are_not_three_samples": true,
+    "human_priority": "A human native label overrides inherited/web labels in the candidate bank; the exact baseline and legacy evaluation labels stay intact.",
+    "interior_labels": "Owner labels are immutable. Exterior recipes filter only additions known to be exterior; they never delete baseline references or relabel courtyard photographs.",
+    "escom_building_5_must_remain": true
+  },
+  "split": {
+    "method": "nested_leave_one_group_out",
+    "group_field": "grupo_union_if_present_else_grupo",
+    "outer_order": "lexicographic_campus_then_group",
+    "inner_order": "lexicographic_group_excluding_outer",
+    "training_excludes": "All records from outer group g and inner validation group h, across all sources, RGB aliases, baseline flags and all three views.",
+    "outer_query_is_scored_only_after_selection": true,
+    "outer_metadata_labels_are_selection_inaccessible": true,
+    "transform_fit_role": "selected_training_references_only",
+    "transform_photo_weighting": "One equal-weight normalized mean of three individually normalized reference views per exact RGB photo.",
+    "unsupported_classes_remain_in_metrics": true
+  },
+  "recipe_space": {
+    "total": 29,
+    "order": "fixed_baseline_then_anchor_then_transforms_then_query_ensemble; within family scorer/transform,K,scope,cap lexicographic enumeration specified by frozen driver",
+    "fixed_baseline_count": 1,
+    "anchor_count": 16,
+    "anchor_scorers": [
+      "prototype_top3",
+      "photo_top1",
+      "photo_top2",
+      "photo_top3"
+    ],
+    "addition_scopes": [
+      "all",
+      "exterior_known"
+    ],
+    "anchor_caps_per_source_class": [
+      null,
+      2
+    ],
+    "transformed_count": 8,
+    "transforms": [
+      "center",
+      "diagonal_whiten"
+    ],
+    "transformed_k": [
+      2,
+      3
+    ],
+    "transformed_cap": 2,
+    "query_ensemble_count": 4,
+    "query_ensemble": "Arithmetic mean of the three natural query-view class scores, each obtained with photo_topK and max over the three reference views.",
+    "query_ensemble_k": [
+      2,
+      3
+    ],
+    "query_ensemble_cap": 2,
+    "query_default": "central",
+    "reference_photo_pooling": "max_over_three_reference_views",
+    "photo_topk": "Mean of the min(K, available_unique_RGB_photos) highest photo scores for each class.",
+    "prototype_top3": "Exact historical mean of the top three reference-view similarities per class; candidate aliases are collapsed before scoring.",
+    "baseline_preservation": "All baseline-flagged references remaining after split exclusion are protected from scope/cap filtering. Exact raw baseline bank remains separate and unchanged.",
+    "cap_source_field": "grupo_union_if_present_else_grupo",
+    "cap_applies_to": "Additions only, counted by campus/class/source group; baseline references neither consume the additions quota nor get removed.",
+    "addition_order": "lexicographic opaque id, independent of query features, query labels and diagnostic error cases",
+    "quality_weights": "none",
+    "diagonal_shrinkage": 0.5,
+    "diagonal_variance_epsilon": 0.0001,
+    "unit_norm_epsilon": 1e-08,
+    "class_score_tie": "lexicographically smallest class",
+    "randomness": "none"
+  },
+  "calibration": {
+    "role": "inner_validation_only",
+    "threshold_scope": "Per predicted class and recipe, quantiles of best_score on native human INNER rows predicted as that class, before using labels; union with the three fixed baseline thresholds.",
+    "quantiles": [
+      0.0,
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "quantile_method": "linear",
+    "fixed_thresholds": [
+      0.71,
+      0.74,
+      0.8
+    ],
+    "margins": [
+      0.0,
+      0.01,
+      0.03,
+      0.05
+    ],
+    "min_positive_groups": 2,
+    "min_accepted_groups": 2,
+    "min_accepted_photos": 5,
+    "min_precision": 0.9,
+    "requires_negative_example": true,
+    "never_accept_classes": [
+      "otro"
+    ],
+    "unsupported_operation": "reject; preserve raw scores, immutable true label and fixed metric vocabulary",
+    "acceptance": "best_score>=threshold and best_score-second_score>=margin; a rejected winning class never falls through to a different class",
+    "per_class_tiebreak": [
+      "highest recall",
+      "highest precision",
+      "highest threshold",
+      "highest margin"
+    ],
+    "negative_cosine_scores_allowed": true
+  },
+  "selection": {
+    "role": "inner_validation_only",
+    "unit": "one independently selected recipe and calibrated policy per outer fold and campus",
+    "baseline_candidate_id": "baseline",
+    "baseline_policy_is_not_recalibrated": true,
+    "azc_constraints": [
+      "legacy target T accepted TP >= fixed baseline",
+      "legacy target T accepted FP <= fixed baseline",
+      "legacy raw correct >= fixed baseline"
+    ],
+    "escom_constraints": [
+      "legacy raw correct >= fixed baseline",
+      "legacy accepted correct >= fixed baseline",
+      "legacy wrong accepted <= fixed baseline",
+      "native accepted correct >= fixed baseline",
+      "native wrong accepted <= fixed baseline"
+    ],
+    "ranking": [
+      "native raw macro F1 descending",
+      "legacy accepted macro F1 descending",
+      "earlier declared recipe order"
+    ],
+    "fallback": "Fixed baseline if no candidate satisfies protective inequalities and has a lexicographically strictly better ranked result. Exact ranked ties remain baseline. The fixed baseline remains an eligible fallback even if its inner precision is below 0.90.",
+    "metric_vocabularies": "Fixed before outer, including native classes without training/calibration support. A class with zero denominator receives F1=0. Reject is a sentinel, never a hidden true-label rewrite.",
+    "no_error_case_exceptions": true,
+    "no_class4_class5_merge_or_removal": true
+  },
+  "campuses": {
+    "azc": {
+      "metadata_campus": "uam_azcapotzalco",
+      "actual_bank": "actual_azc",
+      "anchored_bank": "anclado_azc",
+      "actual_reference_rows": 118,
+      "anchored_reference_photos": 299,
+      "native_photos": 143,
+      "native_groups": 23,
+      "legacy_unique_human_photos": 117,
+      "legacy_definition": "Exact-RGB intersection of native human queries and baseline_queries.azc, deduplicated by foto_id. Legacy true labels must agree within duplicates.",
+      "native_classes": [
+        "A",
+        "COSEI",
+        "E",
+        "F",
+        "G",
+        "H",
+        "HO",
+        "I",
+        "J",
+        "L",
+        "M",
+        "P1",
+        "P2",
+        "P3",
+        "P4",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "W",
+        "area_deportiva",
+        "otro",
+        "plaza_roja"
+      ],
+      "bank_classes": [
+        "A",
+        "COSEI",
+        "E",
+        "F",
+        "G",
+        "H",
+        "HO",
+        "I",
+        "J",
+        "L",
+        "M",
+        "P1",
+        "P2",
+        "P3",
+        "P4",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "W",
+        "acceso_principal",
+        "area_deportiva",
+        "otro",
+        "plaza_roja",
+        "punto_de_reunion_6",
+        "serpentina_ii"
+      ],
+      "legacy_classes": [
+        "G",
+        "I",
+        "P2",
+        "T",
+        "W",
+        "otro"
+      ],
+      "legacy_aliases": {},
+      "legacy_unknown_to": "otro",
+      "protected_target": "T",
+      "baseline_acceptance": {
+        "G": 0.8,
+        "I": 0.8,
+        "P2": 0.8,
+        "T": 0.74,
+        "W": 0.8
+      },
+      "historical_guard_separate": {
+        "n": 118,
+        "groups": 22,
+        "raw_correct": 64,
+        "tp": 38,
+        "fp": 4,
+        "fn": 12,
+        "tn": 64
+      }
+    },
+    "escom": {
+      "metadata_campus": "escom",
+      "actual_bank": "actual_escom",
+      "anchored_bank": "anclado_escom",
+      "actual_reference_rows": 99,
+      "anchored_reference_photos": 151,
+      "native_photos": 74,
+      "native_groups": 16,
+      "legacy_unique_human_photos": 42,
+      "legacy_definition": "Exact-RGB intersection of native human queries and baseline_queries.escom, deduplicated by foto_id; keep original legacy labels.",
+      "native_classes": [
+        "edificio_1",
+        "edificio_2",
+        "edificio_3",
+        "edificio_4",
+        "edificio_5",
+        "gobierno",
+        "laboratorios",
+        "otro"
+      ],
+      "bank_classes": [
+        "auditorio",
+        "aulas_y_laboratorios",
+        "barra_cafe_frente_gestion_escolar",
+        "biblioteca",
+        "cancha_baloncesto",
+        "edificio_1",
+        "edificio_2",
+        "edificio_3",
+        "edificio_4",
+        "edificio_5",
+        "estacionamiento_alterno_motos",
+        "explanada_principal",
+        "gobierno",
+        "laboratorio_de_computo_de_tiempo_libre",
+        "laboratorio_de_programacion",
+        "laboratorio_de_sistemas_digitales",
+        "laboratorios",
+        "otro"
+      ],
+      "legacy_classes": [
+        "edificio_1",
+        "edificio_2",
+        "edificio_3",
+        "edificio_4",
+        "gobierno",
+        "laboratorios"
+      ],
+      "legacy_aliases": {
+        "biblioteca": "gobierno"
+      },
+      "legacy_unknown_to": null,
+      "protected_target": null,
+      "baseline_acceptance": {
+        "edificio_1": 0.8,
+        "edificio_2": 0.8,
+        "edificio_3": 0.8,
+        "edificio_4": 0.8,
+        "gobierno": 0.8,
+        "laboratorios": 0.71
+      },
+      "human_building_5_query_photos": 9,
+      "building_5_bank_photos": 10,
+      "inherited_unconfirmed_references_preserved": 60,
+      "historical_guard_separate": {
+        "n": 96,
+        "night_n": 92,
+        "night_raw_correct": 62
+      }
+    }
+  },
+  "verification": {
+    "outer_evaluation_is_forbidden_during_preflight": true,
+    "required": [
+      "input and array hashes",
+      "29 recipe enumeration",
+      "all-source and alias group exclusion",
+      "three views stay together",
+      "train-only transform statistics",
+      "outer query label/features mutation cannot change inner recipe or policy",
+      "unsupported classes stay in metrics",
+      "class5 remains",
+      "exact historical baseline separate",
+      "sanitized outputs"
+    ],
+    "freeze_before_outer": [
+      "protocol bytes",
+      "bank npz bytes",
+      "bank metadata bytes",
+      "driver source bytes",
+      "objective source bytes",
+      "verifier source bytes"
+    ],
+    "freeze_manifest": "firmas_preouter.json",
+    "freeze_manifest_is_write_once": true,
+    "reports_contain": "Counts, class identifiers, opaque photo/group identifiers, recipe configuration, numerical summaries and SHA256 only; no photographs, names, personal paths or source URLs."
+  },
+  "operations": {
+    "original_0_5_modified": false,
+    "previous_experiments_modified": false,
+    "app_source_modified": false,
+    "publish_upload_push_allowed": false
+  },
+  "recipes": [
+    {
+      "recipe_id": "actual_fijo",
+      "bank": "actual",
+      "pooling": "proto3",
+      "transform": "identidad",
+      "addition_scope": "all",
+      "max_adiciones_por_fuente_clase": null,
+      "query_mode": "central"
+    },
+    {
+      "recipe_id": "anclado_proto3_all_capnone",
+      "bank": "anclado",
+      "pooling": "proto3",
+      "transform": "identidad",
+      "addition_scope": "all",
+      "max_adiciones_por_fuente_clase": null,
+      "query_mode": "central"
+    },
+    {
+      "recipe_id": "anclado_proto3_all_cap2",
+      "bank": "anclado",
+      "pooling": "proto3",
+      "transform": "identidad",
+      "addition_scope": "all",
+      "max_adiciones_por_fuente_clase": 2,
+      "query_mode": "central"
+    },
+    {
+      "recipe_id": "anclado_proto3_ext_capnone",
+      "bank": "anclado",
+      "pooling": "proto3",
+      "transform": "identidad",
+      "addition_scope": "ext",
+      "max_adiciones_por_fuente_clase": null,
+      "query_mode": "central"
+    },
+    {
+      "recipe_id": "anclado_proto3_ext_cap2",
+      "bank": "anclado",
+      "pooling": "proto3",
+      "transform": "identidad",
+      "addition_scope": "ext",
+      "max_adiciones_por_fuente_clase": 2,
+      "query_mode": "central"
+    },
+    {
+      "recipe_id": "anclado_photo1_all_capnone",
+      "bank": "anclado",
+      "pooling": "photo1",
+      "transform": "identidad",
+      "addition_scope": "all",
+      "max_adiciones_por_fuente_clase": null,
+      "query_mode": "central"
+    },
+    {
+      "recipe_id": "anclado_photo1_all_cap2",
+      "bank": "anclado",
+      "pooling": "photo1",
+      "transform": "identidad",
+      "addition_scope": "all",
+      "max_adiciones_por_fuente_clase": 2,
+      "query_mode": "central"
+    },
+    {
+      "recipe_id": "anclado_photo1_ext_capnone",
+      "bank": "anclado",
+      "pooling": "photo1",
+      "transform": "identidad",
+      "addition_scope": "ext",
+      "max_adiciones_por_fuente_clase": null,
+      "query_mode": "central"
+    },
+    {
+      "recipe_id": "anclado_photo1_ext_cap2",
+      "bank": "anclado",
+      "pooling": "photo1",
+      "transform": "identidad",
+      "addition_scope": "ext",
+      "max_adiciones_por_fuente_clase": 2,
+      "query_mode": "central"
+    },
+    {
+      "recipe_id": "anclado_photo2_all_capnone",
+      "bank": "anclado",
+      "pooling": "photo2",
+      "transform": "identidad",
+      "addition_scope": "all",
+      "max_adiciones_por_fuente_clase": null,
+      "query_mode": "central"
+    },
+    {
+      "recipe_id": "anclado_photo2_all_cap2",
+      "bank": "anclado",
+      "pooling": "photo2",
+      "transform": "identidad",
+      "addition_scope": "all",
+      "max_adiciones_por_fuente_clase": 2,
+      "query_mode": "central"
+    },
+    {
+      "recipe_id": "anclado_photo2_ext_capnone",
+      "bank": "anclado",
+      "pooling": "photo2",
+      "transform": "identidad",
+      "addition_scope": "ext",
+      "max_adiciones_por_fuente_clase": null,
+      "query_mode": "central"
+    },
+    {
+      "recipe_id": "anclado_photo2_ext_cap2",
+      "bank": "anclado",
+      "pooling": "photo2",
+      "transform": "identidad",
+      "addition_scope": "ext",
+      "max_adiciones_por_fuente_clase": 2,
+      "query_mode": "central"
+    },
+    {
+      "recipe_id": "anclado_photo3_all_capnone",
+      "bank": "anclado",
+      "pooling": "photo3",
+      "transform": "identidad",
+      "addition_scope": "all",
+      "max_adiciones_por_fuente_clase": null,
+      "query_mode": "central"
+    },
+    {
+      "recipe_id": "anclado_photo3_all_cap2",
+      "bank": "anclado",
+      "pooling": "photo3",
+      "transform": "identidad",
+      "addition_scope": "all",
+      "max_adiciones_por_fuente_clase": 2,
+      "query_mode": "central"
+    },
+    {
+      "recipe_id": "anclado_photo3_ext_capnone",
+      "bank": "anclado",
+      "pooling": "photo3",
+      "transform": "identidad",
+      "addition_scope": "ext",
+      "max_adiciones_por_fuente_clase": null,
+      "query_mode": "central"
+    },
+    {
+      "recipe_id": "anclado_photo3_ext_cap2",
+      "bank": "anclado",
+      "pooling": "photo3",
+      "transform": "identidad",
+      "addition_scope": "ext",
+      "max_adiciones_por_fuente_clase": 2,
+      "query_mode": "central"
+    },
+    {
+      "recipe_id": "centrado_photo2_all_cap2",
+      "bank": "anclado",
+      "pooling": "photo2",
+      "transform": "centrado",
+      "addition_scope": "all",
+      "max_adiciones_por_fuente_clase": 2,
+      "query_mode": "central"
+    },
+    {
+      "recipe_id": "centrado_photo2_ext_cap2",
+      "bank": "anclado",
+      "pooling": "photo2",
+      "transform": "centrado",
+      "addition_scope": "ext",
+      "max_adiciones_por_fuente_clase": 2,
+      "query_mode": "central"
+    },
+    {
+      "recipe_id": "centrado_photo3_all_cap2",
+      "bank": "anclado",
+      "pooling": "photo3",
+      "transform": "centrado",
+      "addition_scope": "all",
+      "max_adiciones_por_fuente_clase": 2,
+      "query_mode": "central"
+    },
+    {
+      "recipe_id": "centrado_photo3_ext_cap2",
+      "bank": "anclado",
+      "pooling": "photo3",
+      "transform": "centrado",
+      "addition_scope": "ext",
+      "max_adiciones_por_fuente_clase": 2,
+      "query_mode": "central"
+    },
+    {
+      "recipe_id": "blanqueo_diagonal_photo2_all_cap2",
+      "bank": "anclado",
+      "pooling": "photo2",
+      "transform": "blanqueo_diagonal",
+      "addition_scope": "all",
+      "max_adiciones_por_fuente_clase": 2,
+      "query_mode": "central"
+    },
+    {
+      "recipe_id": "blanqueo_diagonal_photo2_ext_cap2",
+      "bank": "anclado",
+      "pooling": "photo2",
+      "transform": "blanqueo_diagonal",
+      "addition_scope": "ext",
+      "max_adiciones_por_fuente_clase": 2,
+      "query_mode": "central"
+    },
+    {
+      "recipe_id": "blanqueo_diagonal_photo3_all_cap2",
+      "bank": "anclado",
+      "pooling": "photo3",
+      "transform": "blanqueo_diagonal",
+      "addition_scope": "all",
+      "max_adiciones_por_fuente_clase": 2,
+      "query_mode": "central"
+    },
+    {
+      "recipe_id": "blanqueo_diagonal_photo3_ext_cap2",
+      "bank": "anclado",
+      "pooling": "photo3",
+      "transform": "blanqueo_diagonal",
+      "addition_scope": "ext",
+      "max_adiciones_por_fuente_clase": 2,
+      "query_mode": "central"
+    },
+    {
+      "recipe_id": "mean3_photo2_all_cap2",
+      "bank": "anclado",
+      "pooling": "photo2",
+      "transform": "identidad",
+      "addition_scope": "all",
+      "max_adiciones_por_fuente_clase": 2,
+      "query_mode": "mean3"
+    },
+    {
+      "recipe_id": "mean3_photo2_ext_cap2",
+      "bank": "anclado",
+      "pooling": "photo2",
+      "transform": "identidad",
+      "addition_scope": "ext",
+      "max_adiciones_por_fuente_clase": 2,
+      "query_mode": "mean3"
+    },
+    {
+      "recipe_id": "mean3_photo3_all_cap2",
+      "bank": "anclado",
+      "pooling": "photo3",
+      "transform": "identidad",
+      "addition_scope": "all",
+      "max_adiciones_por_fuente_clase": 2,
+      "query_mode": "mean3"
+    },
+    {
+      "recipe_id": "mean3_photo3_ext_cap2",
+      "bank": "anclado",
+      "pooling": "photo3",
+      "transform": "identidad",
+      "addition_scope": "ext",
+      "max_adiciones_por_fuente_clase": 2,
+      "query_mode": "mean3"
+    }
+  ],
+  "runtime": {
+    "python_minimum": "3.9",
+    "numpy_minimum": "1.22",
+    "verified_python": "3.12.4",
+    "verified_numpy": "1.26.4"
+  },
+  "fixed_teacher_comparator": {
+    "id": "maestro_solo",
+    "selected_by_inner": false,
+    "tuned": false,
+    "photos": 217,
+    "by_campus": {
+      "azc": 143,
+      "escom": 74
+    },
+    "reference_source": "Only anchored records with human_confirmed=true and class_author=owner and immutable native_teacher_class matching clase; one exact RGB photo per record. No web or inherited unconfirmed legacy.",
+    "recipe": {
+      "recipe_id": "maestro_solo",
+      "bank": "maestro",
+      "pooling": "proto3",
+      "transform": "identidad",
+      "addition_scope": "all",
+      "max_adiciones_por_fuente_clase": null,
+      "query_mode": "central"
+    },
+    "exclusion": "Same union provenance groups, all aliases and all three views; outer excludes g, any inner verifier call excludes g+h.",
+    "general_threshold": 0.8,
+    "threshold_overrides": {
+      "T": 0.74,
+      "laboratorios": 0.71
+    },
+    "never_accept_classes": [
+      "otro"
+    ],
+    "margin": 0.0,
+    "evaluation": "Paired against actual baseline and selected combined procedure on identical native217 and legacy117/42 query denominators; report unsupported classes and never infer superiority before results.",
+    "included_in_recipe_search": false
+  },
+  "grid_sha256": "f08d4475d406747c98dc6cd9b2f4857038fc868ff021edf4dd12888d59f20c17",
+  "comparators": [
+    {
+      "recipe_id": "maestro_solo",
+      "bank": "maestro",
+      "pooling": "proto3",
+      "transform": "identidad",
+      "addition_scope": "all",
+      "max_adiciones_por_fuente_clase": null,
+      "query_mode": "central"
+    }
+  ],
+  "comparators_sha256": "992fea53ae6f2793b96d4c356b9761cb629dc1410d92da8ba7d457056afa7bc7",
+  "input_signatures": {
+    "metadata_sha256": "8becb5ce6fae7c0ee0892e6ee5e10ca2599b6f00655fb5662f8802919ad4d14e",
+    "npz_sha256": "93d4e07b2b44641dab5b87c18109b1d5b0873a781b73ede8f876c119bb405d0a",
+    "model_sha256": "d01e31483ac10fc887e5b4e7d47ee0e7a93cc196c56286312329401e219474bd",
+    "arrays_signature_sha256": "48c219626ec05c740d9c40d4621b915b4cbe95113b840a4007f92e195bc41449",
+    "teacher_labels_signature_sha256": "b0acbc8dc303d8c81d904f9d9f553e16fb39da36f6ef7053d3f041901b393473"
+  },
+  "driver_sha256": "5b88b078ce07bd29c3abd415164d5e4c6d4769277a9e1dd3bfe2d93cd99f56ab",
+  "objective_source_sha256": "4f32f8ba9512474e5c24a3431493cd841e6b4fac8280cf217a5ef97830e0e130",
+  "verifier_source_sha256": "421e8bdca844b01b65322aafa33eb86a019e865d1a774695731a622f25223d4c",
+  "source_protocol_sha256": "a04dbd52ab84e4c37fd508ecf2435a4194b7d9fa20c95338a77218659f5693e5",
+  "preflight": {
+    "queries": 217,
+    "query_groups": 39,
+    "queries_by_campus": {
+      "escom": 74,
+      "uam_azcapotzalco": 143
+    },
+    "legacy_unique_by_campus": {
+      "escom": 42,
+      "uam_azcapotzalco": 117
+    },
+    "teacher_comparator_photos": {
+      "azc": 143,
+      "escom": 74
+    },
+    "native_classes_by_campus": {
+      "uam_azcapotzalco": [
+        "A",
+        "COSEI",
+        "E",
+        "F",
+        "G",
+        "H",
+        "HO",
+        "I",
+        "J",
+        "L",
+        "M",
+        "P1",
+        "P2",
+        "P3",
+        "P4",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "W",
+        "area_deportiva",
+        "otro",
+        "plaza_roja"
+      ],
+      "escom": [
+        "edificio_1",
+        "edificio_2",
+        "edificio_3",
+        "edificio_4",
+        "edificio_5",
+        "gobierno",
+        "laboratorios",
+        "otro"
+      ]
+    },
+    "inner_exclusion": "outer_g_and_inner_h_all_sources_union_groups",
+    "transform_fit": "selected_train_photos_only",
+    "candidate_outer_evaluation_run": false
+  },
+  "protocol_sha256": "0de4cc0a18b5afd02d614141e86f13a8f6cc53e775729c8cf8b9db664c1ae66b"
+}

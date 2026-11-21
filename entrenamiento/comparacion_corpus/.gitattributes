@@ -1,0 +1,5 @@
+# Código/protocolo congelados y reportes con SHA-256: conservar bytes en todos los sistemas.
+* -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+# Dos fuentes congeladas conservan su línea final adicional para mantener las firmas.
+herramientas/optimizar_anidado.py whitespace=-blank-at-eof,cr-at-eol
+pruebas/test_optimizar_anidado.py whitespace=-blank-at-eof,cr-at-eol

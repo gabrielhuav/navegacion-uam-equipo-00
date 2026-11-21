@@ -1,0 +1,4674 @@
+{
+  "schema_version": 1,
+  "publication_scope": "aggregate_metrics_and_policies_only",
+  "evaluation_context": "retrospective_nested_internal_validation",
+  "external_blind_test": false,
+  "data_previously_examined": true,
+  "comparators": {
+    "actual": "Frozen current reference bank and inherited fixed thresholds.",
+    "maestro": "All and only native human references; untuned historical scoring and fixed thresholds.",
+    "combinada": "The procedure selected independently inside each outer fold from the 29 predeclared recipes."
+  },
+  "interpretation": [
+    "The native and legacy cohorts overlap; they are not independent evidence.",
+    "Native owner labels remain unchanged. Legacy labels are a separate historical projection.",
+    "Accepted correct excludes rejections. Wrong accepted counts every accepted claim with the wrong cohort label.",
+    "Reject is a separate sentinel; negative rejections are reported explicitly.",
+    "Macro F1 uses the fixed predeclared vocabulary; unsupported or zero-denominator classes remain zero.",
+    "An aggregate outer result does not select a new recipe, exception or threshold.",
+    "No comparator is declared superior before inspecting its complete paired numerical results.",
+    "Policy acceptance covers all classes; navigable acceptance additionally requires an approved mapped destination.",
+    "Destination-gated precision compares cohort labels. It does not measure physical routing, route completion or live video behavior.",
+    "Final exported fits use all authorized references. Their numerical parity checks are not new accuracy evaluations."
+  ],
+  "campuses": {
+    "azc": {
+      "actual": {
+        "native_human": {
+          "photos": 143,
+          "raw": {
+            "correct": 63,
+            "accuracy": 0.4405594405594406,
+            "macro_f1": 0.07318544996035366,
+            "per_class": {
+              "A": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "COSEI": {
+                "support": 8,
+                "tp": 0,
+                "fp": 0,
+                "fn": 8,
+                "f1": 0.0
+              },
+              "E": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "F": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "G": {
+                "support": 9,
+                "tp": 0,
+                "fp": 6,
+                "fn": 9,
+                "f1": 0.0
+              },
+              "H": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "HO": {
+                "support": 3,
+                "tp": 0,
+                "fp": 0,
+                "fn": 3,
+                "f1": 0.0
+              },
+              "I": {
+                "support": 8,
+                "tp": 0,
+                "fp": 2,
+                "fn": 8,
+                "f1": 0.0
+              },
+              "J": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "L": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "M": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "P1": {
+                "support": 3,
+                "tp": 0,
+                "fp": 0,
+                "fn": 3,
+                "f1": 0.0
+              },
+              "P2": {
+                "support": 8,
+                "tp": 2,
+                "fp": 3,
+                "fn": 6,
+                "f1": 0.3076923076923077
+              },
+              "P3": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "P4": {
+                "support": 7,
+                "tp": 0,
+                "fp": 0,
+                "fn": 7,
+                "f1": 0.0
+              },
+              "Q": {
+                "support": 4,
+                "tp": 0,
+                "fp": 0,
+                "fn": 4,
+                "f1": 0.0
+              },
+              "R": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "S": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "T": {
+                "support": 67,
+                "tp": 57,
+                "fp": 34,
+                "fn": 10,
+                "f1": 0.7215189873417721
+              },
+              "W": {
+                "support": 6,
+                "tp": 3,
+                "fp": 1,
+                "fn": 3,
+                "f1": 0.6
+              },
+              "area_deportiva": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "otro": {
+                "support": 2,
+                "tp": 1,
+                "fp": 34,
+                "fn": 1,
+                "f1": 0.05405405405405406
+              },
+              "plaza_roja": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              }
+            }
+          },
+          "accepted": {
+            "correct": 39,
+            "accuracy": 0.2727272727272727,
+            "macro_f1": 0.0308300395256917,
+            "per_class": {
+              "A": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "COSEI": {
+                "support": 8,
+                "tp": 0,
+                "fp": 0,
+                "fn": 8,
+                "f1": 0.0
+              },
+              "E": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "F": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "G": {
+                "support": 9,
+                "tp": 0,
+                "fp": 0,
+                "fn": 9,
+                "f1": 0.0
+              },
+              "H": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "HO": {
+                "support": 3,
+                "tp": 0,
+                "fp": 0,
+                "fn": 3,
+                "f1": 0.0
+              },
+              "I": {
+                "support": 8,
+                "tp": 0,
+                "fp": 0,
+                "fn": 8,
+                "f1": 0.0
+              },
+              "J": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "L": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "M": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "P1": {
+                "support": 3,
+                "tp": 0,
+                "fp": 0,
+                "fn": 3,
+                "f1": 0.0
+              },
+              "P2": {
+                "support": 8,
+                "tp": 0,
+                "fp": 0,
+                "fn": 8,
+                "f1": 0.0
+              },
+              "P3": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "P4": {
+                "support": 7,
+                "tp": 0,
+                "fp": 0,
+                "fn": 7,
+                "f1": 0.0
+              },
+              "Q": {
+                "support": 4,
+                "tp": 0,
+                "fp": 0,
+                "fn": 4,
+                "f1": 0.0
+              },
+              "R": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "S": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "T": {
+                "support": 67,
+                "tp": 39,
+                "fp": 4,
+                "fn": 28,
+                "f1": 0.7090909090909091
+              },
+              "W": {
+                "support": 6,
+                "tp": 0,
+                "fp": 0,
+                "fn": 6,
+                "f1": 0.0
+              },
+              "area_deportiva": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "otro": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "plaza_roja": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              }
+            }
+          },
+          "accepted_count": 43,
+          "accepted_correct": 39,
+          "wrong_accepted": 4,
+          "rejected_count": 100,
+          "coverage": 0.3006993006993007,
+          "accepted_precision": 0.9069767441860465,
+          "negative_photos": 2,
+          "negative_rejected": 2,
+          "positive_rejected": 98,
+          "mapped_destination_gate": {
+            "navigable_accepted_count": 43,
+            "navigable_correct_label": 39,
+            "navigable_wrong_label": 4,
+            "navigable_precision_by_cohort_label": 0.9069767441860465,
+            "navigable_coverage": 0.3006993006993007,
+            "accepted_without_mapped_destination": 0,
+            "rejected_after_destination_gate": 100,
+            "classification": {
+              "correct": 39,
+              "accuracy": 0.2727272727272727,
+              "macro_f1": 0.0308300395256917,
+              "per_class": {
+                "A": {
+                  "support": 1,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 1,
+                  "f1": 0.0
+                },
+                "COSEI": {
+                  "support": 8,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 8,
+                  "f1": 0.0
+                },
+                "E": {
+                  "support": 2,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 2,
+                  "f1": 0.0
+                },
+                "F": {
+                  "support": 2,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 2,
+                  "f1": 0.0
+                },
+                "G": {
+                  "support": 9,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 9,
+                  "f1": 0.0
+                },
+                "H": {
+                  "support": 2,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 2,
+                  "f1": 0.0
+                },
+                "HO": {
+                  "support": 3,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 3,
+                  "f1": 0.0
+                },
+                "I": {
+                  "support": 8,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 8,
+                  "f1": 0.0
+                },
+                "J": {
+                  "support": 1,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 1,
+                  "f1": 0.0
+                },
+                "L": {
+                  "support": 1,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 1,
+                  "f1": 0.0
+                },
+                "M": {
+                  "support": 2,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 2,
+                  "f1": 0.0
+                },
+                "P1": {
+                  "support": 3,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 3,
+                  "f1": 0.0
+                },
+                "P2": {
+                  "support": 8,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 8,
+                  "f1": 0.0
+                },
+                "P3": {
+                  "support": 1,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 1,
+                  "f1": 0.0
+                },
+                "P4": {
+                  "support": 7,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 7,
+                  "f1": 0.0
+                },
+                "Q": {
+                  "support": 4,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 4,
+                  "f1": 0.0
+                },
+                "R": {
+                  "support": 1,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 1,
+                  "f1": 0.0
+                },
+                "S": {
+                  "support": 2,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 2,
+                  "f1": 0.0
+                },
+                "T": {
+                  "support": 67,
+                  "tp": 39,
+                  "fp": 4,
+                  "fn": 28,
+                  "f1": 0.7090909090909091
+                },
+                "W": {
+                  "support": 6,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 6,
+                  "f1": 0.0
+                },
+                "area_deportiva": {
+                  "support": 1,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 1,
+                  "f1": 0.0
+                },
+                "otro": {
+                  "support": 2,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 2,
+                  "f1": 0.0
+                },
+                "plaza_roja": {
+                  "support": 2,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 2,
+                  "f1": 0.0
+                }
+              }
+            },
+            "route_execution_or_navigation_accuracy_measured": false
+          },
+          "target_T_accepted": {
+            "tp": 39,
+            "fp": 4,
+            "fn": 28,
+            "tn": 72,
+            "precision": 0.9069767441860465,
+            "recall": 0.582089552238806,
+            "f1": 0.7090909090909091
+          }
+        },
+        "legacy_unique_human_projection": {
+          "photos": 117,
+          "raw": {
+            "correct": 64,
+            "accuracy": 0.5470085470085471,
+            "macro_f1": 0.3370624555792466,
+            "per_class": {
+              "G": {
+                "support": 7,
+                "tp": 0,
+                "fp": 6,
+                "fn": 7,
+                "f1": 0.0
+              },
+              "I": {
+                "support": 8,
+                "tp": 0,
+                "fp": 1,
+                "fn": 8,
+                "f1": 0.0
+              },
+              "P2": {
+                "support": 6,
+                "tp": 1,
+                "fp": 0,
+                "fn": 5,
+                "f1": 0.2857142857142857
+              },
+              "T": {
+                "support": 49,
+                "tp": 46,
+                "fp": 33,
+                "fn": 3,
+                "f1": 0.71875
+              },
+              "W": {
+                "support": 6,
+                "tp": 3,
+                "fp": 1,
+                "fn": 3,
+                "f1": 0.6
+              },
+              "otro": {
+                "support": 41,
+                "tp": 14,
+                "fp": 12,
+                "fn": 27,
+                "f1": 0.417910447761194
+              }
+            }
+          },
+          "accepted": {
+            "correct": 38,
+            "accuracy": 0.3247863247863248,
+            "macro_f1": 0.1391941391941392,
+            "per_class": {
+              "G": {
+                "support": 7,
+                "tp": 0,
+                "fp": 0,
+                "fn": 7,
+                "f1": 0.0
+              },
+              "I": {
+                "support": 8,
+                "tp": 0,
+                "fp": 0,
+                "fn": 8,
+                "f1": 0.0
+              },
+              "P2": {
+                "support": 6,
+                "tp": 0,
+                "fp": 0,
+                "fn": 6,
+                "f1": 0.0
+              },
+              "T": {
+                "support": 49,
+                "tp": 38,
+                "fp": 4,
+                "fn": 11,
+                "f1": 0.8351648351648352
+              },
+              "W": {
+                "support": 6,
+                "tp": 0,
+                "fp": 0,
+                "fn": 6,
+                "f1": 0.0
+              },
+              "otro": {
+                "support": 41,
+                "tp": 0,
+                "fp": 0,
+                "fn": 41,
+                "f1": 0.0
+              }
+            }
+          },
+          "accepted_count": 42,
+          "accepted_correct": 38,
+          "wrong_accepted": 4,
+          "rejected_count": 75,
+          "coverage": 0.358974358974359,
+          "accepted_precision": 0.9047619047619048,
+          "negative_photos": 41,
+          "negative_rejected": 40,
+          "positive_rejected": 35,
+          "mapped_destination_gate": {
+            "navigable_accepted_count": 42,
+            "navigable_correct_label": 38,
+            "navigable_wrong_label": 4,
+            "navigable_precision_by_cohort_label": 0.9047619047619048,
+            "navigable_coverage": 0.358974358974359,
+            "accepted_without_mapped_destination": 0,
+            "rejected_after_destination_gate": 75,
+            "classification": {
+              "correct": 38,
+              "accuracy": 0.3247863247863248,
+              "macro_f1": 0.1391941391941392,
+              "per_class": {
+                "G": {
+                  "support": 7,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 7,
+                  "f1": 0.0
+                },
+                "I": {
+                  "support": 8,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 8,
+                  "f1": 0.0
+                },
+                "P2": {
+                  "support": 6,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 6,
+                  "f1": 0.0
+                },
+                "T": {
+                  "support": 49,
+                  "tp": 38,
+                  "fp": 4,
+                  "fn": 11,
+                  "f1": 0.8351648351648352
+                },
+                "W": {
+                  "support": 6,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 6,
+                  "f1": 0.0
+                },
+                "otro": {
+                  "support": 41,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 41,
+                  "f1": 0.0
+                }
+              }
+            },
+            "route_execution_or_navigation_accuracy_measured": false
+          },
+          "target_T_accepted": {
+            "tp": 38,
+            "fp": 4,
+            "fn": 11,
+            "tn": 64,
+            "precision": 0.9047619047619048,
+            "recall": 0.7755102040816326,
+            "f1": 0.8351648351648352
+          }
+        }
+      },
+      "maestro": {
+        "native_human": {
+          "photos": 143,
+          "raw": {
+            "correct": 63,
+            "accuracy": 0.4405594405594406,
+            "macro_f1": 0.0668423364075538,
+            "per_class": {
+              "A": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "COSEI": {
+                "support": 8,
+                "tp": 0,
+                "fp": 4,
+                "fn": 8,
+                "f1": 0.0
+              },
+              "E": {
+                "support": 2,
+                "tp": 0,
+                "fp": 1,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "F": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "G": {
+                "support": 9,
+                "tp": 0,
+                "fp": 7,
+                "fn": 9,
+                "f1": 0.0
+              },
+              "H": {
+                "support": 2,
+                "tp": 0,
+                "fp": 2,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "HO": {
+                "support": 3,
+                "tp": 0,
+                "fp": 4,
+                "fn": 3,
+                "f1": 0.0
+              },
+              "I": {
+                "support": 8,
+                "tp": 0,
+                "fp": 2,
+                "fn": 8,
+                "f1": 0.0
+              },
+              "J": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "L": {
+                "support": 1,
+                "tp": 0,
+                "fp": 1,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "M": {
+                "support": 2,
+                "tp": 0,
+                "fp": 1,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "P1": {
+                "support": 3,
+                "tp": 0,
+                "fp": 3,
+                "fn": 3,
+                "f1": 0.0
+              },
+              "P2": {
+                "support": 8,
+                "tp": 1,
+                "fp": 0,
+                "fn": 7,
+                "f1": 0.2222222222222222
+              },
+              "P3": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "P4": {
+                "support": 7,
+                "tp": 0,
+                "fp": 0,
+                "fn": 7,
+                "f1": 0.0
+              },
+              "Q": {
+                "support": 4,
+                "tp": 0,
+                "fp": 2,
+                "fn": 4,
+                "f1": 0.0
+              },
+              "R": {
+                "support": 1,
+                "tp": 0,
+                "fp": 1,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "S": {
+                "support": 2,
+                "tp": 0,
+                "fp": 4,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "T": {
+                "support": 67,
+                "tp": 59,
+                "fp": 39,
+                "fn": 8,
+                "f1": 0.7151515151515152
+              },
+              "W": {
+                "support": 6,
+                "tp": 3,
+                "fp": 1,
+                "fn": 3,
+                "f1": 0.6
+              },
+              "area_deportiva": {
+                "support": 1,
+                "tp": 0,
+                "fp": 1,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "otro": {
+                "support": 2,
+                "tp": 0,
+                "fp": 6,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "plaza_roja": {
+                "support": 2,
+                "tp": 0,
+                "fp": 1,
+                "fn": 2,
+                "f1": 0.0
+              }
+            }
+          },
+          "accepted": {
+            "correct": 40,
+            "accuracy": 0.27972027972027974,
+            "macro_f1": 0.031055900621118012,
+            "per_class": {
+              "A": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "COSEI": {
+                "support": 8,
+                "tp": 0,
+                "fp": 0,
+                "fn": 8,
+                "f1": 0.0
+              },
+              "E": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "F": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "G": {
+                "support": 9,
+                "tp": 0,
+                "fp": 0,
+                "fn": 9,
+                "f1": 0.0
+              },
+              "H": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "HO": {
+                "support": 3,
+                "tp": 0,
+                "fp": 0,
+                "fn": 3,
+                "f1": 0.0
+              },
+              "I": {
+                "support": 8,
+                "tp": 0,
+                "fp": 0,
+                "fn": 8,
+                "f1": 0.0
+              },
+              "J": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "L": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "M": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "P1": {
+                "support": 3,
+                "tp": 0,
+                "fp": 0,
+                "fn": 3,
+                "f1": 0.0
+              },
+              "P2": {
+                "support": 8,
+                "tp": 0,
+                "fp": 0,
+                "fn": 8,
+                "f1": 0.0
+              },
+              "P3": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "P4": {
+                "support": 7,
+                "tp": 0,
+                "fp": 0,
+                "fn": 7,
+                "f1": 0.0
+              },
+              "Q": {
+                "support": 4,
+                "tp": 0,
+                "fp": 0,
+                "fn": 4,
+                "f1": 0.0
+              },
+              "R": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "S": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "T": {
+                "support": 67,
+                "tp": 40,
+                "fp": 5,
+                "fn": 27,
+                "f1": 0.7142857142857143
+              },
+              "W": {
+                "support": 6,
+                "tp": 0,
+                "fp": 0,
+                "fn": 6,
+                "f1": 0.0
+              },
+              "area_deportiva": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "otro": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "plaza_roja": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              }
+            }
+          },
+          "accepted_count": 45,
+          "accepted_correct": 40,
+          "wrong_accepted": 5,
+          "rejected_count": 98,
+          "coverage": 0.3146853146853147,
+          "accepted_precision": 0.8888888888888888,
+          "negative_photos": 2,
+          "negative_rejected": 2,
+          "positive_rejected": 96,
+          "mapped_destination_gate": {
+            "navigable_accepted_count": 45,
+            "navigable_correct_label": 40,
+            "navigable_wrong_label": 5,
+            "navigable_precision_by_cohort_label": 0.8888888888888888,
+            "navigable_coverage": 0.3146853146853147,
+            "accepted_without_mapped_destination": 0,
+            "rejected_after_destination_gate": 98,
+            "classification": {
+              "correct": 40,
+              "accuracy": 0.27972027972027974,
+              "macro_f1": 0.031055900621118012,
+              "per_class": {
+                "A": {
+                  "support": 1,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 1,
+                  "f1": 0.0
+                },
+                "COSEI": {
+                  "support": 8,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 8,
+                  "f1": 0.0
+                },
+                "E": {
+                  "support": 2,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 2,
+                  "f1": 0.0
+                },
+                "F": {
+                  "support": 2,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 2,
+                  "f1": 0.0
+                },
+                "G": {
+                  "support": 9,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 9,
+                  "f1": 0.0
+                },
+                "H": {
+                  "support": 2,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 2,
+                  "f1": 0.0
+                },
+                "HO": {
+                  "support": 3,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 3,
+                  "f1": 0.0
+                },
+                "I": {
+                  "support": 8,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 8,
+                  "f1": 0.0
+                },
+                "J": {
+                  "support": 1,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 1,
+                  "f1": 0.0
+                },
+                "L": {
+                  "support": 1,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 1,
+                  "f1": 0.0
+                },
+                "M": {
+                  "support": 2,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 2,
+                  "f1": 0.0
+                },
+                "P1": {
+                  "support": 3,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 3,
+                  "f1": 0.0
+                },
+                "P2": {
+                  "support": 8,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 8,
+                  "f1": 0.0
+                },
+                "P3": {
+                  "support": 1,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 1,
+                  "f1": 0.0
+                },
+                "P4": {
+                  "support": 7,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 7,
+                  "f1": 0.0
+                },
+                "Q": {
+                  "support": 4,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 4,
+                  "f1": 0.0
+                },
+                "R": {
+                  "support": 1,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 1,
+                  "f1": 0.0
+                },
+                "S": {
+                  "support": 2,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 2,
+                  "f1": 0.0
+                },
+                "T": {
+                  "support": 67,
+                  "tp": 40,
+                  "fp": 5,
+                  "fn": 27,
+                  "f1": 0.7142857142857143
+                },
+                "W": {
+                  "support": 6,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 6,
+                  "f1": 0.0
+                },
+                "area_deportiva": {
+                  "support": 1,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 1,
+                  "f1": 0.0
+                },
+                "otro": {
+                  "support": 2,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 2,
+                  "f1": 0.0
+                },
+                "plaza_roja": {
+                  "support": 2,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 2,
+                  "f1": 0.0
+                }
+              }
+            },
+            "route_execution_or_navigation_accuracy_measured": false
+          },
+          "target_T_accepted": {
+            "tp": 40,
+            "fp": 5,
+            "fn": 27,
+            "tn": 71,
+            "precision": 0.8888888888888888,
+            "recall": 0.5970149253731343,
+            "f1": 0.7142857142857143
+          }
+        },
+        "legacy_unique_human_projection": {
+          "photos": 117,
+          "raw": {
+            "correct": 63,
+            "accuracy": 0.5384615384615384,
+            "macro_f1": 0.33314876338132154,
+            "per_class": {
+              "G": {
+                "support": 7,
+                "tp": 0,
+                "fp": 6,
+                "fn": 7,
+                "f1": 0.0
+              },
+              "I": {
+                "support": 8,
+                "tp": 0,
+                "fp": 2,
+                "fn": 8,
+                "f1": 0.0
+              },
+              "P2": {
+                "support": 6,
+                "tp": 1,
+                "fp": 0,
+                "fn": 5,
+                "f1": 0.2857142857142857
+              },
+              "T": {
+                "support": 49,
+                "tp": 46,
+                "fp": 34,
+                "fn": 3,
+                "f1": 0.7131782945736435
+              },
+              "W": {
+                "support": 6,
+                "tp": 3,
+                "fp": 1,
+                "fn": 3,
+                "f1": 0.6
+              },
+              "otro": {
+                "support": 41,
+                "tp": 13,
+                "fp": 11,
+                "fn": 28,
+                "f1": 0.4
+              }
+            }
+          },
+          "accepted": {
+            "correct": 38,
+            "accuracy": 0.3247863247863248,
+            "macro_f1": 0.13768115942028986,
+            "per_class": {
+              "G": {
+                "support": 7,
+                "tp": 0,
+                "fp": 0,
+                "fn": 7,
+                "f1": 0.0
+              },
+              "I": {
+                "support": 8,
+                "tp": 0,
+                "fp": 0,
+                "fn": 8,
+                "f1": 0.0
+              },
+              "P2": {
+                "support": 6,
+                "tp": 0,
+                "fp": 0,
+                "fn": 6,
+                "f1": 0.0
+              },
+              "T": {
+                "support": 49,
+                "tp": 38,
+                "fp": 5,
+                "fn": 11,
+                "f1": 0.8260869565217391
+              },
+              "W": {
+                "support": 6,
+                "tp": 0,
+                "fp": 0,
+                "fn": 6,
+                "f1": 0.0
+              },
+              "otro": {
+                "support": 41,
+                "tp": 0,
+                "fp": 0,
+                "fn": 41,
+                "f1": 0.0
+              }
+            }
+          },
+          "accepted_count": 43,
+          "accepted_correct": 38,
+          "wrong_accepted": 5,
+          "rejected_count": 74,
+          "coverage": 0.36752136752136755,
+          "accepted_precision": 0.8837209302325582,
+          "negative_photos": 41,
+          "negative_rejected": 40,
+          "positive_rejected": 34,
+          "mapped_destination_gate": {
+            "navigable_accepted_count": 43,
+            "navigable_correct_label": 38,
+            "navigable_wrong_label": 5,
+            "navigable_precision_by_cohort_label": 0.8837209302325582,
+            "navigable_coverage": 0.36752136752136755,
+            "accepted_without_mapped_destination": 0,
+            "rejected_after_destination_gate": 74,
+            "classification": {
+              "correct": 38,
+              "accuracy": 0.3247863247863248,
+              "macro_f1": 0.13768115942028986,
+              "per_class": {
+                "G": {
+                  "support": 7,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 7,
+                  "f1": 0.0
+                },
+                "I": {
+                  "support": 8,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 8,
+                  "f1": 0.0
+                },
+                "P2": {
+                  "support": 6,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 6,
+                  "f1": 0.0
+                },
+                "T": {
+                  "support": 49,
+                  "tp": 38,
+                  "fp": 5,
+                  "fn": 11,
+                  "f1": 0.8260869565217391
+                },
+                "W": {
+                  "support": 6,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 6,
+                  "f1": 0.0
+                },
+                "otro": {
+                  "support": 41,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 41,
+                  "f1": 0.0
+                }
+              }
+            },
+            "route_execution_or_navigation_accuracy_measured": false
+          },
+          "target_T_accepted": {
+            "tp": 38,
+            "fp": 5,
+            "fn": 11,
+            "tn": 63,
+            "precision": 0.8837209302325582,
+            "recall": 0.7755102040816326,
+            "f1": 0.8260869565217391
+          }
+        }
+      },
+      "combinada": {
+        "native_human": {
+          "photos": 143,
+          "raw": {
+            "correct": 63,
+            "accuracy": 0.4405594405594406,
+            "macro_f1": 0.06509109832289008,
+            "per_class": {
+              "A": {
+                "support": 1,
+                "tp": 0,
+                "fp": 1,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "COSEI": {
+                "support": 8,
+                "tp": 0,
+                "fp": 5,
+                "fn": 8,
+                "f1": 0.0
+              },
+              "E": {
+                "support": 2,
+                "tp": 0,
+                "fp": 2,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "F": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "G": {
+                "support": 9,
+                "tp": 0,
+                "fp": 8,
+                "fn": 9,
+                "f1": 0.0
+              },
+              "H": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "HO": {
+                "support": 3,
+                "tp": 0,
+                "fp": 4,
+                "fn": 3,
+                "f1": 0.0
+              },
+              "I": {
+                "support": 8,
+                "tp": 0,
+                "fp": 2,
+                "fn": 8,
+                "f1": 0.0
+              },
+              "J": {
+                "support": 1,
+                "tp": 0,
+                "fp": 2,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "L": {
+                "support": 1,
+                "tp": 0,
+                "fp": 2,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "M": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "P1": {
+                "support": 3,
+                "tp": 0,
+                "fp": 1,
+                "fn": 3,
+                "f1": 0.0
+              },
+              "P2": {
+                "support": 8,
+                "tp": 1,
+                "fp": 5,
+                "fn": 7,
+                "f1": 0.14285714285714285
+              },
+              "P3": {
+                "support": 1,
+                "tp": 0,
+                "fp": 1,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "P4": {
+                "support": 7,
+                "tp": 0,
+                "fp": 1,
+                "fn": 7,
+                "f1": 0.0
+              },
+              "Q": {
+                "support": 4,
+                "tp": 0,
+                "fp": 2,
+                "fn": 4,
+                "f1": 0.0
+              },
+              "R": {
+                "support": 1,
+                "tp": 0,
+                "fp": 1,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "S": {
+                "support": 2,
+                "tp": 0,
+                "fp": 5,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "T": {
+                "support": 67,
+                "tp": 58,
+                "fp": 32,
+                "fn": 9,
+                "f1": 0.7388535031847133
+              },
+              "W": {
+                "support": 6,
+                "tp": 4,
+                "fp": 3,
+                "fn": 2,
+                "f1": 0.6153846153846154
+              },
+              "area_deportiva": {
+                "support": 1,
+                "tp": 0,
+                "fp": 1,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "otro": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "plaza_roja": {
+                "support": 2,
+                "tp": 0,
+                "fp": 1,
+                "fn": 2,
+                "f1": 0.0
+              }
+            }
+          },
+          "accepted": {
+            "correct": 36,
+            "accuracy": 0.2517482517482518,
+            "macro_f1": 0.02898550724637681,
+            "per_class": {
+              "A": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "COSEI": {
+                "support": 8,
+                "tp": 0,
+                "fp": 0,
+                "fn": 8,
+                "f1": 0.0
+              },
+              "E": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "F": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "G": {
+                "support": 9,
+                "tp": 0,
+                "fp": 0,
+                "fn": 9,
+                "f1": 0.0
+              },
+              "H": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "HO": {
+                "support": 3,
+                "tp": 0,
+                "fp": 0,
+                "fn": 3,
+                "f1": 0.0
+              },
+              "I": {
+                "support": 8,
+                "tp": 0,
+                "fp": 0,
+                "fn": 8,
+                "f1": 0.0
+              },
+              "J": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "L": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "M": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "P1": {
+                "support": 3,
+                "tp": 0,
+                "fp": 0,
+                "fn": 3,
+                "f1": 0.0
+              },
+              "P2": {
+                "support": 8,
+                "tp": 0,
+                "fp": 0,
+                "fn": 8,
+                "f1": 0.0
+              },
+              "P3": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "P4": {
+                "support": 7,
+                "tp": 0,
+                "fp": 0,
+                "fn": 7,
+                "f1": 0.0
+              },
+              "Q": {
+                "support": 4,
+                "tp": 0,
+                "fp": 0,
+                "fn": 4,
+                "f1": 0.0
+              },
+              "R": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "S": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "T": {
+                "support": 67,
+                "tp": 36,
+                "fp": 5,
+                "fn": 31,
+                "f1": 0.6666666666666666
+              },
+              "W": {
+                "support": 6,
+                "tp": 0,
+                "fp": 0,
+                "fn": 6,
+                "f1": 0.0
+              },
+              "area_deportiva": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "otro": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              },
+              "plaza_roja": {
+                "support": 2,
+                "tp": 0,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.0
+              }
+            }
+          },
+          "accepted_count": 41,
+          "accepted_correct": 36,
+          "wrong_accepted": 5,
+          "rejected_count": 102,
+          "coverage": 0.2867132867132867,
+          "accepted_precision": 0.8780487804878049,
+          "negative_photos": 2,
+          "negative_rejected": 2,
+          "positive_rejected": 100,
+          "mapped_destination_gate": {
+            "navigable_accepted_count": 41,
+            "navigable_correct_label": 36,
+            "navigable_wrong_label": 5,
+            "navigable_precision_by_cohort_label": 0.8780487804878049,
+            "navigable_coverage": 0.2867132867132867,
+            "accepted_without_mapped_destination": 0,
+            "rejected_after_destination_gate": 102,
+            "classification": {
+              "correct": 36,
+              "accuracy": 0.2517482517482518,
+              "macro_f1": 0.02898550724637681,
+              "per_class": {
+                "A": {
+                  "support": 1,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 1,
+                  "f1": 0.0
+                },
+                "COSEI": {
+                  "support": 8,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 8,
+                  "f1": 0.0
+                },
+                "E": {
+                  "support": 2,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 2,
+                  "f1": 0.0
+                },
+                "F": {
+                  "support": 2,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 2,
+                  "f1": 0.0
+                },
+                "G": {
+                  "support": 9,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 9,
+                  "f1": 0.0
+                },
+                "H": {
+                  "support": 2,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 2,
+                  "f1": 0.0
+                },
+                "HO": {
+                  "support": 3,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 3,
+                  "f1": 0.0
+                },
+                "I": {
+                  "support": 8,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 8,
+                  "f1": 0.0
+                },
+                "J": {
+                  "support": 1,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 1,
+                  "f1": 0.0
+                },
+                "L": {
+                  "support": 1,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 1,
+                  "f1": 0.0
+                },
+                "M": {
+                  "support": 2,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 2,
+                  "f1": 0.0
+                },
+                "P1": {
+                  "support": 3,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 3,
+                  "f1": 0.0
+                },
+                "P2": {
+                  "support": 8,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 8,
+                  "f1": 0.0
+                },
+                "P3": {
+                  "support": 1,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 1,
+                  "f1": 0.0
+                },
+                "P4": {
+                  "support": 7,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 7,
+                  "f1": 0.0
+                },
+                "Q": {
+                  "support": 4,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 4,
+                  "f1": 0.0
+                },
+                "R": {
+                  "support": 1,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 1,
+                  "f1": 0.0
+                },
+                "S": {
+                  "support": 2,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 2,
+                  "f1": 0.0
+                },
+                "T": {
+                  "support": 67,
+                  "tp": 36,
+                  "fp": 5,
+                  "fn": 31,
+                  "f1": 0.6666666666666666
+                },
+                "W": {
+                  "support": 6,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 6,
+                  "f1": 0.0
+                },
+                "area_deportiva": {
+                  "support": 1,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 1,
+                  "f1": 0.0
+                },
+                "otro": {
+                  "support": 2,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 2,
+                  "f1": 0.0
+                },
+                "plaza_roja": {
+                  "support": 2,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 2,
+                  "f1": 0.0
+                }
+              }
+            },
+            "route_execution_or_navigation_accuracy_measured": false
+          },
+          "target_T_accepted": {
+            "tp": 36,
+            "fp": 5,
+            "fn": 31,
+            "tn": 71,
+            "precision": 0.8780487804878049,
+            "recall": 0.5373134328358209,
+            "f1": 0.6666666666666666
+          }
+        },
+        "legacy_unique_human_projection": {
+          "photos": 117,
+          "raw": {
+            "correct": 60,
+            "accuracy": 0.5128205128205128,
+            "macro_f1": 0.30581267190277134,
+            "per_class": {
+              "G": {
+                "support": 7,
+                "tp": 0,
+                "fp": 6,
+                "fn": 7,
+                "f1": 0.0
+              },
+              "I": {
+                "support": 8,
+                "tp": 0,
+                "fp": 2,
+                "fn": 8,
+                "f1": 0.0
+              },
+              "P2": {
+                "support": 6,
+                "tp": 1,
+                "fp": 3,
+                "fn": 5,
+                "f1": 0.2
+              },
+              "T": {
+                "support": 49,
+                "tp": 46,
+                "fp": 32,
+                "fn": 3,
+                "f1": 0.7244094488188977
+              },
+              "W": {
+                "support": 6,
+                "tp": 4,
+                "fp": 3,
+                "fn": 2,
+                "f1": 0.6153846153846154
+              },
+              "otro": {
+                "support": 41,
+                "tp": 9,
+                "fp": 11,
+                "fn": 32,
+                "f1": 0.29508196721311475
+              }
+            }
+          },
+          "accepted": {
+            "correct": 36,
+            "accuracy": 0.3076923076923077,
+            "macro_f1": 0.13333333333333333,
+            "per_class": {
+              "G": {
+                "support": 7,
+                "tp": 0,
+                "fp": 0,
+                "fn": 7,
+                "f1": 0.0
+              },
+              "I": {
+                "support": 8,
+                "tp": 0,
+                "fp": 0,
+                "fn": 8,
+                "f1": 0.0
+              },
+              "P2": {
+                "support": 6,
+                "tp": 0,
+                "fp": 0,
+                "fn": 6,
+                "f1": 0.0
+              },
+              "T": {
+                "support": 49,
+                "tp": 36,
+                "fp": 5,
+                "fn": 13,
+                "f1": 0.8
+              },
+              "W": {
+                "support": 6,
+                "tp": 0,
+                "fp": 0,
+                "fn": 6,
+                "f1": 0.0
+              },
+              "otro": {
+                "support": 41,
+                "tp": 0,
+                "fp": 0,
+                "fn": 41,
+                "f1": 0.0
+              }
+            }
+          },
+          "accepted_count": 41,
+          "accepted_correct": 36,
+          "wrong_accepted": 5,
+          "rejected_count": 76,
+          "coverage": 0.3504273504273504,
+          "accepted_precision": 0.8780487804878049,
+          "negative_photos": 41,
+          "negative_rejected": 37,
+          "positive_rejected": 39,
+          "mapped_destination_gate": {
+            "navigable_accepted_count": 41,
+            "navigable_correct_label": 36,
+            "navigable_wrong_label": 5,
+            "navigable_precision_by_cohort_label": 0.8780487804878049,
+            "navigable_coverage": 0.3504273504273504,
+            "accepted_without_mapped_destination": 0,
+            "rejected_after_destination_gate": 76,
+            "classification": {
+              "correct": 36,
+              "accuracy": 0.3076923076923077,
+              "macro_f1": 0.13333333333333333,
+              "per_class": {
+                "G": {
+                  "support": 7,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 7,
+                  "f1": 0.0
+                },
+                "I": {
+                  "support": 8,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 8,
+                  "f1": 0.0
+                },
+                "P2": {
+                  "support": 6,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 6,
+                  "f1": 0.0
+                },
+                "T": {
+                  "support": 49,
+                  "tp": 36,
+                  "fp": 5,
+                  "fn": 13,
+                  "f1": 0.8
+                },
+                "W": {
+                  "support": 6,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 6,
+                  "f1": 0.0
+                },
+                "otro": {
+                  "support": 41,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 41,
+                  "f1": 0.0
+                }
+              }
+            },
+            "route_execution_or_navigation_accuracy_measured": false
+          },
+          "target_T_accepted": {
+            "tp": 36,
+            "fp": 5,
+            "fn": 13,
+            "tn": 63,
+            "precision": 0.8780487804878049,
+            "recall": 0.7346938775510204,
+            "f1": 0.8
+          }
+        }
+      }
+    },
+    "escom": {
+      "actual": {
+        "native_human": {
+          "photos": 74,
+          "raw": {
+            "correct": 30,
+            "accuracy": 0.40540540540540543,
+            "macro_f1": 0.28302457346574994,
+            "per_class": {
+              "edificio_1": {
+                "support": 4,
+                "tp": 3,
+                "fp": 10,
+                "fn": 1,
+                "f1": 0.35294117647058826
+              },
+              "edificio_2": {
+                "support": 9,
+                "tp": 4,
+                "fp": 15,
+                "fn": 5,
+                "f1": 0.2857142857142857
+              },
+              "edificio_3": {
+                "support": 1,
+                "tp": 0,
+                "fp": 6,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "edificio_4": {
+                "support": 5,
+                "tp": 2,
+                "fp": 4,
+                "fn": 3,
+                "f1": 0.36363636363636365
+              },
+              "edificio_5": {
+                "support": 9,
+                "tp": 0,
+                "fp": 0,
+                "fn": 9,
+                "f1": 0.0
+              },
+              "gobierno": {
+                "support": 9,
+                "tp": 5,
+                "fp": 6,
+                "fn": 4,
+                "f1": 0.5
+              },
+              "laboratorios": {
+                "support": 23,
+                "tp": 16,
+                "fp": 3,
+                "fn": 7,
+                "f1": 0.7619047619047619
+              },
+              "otro": {
+                "support": 14,
+                "tp": 0,
+                "fp": 0,
+                "fn": 14,
+                "f1": 0.0
+              }
+            }
+          },
+          "accepted": {
+            "correct": 18,
+            "accuracy": 0.24324324324324326,
+            "macro_f1": 0.23333333333333334,
+            "per_class": {
+              "edificio_1": {
+                "support": 4,
+                "tp": 2,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.6666666666666666
+              },
+              "edificio_2": {
+                "support": 9,
+                "tp": 0,
+                "fp": 0,
+                "fn": 9,
+                "f1": 0.0
+              },
+              "edificio_3": {
+                "support": 1,
+                "tp": 0,
+                "fp": 1,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "edificio_4": {
+                "support": 5,
+                "tp": 0,
+                "fp": 1,
+                "fn": 5,
+                "f1": 0.0
+              },
+              "edificio_5": {
+                "support": 9,
+                "tp": 0,
+                "fp": 0,
+                "fn": 9,
+                "f1": 0.0
+              },
+              "gobierno": {
+                "support": 9,
+                "tp": 4,
+                "fp": 2,
+                "fn": 5,
+                "f1": 0.5333333333333333
+              },
+              "laboratorios": {
+                "support": 23,
+                "tp": 12,
+                "fp": 1,
+                "fn": 11,
+                "f1": 0.6666666666666666
+              },
+              "otro": {
+                "support": 14,
+                "tp": 0,
+                "fp": 0,
+                "fn": 14,
+                "f1": 0.0
+              }
+            }
+          },
+          "accepted_count": 23,
+          "accepted_correct": 18,
+          "wrong_accepted": 5,
+          "rejected_count": 51,
+          "coverage": 0.3108108108108108,
+          "accepted_precision": 0.782608695652174,
+          "negative_photos": 14,
+          "negative_rejected": 14,
+          "positive_rejected": 37,
+          "mapped_destination_gate": {
+            "navigable_accepted_count": 23,
+            "navigable_correct_label": 18,
+            "navigable_wrong_label": 5,
+            "navigable_precision_by_cohort_label": 0.782608695652174,
+            "navigable_coverage": 0.3108108108108108,
+            "accepted_without_mapped_destination": 0,
+            "rejected_after_destination_gate": 51,
+            "classification": {
+              "correct": 18,
+              "accuracy": 0.24324324324324326,
+              "macro_f1": 0.23333333333333334,
+              "per_class": {
+                "edificio_1": {
+                  "support": 4,
+                  "tp": 2,
+                  "fp": 0,
+                  "fn": 2,
+                  "f1": 0.6666666666666666
+                },
+                "edificio_2": {
+                  "support": 9,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 9,
+                  "f1": 0.0
+                },
+                "edificio_3": {
+                  "support": 1,
+                  "tp": 0,
+                  "fp": 1,
+                  "fn": 1,
+                  "f1": 0.0
+                },
+                "edificio_4": {
+                  "support": 5,
+                  "tp": 0,
+                  "fp": 1,
+                  "fn": 5,
+                  "f1": 0.0
+                },
+                "edificio_5": {
+                  "support": 9,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 9,
+                  "f1": 0.0
+                },
+                "gobierno": {
+                  "support": 9,
+                  "tp": 4,
+                  "fp": 2,
+                  "fn": 5,
+                  "f1": 0.5333333333333333
+                },
+                "laboratorios": {
+                  "support": 23,
+                  "tp": 12,
+                  "fp": 1,
+                  "fn": 11,
+                  "f1": 0.6666666666666666
+                },
+                "otro": {
+                  "support": 14,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 14,
+                  "f1": 0.0
+                }
+              }
+            },
+            "route_execution_or_navigation_accuracy_measured": false
+          }
+        },
+        "legacy_unique_human_projection": {
+          "photos": 42,
+          "raw": {
+            "correct": 28,
+            "accuracy": 0.6666666666666666,
+            "macro_f1": 0.49430199430199434,
+            "per_class": {
+              "edificio_1": {
+                "support": 4,
+                "tp": 3,
+                "fp": 6,
+                "fn": 1,
+                "f1": 0.46153846153846156
+              },
+              "edificio_2": {
+                "support": 8,
+                "tp": 3,
+                "fp": 3,
+                "fn": 5,
+                "f1": 0.42857142857142855
+              },
+              "edificio_3": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "edificio_4": {
+                "support": 4,
+                "tp": 2,
+                "fp": 1,
+                "fn": 2,
+                "f1": 0.5714285714285714
+              },
+              "gobierno": {
+                "support": 6,
+                "tp": 4,
+                "fp": 3,
+                "fn": 2,
+                "f1": 0.6153846153846154
+              },
+              "laboratorios": {
+                "support": 19,
+                "tp": 16,
+                "fp": 1,
+                "fn": 3,
+                "f1": 0.8888888888888888
+              }
+            }
+          },
+          "accepted": {
+            "correct": 17,
+            "accuracy": 0.40476190476190477,
+            "macro_f1": 0.327020202020202,
+            "per_class": {
+              "edificio_1": {
+                "support": 4,
+                "tp": 2,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.6666666666666666
+              },
+              "edificio_2": {
+                "support": 8,
+                "tp": 0,
+                "fp": 0,
+                "fn": 8,
+                "f1": 0.0
+              },
+              "edificio_3": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "edificio_4": {
+                "support": 4,
+                "tp": 0,
+                "fp": 0,
+                "fn": 4,
+                "f1": 0.0
+              },
+              "gobierno": {
+                "support": 6,
+                "tp": 3,
+                "fp": 2,
+                "fn": 3,
+                "f1": 0.5454545454545454
+              },
+              "laboratorios": {
+                "support": 19,
+                "tp": 12,
+                "fp": 1,
+                "fn": 7,
+                "f1": 0.75
+              }
+            }
+          },
+          "accepted_count": 20,
+          "accepted_correct": 17,
+          "wrong_accepted": 3,
+          "rejected_count": 22,
+          "coverage": 0.47619047619047616,
+          "accepted_precision": 0.85,
+          "negative_photos": 0,
+          "negative_rejected": 0,
+          "positive_rejected": 22,
+          "mapped_destination_gate": {
+            "navigable_accepted_count": 20,
+            "navigable_correct_label": 17,
+            "navigable_wrong_label": 3,
+            "navigable_precision_by_cohort_label": 0.85,
+            "navigable_coverage": 0.47619047619047616,
+            "accepted_without_mapped_destination": 0,
+            "rejected_after_destination_gate": 22,
+            "classification": {
+              "correct": 17,
+              "accuracy": 0.40476190476190477,
+              "macro_f1": 0.327020202020202,
+              "per_class": {
+                "edificio_1": {
+                  "support": 4,
+                  "tp": 2,
+                  "fp": 0,
+                  "fn": 2,
+                  "f1": 0.6666666666666666
+                },
+                "edificio_2": {
+                  "support": 8,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 8,
+                  "f1": 0.0
+                },
+                "edificio_3": {
+                  "support": 1,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 1,
+                  "f1": 0.0
+                },
+                "edificio_4": {
+                  "support": 4,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 4,
+                  "f1": 0.0
+                },
+                "gobierno": {
+                  "support": 6,
+                  "tp": 3,
+                  "fp": 2,
+                  "fn": 3,
+                  "f1": 0.5454545454545454
+                },
+                "laboratorios": {
+                  "support": 19,
+                  "tp": 12,
+                  "fp": 1,
+                  "fn": 7,
+                  "f1": 0.75
+                }
+              }
+            },
+            "route_execution_or_navigation_accuracy_measured": false
+          }
+        }
+      },
+      "maestro": {
+        "native_human": {
+          "photos": 74,
+          "raw": {
+            "correct": 40,
+            "accuracy": 0.5405405405405406,
+            "macro_f1": 0.40462980646804175,
+            "per_class": {
+              "edificio_1": {
+                "support": 4,
+                "tp": 3,
+                "fp": 5,
+                "fn": 1,
+                "f1": 0.5
+              },
+              "edificio_2": {
+                "support": 9,
+                "tp": 3,
+                "fp": 8,
+                "fn": 6,
+                "f1": 0.3
+              },
+              "edificio_3": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "edificio_4": {
+                "support": 5,
+                "tp": 0,
+                "fp": 5,
+                "fn": 5,
+                "f1": 0.0
+              },
+              "edificio_5": {
+                "support": 9,
+                "tp": 5,
+                "fp": 8,
+                "fn": 4,
+                "f1": 0.45454545454545453
+              },
+              "gobierno": {
+                "support": 9,
+                "tp": 4,
+                "fp": 4,
+                "fn": 5,
+                "f1": 0.47058823529411764
+              },
+              "laboratorios": {
+                "support": 23,
+                "tp": 16,
+                "fp": 3,
+                "fn": 7,
+                "f1": 0.7619047619047619
+              },
+              "otro": {
+                "support": 14,
+                "tp": 9,
+                "fp": 1,
+                "fn": 5,
+                "f1": 0.75
+              }
+            }
+          },
+          "accepted": {
+            "correct": 14,
+            "accuracy": 0.1891891891891892,
+            "macro_f1": 0.15416666666666667,
+            "per_class": {
+              "edificio_1": {
+                "support": 4,
+                "tp": 1,
+                "fp": 0,
+                "fn": 3,
+                "f1": 0.4
+              },
+              "edificio_2": {
+                "support": 9,
+                "tp": 0,
+                "fp": 0,
+                "fn": 9,
+                "f1": 0.0
+              },
+              "edificio_3": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "edificio_4": {
+                "support": 5,
+                "tp": 0,
+                "fp": 0,
+                "fn": 5,
+                "f1": 0.0
+              },
+              "edificio_5": {
+                "support": 9,
+                "tp": 0,
+                "fp": 0,
+                "fn": 9,
+                "f1": 0.0
+              },
+              "gobierno": {
+                "support": 9,
+                "tp": 1,
+                "fp": 2,
+                "fn": 8,
+                "f1": 0.16666666666666666
+              },
+              "laboratorios": {
+                "support": 23,
+                "tp": 12,
+                "fp": 1,
+                "fn": 11,
+                "f1": 0.6666666666666666
+              },
+              "otro": {
+                "support": 14,
+                "tp": 0,
+                "fp": 0,
+                "fn": 14,
+                "f1": 0.0
+              }
+            }
+          },
+          "accepted_count": 17,
+          "accepted_correct": 14,
+          "wrong_accepted": 3,
+          "rejected_count": 57,
+          "coverage": 0.22972972972972974,
+          "accepted_precision": 0.8235294117647058,
+          "negative_photos": 14,
+          "negative_rejected": 14,
+          "positive_rejected": 43,
+          "mapped_destination_gate": {
+            "navigable_accepted_count": 17,
+            "navigable_correct_label": 14,
+            "navigable_wrong_label": 3,
+            "navigable_precision_by_cohort_label": 0.8235294117647058,
+            "navigable_coverage": 0.22972972972972974,
+            "accepted_without_mapped_destination": 0,
+            "rejected_after_destination_gate": 57,
+            "classification": {
+              "correct": 14,
+              "accuracy": 0.1891891891891892,
+              "macro_f1": 0.15416666666666667,
+              "per_class": {
+                "edificio_1": {
+                  "support": 4,
+                  "tp": 1,
+                  "fp": 0,
+                  "fn": 3,
+                  "f1": 0.4
+                },
+                "edificio_2": {
+                  "support": 9,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 9,
+                  "f1": 0.0
+                },
+                "edificio_3": {
+                  "support": 1,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 1,
+                  "f1": 0.0
+                },
+                "edificio_4": {
+                  "support": 5,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 5,
+                  "f1": 0.0
+                },
+                "edificio_5": {
+                  "support": 9,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 9,
+                  "f1": 0.0
+                },
+                "gobierno": {
+                  "support": 9,
+                  "tp": 1,
+                  "fp": 2,
+                  "fn": 8,
+                  "f1": 0.16666666666666666
+                },
+                "laboratorios": {
+                  "support": 23,
+                  "tp": 12,
+                  "fp": 1,
+                  "fn": 11,
+                  "f1": 0.6666666666666666
+                },
+                "otro": {
+                  "support": 14,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 14,
+                  "f1": 0.0
+                }
+              }
+            },
+            "route_execution_or_navigation_accuracy_measured": false
+          }
+        },
+        "legacy_unique_human_projection": {
+          "photos": 42,
+          "raw": {
+            "correct": 26,
+            "accuracy": 0.6190476190476191,
+            "macro_f1": 0.4215969215969216,
+            "per_class": {
+              "edificio_1": {
+                "support": 4,
+                "tp": 3,
+                "fp": 4,
+                "fn": 1,
+                "f1": 0.5454545454545454
+              },
+              "edificio_2": {
+                "support": 8,
+                "tp": 3,
+                "fp": 3,
+                "fn": 5,
+                "f1": 0.42857142857142855
+              },
+              "edificio_3": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "edificio_4": {
+                "support": 4,
+                "tp": 0,
+                "fp": 1,
+                "fn": 4,
+                "f1": 0.0
+              },
+              "gobierno": {
+                "support": 6,
+                "tp": 4,
+                "fp": 2,
+                "fn": 2,
+                "f1": 0.6666666666666666
+              },
+              "laboratorios": {
+                "support": 19,
+                "tp": 16,
+                "fp": 1,
+                "fn": 3,
+                "f1": 0.8888888888888888
+              }
+            }
+          },
+          "accepted": {
+            "correct": 14,
+            "accuracy": 0.3333333333333333,
+            "macro_f1": 0.22870370370370371,
+            "per_class": {
+              "edificio_1": {
+                "support": 4,
+                "tp": 1,
+                "fp": 0,
+                "fn": 3,
+                "f1": 0.4
+              },
+              "edificio_2": {
+                "support": 8,
+                "tp": 0,
+                "fp": 0,
+                "fn": 8,
+                "f1": 0.0
+              },
+              "edificio_3": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "edificio_4": {
+                "support": 4,
+                "tp": 0,
+                "fp": 0,
+                "fn": 4,
+                "f1": 0.0
+              },
+              "gobierno": {
+                "support": 6,
+                "tp": 1,
+                "fp": 2,
+                "fn": 5,
+                "f1": 0.2222222222222222
+              },
+              "laboratorios": {
+                "support": 19,
+                "tp": 12,
+                "fp": 1,
+                "fn": 7,
+                "f1": 0.75
+              }
+            }
+          },
+          "accepted_count": 17,
+          "accepted_correct": 14,
+          "wrong_accepted": 3,
+          "rejected_count": 25,
+          "coverage": 0.40476190476190477,
+          "accepted_precision": 0.8235294117647058,
+          "negative_photos": 0,
+          "negative_rejected": 0,
+          "positive_rejected": 25,
+          "mapped_destination_gate": {
+            "navigable_accepted_count": 17,
+            "navigable_correct_label": 14,
+            "navigable_wrong_label": 3,
+            "navigable_precision_by_cohort_label": 0.8235294117647058,
+            "navigable_coverage": 0.40476190476190477,
+            "accepted_without_mapped_destination": 0,
+            "rejected_after_destination_gate": 25,
+            "classification": {
+              "correct": 14,
+              "accuracy": 0.3333333333333333,
+              "macro_f1": 0.22870370370370371,
+              "per_class": {
+                "edificio_1": {
+                  "support": 4,
+                  "tp": 1,
+                  "fp": 0,
+                  "fn": 3,
+                  "f1": 0.4
+                },
+                "edificio_2": {
+                  "support": 8,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 8,
+                  "f1": 0.0
+                },
+                "edificio_3": {
+                  "support": 1,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 1,
+                  "f1": 0.0
+                },
+                "edificio_4": {
+                  "support": 4,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 4,
+                  "f1": 0.0
+                },
+                "gobierno": {
+                  "support": 6,
+                  "tp": 1,
+                  "fp": 2,
+                  "fn": 5,
+                  "f1": 0.2222222222222222
+                },
+                "laboratorios": {
+                  "support": 19,
+                  "tp": 12,
+                  "fp": 1,
+                  "fn": 7,
+                  "f1": 0.75
+                }
+              }
+            },
+            "route_execution_or_navigation_accuracy_measured": false
+          }
+        }
+      },
+      "combinada": {
+        "native_human": {
+          "photos": 74,
+          "raw": {
+            "correct": 45,
+            "accuracy": 0.6081081081081081,
+            "macro_f1": 0.46541121921556705,
+            "per_class": {
+              "edificio_1": {
+                "support": 4,
+                "tp": 4,
+                "fp": 5,
+                "fn": 0,
+                "f1": 0.6153846153846154
+              },
+              "edificio_2": {
+                "support": 9,
+                "tp": 6,
+                "fp": 5,
+                "fn": 3,
+                "f1": 0.6
+              },
+              "edificio_3": {
+                "support": 1,
+                "tp": 0,
+                "fp": 1,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "edificio_4": {
+                "support": 5,
+                "tp": 0,
+                "fp": 5,
+                "fn": 5,
+                "f1": 0.0
+              },
+              "edificio_5": {
+                "support": 9,
+                "tp": 1,
+                "fp": 1,
+                "fn": 8,
+                "f1": 0.18181818181818182
+              },
+              "gobierno": {
+                "support": 9,
+                "tp": 5,
+                "fp": 1,
+                "fn": 4,
+                "f1": 0.6666666666666666
+              },
+              "laboratorios": {
+                "support": 23,
+                "tp": 19,
+                "fp": 4,
+                "fn": 4,
+                "f1": 0.8260869565217391
+              },
+              "otro": {
+                "support": 14,
+                "tp": 10,
+                "fp": 0,
+                "fn": 4,
+                "f1": 0.8333333333333334
+              }
+            }
+          },
+          "accepted": {
+            "correct": 19,
+            "accuracy": 0.25675675675675674,
+            "macro_f1": 0.125484496124031,
+            "per_class": {
+              "edificio_1": {
+                "support": 4,
+                "tp": 0,
+                "fp": 0,
+                "fn": 4,
+                "f1": 0.0
+              },
+              "edificio_2": {
+                "support": 9,
+                "tp": 1,
+                "fp": 2,
+                "fn": 8,
+                "f1": 0.16666666666666666
+              },
+              "edificio_3": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "edificio_4": {
+                "support": 5,
+                "tp": 0,
+                "fp": 0,
+                "fn": 5,
+                "f1": 0.0
+              },
+              "edificio_5": {
+                "support": 9,
+                "tp": 0,
+                "fp": 0,
+                "fn": 9,
+                "f1": 0.0
+              },
+              "gobierno": {
+                "support": 9,
+                "tp": 0,
+                "fp": 0,
+                "fn": 9,
+                "f1": 0.0
+              },
+              "laboratorios": {
+                "support": 23,
+                "tp": 18,
+                "fp": 2,
+                "fn": 5,
+                "f1": 0.8372093023255814
+              },
+              "otro": {
+                "support": 14,
+                "tp": 0,
+                "fp": 0,
+                "fn": 14,
+                "f1": 0.0
+              }
+            }
+          },
+          "accepted_count": 23,
+          "accepted_correct": 19,
+          "wrong_accepted": 4,
+          "rejected_count": 51,
+          "coverage": 0.3108108108108108,
+          "accepted_precision": 0.8260869565217391,
+          "negative_photos": 14,
+          "negative_rejected": 14,
+          "positive_rejected": 37,
+          "mapped_destination_gate": {
+            "navigable_accepted_count": 23,
+            "navigable_correct_label": 19,
+            "navigable_wrong_label": 4,
+            "navigable_precision_by_cohort_label": 0.8260869565217391,
+            "navigable_coverage": 0.3108108108108108,
+            "accepted_without_mapped_destination": 0,
+            "rejected_after_destination_gate": 51,
+            "classification": {
+              "correct": 19,
+              "accuracy": 0.25675675675675674,
+              "macro_f1": 0.125484496124031,
+              "per_class": {
+                "edificio_1": {
+                  "support": 4,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 4,
+                  "f1": 0.0
+                },
+                "edificio_2": {
+                  "support": 9,
+                  "tp": 1,
+                  "fp": 2,
+                  "fn": 8,
+                  "f1": 0.16666666666666666
+                },
+                "edificio_3": {
+                  "support": 1,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 1,
+                  "f1": 0.0
+                },
+                "edificio_4": {
+                  "support": 5,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 5,
+                  "f1": 0.0
+                },
+                "edificio_5": {
+                  "support": 9,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 9,
+                  "f1": 0.0
+                },
+                "gobierno": {
+                  "support": 9,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 9,
+                  "f1": 0.0
+                },
+                "laboratorios": {
+                  "support": 23,
+                  "tp": 18,
+                  "fp": 2,
+                  "fn": 5,
+                  "f1": 0.8372093023255814
+                },
+                "otro": {
+                  "support": 14,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 14,
+                  "f1": 0.0
+                }
+              }
+            },
+            "route_execution_or_navigation_accuracy_measured": false
+          }
+        },
+        "legacy_unique_human_projection": {
+          "photos": 42,
+          "raw": {
+            "correct": 31,
+            "accuracy": 0.7380952380952381,
+            "macro_f1": 0.5087121212121212,
+            "per_class": {
+              "edificio_1": {
+                "support": 4,
+                "tp": 4,
+                "fp": 3,
+                "fn": 0,
+                "f1": 0.7272727272727273
+              },
+              "edificio_2": {
+                "support": 8,
+                "tp": 5,
+                "fp": 3,
+                "fn": 3,
+                "f1": 0.625
+              },
+              "edificio_3": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "edificio_4": {
+                "support": 4,
+                "tp": 0,
+                "fp": 0,
+                "fn": 4,
+                "f1": 0.0
+              },
+              "gobierno": {
+                "support": 6,
+                "tp": 4,
+                "fp": 0,
+                "fn": 2,
+                "f1": 0.8
+              },
+              "laboratorios": {
+                "support": 19,
+                "tp": 18,
+                "fp": 3,
+                "fn": 1,
+                "f1": 0.9
+              }
+            }
+          },
+          "accepted": {
+            "correct": 18,
+            "accuracy": 0.42857142857142855,
+            "macro_f1": 0.1864864864864865,
+            "per_class": {
+              "edificio_1": {
+                "support": 4,
+                "tp": 0,
+                "fp": 0,
+                "fn": 4,
+                "f1": 0.0
+              },
+              "edificio_2": {
+                "support": 8,
+                "tp": 1,
+                "fp": 1,
+                "fn": 7,
+                "f1": 0.2
+              },
+              "edificio_3": {
+                "support": 1,
+                "tp": 0,
+                "fp": 0,
+                "fn": 1,
+                "f1": 0.0
+              },
+              "edificio_4": {
+                "support": 4,
+                "tp": 0,
+                "fp": 0,
+                "fn": 4,
+                "f1": 0.0
+              },
+              "gobierno": {
+                "support": 6,
+                "tp": 0,
+                "fp": 0,
+                "fn": 6,
+                "f1": 0.0
+              },
+              "laboratorios": {
+                "support": 19,
+                "tp": 17,
+                "fp": 1,
+                "fn": 2,
+                "f1": 0.918918918918919
+              }
+            }
+          },
+          "accepted_count": 20,
+          "accepted_correct": 18,
+          "wrong_accepted": 2,
+          "rejected_count": 22,
+          "coverage": 0.47619047619047616,
+          "accepted_precision": 0.9,
+          "negative_photos": 0,
+          "negative_rejected": 0,
+          "positive_rejected": 22,
+          "mapped_destination_gate": {
+            "navigable_accepted_count": 20,
+            "navigable_correct_label": 18,
+            "navigable_wrong_label": 2,
+            "navigable_precision_by_cohort_label": 0.9,
+            "navigable_coverage": 0.47619047619047616,
+            "accepted_without_mapped_destination": 0,
+            "rejected_after_destination_gate": 22,
+            "classification": {
+              "correct": 18,
+              "accuracy": 0.42857142857142855,
+              "macro_f1": 0.1864864864864865,
+              "per_class": {
+                "edificio_1": {
+                  "support": 4,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 4,
+                  "f1": 0.0
+                },
+                "edificio_2": {
+                  "support": 8,
+                  "tp": 1,
+                  "fp": 1,
+                  "fn": 7,
+                  "f1": 0.2
+                },
+                "edificio_3": {
+                  "support": 1,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 1,
+                  "f1": 0.0
+                },
+                "edificio_4": {
+                  "support": 4,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 4,
+                  "f1": 0.0
+                },
+                "gobierno": {
+                  "support": 6,
+                  "tp": 0,
+                  "fp": 0,
+                  "fn": 6,
+                  "f1": 0.0
+                },
+                "laboratorios": {
+                  "support": 19,
+                  "tp": 17,
+                  "fp": 1,
+                  "fn": 2,
+                  "f1": 0.918918918918919
+                }
+              }
+            },
+            "route_execution_or_navigation_accuracy_measured": false
+          }
+        }
+      }
+    }
+  },
+  "policy_aggregates": {
+    "azc": {
+      "fold_count": 23,
+      "selected_recipe_fold_counts": {
+        "anclado_photo1_all_capnone": 2,
+        "anclado_photo1_ext_capnone": 4,
+        "anclado_proto3_all_capnone": 3,
+        "anclado_proto3_ext_capnone": 5,
+        "blanqueo_diagonal_photo2_all_cap2": 4,
+        "blanqueo_diagonal_photo2_ext_cap2": 3,
+        "blanqueo_diagonal_photo3_ext_cap2": 1,
+        "mean3_photo2_all_cap2": 1
+      },
+      "selected_recipe_query_counts": {
+        "anclado_photo1_all_capnone": 8,
+        "anclado_photo1_ext_capnone": 12,
+        "anclado_proto3_all_capnone": 50,
+        "anclado_proto3_ext_capnone": 14,
+        "blanqueo_diagonal_photo2_all_cap2": 30,
+        "blanqueo_diagonal_photo2_ext_cap2": 6,
+        "blanqueo_diagonal_photo3_ext_cap2": 6,
+        "mean3_photo2_all_cap2": 17
+      },
+      "combined_policy_by_class": {
+        "A": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 23,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "COSEI": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 23,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "E": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 23,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "F": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 23,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "G": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 23,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "H": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 23,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "HO": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 23,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "I": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 23,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "J": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 23,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "L": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 23,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "M": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 23,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "P1": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 23,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "P2": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 23,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "P3": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 23,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "P4": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 23,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "Q": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 23,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "R": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 23,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "S": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 23,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "T": {
+          "enabled_folds": 23,
+          "disabled_or_unsupported_folds": 0,
+          "threshold_min": 0.24317252933979033,
+          "threshold_median": 0.7330765724182129,
+          "threshold_max": 0.7673271059989929,
+          "margin_counts": {
+            "0.0": 3,
+            "0.01": 7,
+            "0.03": 7,
+            "0.05": 6
+          }
+        },
+        "W": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 23,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "acceso_principal": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 23,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "area_deportiva": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 23,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "otro": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 23,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "plaza_roja": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 23,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "punto_de_reunion_6": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 23,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "serpentina_ii": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 23,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        }
+      },
+      "actual_fixed_policy": {
+        "G": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "I": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "P2": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "T": {
+          "threshold": 0.74,
+          "margin": 0.0
+        },
+        "W": {
+          "threshold": 0.8,
+          "margin": 0.0
+        }
+      },
+      "teacher_fixed_policy": {
+        "A": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "COSEI": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "E": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "F": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "G": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "H": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "HO": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "I": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "J": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "L": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "M": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "P1": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "P2": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "P3": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "P4": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "Q": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "R": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "S": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "T": {
+          "threshold": 0.74,
+          "margin": 0.0
+        },
+        "W": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "area_deportiva": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "plaza_roja": {
+          "threshold": 0.8,
+          "margin": 0.0
+        }
+      }
+    },
+    "escom": {
+      "fold_count": 16,
+      "selected_recipe_fold_counts": {
+        "anclado_photo2_all_cap2": 1,
+        "anclado_photo2_all_capnone": 1,
+        "centrado_photo2_all_cap2": 6,
+        "centrado_photo2_ext_cap2": 1,
+        "mean3_photo3_all_cap2": 7
+      },
+      "selected_recipe_query_counts": {
+        "anclado_photo2_all_cap2": 2,
+        "anclado_photo2_all_capnone": 5,
+        "centrado_photo2_all_cap2": 41,
+        "centrado_photo2_ext_cap2": 1,
+        "mean3_photo3_all_cap2": 25
+      },
+      "combined_policy_by_class": {
+        "auditorio": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 16,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "aulas_y_laboratorios": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 16,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "barra_cafe_frente_gestion_escolar": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 16,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "biblioteca": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 16,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "cancha_baloncesto": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 16,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "edificio_1": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 16,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "edificio_2": {
+          "enabled_folds": 2,
+          "disabled_or_unsupported_folds": 14,
+          "threshold_min": 0.38751604557037356,
+          "threshold_median": 0.41036703884601594,
+          "threshold_max": 0.4332180321216583,
+          "margin_counts": {
+            "0.01": 2
+          }
+        },
+        "edificio_3": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 16,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "edificio_4": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 16,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "edificio_5": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 16,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "estacionamiento_alterno_motos": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 16,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "explanada_principal": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 16,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "gobierno": {
+          "enabled_folds": 7,
+          "disabled_or_unsupported_folds": 9,
+          "threshold_min": 0.3949218988418579,
+          "threshold_median": 0.6863448619842529,
+          "threshold_max": 0.71,
+          "margin_counts": {
+            "0.05": 7
+          }
+        },
+        "laboratorio_de_computo_de_tiempo_libre": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 16,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "laboratorio_de_programacion": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 16,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "laboratorio_de_sistemas_digitales": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 16,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        },
+        "laboratorios": {
+          "enabled_folds": 16,
+          "disabled_or_unsupported_folds": 0,
+          "threshold_min": 0.25099384784698486,
+          "threshold_median": 0.559326708316803,
+          "threshold_max": 0.6765750408172607,
+          "margin_counts": {
+            "0.0": 11,
+            "0.01": 1,
+            "0.05": 4
+          }
+        },
+        "otro": {
+          "enabled_folds": 0,
+          "disabled_or_unsupported_folds": 16,
+          "threshold_min": null,
+          "threshold_median": null,
+          "threshold_max": null,
+          "margin_counts": {}
+        }
+      },
+      "actual_fixed_policy": {
+        "edificio_1": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "edificio_2": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "edificio_3": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "edificio_4": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "gobierno": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "laboratorios": {
+          "threshold": 0.71,
+          "margin": 0.0
+        }
+      },
+      "teacher_fixed_policy": {
+        "edificio_1": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "edificio_2": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "edificio_3": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "edificio_4": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "edificio_5": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "gobierno": {
+          "threshold": 0.8,
+          "margin": 0.0
+        },
+        "laboratorios": {
+          "threshold": 0.71,
+          "margin": 0.0
+        }
+      }
+    }
+  },
+  "checks": {
+    "query_predictions_independently_audited": {
+      "actual": 217,
+      "maestro": 217,
+      "combinada": 217
+    },
+    "immutable_native_truth": true,
+    "unique_rgb_query_denominators": true,
+    "outer_group_excluded_from_training": true,
+    "accepted_labels_match_frozen_policies": true,
+    "teacher_comparator_not_in_recipe_search": true,
+    "public_report_contains_no_private_identifiers_or_vectors": true
+  },
+  "final_fit": {
+    "maestro": {
+      "azc": {
+        "selected_recipe": {
+          "recipe_id": "maestro_solo",
+          "bank": "maestro",
+          "pooling": "proto3",
+          "transform": "identidad",
+          "addition_scope": "all",
+          "max_adiciones_por_fuente_clase": null,
+          "query_mode": "central"
+        },
+        "reference_photos": 143,
+        "reference_views": 429,
+        "classes": [
+          "A",
+          "COSEI",
+          "E",
+          "F",
+          "G",
+          "H",
+          "HO",
+          "I",
+          "J",
+          "L",
+          "M",
+          "P1",
+          "P2",
+          "P3",
+          "P4",
+          "Q",
+          "R",
+          "S",
+          "T",
+          "W",
+          "area_deportiva",
+          "otro",
+          "plaza_roja"
+        ],
+        "fixed_or_inner_fitted_policy": {
+          "A": {
+            "threshold": 0.8,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "COSEI": {
+            "threshold": 0.8,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "E": {
+            "threshold": 0.8,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "F": {
+            "threshold": 0.8,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "G": {
+            "threshold": 0.8,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "H": {
+            "threshold": 0.8,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "HO": {
+            "threshold": 0.8,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "I": {
+            "threshold": 0.8,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "J": {
+            "threshold": 0.8,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "L": {
+            "threshold": 0.8,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "M": {
+            "threshold": 0.8,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "P1": {
+            "threshold": 0.8,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "P2": {
+            "threshold": 0.8,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "P3": {
+            "threshold": 0.8,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "P4": {
+            "threshold": 0.8,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "Q": {
+            "threshold": 0.8,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "R": {
+            "threshold": 0.8,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "S": {
+            "threshold": 0.8,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "T": {
+            "threshold": 0.74,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "W": {
+            "threshold": 0.8,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "area_deportiva": {
+            "threshold": 0.8,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": false
+          },
+          "otro": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": false
+          },
+          "plaza_roja": {
+            "threshold": 0.8,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          }
+        },
+        "policy_enabled_classes": [
+          "A",
+          "COSEI",
+          "E",
+          "F",
+          "G",
+          "H",
+          "HO",
+          "I",
+          "J",
+          "L",
+          "M",
+          "P1",
+          "P2",
+          "P3",
+          "P4",
+          "Q",
+          "R",
+          "S",
+          "T",
+          "W",
+          "area_deportiva",
+          "plaza_roja"
+        ],
+        "classes_without_destination": [
+          "area_deportiva",
+          "otro"
+        ],
+        "policy_enabled_without_destination": [
+          "area_deportiva"
+        ],
+        "enabled_with_destination": [
+          "A",
+          "COSEI",
+          "E",
+          "F",
+          "G",
+          "H",
+          "HO",
+          "I",
+          "J",
+          "L",
+          "M",
+          "P1",
+          "P2",
+          "P3",
+          "P4",
+          "Q",
+          "R",
+          "S",
+          "T",
+          "W",
+          "plaza_roja"
+        ],
+        "configuration": {
+          "pooling": "prototipos",
+          "k": 3,
+          "natural_query_views": 1,
+          "transform": "identidad"
+        },
+        "full_fit_is_not_an_outer_accuracy_estimate": true,
+        "reported_numeric_parity": {
+          "checked_queries": 7,
+          "maximum_absolute_class_score_error": 1.7881393432617188e-07,
+          "tolerance": 1e-05,
+          "passed": true
+        }
+      },
+      "escom": {
+        "selected_recipe": {
+          "recipe_id": "maestro_solo",
+          "bank": "maestro",
+          "pooling": "proto3",
+          "transform": "identidad",
+          "addition_scope": "all",
+          "max_adiciones_por_fuente_clase": null,
+          "query_mode": "central"
+        },
+        "reference_photos": 74,
+        "reference_views": 222,
+        "classes": [
+          "edificio_1",
+          "edificio_2",
+          "edificio_3",
+          "edificio_4",
+          "edificio_5",
+          "gobierno",
+          "laboratorios",
+          "otro"
+        ],
+        "fixed_or_inner_fitted_policy": {
+          "edificio_1": {
+            "threshold": 0.8,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "edificio_2": {
+            "threshold": 0.8,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "edificio_3": {
+            "threshold": 0.8,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "edificio_4": {
+            "threshold": 0.8,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "edificio_5": {
+            "threshold": 0.8,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "gobierno": {
+            "threshold": 0.8,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "laboratorios": {
+            "threshold": 0.71,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "otro": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": false
+          }
+        },
+        "policy_enabled_classes": [
+          "edificio_1",
+          "edificio_2",
+          "edificio_3",
+          "edificio_4",
+          "edificio_5",
+          "gobierno",
+          "laboratorios"
+        ],
+        "classes_without_destination": [
+          "otro"
+        ],
+        "policy_enabled_without_destination": [],
+        "enabled_with_destination": [
+          "edificio_1",
+          "edificio_2",
+          "edificio_3",
+          "edificio_4",
+          "edificio_5",
+          "gobierno",
+          "laboratorios"
+        ],
+        "configuration": {
+          "pooling": "prototipos",
+          "k": 3,
+          "natural_query_views": 1,
+          "transform": "identidad"
+        },
+        "full_fit_is_not_an_outer_accuracy_estimate": true,
+        "reported_numeric_parity": {
+          "checked_queries": 7,
+          "maximum_absolute_class_score_error": 1.7881393432617188e-07,
+          "tolerance": 1e-05,
+          "passed": true
+        }
+      }
+    },
+    "combinada": {
+      "azc": {
+        "selected_recipe": {
+          "recipe_id": "anclado_photo1_all_capnone",
+          "bank": "anclado",
+          "pooling": "photo1",
+          "transform": "identidad",
+          "addition_scope": "all",
+          "max_adiciones_por_fuente_clase": null,
+          "query_mode": "central"
+        },
+        "reference_photos": 299,
+        "reference_views": 897,
+        "classes": [
+          "A",
+          "COSEI",
+          "E",
+          "F",
+          "G",
+          "H",
+          "HO",
+          "I",
+          "J",
+          "L",
+          "M",
+          "P1",
+          "P2",
+          "P3",
+          "P4",
+          "Q",
+          "R",
+          "S",
+          "T",
+          "W",
+          "acceso_principal",
+          "area_deportiva",
+          "otro",
+          "plaza_roja",
+          "punto_de_reunion_6",
+          "serpentina_ii"
+        ],
+        "fixed_or_inner_fitted_policy": {
+          "A": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": true
+          },
+          "COSEI": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": true
+          },
+          "E": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": true
+          },
+          "F": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": true
+          },
+          "G": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": true
+          },
+          "H": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": true
+          },
+          "HO": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": true
+          },
+          "I": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": true
+          },
+          "J": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": true
+          },
+          "L": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": true
+          },
+          "M": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": true
+          },
+          "P1": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": true
+          },
+          "P2": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": true
+          },
+          "P3": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": true
+          },
+          "P4": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": true
+          },
+          "Q": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": true
+          },
+          "R": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": true
+          },
+          "S": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": true
+          },
+          "T": {
+            "threshold": 0.71,
+            "margin": 0.05,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "W": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": true
+          },
+          "acceso_principal": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": false
+          },
+          "area_deportiva": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": false
+          },
+          "otro": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": false
+          },
+          "plaza_roja": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": true
+          },
+          "punto_de_reunion_6": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": false
+          },
+          "serpentina_ii": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": false
+          }
+        },
+        "policy_enabled_classes": [
+          "T"
+        ],
+        "classes_without_destination": [
+          "acceso_principal",
+          "area_deportiva",
+          "otro",
+          "punto_de_reunion_6",
+          "serpentina_ii"
+        ],
+        "policy_enabled_without_destination": [],
+        "enabled_with_destination": [
+          "T"
+        ],
+        "configuration": {
+          "pooling": "fotos",
+          "k": 1,
+          "natural_query_views": 1,
+          "transform": "identidad"
+        },
+        "full_fit_is_not_an_outer_accuracy_estimate": true,
+        "reported_numeric_parity": {
+          "checked_queries": 7,
+          "maximum_absolute_class_score_error": 2.384185791015625e-07,
+          "tolerance": 1e-05,
+          "passed": true
+        }
+      },
+      "escom": {
+        "selected_recipe": {
+          "recipe_id": "centrado_photo2_all_cap2",
+          "bank": "anclado",
+          "pooling": "photo2",
+          "transform": "centrado",
+          "addition_scope": "all",
+          "max_adiciones_por_fuente_clase": 2,
+          "query_mode": "central"
+        },
+        "reference_photos": 138,
+        "reference_views": 414,
+        "classes": [
+          "auditorio",
+          "aulas_y_laboratorios",
+          "barra_cafe_frente_gestion_escolar",
+          "biblioteca",
+          "cancha_baloncesto",
+          "edificio_1",
+          "edificio_2",
+          "edificio_3",
+          "edificio_4",
+          "edificio_5",
+          "estacionamiento_alterno_motos",
+          "explanada_principal",
+          "gobierno",
+          "laboratorio_de_computo_de_tiempo_libre",
+          "laboratorio_de_programacion",
+          "laboratorio_de_sistemas_digitales",
+          "laboratorios",
+          "otro"
+        ],
+        "fixed_or_inner_fitted_policy": {
+          "auditorio": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": false
+          },
+          "aulas_y_laboratorios": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": false
+          },
+          "barra_cafe_frente_gestion_escolar": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": false
+          },
+          "biblioteca": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": false
+          },
+          "cancha_baloncesto": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": false
+          },
+          "edificio_1": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": true
+          },
+          "edificio_2": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": true
+          },
+          "edificio_3": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": true
+          },
+          "edificio_4": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": true
+          },
+          "edificio_5": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": true
+          },
+          "estacionamiento_alterno_motos": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": false
+          },
+          "explanada_principal": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": false
+          },
+          "gobierno": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": true
+          },
+          "laboratorio_de_computo_de_tiempo_libre": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": false
+          },
+          "laboratorio_de_programacion": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": false
+          },
+          "laboratorio_de_sistemas_digitales": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": false
+          },
+          "laboratorios": {
+            "threshold": 0.35819282531738283,
+            "margin": 0.0,
+            "policy_enabled": true,
+            "has_mapped_destination": true
+          },
+          "otro": {
+            "threshold": null,
+            "margin": 0.0,
+            "policy_enabled": false,
+            "has_mapped_destination": false
+          }
+        },
+        "policy_enabled_classes": [
+          "laboratorios"
+        ],
+        "classes_without_destination": [
+          "auditorio",
+          "aulas_y_laboratorios",
+          "barra_cafe_frente_gestion_escolar",
+          "biblioteca",
+          "cancha_baloncesto",
+          "estacionamiento_alterno_motos",
+          "explanada_principal",
+          "laboratorio_de_computo_de_tiempo_libre",
+          "laboratorio_de_programacion",
+          "laboratorio_de_sistemas_digitales",
+          "otro"
+        ],
+        "policy_enabled_without_destination": [],
+        "enabled_with_destination": [
+          "laboratorios"
+        ],
+        "configuration": {
+          "pooling": "fotos",
+          "k": 2,
+          "natural_query_views": 1,
+          "transform": "centrado"
+        },
+        "full_fit_is_not_an_outer_accuracy_estimate": true,
+        "reported_numeric_parity": {
+          "checked_queries": 7,
+          "maximum_absolute_class_score_error": 1.1920928955078125e-07,
+          "tolerance": 1e-05,
+          "passed": true
+        }
+      }
+    }
+  }
+}

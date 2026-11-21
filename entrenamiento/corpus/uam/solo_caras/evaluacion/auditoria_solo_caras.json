@@ -1,0 +1,33 @@
+{
+  "auditoria": "independiente_solo_caras_sin_modelos",
+  "originales_sin_cambios_sha256": 157,
+  "archivos_protegidos_sin_cambios_sha256": 55,
+  "archivos_variante_anterior_protegidos": 187,
+  "archivos_variante_anterior_con_cambios": 0,
+  "png_sin_metadatos_verificados": 167,
+  "imagenes_comparadas_pixel_a_pixel": 157,
+  "imagenes_sin_cambios_fuera_de_caras": 157,
+  "imagenes_coincidentes_con_mosaico_declarado": 157,
+  "regiones_de_rostro_verificadas": 158,
+  "mosaicos_una_celda_por_rostro_pequeno": 3,
+  "archivos_texto_publico_revisados": 19,
+  "interpolacion_reduccion": "BOX",
+  "interpolacion_ampliacion": "NEAREST",
+  "versiones_decodificador": {
+    "Pillow": "13.0.0",
+    "numpy": "2.5.4",
+    "pillow_heif": "1.8.1"
+  },
+  "texto_visible_pendiente_revision": {
+    "lecturas_cache_ocr_existente_sin_inferencia": 157,
+    "imagenes_con_texto_candidato_pendiente_revision": 79,
+    "regiones_texto_candidato_visible": 159,
+    "regiones_patron_identificador_candidato": 0,
+    "imagenes_prioridad_alta_por_patron": 0,
+    "limite": "Una coincidencia puede ser texto institucional publico o un falso positivo. No confirma datos personales ni detecta todo el texto; no se ha aplicado censura de texto."
+  },
+  "revision_manual_de_privacidad_visual": "pendiente_no_certificada_por_auditoria_de_pixeles",
+  "hallazgos_por_tipo": {},
+  "resultado": "sin_hallazgos",
+  "limites": "No se ha ejecutado deteccion de rostros ni OCR en esta auditoria. Solo se verifican las regiones declaradas. El texto visible permanece intacto y cualquier identificador visible requiere revision del propietario antes de autorizar una difusion."
+}

@@ -1,0 +1,5 @@
+{
+  "original_exporter_sha256": "ac784e38b26467faa5cf720403c4333224fea23616be1c65e49f1f9d3c7a4a22",
+  "published_exporter_sha256": "42e9e7da4c5c702f586198abdab2cf58e1ce665e93c9655d9b64f482c1ce194b",
+  "change": "Only default repository path is made portable; frozen evaluation sources are unchanged."
+}
