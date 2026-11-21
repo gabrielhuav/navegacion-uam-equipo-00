@@ -1,12 +1,29 @@
-// La tribuna queda en el emplazamiento del croquis junto a Q.
+import {franjasMulticanchasPoniente} from 'sector-talleres-deportes';
+
+// Contorno aproximado de la cancha encajada entre el andador y Ferrocarriles.
+// Los puntos vienen de las tomas Esri de 2022–2025 registradas al croquis.
+const futbol7 = {centro: [1629.25, 662.5], ancho: 45.7, largo: 109.8, giro: .329};
+const ejeGradas = [[1595, 648], [1609, 688.5]];
+
+export function perimetroCruzaFutbol7(px, pz) {
+ const [cx,cz]=futbol7.centro,cos=Math.cos(futbol7.giro),sin=Math.sin(futbol7.giro);
+ const dx=px-cx,dz=pz-cz;
+ return Math.abs(dx*cos-dz*sin)<futbol7.ancho/2+4 && Math.abs(dx*sin+dz*cos)<futbol7.largo/2+4;
+}
+
+// El techo largo aparece al lado del murete de la cancha de fútbol 7 en las vistas aéreas.
 // Las vistas 0072 y 0073 documentan los pórticos, las riostras y las dos escaleras.
 export function construirGradasDeportivas({THREE, world, box, X, Z}) {
  const group=new THREE.Group();
  group.name='Gradas_deportivas_Q';
- group.userData={approximate:true,reference:'Corpus AZC, imagen_0072 e imagen_0073'};
- group.position.set(X(1602),0,Z(505));
- // Ajuste de la longitud esquemática para respetar la huella contigua del edificio Q.
- group.scale.z=.87;
+ group.userData={approximate:true,reference:'Esri 2018–2025; corpus AZC 0072 y 0073'};
+ const [[x0,z0],[x1,z1]]=ejeGradas;
+ const dx=X(x1)-X(x0),dz=Z(z1)-Z(z0);
+ // La grada mira al césped. Sus escaleras posteriores bajan hacia el andador.
+ const giro=Math.atan2(dx,dz)+Math.PI;
+ group.rotation.y=giro;
+ group.position.set(X((x0+x1)/2)-.81*Math.cos(giro),0,Z((z0+z1)/2)+.81*Math.sin(giro));
+ group.scale.z=Math.hypot(dx,dz)/15.03;
  world.add(group);
 
  const white='#e7ebe7',treads='#aeb5b5',deck='#c9cdcb',roof='#9da4a5';
@@ -95,7 +112,7 @@ export function construirGradasDeportivas({THREE, world, box, X, Z}) {
 }
 
 // Límites estimados tras proyectar la imagen aérea al croquis existente.
-export const superficiesDeportivas={campo:[1453,467,1572,684],basquet:[1462,398,1576,460],futbol7:[1598,612,1676,695]};
+export const superficiesDeportivas={campo:[1453,467,1572,684],basquet:[1462,398,1576,460],futbol7:[1589,602,1671,724]};
 
 // Guías visuales del acabado: CGA AZC (infraestructura) y corpus 0074, 0075, 0096.
 export function construirCanchasDeportivas({THREE, world, box, slab, meshPoly, line, X, Z, S}) {
@@ -103,16 +120,16 @@ export function construirCanchasDeportivas({THREE, world, box, slab, meshPoly, l
  group.name='Canchas_deportivas_AZC';
  group.userData={approximate:true,reference:'Imagen aérea contrastada con georreferencia; fotografías CGA AZC y corpus 0074, 0075, 0096'};
  world.add(group);
- const {campo:field,basquet:hardCourt,futbol7:soccer7}=superficiesDeportivas;
+ const {campo:field,basquet:hardCourt}=superficiesDeportivas;
  const warm='#aa996c',faded='#d6ccb0',white='#e5e8de',terracotta='#a75b4d';
  const point=(x,z)=>[X(x),Z(z)];
  const trace=(points,color,width=.23,height=.411)=>line(group,points.map(([x,z])=>point(x,z)),color,width,height);
  const rim=(r,n=0)=>[[r[0]+n,r[1]+n],[r[2]-n,r[1]+n],[r[2]-n,r[3]-n],[r[0]+n,r[3]-n],[r[0]+n,r[1]+n]];
  const itsUp=new THREE.Vector3(0,1,0);
- function beam(name,from,to,width=.068,color=white){
+ function beam(name,from,to,width=.068,color=white,parent=group){
   const a=new THREE.Vector3(...from),delta=new THREE.Vector3(...to).sub(a),length=delta.length();
   const mid=a.addScaledVector(delta,.5);
-  const o=box(group,name,mid.x,mid.y,mid.z,width,length,width,color);
+  const o=box(parent,name,mid.x,mid.y,mid.z,width,length,width,color);
   o.quaternion.setFromUnitVectors(itsUp,delta.divideScalar(length));
   return o;
  }
@@ -122,15 +139,16 @@ export function construirCanchasDeportivas({THREE, world, box, slab, meshPoly, l
   });
   trace(points,color,width,height);
  }
- function goal(cx,cz,side,width,height,base){
-  const x=X(cx),z=Z(cz),half=width/2,back=z+side*.94;
+ function goal(x,z,side,width,height,base,parent=group){
+  const half=width/2,back=z+side*.94;
+  const frame=(name,a,b,thickness)=>beam(name,a,b,thickness,white,parent);
   for(const h of [-half,half]){
-   beam('Poste_portería', [x+h,base,z],[x+h,base+height,z],.085);
-   beam('Soporte_trasero_portería',[x+h,base+height,z],[x+h,base+.05,back],.064);
-   beam('Base_tubular_portería',[x+h,base+.055,z],[x+h,base+.055,back],.053);
+   frame('Poste_portería', [x+h,base,z],[x+h,base+height,z],.085);
+   frame('Soporte_trasero_portería',[x+h,base+height,z],[x+h,base+.05,back],.064);
+   frame('Base_tubular_portería',[x+h,base+.055,z],[x+h,base+.055,back],.053);
   }
-  beam('Travesaño_portería',[x-half,base+height,z],[x+half,base+height,z],.08);
-  beam('Base_trasera_portería',[x-half,base+.052,back],[x+half,base+.052,back],.052);
+  frame('Travesaño_portería',[x-half,base+height,z],[x+half,base+height,z],.08);
+  frame('Base_trasera_portería',[x-half,base+.052,back],[x+half,base+.052,back],.052);
  }
 
  // El terreno grande es natural y muestra áreas de suelo expuesto en la vista aérea.
@@ -147,7 +165,7 @@ export function construirCanchasDeportivas({THREE, world, box, slab, meshPoly, l
  circle(cx,cz,14,faded,.22,.406);
  for(const [z,side] of [[fz0+5,-1],[fz1-5,1]]){
   trace([[cx-19,z],[cx-19,z-side*16],[cx+19,z-side*16],[cx+19,z]],faded,.23,.406);
-  goal(cx,z,side,6.4,2.08,.36);
+  goal(X(cx),Z(z),side,6.4,2.08,.36);
  }
 
  // Paño de baloncesto visible en la vista aérea, con zonas cabeceras en terracota.
@@ -175,7 +193,7 @@ export function construirCanchasDeportivas({THREE, world, box, slab, meshPoly, l
   basketRim.position.set(x,hoopY,z-side*.29);
   group.add(basketRim);
  }
- for(const [x0,x1] of [[1465,1518],[1520,1573]]){
+ for(const [x0,x1] of franjasMulticanchasPoniente){
   const surface=[x0,401,x1,457],mid=(x0+x1)/2;
   slab(group,surface,'#5096a9',.344,.02,'Paño_celeste_baloncesto');
   trace(rim(surface,1.4),white,.22,.393);
@@ -192,30 +210,36 @@ export function construirCanchasDeportivas({THREE, world, box, slab, meshPoly, l
   }
  }
 
- // Futbol 7 junto al terreno grande, con superficie sintética y muros de rebote.
- slab(group,soccer7,'#3d6152',.214,.278,'Cancha_futbol_7_sintetica');
- const [sx0,sz0,sx1,sz1]=soccer7,scx=(sx0+sx1)/2,scz=(sz0+sz1)/2;
- trace(rim(soccer7,3),white,.23,.391);
- trace([[sx0+3,scz],[sx1-3,scz]],white,.22,.391);
- circle(scx,scz,9,white,.22,.391);
- for(const [z,side] of [[sz0+4,-1],[sz1-4,1]])goal(scx,z,side,3.9,1.78,.353);
- for(const x of [sx0,sx1]){
-  const z=Z(scz),length=(sz1-sz0)*S();
-  box(group,'Murete_blanco_cancha_7',X(x),.7,z,.19,.76,length,'#deded4');
+ // Fútbol 7: recinto oblicuo junto al terreno grande, con pasto sintético y muretes.
+ const cancha=new THREE.Group();
+ cancha.name='Recinto_oblicuo_futbol_7';
+ cancha.userData={approximate:true,reference:'CGA UAM y Esri 2022–2025'};
+ cancha.position.set(X(futbol7.centro[0]),0,Z(futbol7.centro[1]));
+ cancha.rotation.y=futbol7.giro;
+ group.add(cancha);
+ const ancho=futbol7.ancho*S(),largo=futbol7.largo*S(),xBorde=ancho/2,zBorde=largo/2;
+ box(cancha,'Cancha_futbol_7_sintetica',0,.214,0,ancho,.278,largo,'#3d6152');
+ const pintar=(points,width=.22)=>line(cancha,points,white,width,.391);
+ pintar(rim([-xBorde,-zBorde,xBorde,zBorde],1.33));
+ pintar([[-xBorde+1.33,0],[xBorde-1.33,0]]);
+ pintar(Array.from({length:41},(_,i)=>{
+  const angle=i*Math.PI/20;
+  return [3.86*Math.cos(angle),3.86*Math.sin(angle)];
+ }));
+ for(const lado of [-1,1])goal(0,lado*(zBorde-1.77),lado,3.9,1.78,.353,cancha);
+ for(const x of [-xBorde,xBorde]){
+  box(cancha,'Murete_blanco_cancha_7',x,.7,0,.19,.76,largo,'#deded4');
   for(let i=0;i<=6;i++){
-   const pz=Z(sz0+(sz1-sz0)*i/6);
-   beam('Poste_malla_cancha_7',[X(x),1.08,pz],[X(x),3.44,pz],.071,'#a8b2ac');
+   const z=-zBorde+largo*i/6;
+   beam('Poste_malla_cancha_7',[x,1.08,z],[x,3.44,z],.071,'#a8b2ac',cancha);
   }
-  beam('Tensor_superior_cancha_7',[X(x),3.38,Z(sz0)],[X(x),3.38,Z(sz1)],.026,'#a5aea5');
+  beam('Tensor_superior_cancha_7',[x,3.38,-zBorde],[x,3.38,zBorde],.026,'#a5aea5',cancha);
  }
- for(const z of [sz0,sz1]){
-  const width=(sx1-sx0)*S();
-  box(group,'Murete_cabecera_cancha_7',X(scx),.7,Z(z),width,.76,.19,'#deded4');
- }
- box(group,'Paño_cabecera_escalonada',X(scx),1.38,Z(sz0),13.3,1.42,.21,'#deded4');
- box(group,'Paño_piedra_cancha_7',X(scx),.91,Z(sz0)+.121,3.8,1.12,.058,'#a09c87');
+ for(const z of [-zBorde,zBorde])box(cancha,'Murete_cabecera_cancha_7',0,.7,z,ancho,.76,.19,'#deded4');
+ box(cancha,'Paño_cabecera_escalonada',0,1.38,-zBorde,13.3,1.42,.21,'#deded4');
+ box(cancha,'Paño_piedra_cancha_7',0,.91,-zBorde+.121,3.8,1.12,.058,'#a09c87');
  const panelWidth=1.8;
- for(const side of [-1,1])box(group,'Tablero_intermedio_cabecera',X(scx)+side*(6.65+panelWidth/2),1.09,Z(sz0),panelWidth,.85,.21,'#deded4');
+ for(const side of [-1,1])box(cancha,'Tablero_intermedio_cabecera',side*(6.65+panelWidth/2),1.09,-zBorde,panelWidth,.85,.21,'#deded4');
 }
 
 // Acabado del andador lateral de la cancha documentado en el corpus 0075 y 0076.

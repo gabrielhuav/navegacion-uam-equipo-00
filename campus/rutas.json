@@ -2043,7 +2043,7 @@
   "destinos": [
     {
       "id": "A",
-      "nombre": "A · acceso exterior a zona de obra",
+      "nombre": "A · CICTE, llegada exterior",
       "nodo": "n26"
     },
     {
@@ -2375,6 +2375,222 @@
       "edificio": "T",
       "nivel": 0,
       "referencia": "Entra por el patio interior, hacia la galería con las ventanillas rojas de Sistemas Escolares."
+    },
+    {
+      "id": "O-103",
+      "nombre": "O-103 · Laboratorio de aire (SALAIRE)",
+      "nodo": "n106",
+      "edificio": "O",
+      "nivel": 0,
+      "referencia": "Llegada al acceso de O; planta baja según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "O-104",
+      "nombre": "O-104",
+      "nodo": "n106",
+      "edificio": "O",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de O; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "O-105",
+      "nombre": "O-105",
+      "nodo": "n106",
+      "edificio": "O",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de O; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "O-106",
+      "nombre": "O-106",
+      "nodo": "n106",
+      "edificio": "O",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de O; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P_APRO",
+      "nombre": "Salón APRO",
+      "nodo": "n66",
+      "edificio": "P",
+      "nivel": 0,
+      "referencia": "Llegada al acceso de P; planta baja según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P_ATER",
+      "nombre": "Salón ATER",
+      "nodo": "n66",
+      "edificio": "P",
+      "nivel": 0,
+      "referencia": "Llegada al acceso de P; planta baja según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P_LEL01",
+      "nombre": "Laboratorio eléctrico LEL01",
+      "nodo": "n66",
+      "edificio": "P",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de P; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P_LEL02",
+      "nombre": "Laboratorio eléctrico LEL02",
+      "nodo": "n66",
+      "edificio": "P",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de P; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P_LEL03",
+      "nombre": "Laboratorio eléctrico LEL03",
+      "nodo": "n66",
+      "edificio": "P",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de P; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P_LEL04",
+      "nombre": "Laboratorio eléctrico LEL04",
+      "nodo": "n66",
+      "edificio": "P",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de P; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P_LTER_A",
+      "nombre": "Salón LTER A",
+      "nodo": "n66",
+      "edificio": "P",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de P; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P2_CEMAC",
+      "nombre": "CEMAC · Centro de Maquinado Asistido por Computadora",
+      "nodo": "n99",
+      "edificio": "P2",
+      "nivel": 0,
+      "referencia": "Llegada al acceso de P2; planta baja según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P2_LABDIN",
+      "nombre": "LABDIN · Laboratorio de Dinámica y Vibraciones",
+      "nodo": "n99",
+      "edificio": "P2",
+      "nivel": 0,
+      "referencia": "Llegada al acceso de P2; planta baja según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P2_LABMET",
+      "nombre": "LABMET · Laboratorio de Metrología",
+      "nodo": "n99",
+      "edificio": "P2",
+      "nivel": 0,
+      "referencia": "Llegada al acceso de P2; planta baja según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P2_LTER",
+      "nombre": "LTER · Laboratorio de Hidráulica, Química y Termofluidos",
+      "nodo": "n99",
+      "edificio": "P2",
+      "nivel": 0,
+      "referencia": "Llegada al acceso de P2; planta baja según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P2_TMEC",
+      "nombre": "TMEC · Taller Mecánico",
+      "nodo": "n99",
+      "edificio": "P2",
+      "nivel": 0,
+      "referencia": "Llegada al acceso de P2; planta baja según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P2_LTER_B",
+      "nombre": "Salón LTER B",
+      "nodo": "n99",
+      "edificio": "P2",
+      "nivel": 0,
+      "referencia": "Llegada al acceso de P2; planta baja según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P2_CEDAC",
+      "nombre": "CEDAC · Centro de Desarrollo Asistido por Computadora",
+      "nodo": "n99",
+      "edificio": "P2",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de P2; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P2_LABMEC",
+      "nombre": "LABMEC · Laboratorio de Mecanismos",
+      "nodo": "n99",
+      "edificio": "P2",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de P2; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P2_SM1",
+      "nombre": "Salón SM1",
+      "nodo": "n99",
+      "edificio": "P2",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de P2; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P2_SM2",
+      "nombre": "Salón SM2",
+      "nodo": "n99",
+      "edificio": "P2",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de P2; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P2_FLUIDOS",
+      "nombre": "Laboratorio de Propiedades de los Fluidos",
+      "nodo": "n99",
+      "edificio": "P2",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de P2; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P3_SOLDADURA",
+      "nombre": "Caseta de Soldadura",
+      "nodo": "n100",
+      "edificio": "P3",
+      "nivel": 0,
+      "referencia": "Llegada al acceso de P3; planta baja según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P3_FUNDICION",
+      "nombre": "Taller de Fundición",
+      "nodo": "n100",
+      "edificio": "P3",
+      "nivel": 0,
+      "referencia": "Llegada al acceso de P3; planta baja según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P3_ARENAS",
+      "nombre": "Laboratorio de Arenas",
+      "nodo": "n100",
+      "edificio": "P3",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de P3; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "C_INCALLI",
+      "nombre": "Auditorio Incalli Ixcahuicopa",
+      "nodo": "n51",
+      "edificio": "C",
+      "nivel": 0,
+      "referencia": "Llegada al acceso de C; auditorio en planta baja. Consulta la señalización del edificio."
+    },
+    {
+      "id": "D-001",
+      "nombre": "D-001 · Auditorio",
+      "nodo": "n33",
+      "edificio": "D",
+      "nivel": 0,
+      "referencia": "Llegada al acceso de D; auditorio en planta baja. Consulta la señalización del edificio."
     }
   ]
 }

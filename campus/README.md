@@ -1,5 +1,9 @@
 # Campus UAM Azcapotzalco · modelo 2D/3D
 
+## Revisión por zonas · 21 noviembre 2026
+
+El visor incorpora los dos patios de ajedrez de HO y HP, los jardines restaurados de Plaza Roja, la galería de F, el pórtico de San Pablo Xalpa, el andador frente a CyAD, las cubiertas de L y de los tres talleres, el acceso a O y tres multicanchas. La red suma 27 destinos con piso documentado en C, D y los talleres. **Sectores del campus** abre las vistas nuevas. [Comparación y fuentes de los 26 edificios](REVISION_POR_ZONAS_2026-11-21.md).
+
 ## Jardines de H, HP y HO · 21 noviembre 2026
 
 El jardín continuo entre Serpentina II y Las tres Gracias pasa de 189 a unos 1.840 m² en la maqueta. Se añadió el andador de losas, se recortó el asfalto y se reorientaron las filas junto a los separadores arbolados. El visor también incluye la Plaza de Egresados de HO, basada en su planta y en las fotos de la inauguración. [Cambios, fuentes y comprobaciones](JARDINES_H_HP.md).

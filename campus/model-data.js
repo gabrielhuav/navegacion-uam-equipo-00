@@ -24,7 +24,7 @@ export const ORIGINAL = {
   "buildings": [
     {
       "id": "A",
-      "name": "A · En construcción",
+      "name": "A · Centro de Innovación, Cultura y Tecnología",
       "floors": 1,
       "construction": true,
       "rects": [
@@ -272,7 +272,7 @@ export const ORIGINAL = {
     },
     {
       "id": "L",
-      "floors": 1,
+      "floors": 2,
       "height": 9,
       "roof": "#a6302e",
       "ribbed": true,
@@ -299,7 +299,7 @@ export const ORIGINAL = {
     },
     {
       "id": "O",
-      "floors": 1,
+      "floors": 2,
       "roof": "#bc714c",
       "rects": [
         [

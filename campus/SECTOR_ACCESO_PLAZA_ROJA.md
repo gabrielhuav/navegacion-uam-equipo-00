@@ -1,0 +1,26 @@
+# Sector A–F, Plaza Roja y acceso de San Pablo Xalpa
+
+## Plaza Roja
+
+La foto del corpus `imagen_0025.png` y su copia `imagen_0040.png` miran desde la Plaza Roja hacia el rótulo del edificio E. Se ven una franja continua de césped, un seto bajo con claros delante de la galería y el encuentro de la loseta roja con una banda de concreto más claro y junta oscura. La vista aérea registrada sobre las huellas del campus sitúa la banda arbolada entre E y el paño de loseta y el tramo visible de la junta. La publicación del equipo de obra de la UAM confirma que la restauración de 2022 conservó la loseta artesanal y amplió el suelo libre para árboles. [Corpus 0025](../entrenamiento/corpus/uam/solo_caras/corpus/imagenes/imagen_0025.png) · [Reapertura en UAMFoto](https://www.uamfoto.uam.mx/salinan-dari-24-02-22-bienvenida-lic) · [Restauración en Aleph UAM-A](https://alephuamazcapotzalco.wordpress.com/2022/02/04/se-restaura-la-emblematica-plaza-roja/) · [Vista aérea de Esri](https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/19/233175/117694).
+
+Se conserva el perímetro de la plaza. Se recortan la loseta y el concreto para distinguir el jardín frente a E, los jardines discontinuos junto a C, F y G, dos islas interiores y los alcorques en torno a las posiciones editables de las jacarandas. La planta del congreso SMEQ de 2025 muestra el patrón de jardines y pasos; el contorno de cada paño es aproximado. Se representan unos 1,476 m² de césped y 50 m² de alcorques en la escala del modelo. Los setos conservan aperturas. Los recortes aplican una reserva de 3.2 m centrada en los tramos de planta baja y en sus extremos. Es una comprobación del dibujo y las rutas actuales del visor. [Planta UAM del congreso SMEQ 2025, p. V](https://congreso.smeq.org.mx/wp-content/uploads/2025/09/Libro-de-resumenes-Congreso-XI-2025.pdf#page=6).
+
+## Edificio F
+
+La foto del primer piso mira hacia el extremo de C con la Plaza Roja a la derecha. Documenta el antepecho de concreto, la pared interior de tabique blanco, ventanas altas, luminarias en plafón, rótulo guinda y la junta negra con amarilla del corredor. El módulo reemplaza la fachada maciza en ese nivel y abre una galería rehundida de 2.65 m dentro de la huella del edificio. El corredor es una reconstrucción aproximada de la franja visible. [Corpus 0049](../entrenamiento/corpus/uam/solo_caras/corpus/imagenes/imagen_0049.png).
+
+## San Pablo Xalpa
+
+El panorama de enero de 2025 muestra sobre el eje próximo al acceso V1 una torre cilíndrica de concreto del lado sur, un dintel ancho sobre el claro, una jamba rectangular al norte, rejería roja y un paso rayado al frente. La planta del congreso de 2025 señala la puerta 2 en este punto para acceso en automóvil. El cruce y el pórtico se modelan sobre el acceso que ya existe en el croquis, con la reja en los laterales y el claro central libre. La operación actual del acceso queda pendiente de verificación física. [Panorama de San Pablo Xalpa](https://www.google.com/maps/@19.5018598,-99.1836111,3a,75y,279h,90t/data=!3m4!1e1!3m2!1sskVmo8vZRzZwnEMzs0UcUQ!2e0) · [Planta UAM del congreso SMEQ 2025, p. V](https://congreso.smeq.org.mx/wp-content/uploads/2025/09/Libro-de-resumenes-Congreso-XI-2025.pdf#page=6).
+
+## Cobertura del sector
+
+| Edificio | Evidencia y detalle |
+| --- | --- |
+| A | El corpus 0050 muestra pórticos y tapial durante la obra. La documentación de la UAM registra el proyecto y avances de construcción. Se conserva la representación de obra mientras se verifica la fachada actual y la apertura. [Primera piedra](https://kali.azc.uam.mx/aleph/numeros/aleph358.pdf) · [Informe de gestión](https://www.uam.mx/informesrg/2025-2029/2025/informe-de-100-dias-de-gestion-rg-uam-2025.pdf). |
+| B | El estudio institucional de orientación sitúa el bloque junto a la puerta 4 y los estacionamientos de estudiantes. Se conserva el volumen y el acceso del croquis. [Tecnología y Diseño, mapa de UAM-A](https://revistatd.azc.uam.mx/index.php/rtd/article/download/65/158/261#page=8). |
+| C | El auditorio Incalli Ixcahuicopa está en planta baja, en el sector de C próximo a E. La galería de Maps muestra puertas rojas, un corredor cubierto y las butacas. La cara y la posición exacta de la puerta quedan por contrastar antes de abrir un vano. [Mapa del congreso SMEQ 2025, p. V](https://congreso.smeq.org.mx/wp-content/uploads/2025/09/Libro-de-resumenes-Congreso-XI-2025.pdf#page=6) · [Galería del auditorio](https://www.google.com/maps/place/Auditorio+Incalli+Ixcahuicopa/data=!4m2!3m1!1s0x85d1f9667a2b7549:0x1e9068dc0f371b0b). |
+| D | El mapa de 2025 acredita el auditorio D-001 en planta baja. Se conserva el volumen hasta contrastar el acceso concreto. [Mapa del congreso SMEQ 2025, p. V](https://congreso.smeq.org.mx/wp-content/uploads/2025/09/Libro-de-resumenes-Congreso-XI-2025.pdf#page=6). |
+| E | El frente a Plaza Roja y sus galerías se ven en el corpus 0025 y en la foto de «Edificio E 2o Piso» de la galería de la librería. Se corrige la franja a sus pies. [Auditoría de galerías](AUDITORIA_GALERIAS_MAPS_AZC_2026-11-21.md). |
+| F | Se modeló la galería de primer piso que da a Plaza Roja. Se conservan los demás niveles y el domo existente. [Corpus 0049](../entrenamiento/corpus/uam/solo_caras/corpus/imagenes/imagen_0049.png). |

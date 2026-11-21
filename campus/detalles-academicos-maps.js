@@ -2,6 +2,37 @@
 // H: corpus de alumnos, imagen_0150 e imagen_0155, desde el patio de la cafetería.
 // HO: imagen_0005, imagen_0006 e imagen_0007, frente curvo y vestíbulo.
 
+// Edificio L, levantamiento de talleres CyAD (pp. 68–69) y vista aérea registrada.
+export function construirCubiertaL({THREE,part,w,d,h,box,material}) {
+ const group = new THREE.Group();
+ group.name = 'L_cubierta_diente_de_sierra';
+ group.userData = {approximate:true,reference:'Levantamiento fotográfico UNAM, pp. 68–69; vista aérea Esri'};
+ part.add(group);
+ const cantidad = 16;
+ const margen = .6, paso = (d-2*margen)/cantidad;
+ const ancho = w*.70, ejeX = w*.084, alto = 1.10, base = h+.4;
+ const claro = paso-.08;
+ const forma = new THREE.Shape();
+ forma.moveTo(-claro/2,0);
+ forma.lineTo(claro/2,0);
+ forma.lineTo(claro/2,alto);
+ forma.closePath();
+ const seccion = new THREE.ExtrudeGeometry(forma,{depth:ancho,bevelEnabled:false});
+ seccion.translate(0,0,-ancho/2).rotateY(-Math.PI/2);
+ for (let i=0;i<cantidad;i++) {
+  const z = -d/2+margen+(i+.5)*paso;
+  const faldon = new THREE.Mesh(seccion,material(i%4===1?'#a9574d':'#ad544a'));
+  faldon.name = 'L_faldon_terracota_'+(i+1);
+  faldon.position.set(ejeX,base,z);
+  faldon.castShadow = true;
+  faldon.receiveShadow = true;
+  group.add(faldon);
+  const frente = z+claro/2+.014;
+  box(group,'L_lucernario_vertical',ejeX,base+alto*.46,frente,ancho-.42,alto*.75,.05,'#6c6661');
+  box(group,'L_remate_de_acerado',ejeX,base+alto-.035,frente,ancho+.06,.091,.107,'#bd7866');
+ }
+}
+
 export function detallarFachadaH({part,b,w,d,idx,box,data}) {
  if(b.id!=='H')return;
  if(idx===0){

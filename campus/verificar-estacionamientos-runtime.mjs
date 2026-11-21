@@ -5,13 +5,14 @@ import assert from 'node:assert/strict';
 import * as THREE from './vendor/three.module.js';
 import * as clearance from './site-clearance.js';
 import {andadorHHP,parcelasVerdesHHP,trazadosHHP} from './paisaje-h-hp.js';
+import {andadorAcademico,jardinesAcademicos} from './paisaje-academico.js';
 
 const source=fs.readFileSync(new URL('./app.js',import.meta.url),'utf8');
 const original=JSON.parse(fs.readFileSync(new URL('./campus_editado.json',import.meta.url),'utf8'));
 const net=JSON.parse(fs.readFileSync(new URL('./rutas.json',import.meta.url),'utf8'));
 const register=source.slice(source.indexOf('function registerEditable('),source.indexOf('// Las reservas son visuales'));
 const parking=source.slice(source.indexOf('let parkingObstaclesCache=null;'),source.indexOf('function editSnapshot()'));
-const factory=new Function('THREE','rectanglePolygon','segmentPolygon','convexHull','polygonArea','polygonsOverlap','subtractObstacles','intersectConvex','data','world','editables','buildingGroups','routeEditor','BASE_ROUTES','S','X','Z','box','material','cylinder','parcelasVerdesHHP','trazadosHHP','andadorHHP',register+parking+'\nreturn {parkingArea,vialidadEstacionamientos,parkingObstacles,registerEditable};');
+const factory=new Function('THREE','rectanglePolygon','segmentPolygon','convexHull','polygonArea','polygonsOverlap','subtractObstacles','intersectConvex','data','world','editables','buildingGroups','routeEditor','BASE_ROUTES','S','X','Z','box','material','cylinder','parcelasVerdesHHP','trazadosHHP','andadorHHP','jardinesAcademicos','andadorAcademico',register+parking+'\nreturn {parkingArea,vialidadEstacionamientos,parkingObstacles,registerEditable};');
 
 function projectedHull(mesh){const p=mesh.geometry.getAttribute('position'),points=[];for(let i=0;i<p.count;i++){const v=new THREE.Vector3(p.getX(i),p.getY(i),p.getZ(i)).applyMatrix4(mesh.matrixWorld);points.push({x:v.x,z:v.z});}return clearance.convexHull(points);}
 function intersectionArea(a,b){return clearance.polygonArea(clearance.intersectConvex(a,b));}
@@ -47,24 +48,23 @@ for(const transformed of [false,true]){
   const g=new THREE.Group();g.position.set(b.offsetX||0,0,b.offsetZ||0);world.add(g);buildingGroups.set(b.id,g);
   for(const r of b.rects){const factor=b.diamond?Math.SQRT1_2:1;const mesh=box(g,'fixture',X((r[0]+r[2])/2),3,Z((r[1]+r[3])/2),(r[2]-r[0])*S()*factor,6,(r[3]-r[1])*S()*factor);if(b.diamond)mesh.rotation.y=b.facadeYaw??Math.PI/4;}
  }
- const api=factory(THREE,...['rectanglePolygon','segmentPolygon','convexHull','polygonArea','polygonsOverlap','subtractObstacles','intersectConvex'].map(k=>clearance[k]),data,world,editables,buildingGroups,null,net,S,X,Z,box,material,new THREE.CylinderGeometry(1,1,1,7),parcelasVerdesHHP,trazadosHHP,andadorHHP);
+ const api=factory(THREE,...['rectanglePolygon','segmentPolygon','convexHull','polygonArea','polygonsOverlap','subtractObstacles','intersectConvex'].map(k=>clearance[k]),data,world,editables,buildingGroups,null,net,S,X,Z,box,material,new THREE.CylinderGeometry(1,1,1,7),parcelasVerdesHHP,trazadosHHP,andadorHHP,jardinesAcademicos,andadorAcademico);
  for(const [key,id,radius] of [['serpentina','sculpture_serpentina_H',4],['universitas','sculpture_universitas',5.6],['casaAbierta','sculpture_casa_abierta',6.8],['habitacionesLuz','sculpture_habitaciones_luz',6.5]]){
   const spec=data[key];if(!spec)continue;const g=new THREE.Group();g.position.set(X(spec.position[0]),0,Z(spec.position[1]));g.scale.setScalar(spec.scale||1);world.add(g);api.registerEditable(id,id,'sculpture',g);box(g,'fixture sculpture',0,1,0,radius*2,2,radius*2);
  }
  for(const [i,r] of data.parking.entries())api.parkingArea(r,'parking_'+i,'fixture parking');api.vialidadEstacionamientos();world.updateMatrixWorld(true);
  const masks=api.parkingObstacles(),failures=[];
- const gardenContours=parcelasVerdesHHP.map(contour=>contour.map(([x,z])=>({x:X(x),z:Z(z)})));
+ const gardenContours=[...parcelasVerdesHHP,...jardinesAcademicos].map(contour=>contour.map(([x,z])=>({x:X(x),z:Z(z)})));
  const gardenTriangles=gardenContours.flatMap(contour=>{
   const triangles=THREE.ShapeUtils.triangulateShape(contour.map(({x,z})=>new THREE.Vector2(x,z)),[])
    .map(indices=>indices.map(index=>contour[index]));
   assert(Math.abs(combinedArea(triangles)-clearance.polygonArea(contour))<1e-6,'La triangulación debe conservar el área completa de cada parcela.');
   return triangles;
  });
- const [x0,z0,x1,z1]=andadorHHP;
- const walk=clearance.rectanglePolygon(X((x0+x1)/2),Z((z0+z1)/2),(x1-x0)*S(),(z1-z0)*S());
+ const walks=[andadorHHP,andadorAcademico].map(([x0,z0,x1,z1])=>clearance.rectanglePolygon(X((x0+x1)/2),Z((z0+z1)/2),(x1-x0)*S(),(z1-z0)*S()));
  assert(masks.gardens.every(triangle=>triangle.length===3),'Los fragmentos de la reserva verde deben ser triángulos.');
  assertCoverage(masks.gardens,gardenTriangles,'La reserva verde');
- assertCoverage(masks.pavimentosPeatonales,[walk],'El andador');
+ assertCoverage(masks.pavimentosPeatonales,walks,'Los andadores');
  const landscapeMasks=[['garden',masks.gardens],['walkway',masks.pavimentosPeatonales]];
  let count=0,stalls=0,landscapeChecks=0;
  // Revisar cualquier descendiente de los grupos de parking, incluidas las cebras,
