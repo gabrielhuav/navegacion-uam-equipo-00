@@ -2656,6 +2656,22 @@
       "edificio": "D",
       "nivel": 0,
       "referencia": "La ruta termina en el acceso de D. Busca la sala D008 en planta baja."
+    },
+    {
+      "id": "K_VINCULACION_CSH",
+      "nombre": "Coordinación Divisional de Vinculación CSH",
+      "nodo": "n60",
+      "edificio": "K",
+      "nivel": 0,
+      "referencia": "La ruta termina en el acceso de K. La Coordinación de Vinculación CSH está en planta baja."
+    },
+    {
+      "id": "K_LIM",
+      "nombre": "LIM · Laboratorio de Innovación Metropolitana",
+      "nodo": "n60",
+      "edificio": "K",
+      "nivel": 2,
+      "referencia": "La ruta termina en el acceso de K. El Laboratorio de Innovación Metropolitana está en el segundo piso."
     }
   ]
 }

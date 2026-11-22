@@ -300,34 +300,57 @@ function serpentinaH(spec){
 }
 
 
-// Habitaciones de Luz: escultura de piedra (tipo crómlech) de ~3 m de alto. Aproximada a partir de fotografías.
+// Aproximación de las piedras, el vano adintelado y la placa en el jardín norte de B.
 function habitacionesLuz(spec){
- const group=new THREE.Group();group.name='Habitaciones_de_Luz_escultura';group.userData={title:'Habitaciones de Luz',kind:'escultura',material:'piedra',approximate:true,reference:'Fotografías aportadas por el equipo (issue #10)'};
+ const group=new THREE.Group();group.name='Habitaciones_de_Luz_escultura';
+ group.userData={title:'Habitaciones de Luz',artist:'Guadalupe Ojeda Garay',kind:'escultura',material:'piedra',
+  approximate:true,location:'Jardín norte de B. Anclaje aproximado según el conjunto visible en planta.',
+  reference:'Consejo Académico de la UAM, sesión 182; recorrido escultórico CyAD; fotografías de UAMFoto'};
  group.position.set(X(spec.position[0]),0,Z(spec.position[1]));group.scale.setScalar(spec.scale||1);world.add(group);
  registerEditable('sculpture_habitaciones_luz','Habitaciones de Luz · piedras','sculpture',group);
- let seed=2026;const rnd=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};
- const tones=['#b8b2a0','#aaa492','#c3bdab','#b1ab99'],floor=.48;
- const terrain=new THREE.Mesh(new THREE.CylinderGeometry(6.4,6.4,.16,40),material('#7f9763'));terrain.name='Habitaciones_Luz_terreno';terrain.position.y=.4;terrain.receiveShadow=true;group.add(terrain);
- function stone(name,x,z,w,d,h,yaw,tilt,tone,cap){
-  const holder=new THREE.Group();holder.name=name;holder.position.set(x,floor,z);holder.rotation.set(tilt[0],yaw,tilt[1]);group.add(holder);
-  const body=cap?h-.6:h;
-  box(holder,name+'_base',0,body*.31,0,w,body*.62,d,tone);
-  box(holder,name+'_cuerpo_superior',w*.03,body*.62+body*.19,0,w*.82,body*.38,d*.85,tone);
-  if(cap)box(holder,name+'_bloque_superior',w*.06,body+.3,0,w*1.1,.6,d*1.05,tones[(tones.indexOf(tone)+1)%tones.length]);
+
+ const suelo=.16;
+ const tonos=['#c1bba5','#b6b098','#c9c2ac','#d0c9b6'];
+ function piedra(nombre,x,z,ancho,fondo,alto,giro,indice,base=suelo){
+  const geometria=new THREE.CylinderGeometry(1,1,alto,8,3);
+  const vertices=geometria.attributes.position;
+  for(let i=0;i<vertices.count;i++){
+   const vx=vertices.getX(i),vz=vertices.getZ(i),y=vertices.getY(i);
+   const nivel=Math.round((y/alto+.5)*3),t=nivel/3;
+   const angulo=Math.atan2(vz,vx);
+   const relieve=1+.12*Math.sin(3*angulo+indice*.83)+.10*Math.cos(5*angulo+nivel*1.35+indice);
+   const perfil=[1,.88,.92,.77][nivel];
+   const inclina=(indice%3-1)*.16;
+   const desnivel=nivel===3?.075*vx+.055*vz:0;
+   vertices.setXYZ(i,ancho*(vx*relieve*perfil/2+t*inclina),y+desnivel,fondo*vz*relieve/2);
+  }
+  geometria.computeVertexNormals();
+  const malla=new THREE.Mesh(geometria,material(tonos[indice%tonos.length]));
+  malla.name=nombre;malla.position.set(x,base+alto/2,z);malla.rotation.y=giro;
+  malla.castShadow=true;malla.receiveShadow=true;group.add(malla);
  }
- const n=11,radius=4,heights=[];
- for(let i=0;i<n;i++){
-  const trilith=[2,3,7,8].includes(i),a=i*2*Math.PI/n+(trilith?0:(rnd()-.5)*.12),r=trilith?radius:radius+(rnd()-.5)*.7;
-  const h=trilith?3.1:2.7+rnd()*.6,w=.9+rnd()*.25,d=.7+rnd()*.25;heights.push(h);
-  stone('Piedra_'+i,r*Math.cos(a),r*Math.sin(a),w,d,h,-a-Math.PI/2+(trilith?0:(rnd()-.5)*.5),trilith?[0,0]:[(rnd()-.5)*.06,(rnd()-.5)*.06],tones[i%tones.length],!trilith&&(i===0||i===5));
- }
- for(let i=0;i<3;i++){const a=i*2*Math.PI/3+.5;stone('Piedra_interior_'+i,1.6*Math.cos(a),1.6*Math.sin(a),.85,.7,2.3+rnd()*.4,-a-Math.PI/2+(rnd()-.5)*.6,[(rnd()-.5)*.05,(rnd()-.5)*.05],tones[(i+1)%tones.length],false);}
- // Dinteles sobre pares de piedras contiguas del círculo.
- for(const [i,j] of [[2,3],[7,8]]){
-  const ai=i*2*Math.PI/n,aj=j*2*Math.PI/n,pa=new THREE.Vector3(radius*Math.cos(ai),0,radius*Math.sin(ai)),pb=new THREE.Vector3(radius*Math.cos(aj),0,radius*Math.sin(aj));
-  const lintel=box(group,'Dintel_'+i+'_'+j,(pa.x+pb.x)/2,floor+3.1+.35,(pa.z+pb.z)/2,pa.distanceTo(pb)+1.3,.7,1.1,'#b4ae9c');lintel.rotation.y=Math.atan2(pb.x-pa.x,pb.z-pa.z)-Math.PI/2;
- }
- if(group.parent)label('Habitaciones de Luz',group.position.x,6,group.position.z,'place');
+ const bloques=[
+  [-3.35,.40,1.32,1.16,2.32,-.08],
+  [-2.18,-1.43,1.08,1.07,2.64,.12],
+  [-.99,.33,1.21,1.07,2.98,-.26],
+  [.17,.72,1.03,.95,2.67,.22],
+  [.69,-.43,1.08,1.10,2.63,-.18],
+  [3.44,-.43,1.34,1.26,2.63,.17],
+  [2.61,-2.52,1.12,1.08,2.25,-.24],
+  [.33,-2.52,1.24,.97,2.31,.14],
+ ];
+ for(const [i,bloque] of bloques.entries())piedra('Habitaciones_piedra_'+(i+1),...bloque,i);
+ piedra('Habitaciones_remate_del_bloque',-3.37,.38,1.43,1.23,.59,-.08,2,suelo+2.24);
+ piedra('Habitaciones_dintel_principal',2.02,-.43,4.18,1.23,.66,0,3,suelo+2.52);
+ piedra('Habitaciones_dintel_del_fondo',1.47,-2.52,3.23,1.05,.48,.02,0,suelo+2.22);
+
+ const placa=new THREE.Group();placa.name='Habitaciones_placa_inclinada';placa.position.set(1.21,suelo,3.7);group.add(placa);
+ box(placa,'Base_de_concreto_de_la_placa',0,.065,0,.80,.13,.64,'#8d8676');
+ const marco=box(placa,'Marco_de_la_placa',0,.24,-.03,.70,.07,.57,'#615a47');
+ marco.rotation.x=.70;
+ const cara=box(placa,'Frente_de_la_placa',0,.273,-.002,.60,.018,.46,'#88785c');
+ cara.rotation.x=.70;
+ if(group.parent)label('Habitaciones de Luz',group.position.x,4.4,group.position.z,'place');
 }
 
 // Universitas: escultura de acero azul, formada por puntas piramidales que cruzan un centro común, sobre pedestal circular de piedra. Aproximada a partir de fotografías.
@@ -1419,10 +1442,13 @@ function view(mode){closeInterior();const artwork=sculptureViews[mode]||artworkV
  else if(mode==='serpentina'){const node=editables.get('sculpture_serpentina_H')?.node;controls.target.copy(node?.position||new THREE.Vector3(X(824),0,Z(265)));controls.target.y=3.4;camera.position.copy(controls.target).add(new THREE.Vector3(-8,6,-23));}
  else if(artwork){
   const node=sculptureViews[mode]?editables.get(artwork)?.node:world.getObjectByName(artwork);
-  if(node){
+  if(node&&mode==='habitaciones'){
+   controls.target.copy(node.position);controls.target.y=1.7;
+   camera.position.copy(controls.target).add(new THREE.Vector3(5,8,15).multiplyScalar(node.scale.x));
+  }else if(node){
    world.updateMatrixWorld(true);
    const bounds=new THREE.Box3().setFromObject(node),size=bounds.getSize(new THREE.Vector3());bounds.getCenter(controls.target);
-   const artworkDirections={habitaciones:[-.3,2,-.5],universitas:[.32,.49,-1.44],tresGracias:[1.1,.70,-1.52]};
+   const artworkDirections={universitas:[.32,.49,-1.44],tresGracias:[1.1,.70,-1.52]};
    const direction=new THREE.Vector3(...(artworkDirections[mode]||[1,.48,1.5]));
    camera.position.copy(controls.target).add(direction.normalize().multiplyScalar(Math.max(9,size.length()*1.98)));
   }else{camera.position.set(0,580,630);message('Esta escultura no está incluida en los datos cargados.');}

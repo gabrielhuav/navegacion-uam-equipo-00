@@ -182,60 +182,86 @@ export function crearInteriorL(THREE) {
  ]};
 }
 
-function estanteria(caja, x, z, orden) {
+function estanteriaBiblioteca(caja, x, z, orden, haciaCentro) {
  const tonos = ['#8e343b', '#6d838a', '#c5a675', '#d3c8b8', '#49666a', '#535375', '#a86745'];
- const armazon = '#333c43';
- for (const dx of [-.78, .78]) caja(armazon, x + dx, .97, z, .05, 1.94, .43);
- for (const [nivel, y] of [.14, .48, .82, 1.16, 1.50, 1.87].entries()) {
-  caja(armazon, x, y, z, 1.58, .045, .44);
+ const armazon = '#727779';
+ const pieza = (color, a, y, b, ancho, alto, fondo) =>
+  caja(color, x + b * haciaCentro, y, z + a, fondo, alto, ancho);
+ for (const lado of [-1, 1]) {
+  pieza(armazon, lado * .80, 1.03, 0, .04, 2.06, .47);
+ }
+ for (const [nivel, y] of [.16, .54, .92, 1.30, 1.68, 2.02].entries()) {
+  pieza(armazon, 0, y, 0, 1.61, .04, .48);
+  pieza('#babcb8', 0, y - .005, .247, 1.56, .023, .023);
   if (nivel === 5) continue;
-  for (let tomo = 0; tomo < 9; tomo++) {
-   const alto = .18 + .024 * ((tomo + nivel + orden) % 5);
+  for (let tomo = 0; tomo < 10; tomo++) {
+   const alto = .20 + .026 * ((tomo + nivel + orden) % 5);
    const color = tonos[(tomo * 3 + nivel + orden) % tonos.length];
-   caja(color, x - .68 + tomo * .162, y + .023 + alto / 2, z + .028, .11 + .014 * (tomo % 3), alto, .30);
+   const ancho = .080 + .014 * ((tomo + orden) % 5);
+   pieza(color, -.70 + tomo * .150, y + .02 + alto / 2, .045 + .011 * (tomo % 4), ancho, alto, .285);
   }
  }
 }
 
 // Fotografías de la sala de lectura, 13 de enero de 2017 (corpus web 000009–000012).
-// El paño del mural se señala con una composición cromática esquemática.
+// El mural y la franja elevada se reconocen por color y posición, sin reproducir las obras.
 export function crearInteriorBiblioteca(THREE) {
  const {group, caja, colocarMallas} = prepararEscena(THREE, 'Interior_I_Sala_lectura');
- const blanco = '#eeeae1', pilastra = '#f2eee5', tablero = '#794c40', asiento = '#224b83';
+ const blanco = '#eeeae1', pilastra = '#f2eee5', tablero = '#8e5543', asiento = '#254c8d';
  pisoBaldosas(caja, 16, 15, '#d9d1c5', '#b6aea3', .80);
  caja(blanco, 0, 3.55, -7.42, 16, 7.10, .16);
  caja(blanco, -7.92, 1.92, 0, .16, 3.84, 15);
  caja(blanco, -7.92, 6.89, 0, .16, .42, 15);
 
- // Volumen de doble altura y estanterías bajo la entreplanta.
+ // La sala conserva el vacío alto entre las dos franjas bajas de acervo.
  caja('#e1dcd0', -6.03, 3.32, -.55, 3.84, .26, 13.90);
- caja('#c29c64', -4.08, 3.81, -.55, .17, .80, 13.90);
+ caja('#d5d0c4', -4.08, 3.80, -.55, .17, .78, 13.90);
+ caja('#355b8a', -3.98, 3.81, -.55, .036, .60, 13.90);
+ for (const y of [3.53, 4.10]) {
+  caja('#b8753d', -3.95, y, -.55, .057, .064, 13.90);
+ }
  for (const [i, z] of [-6.49, -4.15, -1.80, .55, 2.90, 5.25].entries()) {
   caja(pilastra, -4.11, 1.63, z, .35, 3.26, .38);
-  caja('#ebedef', -6.18, 3.17, z, 1.24, .05, .28);
-  caja(['#325876', '#687c64', '#94724f'][i % 3], -3.98, 3.85, z, .05, .38, 2.24);
+  caja(i % 3 === 1 ? '#456f9a' : '#57a2ad', -3.94, 3.83, z, .023, .34, 2.14);
+  for (const x of [-7.03, -5.22]) {
+   caja('#e7e3d9', x, 3.178, z, .30, .026, 1.01);
+   caja('#fff2cc', x, 3.157, z, .245, .016, .935);
+  }
  }
+ // Corte del borde opuesto: la parte frontal del plafón se omite para abrir la vista.
+ caja('#dfdbd2', 6.51, 3.32, -4.90, 2.98, .26, 4.95);
+ for (const z of [-6.6, -3.30]) caja(pilastra, 5.12, 1.62, z, .37, 3.24, .43);
  for (let z = -6.5; z < 7.4; z += 2.06) {
-  caja('#d5e8e6', -7.92, 5.47, z, .042, 2.35, 1.98);
+  caja('#e0edec', -7.92, 5.47, z, .042, 2.35, 1.98);
   caja('#f7f2e8', -7.86, 5.47, z + 1.01, .12, 2.44, .07);
   caja('#f7f2e8', -7.86, 5.64, z, .12, .064, 2.06);
  }
- caja('#faf6e8', -7.90, 4.25, 0, .2, .085, 15);
- caja('#f6f3e9', -7.90, 6.69, 0, .2, .085, 15);
+ caja('#faf6e8', -7.90, 4.25, 0, .20, .085, 15);
+ caja('#f6f3e9', -7.90, 6.69, 0, .20, .085, 15);
 
- caja('#776049', 1.55, 3.36, -7.32, 8.9, 6.70, .065);
- caja('#4c6880', 1.55, 3.42, -7.276, 8.65, 6.35, .035);
- caja('#a87c4a', 1.55, 5.74, -7.249, 8.14, 1.17, .024);
- caja('#5d8291', 1.55, 3.07, -7.236, 4.75, 4.04, .018);
- caja('#3e596d', 1.55, 1.04, -7.218, 8.14, .95, .016);
+ caja('#5c483b', 1.55, 3.36, -7.32, 8.9, 6.70, .065);
+ caja('#3969a2', 1.55, 3.42, -7.276, 8.65, 6.35, .035);
+ caja('#b88e44', 1.55, 5.74, -7.249, 8.14, 1.17, .024);
+ caja('#568cba', 1.55, 3.07, -7.236, 4.75, 4.04, .018);
+ caja('#305683', 1.55, 1.04, -7.218, 8.14, .95, .016);
  for (const x of [-3.18, 6.26]) caja(pilastra, x, 3.55, -7.20, .32, 7.10, .34);
+ for (const x of [-6.28, 7.35]) {
+  caja('#745237', x, 2.64, -7.30, 1.16, 5.28, .095);
+  for (const dx of [-.39, -.13, .13, .39]) caja('#634631', x + dx, 2.64, -7.246, .015, 5.24, .016);
+ }
 
- for (const [i, z] of [-5.5, -3.15, -.80, 1.55, 3.90].entries()) estanteria(caja, -6.61, z, i);
- for (const [i, x] of [-.45, 1.29, 3.03, 4.77].entries()) estanteria(caja, x, -5.08, i + 5);
- for (const x of [-1.68, 1.44, 4.56]) {
-  for (const z of [-2.68, .24, 3.16]) {
-   caja(tablero, x, .78, z, 1.97, .09, 1.09);
-   for (const dx of [-.84, .84]) {
+ for (const [i, z] of [-5.75, -4.04, -2.33, -.62, 1.09, 2.80, 4.51].entries()) {
+  estanteriaBiblioteca(caja, -6.85, z, i, 1);
+ }
+ for (const [i, z] of [-5.75, -4.04, -2.33, -.62, 1.09].entries()) {
+  estanteriaBiblioteca(caja, 6.72, z, i + 7, -1);
+ }
+ const mesasX = [-3.68, 0, 3.68];
+ for (const x of mesasX) {
+  for (const z of [-4.18, -1.49, 1.20, 3.89]) {
+   caja('#603b30', x, .742, z, 1.92, .11, 1.04);
+   caja(tablero, x, .793, z, 1.97, .046, 1.09);
+   for (const dx of [-.86, .86]) {
     for (const dz of [-.44, .44]) caja('#523930', x + dx, .37, z + dz, .064, .74, .062);
    }
    for (const dx of [-.52, .52]) {
@@ -244,18 +270,32 @@ export function crearInteriorBiblioteca(THREE) {
    }
   }
  }
- for (const z of [-5.18, -2.36, .46]) {
-  caja('#e1ded3', -.68, 6.58, z, .04, .86, .04);
-  caja('#c9c4b1', -.68, 6.12, z, .34, .13, .33);
-  caja('#ffefc9', -.68, 6.04, z, .25, .06, .25);
+
+ const perfilLampara = [[.19, 0], [.16, .06], [.12, .17], [.08, .20], [.07, .22]]
+  .map(([r, y]) => new THREE.Vector2(r, y));
+ const pantalla = new THREE.LatheGeometry(perfilLampara, 20);
+ const acabado = new THREE.MeshStandardMaterial({color:'#dedfd8', side:THREE.DoubleSide, roughness:.7});
+ const difusor = new THREE.CylinderGeometry(.147, .147, .03, 20);
+ const luz = new THREE.MeshStandardMaterial({color:'#fff4cf', emissive:'#ffedbe', emissiveIntensity:.22});
+ for (const x of [-2.07, 2.07]) {
+  for (const z of [-5.18, -1.91, 1.36]) {
+   caja('#b2ada4', x, 6.60, z, .025, .84, .025);
+   const campana = new THREE.Mesh(pantalla, acabado);
+   campana.name = 'I_Pantalla_colgante';
+   campana.position.set(x, 5.97, z);
+   group.add(campana);
+   const lampara = new THREE.Mesh(difusor, luz);
+   lampara.position.y = .008;
+   campana.add(lampara);
+  }
  }
  colocarMallas();
 
  return {
   group, camera: [18.4, 13.8, 19.2], target: [0, 2.33, -.8],
   etiquetas: [
-   {texto:'Sala de lectura', posicion:[1.44, 1.08, 2.9]},
-   {texto:'Acervo abierto', posicion:[-5.9, 2.04, 1.0]},
+   {texto:'Sala de lectura', posicion:[0, 1.08, 2.9]},
+   {texto:'Acervo abierto', posicion:[-6.52, 2.23, 1.0]},
    {texto:'Paño mural', posicion:[1.55, 5.0, -7.14]},
   ],
  };

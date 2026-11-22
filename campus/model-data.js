@@ -985,12 +985,12 @@ export const ORIGINAL = {
   },
   "habitacionesLuz": {
     "position": [
-      858,
-      255
+      297,
+      524
     ],
     "scale": 1,
     "approximate": true,
-    "reference": "Escultura 'Habitaciones de Luz' (piedras tipo Stonehenge, ~3 m de alto). Ubicación real: al norte del edificio B; colocada junto a Serpentina para moverla con el editor. Issue #10."
+    "reference": "Jardín norte del edificio B. Centro aproximado a partir de la obra visible en las fotos de UAMFoto y el grupo de formas claras recurrente en imágenes aéreas. Acta 182 de la UAM y recorrido de CyAD."
   },
   "universitas": {
     "position": [
