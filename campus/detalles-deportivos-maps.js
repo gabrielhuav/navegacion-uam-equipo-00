@@ -123,7 +123,8 @@ export function construirFachadaQ({THREE,part,w,d,h,box,material}) {
  const cemento='#aeb7b5',rojo='#ad4945',marco='#adb6b1';
  const vidrio=['#59635f','#657470','#536362'];
  box(grupo,'Q_cuerpo_bajo',.24,dintel/2,0,w-.48,dintel,d,'#889491');
- box(grupo,'Q_azotea',0,h-.05,0,w,.16,d,'#686c62');
+ box(grupo,'Q_azotea_verde',0,h-.05,0,w,.16,d,'#65735e');
+ detallarAzoteaQ({THREE,grupo,w,d,techo:h+.03,box,material});
  box(grupo,'Q_fascia_roja_campo',frente-.065,dintel+fascia/2,0,.23,fascia,d+.18,rojo);
  box(grupo,'Q_fascia_roja_Ferrocarriles',w/2-.02,dintel+fascia/2,0,.19,fascia,d+.13,'#9a4141');
  for(const extremo of [-1,1])box(grupo,'Q_remate_terracota',0,dintel+fascia/2,extremo*fondo,w,fascia,.16,rojo);
@@ -180,6 +181,60 @@ export function construirFachadaQ({THREE,part,w,d,h,box,material}) {
  box(grupo,'Q_vano_alto_hacia_Ferrocarriles',w/2-.014,dintel*.69,-d*.06,.115,.63,d*.45,'#565c55');
  for(const z of [-.276,-.152,-.031,.093,.16])
   box(grupo,'Q_montante_de_fachada_posterior',w/2+.057,dintel*.69,z*d,.046,.68,.075,'#8e524b');
+}
+
+// Aleph (17 de octubre de 2016) muestra tres unidades delante y dos detrás.
+function detallarAzoteaQ({THREE,grupo,w,d,techo,box,material}) {
+ const solar=new THREE.Group();
+ solar.name='Q_colectores_solares_de_vestidores';
+ solar.userData={approximate:true,reference:'Aleph UAM, 2016-10-17; ortofoto Esri',systems:5};
+ solar.position.y=techo;
+ grupo.add(solar);
+
+ const acero='#a0a8a2',cromo='#b9bfb7';
+ const tanqueGeometria=new THREE.CylinderGeometry(.23,.23,1.76,14);
+ const tuboGeometria=new THREE.CylinderGeometry(.040,.040,Math.hypot(1.86,.70),8);
+ const tanqueMaterial=material(cromo),tuboAzul=material('#36516b'),tuboClaro=material('#536b84');
+ const xCentro=-w*.25, zFrente=d*.245, zFondo=zFrente+3.15;
+ const ubicaciones=[
+  [xCentro-1.83,zFrente],[xCentro,zFrente],[xCentro+1.83,zFrente],
+  [xCentro-.92,zFondo],[xCentro+.92,zFondo]
+ ];
+ for(const [x,z] of ubicaciones){
+  const unidad=new THREE.Group();
+  unidad.name='Q_calentador_solar';
+  unidad.position.set(x,0,z);
+  solar.add(unidad);
+  const tanque=new THREE.Mesh(tanqueGeometria,tanqueMaterial);
+  tanque.name='Q_tanque_horizontal';
+  tanque.rotation.z=Math.PI/2;
+  tanque.position.set(0,1.10,.80);
+  unidad.add(tanque);
+  for(let i=0;i<15;i++){
+   const tubo=new THREE.Mesh(tuboGeometria,i%3===0?tuboClaro:tuboAzul);
+   tubo.name='Q_tubo_colector';
+   tubo.position.set((i-7)*.104,.59,-.13);
+   tubo.rotation.x=Math.PI/2-Math.atan2(.70,1.86);
+   unidad.add(tubo);
+  }
+  for(const lateral of [-.81,.81]){
+   box(unidad,'Q_apoyo_del_bastidor',lateral,.065,-.13,.12,.13,2.02,acero);
+   box(unidad,'Q_paral_del_bastidor',lateral,.52,.79,.068,1.04,.072,acero);
+   box(unidad,'Q_marco_inclinado_del_colector',lateral,.59,-.13,.071,.073,2.02,cromo)
+    .rotation.x=-Math.atan2(.70,1.86);
+  }
+  box(unidad,'Q_remate_inferior_solar',0,.24,-1.065,1.75,.105,.085,cromo);
+ }
+ for(const [y,color] of [[.092,'#526f81'],[.156,'#894f45']]){
+  box(solar,'Q_linea_de_agua',xCentro,y,zFrente+.95,5.72,.055,.052,color);
+  box(solar,'Q_linea_de_agua_entre_filas',xCentro+2.85,y,(zFrente+zFondo)/2+.95,.06,.052,3.20,color);
+  box(solar,'Q_linea_de_agua_fila_posterior',xCentro+.48,y,zFondo+.95,4.73,.055,.052,color);
+ }
+ for(const z of [d*.146,d*.192]){
+  box(solar,'Q_zocalo_de_tragaluz',-w*.14,.10,z,1.12,.20,1.22,'#a8a99b');
+  box(solar,'Q_tragaluz_de_azotea',-w*.14,.22,z,1.14,.07,1.24,'#cfdbcf');
+  box(solar,'Q_travesano_de_tragaluz',-w*.14,.266,z,.045,.022,1.24,'#777f75');
+ }
 }
 
 // Límites estimados tras proyectar la imagen aérea al croquis existente.

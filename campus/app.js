@@ -14,7 +14,7 @@ import {agregarEntornoCorpus} from 'detalles-entorno-corpus';
 import {crearInteriorBiblioteca,crearInteriorG302,crearInteriorL} from 'interiores-biblioteca-g';
 import {crearInteriorCafeteria} from 'interior-cafeteria';
 import {crearInteriorW,crearInteriorR} from 'interiores-w-r';
-import {construirBardaFrenteT,construirCubiertaL,detallarFachadaH,detallarVestibuloHO} from 'detalles-academicos-maps';
+import {construirBardaFrenteT,construirCubiertaL,detallarFachadaH,detallarVestibuloHO,construirFachadaKEstacionamiento} from 'detalles-academicos-maps';
 import {bloqueaArboladoEnAccesos,crearDetallesMapsAccesos,tramoRejaCICTE} from 'detalles-maps-accesos';
 import {crearDetallesMapsPlazas,detallarAroSerpentina} from 'detalles-maps-plazas';
 import {crearDetallesMapsPonente,cubrePerimetroMapsPonente} from 'detalles-maps-ponente';
@@ -27,7 +27,7 @@ import {andadorAcademico,jardinesAcademicos,construirPaisajeAcademico} from 'pai
 import {construirEdificioO,construirGaleriaSTalleres,reconstruirCubiertasTalleres} from 'sector-talleres-deportes';
 import {construirPlazaRoja,construirCuerpoConGaleriaF,construirPorticoV1} from 'sector-acceso-plaza';
 import {crearPlazasAjedrez} from 'plazas-ajedrez';
-import {construirGimnasioExteriorM} from 'recintos-deportivos';
+import {construirFachadaM,construirGimnasioExteriorM} from 'recintos-deportivos';
 
 const $=id=>document.getElementById(id);
 const editables=new Map();
@@ -901,6 +901,7 @@ function building(b){const g=new THREE.Group();g.name='Edificio_'+b.id;g.userDat
   if(b.id==='P2'){azcBuildingP2(part,b,w,d,h);continue;}
   if(b.id==='J'){azcBuildingJ(part,b,w,d,h);continue;}
   if(b.id==='Q'){construirFachadaQ({THREE,part,w,d,h,box,material});continue;}
+  if(b.id==='M'){construirFachadaM({THREE,part,w,d,h,box,material});continue;}
   if(b.id==='R'){azcBuildingR(part,b,w,d,h);continue;}
   if(b.id==='O'){construirEdificioO({THREE,part,b,w,d,h,box,data});continue;}
   if(b.id==='S'){construirGaleriaSTalleres({THREE,part,b,w,d,h,box,data});continue;}
@@ -917,7 +918,7 @@ function building(b){const g=new THREE.Group();g.name='Edificio_'+b.id;g.userDat
   else box(part,'Cuerpo de concreto',0,h/2,0,w,h,d,b.reinforced?'#d4d6d1':'#d3d0bd');
   for(let f=0;f<b.floors;f++){
    const wy=f*data.storeyHeight+2;
-   if(w>4)for(const side of [-1,1]){if((gallery&&side===1&&f<3)||(b.id==='F'&&f===1&&side===-1))continue;
+   if(w>4)for(const side of [-1,1]){if((gallery&&side===1&&f<3)||(b.id==='F'&&f===1&&side===-1)||(b.id==='K'&&side===-1))continue;
     box(part,'Ventana_nivel_'+f,0,wy,side*(d/2+.025),w-1,1.15,.1,'#425f61');
     for(let k=-w/2+3;k<w/2-1;k+=3)box(part,'Montante',k,wy,side*(d/2+.09),.11,1.2,.1,'#c8c8b9');
    }
@@ -932,6 +933,7 @@ function building(b){const g=new THREE.Group();g.name='Edificio_'+b.id;g.userDat
   if(b.reinforced)reinforceG(part,w,d,h,b.floors);
   if(b.id==='H')detallarFachadaH({part,b,w,d,idx,box,data});
   if(b.id==='K'){
+   construirFachadaKEstacionamiento({THREE,part,b,w,d,h,box});
    // El giro del video 360° a los 8:00 permite leer la k roja desde la galería de J.
    const rotulo=new THREE.Group();rotulo.name='K_rotulo_rojo_hacia_J';
    rotulo.userData={approximate:true,reference:'Recorrido en RV, 8:00, vista girada desde J'};
@@ -1043,15 +1045,6 @@ function building(b){const g=new THREE.Group();g.name='Edificio_'+b.id;g.userDat
    const sky=new THREE.Mesh(new THREE.CylinderGeometry(2.4,2.4,w*.58,20,1,false,0,Math.PI),translucentRoof);
    sky.name='F_domo_curvo';sky.rotation.z=Math.PI/2;sky.scale.set(.58,1,1);sky.position.set(0,h+.35,0);part.add(sky);
    for(let x=-w*.25;x<=w*.25;x+=3.2)box(part,'F_costilla_domo',x,h+1.45,0,.12,.14,2.8,'#eceee9');
-  }
-  if(b.id==='M'){
-   box(part,'M_franja_superior_roja',0,h-.55,0,w+.24,1.3,d+.24,'#b34135');
-   box(part,'M_acceso_acristalado',-w*.18,1.45,d/2+.08,4.8,2.5,.16,'#384d52');
-   box(part,'M_bajante_pluvial_blanca',-w/2+.25,h*.45,-d/2-.12,.22,h*.85,.22,'#eceee9');
-   for(let x=-w*.38;x<=w*.38;x+=8.5)box(part,'M_ventana_celosia',x,1.65,-d/2-.08,2.8,1.15,.14,'#9da4a6');
-   box(part,'M_andador_cubierto_rojo',w/2+1.6,2.85,0,3.2,.16,d*.75,'#b8292f');
-   const rM=box(part,'M_rampa_acceso',-w*.18,.18,d/2+1.5,3.6,.22,2.8,'#c4c2b6');rM.rotation.x=-.05;
-   for(const s of [-1,1])box(part,'M_barandal_rampa',-w*.18+s*1.65,.58,d/2+1.5,.08,.75,2.6,'#b8292f');
   }
  }
  if(b.id==='H'){
@@ -1266,8 +1259,8 @@ function generate(){
  for(const [key,title] of [['campo','Campo de fútbol'],['basquet','Multicanchas'],['futbol7','Fútbol 7']]){
   const [x0,z0,x1,z1]=superficiesDeportivas[key];label(title,X((x0+x1)/2),1,Z((z0+z1)/2),'place');
  }
- // Torres de iluminación deportiva (imagen_0072).
- for(const [tx,ty] of [[1596,445],[1596,575],[1450,445],[1450,575]]){
+ // La torre contigua a Q queda al borde del campo, por delante de la fachada (0075/0096).
+ for(const [tx,ty] of [[1596,445],[1573.4,575],[1450,445],[1450,575]]){
   box(world,'Torre_iluminacion_canchas',X(tx),5.5,Z(ty),.22,11,.22,'#7c6c5a');
   box(world,'Reflectores_torre_canchas',X(tx),11.1,Z(ty),.45,.38,1.2,'#e8eae6');
  }
@@ -1406,6 +1399,9 @@ const sectorViews={
  mGimnasio:{target:[1235,.8,588],offset:[-10,10,-12]},
  jExterior:{target:[935,2.4,514],offset:[-37,13,-36]},
  jGaleria:{target:[959,1.9,509],offset:[8.2,5.5,-20]},
+ mFachada:{target:[1324,2.25,628],offset:[12,4.2,-13]},
+ qAzotea:{target:[1588,2.7,573],offset:[-19,15,-14]},
+ kEstacionamiento:{target:[1032,5.8,380],offset:[-11,3.3,-26]},
  qExterior:{target:[1593,1.55,550],offset:[-56,12,-7]},
  rExterior:{target:[1370,5.1,280],offset:[-36,16,56]},
  deportes:{target:[1565,1.65,555],offset:[-62,121,144]},

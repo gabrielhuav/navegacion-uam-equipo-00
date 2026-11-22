@@ -63,6 +63,46 @@ export function construirBardaFrenteT({THREE,world,box,x,z,width,yaw,postes}) {
  box(group,'T_travesano_alto_reja',0,1.77,0,width,.07,.065,'#8a3830');
 }
 
+// El panorama de CyADtv (junio de 2019) muestra la cara de K hacia el estacionamiento.
+export function construirFachadaKEstacionamiento({THREE,part,w,d,h,b,box}) {
+ const group=new THREE.Group();
+ group.name='K_fachada_del_estacionamiento';
+ group.userData={approximate:true,reference:'CyADtv, panorama de Google Maps (junio de 2019), exterior de K hacia el estacionamiento'};
+ part.add(group);
+
+ const front=-d/2,span=w-.84,xStart=-span/2;
+ const bays=Math.max(3,Math.round(span/5.4)),bayWidth=span/bays;
+ const levelHeight=h/b.floors;
+ const concrete='#a9aaa1',joint='#878a80',frame='#bec4bf',pillar='#626762';
+ const glaze=['#4e5d58','#465551','#596360'];
+
+ // Las pilastras interrumpen visualmente el cancel y las bandas corridas.
+ for(let f=0;f<b.floors;f++){
+  const base=f*levelHeight,top=base+levelHeight;
+  const sill=base+levelHeight*.38,head=base+levelHeight*.79;
+  const centerY=(sill+head)/2,glassHeight=head-sill;
+  box(group,'K_antepecho_de_concreto',0,(base+sill)/2,front-.027,span,sill-base,.058,concrete);
+  box(group,'K_dintel_de_concreto',0,(head+top)/2,front-.027,span,top-head-.035,.058,concrete);
+  box(group,'K_junta_de_banda',0,top-.038,front-.064,span,.034,.017,joint);
+  box(group,'K_division_baja_de_cancel',0,sill+.22*glassHeight,front-.063,span,.042,.034,frame);
+  for(const y of [sill,head])box(group,'K_marco_horizontal',0,y,front-.063,span,.053,.034,frame);
+
+  for(let bay=0;bay<bays;bay++){
+   const center=xStart+(bay+.5)*bayWidth,width=bayWidth-.31;
+   box(group,'K_cinta_de_vidrio',center,centerY,front-.023,width,glassHeight,.050,glaze[(bay+f)%glaze.length]);
+   for(const fraction of [-.25,0,.25]){
+    box(group,'K_marco_vertical',center+width*fraction,centerY,front-.065,.048,glassHeight,.040,frame);
+   }
+   if((bay+f)%2===0)box(group,'K_luz_visible_por_el_vidrio',center+width*.125,sill+glassHeight*.78,front-.051,
+    Math.min(width*.19,.82),.052,.014,'#aeb39d');
+  }
+ }
+ for(let bay=0;bay<=bays;bay++){
+  const x=xStart+bay*bayWidth;
+  box(group,'K_pilastra_gris_del_estacionamiento',x,h/2,front-.057,.31,h-.08,.11,pillar);
+ }
+}
+
 export function detallarFachadaH({part,b,w,d,idx,box,data}) {
  if(b.id!=='H')return;
  if(idx===0){

@@ -2152,7 +2152,7 @@
       "id": "Q",
       "nombre": "Q · Gimnasio de pesas",
       "nodo": "n115",
-      "referencia": "Llegada aproximada por el lado de Ferrocarriles. La fachada con accesos mira al campo natural; confirma allí la puerta de pesas con la señalización."
+      "referencia": "Punto aproximado. Dentro del campus, busca la fachada de Q junto al campo natural y confirma la puerta de pesas con la señalización local."
     },
     {
       "id": "R",
@@ -2659,11 +2659,11 @@
     },
     {
       "id": "K_VINCULACION_CSH",
-      "nombre": "Coordinación Divisional de Vinculación CSH",
+      "nombre": "K-002 · Coordinación Divisional de Vinculación CSH",
       "nodo": "n60",
       "edificio": "K",
       "nivel": 0,
-      "referencia": "La ruta termina en el acceso de K. La Coordinación de Vinculación CSH está en planta baja."
+      "referencia": "La ruta termina en el acceso de K. Busca la oficina K-002 de Vinculación CSH en planta baja."
     },
     {
       "id": "K_LIM",
@@ -2672,6 +2672,30 @@
       "edificio": "K",
       "nivel": 2,
       "referencia": "La ruta termina en el acceso de K. El Laboratorio de Innovación Metropolitana está en el segundo piso."
+    },
+    {
+      "id": "K116",
+      "nombre": "K-116 · Aula",
+      "nodo": "n60",
+      "edificio": "K",
+      "nivel": 1,
+      "referencia": "La ruta termina en el acceso de K. Busca el aula K-116 en el primer piso."
+    },
+    {
+      "id": "K308",
+      "nombre": "K-308 · Aula",
+      "nodo": "n60",
+      "edificio": "K",
+      "nivel": 3,
+      "referencia": "La ruta termina en el acceso de K. Busca el aula K-308 en el tercer piso."
+    },
+    {
+      "id": "K310",
+      "nombre": "K-310 · Aula",
+      "nodo": "n60",
+      "edificio": "K",
+      "nivel": 3,
+      "referencia": "La ruta termina en el acceso de K. Busca el aula K-310 en el tercer piso."
     }
   ]
 }
