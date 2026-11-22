@@ -3,52 +3,48 @@ import {obstacles} from 'route-space';
 import {contornoPlazaEgresados} from 'plaza-egresados';
 
 const estudio = 'https://zaloamati.azc.uam.mx/bitstreams/0a1a854d-435b-48b7-8ea4-17d7c1ea6cd3/download#page=38';
+const obras = 'https://bertely.wordpress.com/wp-content/uploads/2009/05/plazas-del-ajedrez-obra-02.jpg';
+const norteHP = 'https://bertely.wordpress.com/wp-content/uploads/2009/05/plazas-del-ajedrez-noche-01.jpg';
 
-// El estudio identifica las dos plazas, cuatro mesas con cuatro asientos cada una
-// y cuatro asientos sueltos en total. La distribución 2 + 2 es una aproximación.
-// La foto aportada desde el piso superior sitúa la lona de HO junto a las trabes
-// rojas del enlace con H. Se ajusta en ese claro y se mantiene continuo el andador.
+// Las fotos de obra y de las lonarias terminadas se distinguen de la planta
+// de 2009. Se conservan los dos claros del modelo y sus andadores.
 export const plazasAjedrez = [
   {
     id: 'HO', centro: [733, 356.25], ancho: 5.05, fondo: 4.25, altura: 3.38,
-    mesas: [[-1.19, -.05], [1.17, .06]],
-    asientosSueltos: [[-1.39, 1.66], [1.40, -1.62]],
-    referenciaVisual: 'Foto del usuario desde el piso superior, Google Maps (dic. 2022, CIHM0ogKEICAgID-idKAZg) y corpus de HO imagen_0007.png',
-    evidencia: 'La foto superior confirma la lona baja junto a las trabes H–HO, el remate circular y las puntas con tensores. Apoyos al suelo y reparto del mobiliario estimados.'
+    mesas: [[-1.06, -1.04], [1.06, -1.04], [-1.06, 1.04], [1.06, 1.04]],
+    bancas: [[-2.28, 0, .42, 1.28], [2.28, 0, .42, 1.28]],
+    referenciaVisual: obras,
+    evidencia: 'El montaje de obra documenta cuatro mesas alrededor del mástil. La foto reciente desde H confirma la lona junto a las trabes. Medidas, número de bancas y posición de cada mueble aproximados.'
   },
   {
     id: 'HP', centro: [906, 371], ancho: 8.3, fondo: 5.15, altura: 4.15,
-    mesas: [[-1.68, -.62], [1.55, .68]],
-    asientosSueltos: [[-3.18, 1.15], [3.1, -.95]],
-    referenciaVisual: 'Vista aérea de la zona H–HP y descripción del mobiliario en el estudio UAM, p. 38',
-    evidencia: 'Implantación aproximada hacia H y la Biblioteca. El estudio confirma lona y mobiliario. Los detalles de costura y el remate son esquemáticos, interpretados a partir de HO.'
+    mesas: [[-1.62, -1.1], [1.6, -1.1], [-1.62, 1.1]],
+    bancas: [[-3.25, -.95, .5, 1.52], [-3.25, .91, .5, 1.52], [3.08, .55, .52, 1.5]],
+    referenciaVisual: norteHP,
+    evidencia: 'La foto nocturna del acceso de HP confirma la lonaria, mástil central, brazos y bancas independientes. Se representan las tres mesas que se distinguen. Inventario actual y posición precisa pendientes.'
   }
 ];
 
 const nivelPiso = .325;
-const anchoMesa = .94;
-const anchoAsiento = .43;
-const retiroAsiento = .85;
-const anchoPoste = .105;
+const anchoMesa = .90;
+const anchoAsiento = .42;
+const retiroAsiento = .76;
+const anchoDado = .53;
 const margenMueble = .14;
 
 function asientosDeMesa([x, z]) {
   return [[x - retiroAsiento, z], [x + retiroAsiento, z], [x, z - retiroAsiento], [x, z + retiroAsiento]];
 }
 
-function apoyos(plaza) {
-  return [[-.465, -.385], [.465, -.385], [.465, .355], [-.465, .355]]
-    .map(([x, z]) => [x * plaza.ancho, z * plaza.fondo]);
-}
-
 function huellas(plaza) {
   const mesas = plaza.mesas.flatMap((mesa, indice) => [
-    {nombre: `Mesa ${indice + 1}`, posicion: mesa, ancho: anchoMesa},
-    ...asientosDeMesa(mesa).map((posicion, orden) => ({nombre: `Asiento ${indice + 1}.${orden + 1}`, posicion, ancho: anchoAsiento}))
+    {nombre: 'Mesa ' + (indice + 1), posicion: mesa, ancho: anchoMesa},
+    ...asientosDeMesa(mesa).map((posicion, orden) => ({nombre: 'Asiento ' + (indice + 1) + '.' + (orden + 1), posicion, ancho: anchoAsiento}))
   ]);
-  const sueltos = plaza.asientosSueltos.map((posicion, indice) => ({nombre: `Asiento libre ${indice + 1}`, posicion, ancho: anchoAsiento}));
-  const postes = apoyos(plaza).map((posicion, indice) => ({nombre: `Apoyo ${indice + 1}`, posicion, ancho: anchoPoste}));
-  return [...mesas, ...sueltos, ...postes];
+  const bancas = plaza.bancas.map(([x, z, ancho, fondo], indice) => ({
+    nombre: 'Banca ' + (indice + 1), posicion: [x, z], ancho, fondo
+  }));
+  return [...mesas, ...bancas, {nombre: 'Dado del mástil', posicion: [0, 0], ancho: anchoDado}];
 }
 
 /** Audita mobiliario y apoyos de planta baja. La lona deja libre la altura de paso. */
@@ -74,8 +70,8 @@ export function verificarPlazasAjedrez({data, net, X, Z}) {
     const conflictosPatio = [...edificios, ...caminos, egresados]
       .filter(barrera => polygonsOverlap(patio.poly, barrera.poly))
       .map(barrera => ({plaza: plaza.id, elemento: patio.nombre, invade: barrera.id}));
-    const conflictosMuebles = huellas(plaza).flatMap(({nombre, posicion: [dx, dz], ancho}) => {
-      const poly = rectanglePolygon(x + dx, z + dz, ancho + margenMueble, ancho + margenMueble);
+    const conflictosMuebles = huellas(plaza).flatMap(({nombre, posicion: [dx, dz], ancho, fondo = ancho}) => {
+      const poly = rectanglePolygon(x + dx, z + dz, ancho + margenMueble, fondo + margenMueble);
       return superficiesProtegidas.filter(barrera => polygonsOverlap(poly, barrera.poly))
         .map(barrera => ({plaza: plaza.id, elemento: nombre, invade: barrera.id}));
     });
@@ -83,12 +79,11 @@ export function verificarPlazasAjedrez({data, net, X, Z}) {
   });
 }
 
-function crearCubierta({THREE, grupo, plaza, material}) {
+function crearCubierta({THREE, grupo, plaza, material, box}) {
   const lonaHO = plaza.id === 'HO';
-  const cotaAlero = lonaHO ? -.10 : 0;
+  const cotaAlero = lonaHO ? 0 : .26;
   const aleros = [
-    [-.495, -.415, 2.98], [0, -.5, 2.72], [.495, -.415, 2.94],
-    [.5, .4, 2.89], [0, .5, 2.68], [-.5, .4, 2.94]
+    [-.496, 0, 2.95], [0, -.496, 2.70], [.496, 0, 2.91], [0, .496, 2.72]
   ].map(([x, z, y]) => new THREE.Vector3(x * plaza.ancho, y + cotaAlero, z * plaza.fondo));
   const pico = new THREE.Vector3(0, plaza.altura, -.05);
   const posiciones = [...pico];
@@ -107,9 +102,9 @@ function crearCubierta({THREE, grupo, plaza, material}) {
     const b = aleros[(sector + 1) % aleros.length];
     const concavidad = Math.sin(Math.PI * fraccion);
     const orilla = a.clone().lerp(b, fraccion);
-    orilla.x *= 1 - (lonaHO ? .28 : .21) * concavidad;
-    orilla.z *= 1 - (lonaHO ? .28 : .21) * concavidad;
-    orilla.y -= .18 * concavidad;
+    orilla.x *= 1 - .205 * concavidad;
+    orilla.z *= 1 - .205 * concavidad;
+    orilla.y -= .16 * concavidad;
     return orilla;
   }
 
@@ -152,40 +147,44 @@ function crearCubierta({THREE, grupo, plaza, material}) {
     grupo.add(pieza);
   }
 
-  for (const extremo of aleros) {
-    const costura = [0, .25, .5, .75, 1].map(t => puntoRadial(extremo, t));
-    for (const punto of costura) punto.y += .01;
-    barra('Costura_radial', costura, .008, '#dddcd4');
+  // La obra muestra un mástil compuesto y ramas curvas en abanico. Los
+  // tensores quedan suspendidos. Las cuatro puntas conservan el perímetro libre.
+  const acero = '#b8c0bf';
+  const encuentro = lonaHO ? 1.56 : 1.71;
+  box(grupo, 'Dado_central_de_lonaria', 0, .061, 0, anchoDado, .12, anchoDado, '#aaa79c');
+  for (const [x, z] of [[-.115, -.085], [.115, -.085], [.115, .085], [-.115, .085]]) {
+    barra('Montante_mastil_central', [new THREE.Vector3(x, .12, z), new THREE.Vector3(x, encuentro, z)], .037, acero);
   }
-
-  // Las fotos muestran brazos cortos en los extremos. Los pies se aproximan por
-  // los bordes de la plaza porque la fotografía no muestra todos sus anclajes.
-  const brazos = apoyos(plaza).map(([x, z], indice) => {
-    const oreja = aleros[[0, 2, 3, 5][indice]];
-    const arranque = new THREE.Vector3(x, .015, z);
-    const union = new THREE.Vector3(x, oreja.y + .04, z);
-    const punta = oreja.clone().multiply(new THREE.Vector3(1.035, 1, 1.035));
-    barra('Soporte_perimetral', [arranque, union], anchoPoste / 2, '#929a9b');
-    barra('Brazo_y_tensor', [union, punta], .035, '#929a9b');
-    return punta;
-  });
-
+  casquillo('Union_del_mastil_y_los_brazos', new THREE.Vector3(0, encuentro, 0), .164, .067, acero);
+  const corona = new THREE.Vector3(0, pico.y - .05, pico.z);
+  barra('Tubo_central_de_la_lonaria', [new THREE.Vector3(0, encuentro, 0), corona], .067, acero);
   casquillo('Remate_circular_membrana', pico.clone().add(new THREE.Vector3(0, .015, 0)), .103, .032, '#ded7c4');
-  casquillo('Arandela_del_remate', pico.clone().add(new THREE.Vector3(0, .035, 0)), .062, .018, '#9c8564');
+
   for (let sector = 0; sector < aleros.length; sector++) {
     const borde = Array.from({length: pasos + 1}, (_, i) => puntoDeBorde(sector, i / pasos));
-    barra('Dobladillo_tensado', borde, .012, '#e4e1d6');
-    casquillo('Terminal_del_tensor', aleros[sector], .038, .04, '#aab1ae');
-  }
-  if (lonaHO) {
-    // Los tensores intermedios se suspenden cerca del perímetro, sin sumar apoyos
-    // en los claros peatonales. La unión exacta no se distingue desde arriba.
-    [[1, 0, 1], [4, 2, 3]].forEach(([extremo, a, b]) => {
-      const paso = aleros[extremo].clone();
-      paso.z *= 1.07;
-      barra('Tensor_intermedio', [brazos[a], paso, brazos[b]], .012, '#aab1ae');
-      barra('Horquilla_intermedia', [aleros[extremo], paso], .019, '#aab1ae');
-    });
+    barra('Dobladillo_tensado', borde, .010, '#dcdace');
+    for (const tramo of [0, .5]) {
+      const extremo = puntoDeBorde(sector, tramo);
+      const costura = [0, .25, .5, .75, 1].map(t => puntoRadial(extremo, t).add(new THREE.Vector3(0, .006, 0)));
+      barra('Costura_radial', costura, .006, '#dddcd4');
+      const principal = tramo === 0;
+      const largo = principal ? 1.012 : .92;
+      const extremoBrazo = new THREE.Vector3(extremo.x * largo, extremo.y - .045, extremo.z * largo);
+      const base = new THREE.Vector3(extremo.x * .041, encuentro, extremo.z * .041);
+      const curva = [
+        base,
+        new THREE.Vector3(extremo.x * .16, encuentro + .60, extremo.z * .16),
+        new THREE.Vector3(extremo.x * .51, extremoBrazo.y - .12, extremo.z * .51),
+        extremoBrazo
+      ];
+      barra(principal ? 'Brazo_curvo_de_lonaria' : 'Brazo_curvo_intermedio_de_lonaria', curva, principal ? .038 : .028, acero);
+      if (principal) {
+        const arranque = new THREE.Vector3(extremo.x * .07, encuentro + .04, extremo.z * .07);
+        const finTensor = extremoBrazo.clone().add(new THREE.Vector3(0, -.025, 0));
+        barra('Tensor_suspendido_de_lonaria', [arranque, finTensor], .009, '#aab1ae');
+        casquillo('Terminal_del_tensor', extremoBrazo, .049, .043, acero);
+      }
+    }
   }
 }
 
@@ -269,9 +268,12 @@ export function crearPlazasAjedrez({THREE, world, material, box, X, Z}) {
       crearTablero({THREE, grupo, x, z});
       for (const asiento of asientosDeMesa([x, z])) crearAsiento(asiento, 'Asiento_cubico');
     }
-    for (const asiento of plaza.asientosSueltos) crearAsiento(asiento, 'Asiento_libre');
+    for (const [x, z, ancho, fondo] of plaza.bancas) {
+      const banca = box(grupo, 'Banca_independiente_de_concreto', x, .218, z, ancho, .41, fondo, concreto);
+      banca.castShadow = true;
+    }
 
-    crearCubierta({THREE, grupo, plaza, material});
+    crearCubierta({THREE, grupo, plaza, material, box});
   }
   return conjunto;
 }
