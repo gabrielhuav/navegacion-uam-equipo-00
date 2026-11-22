@@ -18,7 +18,7 @@ import {construirBardaFrenteT,construirCubiertaL,detallarFachadaH,detallarVestib
 import {bloqueaArboladoEnAccesos,crearDetallesMapsAccesos,tramoRejaCICTE} from 'detalles-maps-accesos';
 import {crearDetallesMapsPlazas,detallarAroSerpentina} from 'detalles-maps-plazas';
 import {crearDetallesMapsPonente,cubrePerimetroMapsPonente} from 'detalles-maps-ponente';
-import {crearDetallesMapsCorredorCultural,detallarGaleriaCulturalE,crearInteriorIncalli,crearVistaLibreria} from 'detalles-maps-corredor-cultural';
+import {crearDetallesMapsCorredorCultural,detallarGaleriaCulturalE,crearInteriorIncalli,crearVistaLibreria,crearVistaGaleriaDelTiempo} from 'detalles-maps-corredor-cultural';
 import {construirCanchasDeportivas,construirGradasDeportivas,detallarAccesoDeportivo,perimetroCruzaFutbol7,superficiesDeportivas} from 'detalles-deportivos-maps';
 import {construirJardinTresGracias} from 'jardin-tres-gracias';
 import {parcelasVerdesHHP,andadorHHP,trazadosHHP,construirPaisajeHHP} from 'paisaje-h-hp';
@@ -687,7 +687,8 @@ function azcBuildingP2(part,b,w,d,h){
    if(f===0&&Math.abs(z)<10)continue;
    const wy=f===0?1.65:story+1.75;
    box(g,'P2_marco_ventana_rojo',side*(w/2+.16),wy,z,.32,1.42,2.75,terra);
-   box(g,'Ventana_lateral_nivel_'+f,side*(w/2+.22),wy,z,.2,1.08,2.35,'#3d525b');
+   // El vidrio sobresale lo suficiente para separar sus caras del marco.
+   box(g,'Ventana_lateral_nivel_'+f,side*(w/2+.245),wy,z,.2,1.08,2.35,'#3d525b');
   }
   // Portones azules de taller mecánico (TMEC), rampas de acceso vehicular/peatonal y marquesina ligera roja (imagen_0036, 0065, 0093).
   for(const zDoor of [-4.5,4.5]){
@@ -1339,6 +1340,8 @@ const sectorViews={
  patioAcademico:{target:[943,.8,577],offset:[-14,25,35]},
  lCubierta:{target:[1057,8,523],offset:[-30,81,95]},
  talleres:{target:[1279,4,487],offset:[-36,71,88]},
+ p2Portones:{target:[1280,2.05,489],offset:[-14,3.7,11.4]},
+ p4Entrada:{target:[1339,1.63,459.3],offset:[-5.95,.84,7.8]},
  oLaboratorios:{target:[1245,2,434],offset:[2,2,-8.8]},
  mGimnasio:{target:[1235,.8,588],offset:[-10,10,-12]},
  jExterior:{target:[935,2.4,514],offset:[-37,13,-36]},
@@ -1351,7 +1354,8 @@ const corpusViews={p4patio:'P4_patio_cubierto_estudio',p4acero:'P4_conexiones_ac
 const cameraButtons=['approved','maps','top','plaza','pavilions','cosei','gdetail','parking','tdetail','wdetail','p2detail','serpentina',...Object.keys(sculptureViews),...Object.keys(artworkViews),...Object.keys(corpusViews)];
 const interiores={
  incalli:{crear:crearInteriorIncalli,titulo:'C · Auditorio Incalli',nota:'Corte esquemático de la sala según la galería y las fotografías de la UAM.'},
- libreria:{crear:crearVistaLibreria,titulo:'C · Librería UAM',nota:'Vista del cancel y el corredor según la fotografía de septiembre de 2016.'},
+ libreria:{crear:crearVistaLibreria,titulo:'C · Librería UAM',nota:'Vista del cancel, el corredor y el área de cajas y casilleros. El mobiliario se representa de forma esquemática.'},
+ galeriaDelTiempo:{crear:crearVistaGaleriaDelTiempo,titulo:'C · Galería del Tiempo',nota:'Corte de reconocimiento de la sala en planta baja. Montaje y medidas esquemáticos.'},
  biblioteca:{crear:crearInteriorBiblioteca,titulo:'I · Sala de lectura',nota:'Corte esquemático de la sala de doble altura. Ubicaciones interiores aproximadas.'},
  cafeteria:{crear:crearInteriorCafeteria,titulo:'J · Comedor',nota:'Corte esquemático basado en las fotos comunitarias de 2017.'},
  redes:{crear:crearInteriorG302,titulo:'G302-A · Aula de Redes',nota:'Piso 3. Corte esquemático basado en el recorrido de Electrónica y las fotografías del aula.'},

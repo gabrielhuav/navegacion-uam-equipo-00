@@ -2156,7 +2156,7 @@
     },
     {
       "id": "R",
-      "nombre": "Edificio R",
+      "nombre": "Edificio R · Gimnasio de duela",
       "nodo": "n50"
     },
     {
@@ -2608,6 +2608,38 @@
       "edificio": "W",
       "nivel": 3,
       "referencia": "La ruta llega al acceso del edificio W. Busca la señalización del tercer nivel, según Conexión CBI."
+    },
+    {
+      "id": "E311",
+      "nombre": "E311 · Aula Audiovisual",
+      "nodo": "n52",
+      "edificio": "E",
+      "nivel": 3,
+      "referencia": "La ruta termina en el acceso de E. El directorio de Electrónica ubica el aula audiovisual en el tercer piso."
+    },
+    {
+      "id": "F306",
+      "nombre": "F306 · Aula Audiovisual",
+      "nodo": "n87",
+      "edificio": "F",
+      "nivel": 3,
+      "referencia": "La ruta termina en el acceso de F. El directorio de Electrónica ubica el aula audiovisual en el tercer piso."
+    },
+    {
+      "id": "C_LIBRERIA",
+      "nombre": "Librería UAM Azcapotzalco",
+      "nodo": "n51",
+      "edificio": "C",
+      "nivel": 0,
+      "referencia": "La ruta termina en el acceso de C. Busca la Librería y Papelería en planta baja, según su sitio institucional."
+    },
+    {
+      "id": "C_GALERIA_TIEMPO",
+      "nombre": "Galería del Tiempo",
+      "nodo": "n51",
+      "edificio": "C",
+      "nivel": 0,
+      "referencia": "La ruta termina en el acceso de C. Busca la Galería del Tiempo en planta baja, dentro del corredor cultural."
     }
   ]
 }

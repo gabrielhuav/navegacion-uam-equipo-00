@@ -49,6 +49,7 @@ export function reconstruirCubiertasTalleres({THREE, data, buildingGroups, box, 
   }
   detallarConexionP({buildingGroups, box, material});
   detallarMarquesinaYEscaleraP1({THREE, buildingGroups, box});
+  detallarPortonesYMarquesinasP2({THREE, buildingGroups, box});
   detallarPatiosDeTalleres({THREE, data, buildingGroups, box, material, X, Z});
 }
 
@@ -100,12 +101,145 @@ function detallarMarquesinaYEscaleraP1({THREE, buildingGroups, box}) {
   escalera.removeFromParent();
 }
 
+// Detalle dentro de las envolventes ya modeladas. Corpus AZC 0065 y 0093.
+function detallarPortonesYMarquesinasP2({THREE, buildingGroups, box}) {
+  const taller = buildingGroups.get('P2')?.getObjectByName('P2_AZC_talleres_2P');
+  if (!taller || taller.getObjectByName('P2_paño_superior_del_portón')) return;
+  const azul = '#294a77', rojo = '#a33b34';
+  const portones = taller.children.filter(pieza => pieza.name === 'P2_porton_azul_taller');
+  for (const porton of portones) {
+    const {x, y, z} = porton.position;
+    const {x: espesor, y: alto, z: ancho} = porton.scale;
+    const lado = Math.sign(x);
+    const cara = x + lado * espesor / 2;
+    const cabezal = y + alto / 2;
+    const franja = alto * .31;
+    const columna = (ancho - .12) / 4;
+    for (let i = 0; i < 4; i++) {
+      const luz = z - ancho / 2 + .06 + (i + .5) * columna;
+      box(taller, 'P2_paño_superior_del_portón', cara + lado * .016,
+        cabezal - .055 - franja / 2, luz, .028, franja, columna - .065, i % 2 ? '#b9c3c5' : '#c8cbca');
+    }
+    box(taller, 'P2_travesaño_azul_del_portón', cara + lado * .027,
+      cabezal - franja - .086, z, .044, .072, ancho - .085, azul);
+    box(taller, 'P2_junta_de_las_hojas', cara + lado * .027,
+      y - franja / 2 - .012, z, .043, alto - franja - .12, .056, azul);
+    for (const hoja of [-1, 1]) {
+      box(taller, 'P2_tirador_del_portón', cara + lado * .047, y - .31, z + hoja * .15,
+        .050, .21, .052, '#99a39e');
+    }
+  }
+
+  const cubiertas = taller.children.filter(pieza => pieza.name === 'P2_marquesina_roja');
+  for (const cubierta of cubiertas) {
+    const {x, y, z} = cubierta.position;
+    const {x: ancho, y: alto, z: largo} = cubierta.scale;
+    cubierta.material = new THREE.MeshStandardMaterial({
+      color: '#e4dbc7', transparent: true, depthWrite: false, opacity: .58, roughness: .68
+    });
+    cubierta.userData.disposeMaterial = true;
+    cubierta.castShadow = false;
+    const bajo = y - alto / 2;
+    for (const retiro of [-.42, 0, .42]) {
+      box(taller, 'P2_larguero_rojo_de_marquesina', x + ancho * retiro, bajo, z, .098, .096, largo, rojo);
+    }
+    const claros = Math.ceil(largo / 3.7);
+    for (let i = 0; i <= claros; i++) {
+      const posZ = z + (i / claros - .5) * (largo - .10);
+      box(taller, 'P2_travesaño_rojo_de_marquesina', x, bajo - .012, posZ, ancho, .092, .082, rojo);
+      if (i % 3 === 1) {
+        box(taller, 'P2_luminaria_lineal_de_marquesina', x, bajo - .082, posZ,
+          ancho * .57, .038, .074, '#eee9d7');
+      }
+    }
+  }
+}
+
+// Paños de la galería de estudio. Corpus AZC 0016 y 0019.
+function detallarFachadaDeEstudioP4(volumen, cubierta, edificio, box, nivel) {
+  const escalones = volumen.children.filter(pieza => pieza.name === 'P4_escalinata_acceso')
+    .sort((a, b) => a.position.x - b.position.x);
+  if (!escalones.length || volumen.getObjectByName('P4_cancel_del_patio')) return;
+  const {z} = cubierta.position;
+  const fondo = cubierta.scale.z;
+  const cara = cubierta.position.x + cubierta.scale.x / 2 + .10;
+  const zEntrada = escalones[0].position.z;
+  const claro = escalones[0].scale.z;
+  const ladoA = zEntrada - claro / 2 - .15;
+  const ladoB = zEntrada + claro / 2 + .15;
+  if (ladoA <= z - fondo / 2 || ladoB >= z + fondo / 2) return;
+
+  const paño = (nombre, y, posZ, alto, ancho, color, saliente = .13) =>
+    box(volumen, nombre, cara - saliente, y, posZ, .058, alto, ancho, color);
+  const concreto = '#bdbbb2', terracota = '#a65e4c', vidrio = '#60706e', aluminio = '#e2dfd2';
+  const tramos = [];
+  for (const [inicio, fin] of [[z - fondo / 2, ladoA], [ladoB, z + fondo / 2]]) {
+    const cantidad = Math.max(1, Math.round((fin - inicio) / 5.4));
+    const ancho = (fin - inicio) / cantidad;
+    for (let i = 0; i < cantidad; i++) tramos.push({centro: inicio + (i + .5) * ancho, ancho});
+  }
+  tramos.push({centro: zEntrada, ancho: ladoB - ladoA});
+  for (let piso = 0; piso < edificio.floors; piso++) {
+    for (const {centro, ancho} of tramos) {
+      const y = piso * nivel + 2;
+      const acceso = piso === 0 && centro === zEntrada;
+      if (!acceso) {
+        paño('P4_entrepaño_terracota_del_patio', y, centro, 1.26, ancho, terracota);
+        for (const ventana of [-1, 1]) {
+          const centroVentana = centro + ventana * ancho * .26;
+          paño('P4_marco_claro_de_ventana', y - .07, centroVentana, .91, ancho * .40, aluminio, .17);
+          paño('P4_vidrio_de_ventana_del_patio', y - .07, centroVentana, .80, ancho * .36, vidrio, .21);
+          paño('P4_montante_de_ventana_del_patio', y - .07, centroVentana, .89, .045, aluminio, .24);
+        }
+      }
+      paño('P4_pilastra_gris_del_patio', y - .37, centro + ancho / 2 - .09, nivel, .18, concreto, .19);
+    }
+  }
+  for (let piso = 1; piso <= edificio.floors; piso++) {
+    paño('P4_losa_horizontal_de_fachada', piso * nivel - .43, z, .31, fondo, concreto, .165);
+  }
+
+  const altura = Math.max(...escalones.map(pieza => pieza.position.y + pieza.scale.y / 2));
+  const inicio = Math.min(...escalones.map(pieza => pieza.position.x - pieza.scale.x / 2));
+  const huella = (cara - inicio) / escalones.length;
+  escalones.forEach((escalon, i) => {
+    const y = altura * (i + 1) / escalones.length;
+    const x = inicio + (i + .5) * huella;
+    escalon.position.set(x, y / 2, zEntrada);
+    escalon.scale.set(huella, y, claro);
+    box(volumen, 'P4_borde_de_peldaño_de_loseta', x - huella / 2 + .019, y + .004,
+      zEntrada, .037, .013, claro, '#ba8370');
+    for (const junta of [-.25, 0, .25]) {
+      box(volumen, 'P4_junta_de_peldaño', x, y + .007, zEntrada + claro * junta,
+        huella - .042, .010, .012, '#906b58');
+    }
+  });
+
+  const anchoCancel = claro - .22;
+  const altoCancel = nivel - altura - .16;
+  paño('P4_cancel_del_patio', altura + altoCancel / 2, zEntrada, altoCancel, anchoCancel, vidrio, .165);
+  for (let i = 0; i <= 6; i++) {
+    const montante = zEntrada + (i / 6 - .5) * anchoCancel;
+    paño('P4_montante_del_cancel', altura + altoCancel / 2, montante, altoCancel, .073, aluminio, .207);
+  }
+  for (const y of [altura + .036, altura + altoCancel * .76, altura + altoCancel - .033]) {
+    paño('P4_travesaño_del_cancel', y, zEntrada, .073, anchoCancel, aluminio, .208);
+  }
+  for (const lado of [-1, 1]) {
+    paño('P4_tirador_del_cancel', altura + 1.04, zEntrada + lado * .19, .24, .046, aluminio, .259);
+    paño('P4_jamba_del_cancel', altura + altoCancel / 2, zEntrada + lado * (anchoCancel / 2 + .10),
+      altoCancel + .16, .18, concreto, .181);
+  }
+}
+
+
 function detallarPatiosDeTalleres({THREE, data, buildingGroups, box, material, X, Z}) {
   const edificio = data.buildings.find(b => b.id === 'P4');
   const naveP3 = data.buildings.find(b => b.id === 'P3');
   const volumen = buildingGroups.get('P4')?.getObjectByName('P4_volumen_0');
   const cubierta = volumen?.getObjectByName('P4_patio_cubierto_estudio');
-  if (!cubierta || volumen.getObjectByName('P4_pavimento_de_estudio')) return;
+  if (!edificio || !cubierta || volumen.getObjectByName('P4_pavimento_de_estudio')) return;
+  detallarFachadaDeEstudioP4(volumen, cubierta, edificio, box, data.storeyHeight);
 
   // La loseta terracota sigue el espacio bajo la cubierta y las franjas grises de 0016 y 0021.
   const {x, z} = cubierta.position;

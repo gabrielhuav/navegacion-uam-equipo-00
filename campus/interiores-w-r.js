@@ -53,19 +53,50 @@ function prepararCorte(THREE, nombre, evidencia) {
   return {group, caja, barra, marcarPiso, colocarMallas};
 }
 
-// Las dos fotos interiores del Edificio W, de febrero y agosto de 2022, muestran el mismo atrio.
+// Conexión CBI, p. 14, muestra la modulación del atrio y las instalaciones de las galerías.
 export function crearInteriorW(THREE) {
-  const {group, caja, barra, colocarMallas} = prepararCorte(THREE, 'Interior_W_Atrio', 'Google Maps: Edificio W, fotos 1 y 2; Recorrido en RV, 11:15–11:25');
+  const {group, caja, barra, colocarMallas} = prepararCorte(
+    THREE, 'Interior_W_Atrio', 'Conexión CBI núm. 19, pp. 13–14; Aleph UAM-A, 21 enero 2020; Recorrido en RV, 11:15–11:25',
+  );
   const concreto = '#b9bab1', junta = '#93968e', muro = '#deded2', rojo = '#a63c43';
   const piso = ['#303638', '#383e40', '#3c4243', '#34393c'];
+  const zMuro = -1.65, largoMuro = 20.65, altoMuro = 2.83;
+  const bandeja = '#727976', tuberia = '#8e4e49';
   const anchoAtrio = 10.0, fondo = 24, xInterior = anchoAtrio / 2, xExterior = 7.9;
   caja(concreto, 0, -.23, 0, 2 * xExterior, .42, fondo);
   caja('#55595a', 0, -.025, 0, anchoAtrio, .05, fondo);
-  for (let fila = 0; fila < 24; fila++) {
-    for (let col = 0; col < 10; col++) {
-      caja(piso[(fila * 5 + col + Math.floor(fila / 6)) % piso.length], col - 4.5, .005, fila - 11.5, .985, .015, .985);
+  const columnasPiso = 16, filasPiso = 38;
+  const anchoLoseta = anchoAtrio / columnasPiso, fondoLoseta = fondo / filasPiso;
+  for (let fila = 0; fila < filasPiso; fila++) {
+    for (let col = 0; col < columnasPiso; col++) {
+      const x = (col + .5) * anchoLoseta - xInterior;
+      const z = (fila + .5) * fondoLoseta - fondo / 2;
+      caja(piso[(fila * 5 + col + Math.floor(fila / 6)) % piso.length], x, .005, z, anchoLoseta - .014, .015, fondoLoseta - .014);
     }
   }
+
+  // Aparejo a media pieza generado en el visor, sin incorporar la fotografía.
+  const anchoMuestra = 64, altoMuestra = 32;
+  const ladrillo = new Uint8Array(anchoMuestra * altoMuestra * 4);
+  for (let y = 0; y < altoMuestra; y++) {
+    for (let x = 0; x < anchoMuestra; x++) {
+      const fila = Math.floor(y / 16);
+      const posicion = x + fila * 16;
+      const mortero = y % 16 === 0 || posicion % 32 < 2;
+      const tono = mortero ? 155 : 221 + (Math.floor(posicion / 32) + fila) % 3 * 4;
+      ladrillo.set([tono, tono - 3, tono - 12, 255], 4 * (y * anchoMuestra + x));
+    }
+  }
+  const esmalte = new THREE.DataTexture(ladrillo, anchoMuestra, altoMuestra);
+  esmalte.colorSpace = THREE.SRGBColorSpace;
+  esmalte.wrapS = esmalte.wrapT = THREE.RepeatWrapping;
+  esmalte.repeat.set(largoMuro / .64, altoMuro / .24);
+  esmalte.magFilter = THREE.LinearFilter;
+  esmalte.minFilter = THREE.LinearMipmapLinearFilter;
+  esmalte.generateMipmaps = true;
+  esmalte.needsUpdate = true;
+  const pañoEsmaltado = new THREE.PlaneGeometry(largoMuro, altoMuro);
+  const materialEsmaltado = new THREE.MeshStandardMaterial({map: esmalte, roughness: .69});
   caja(muro, 0, 4.2, -11.94, 2 * xExterior, 8.4, .12);
   // El video mira a ambos lados de la estructura de vidrio y muestra la pila al pie.
   const pilaZ = -10.78, vidrioZ = -10.94, anchoPila = 6.8;
@@ -85,8 +116,16 @@ export function crearInteriorW(THREE) {
   for (const x of [-2.5, -1.67, -.84, 0, .84, 1.67, 2.5]) {
     caja('#3b4f48', x, .315, pilaZ + .35, .10, .10, .15);
   }
-  caja(rojo, 5.3, 1.09, -11.84, 1.35, 2.18, .11);
-  caja(rojo, -5.75, 1.09, -11.84, 1.35, 2.18, .11);
+  for (const x of [5.3, -5.75]) {
+    caja('#5b615e', x, 1.11, -11.85, 1.47, 2.22, .09);
+    for (const lado of [-1, 1]) {
+      caja(rojo, x + lado * .339, 1.08, -11.79, .66, 2.16, .065);
+      caja('#c4bbb0', x + lado * .085, 1.03, -11.75, .048, .13, .022);
+    }
+  }
+  caja('#692e33', 6.75, 1.22, -11.8, .63, .68, .19);
+  caja('#b15455', 6.75, 1.22, -11.69, .5, .56, .036);
+  caja('#bba89e', 6.75, 1.27, -11.666, .28, .29, .016);
 
   for (const lado of [-1, 1]) {
     const corredor = lado * (xInterior + xExterior) / 2;
@@ -96,14 +135,37 @@ export function crearInteriorW(THREE) {
 
     for (let nivel = 0; nivel <= 2; nivel++) {
       const y = nivel * 3.02;
-      caja(muro, lado * xExterior, y + 1.42, -1.65, .16, 2.83, 20.65);
+      caja(muro, lado * xExterior, y + 1.42, zMuro, .16, altoMuro, largoMuro);
+      const ceramica = new THREE.Mesh(pañoEsmaltado, materialEsmaltado);
+      ceramica.position.set(lado * (xExterior - .086), y + 1.42, zMuro);
+      ceramica.rotation.y = -lado * Math.PI / 2;
+      ceramica.receiveShadow = true;
+      group.add(ceramica);
+
+      const xInstalaciones = lado * (xExterior - .68);
+      caja(tuberia, xInstalaciones - lado * .265, y + 2.76, zMuro, .058, .058, 19.8);
+      for (const desfase of [-.16, .16]) {
+        caja(bandeja, xInstalaciones + desfase, y + 2.64, zMuro, .032, .072, 19.8);
+      }
+      for (let z = -11.1; z < 8.15; z += .54) {
+        caja(bandeja, xInstalaciones, y + 2.62, z, .35, .03, .035);
+      }
       for (let tramo = 0; tramo < 6; tramo++) {
         const z = -9.75 + tramo * 3.30;
-        caja('#a8afa9', lado * (xExterior - .093), y + 2.22, z, .028, .66, 2.92);
-        caja('#d1d4cd', lado * (xExterior - .124), y + 2.22, z, .03, .69, .038);
-        caja(rojo, lado * (xExterior - .109), y + 1.01, z + .91, .043, 2.02, .84);
-        caja('#d4c5ab', lado * (xExterior - .142), y + 1.03, z + 1.17, .022, .098, .042);
-        caja('#efe9d7', corredor, y + 2.69, z, .115, .065, 1.81);
+        caja('#768581', lado * (xExterior - .102), y + 2.33, z, .038, .52, 2.92);
+        for (const desplazamiento of [-1.12, -.37, .39, 1.13]) {
+          caja('#c9c9bf', lado * (xExterior - .13), y + 2.33, z + desplazamiento, .035, .54, .044);
+        }
+
+        const zPuerta = z + .91;
+        caja('#5e6661', lado * (xExterior - .103), y + 1.033, zPuerta, .054, 2.066, .94);
+        caja(rojo, lado * (xExterior - .141), y + 1.006, zPuerta, .048, 2.012, .84);
+        caja('#d4c5ab', lado * (xExterior - .174), y + 1.03, zPuerta + .26, .026, .10, .042);
+        caja('#e9e4d8', lado * (xExterior - .17), y + 1.515, zPuerta - .19, .017, .13, .155);
+
+        caja('#a0a39a', corredor, y + 2.74, z, .24, .09, 1.83);
+        caja('#efe9d7', corredor, y + 2.685, z, .20, .032, 1.78);
+        caja('#939a92', xInstalaciones, y + 2.78, z + .64, .032, .24, .038);
       }
       if (nivel === 0) continue;
       caja(concreto, corredor, y - .17, -.57, anchura, .34, 22.84);
@@ -120,6 +182,10 @@ export function crearInteriorW(THREE) {
     caja(concreto, 0, y - .16, -9.75, 2 * xExterior, .32, 2.12);
     caja(concreto, 0, y + .33, -8.72, anchoAtrio, .66, .12);
     caja(rojo, 0, y + .73, -8.72, anchoAtrio, .065, .065);
+    for (let x = -4.25; x <= 4.25; x += 1.0625) {
+      caja(junta, x, y + .33, -8.656, .018, .63, .01);
+      caja(rojo, x, y + .695, -8.72, .044, .082, .045);
+    }
   }
 
   for (let bloque = 0; bloque < 3; bloque++) {
@@ -164,7 +230,10 @@ export function crearInteriorW(THREE) {
     const [x0, y0] = perfil[i - 1];
     const [x1, y1] = perfil[i];
     const giro = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), Math.atan2(y1 - y0, x1 - x0));
-    caja('#c2d9df', (x1 + x0) / 2, (y1 + y0) / 2 + .037, -6.39, Math.hypot(x1 - x0, y1 - y0), .035, 6.81, giro, .41);
+    for (let paño = 0; paño < 5; paño++) {
+      const z = -8.66 + paño * 2.28;
+      caja('#c2d9df', (x1 + x0) / 2, (y1 + y0) / 2 + .037, z, Math.hypot(x1 - x0, y1 - y0), .035, 2.24, giro, .31);
+    }
   }
 
   colocarMallas();

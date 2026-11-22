@@ -177,7 +177,7 @@ export function crearInteriorIncalli(THREE) {
 export function crearVistaLibreria(THREE) {
   const group = new THREE.Group();
   group.name = 'Vista_esquematica_cancel_Libreria_C';
-  group.userData = {approximate:true,visualOnly:true,reference:'Librería UAM Azcapotzalco, foto Maps de septiembre de 2016'};
+  group.userData = {approximate:true,visualOnly:true,reference:'Librería UAM-A y Aleph núm. 146, p. 4; disposición de mobiliario esquemática'};
   const {caja} = formas(THREE,group);
   const vidrio = new THREE.MeshStandardMaterial({color:'#bad2d0',transparent:true,opacity:.27,roughness:.22});
   const zCancel = .04, gris = '#8d9b99';
@@ -213,8 +213,68 @@ export function crearVistaLibreria(THREE) {
     caja('Base_pedestal_control_Libreria','#777d79',x,.051,-.52,.19,.10,.41);
     caja('Pedestal_control_Libreria','#9ba5a0',x,.68,-.53,.095,1.33,.32);
   }
+  // Aleph documenta tres cajas y un área de lockers. El corte conserva abierto el acceso central.
+  for (const z of [-4.55,-3.35,-2.15]) {
+    caja('Mostrador_caja_Libreria','#956c50',3.53,.51,z,.74,1.02,1.14);
+    caja('Cubierta_mostrador_Libreria','#c19b74',3.51,1.035,z,.82,.11,1.20);
+    caja('Terminal_caja_Libreria','#565b59',3.55,1.23,z,.12,.28,.30);
+  }
+  for (const z of [-1.38,-.94,-.50]) {
+    for (let nivel=0;nivel<4;nivel++) {
+      const y = .26 + nivel*.38;
+      caja('Puerta_locker_Libreria','#a1a8a4',4.27,y,z,.38,.36,.416);
+      caja('Cerradura_locker_Libreria','#5c6461',4.071,y,z-.116,.027,.085,.028);
+    }
+  }
   caja('Dintel_Libreria','#a8a398',0,2.99,.01,9.66,.42,.23);
   caja('Friso_rojo_Libreria','#8e3833',0,3.015,.149,6.0,.31,.07);
   return {group,target:[0,1.25,-.48],camera:[8.4,5.2,11.4],
     etiquetas:[{texto:'Librería UAM Azcapotzalco',posicion:[0,3.29,.16]}]};
+}
+
+export function crearVistaGaleriaDelTiempo(THREE) {
+  const group = new THREE.Group();
+  group.name = 'Corte_esquematico_Galeria_del_Tiempo_C';
+  group.userData = {
+    approximate: true,
+    visualOnly: true,
+    reference: 'Aleph 259 p. 12 y Aleph 368 p. 18. Sala C PB, Guía Universitaria núm. 183.'
+  };
+  const {caja} = formas(THREE,group);
+  const muro = '#ece9e1';
+  const marco = '#474440';
+  caja('Piso_corte_Galeria','#aaa192',0,-.12,0,12.8,.24,9.4);
+  caja('Muro_fondo_Galeria',muro,0,1.78,-4.6,12.8,3.56,.20);
+  caja('Muro_lateral_Galeria',muro,-6.3,1.78,-.76,.20,3.56,7.48);
+  caja('Seccion_muro_lateral_Galeria',muro,6.3,.38,-.76,.20,.76,7.48);
+  caja('Rodapie_fondo_Galeria','#d3cbc0',0,.08,-4.479,12.36,.16,.045);
+  caja('Rodapie_lateral_Galeria','#d3cbc0',-6.179,.08,-.76,.045,.16,7.24);
+  for (let z=-3.9;z<4.5;z+=.78) {
+    caja('Junta_piso_Galeria','#918a80',0,.001,z,12.4,.004,.013);
+  }
+  for (let x=-5.96;x<6.1;x+=.78) {
+    caja('Junta_piso_Galeria','#918a80',x,.001,0,.013,.004,8.92);
+  }
+
+  // Los marcos representan el montaje sin reproducir las piezas expuestas.
+  for (const [x,ancho,alto] of [[-4.69,1.10,1.00],[-2.87,1.14,1.14],[-.83,1.50,1.02],[1.45,1.42,1.06],[3.75,1.59,1.14]]) {
+    caja('Marco_exposicion_Galeria',marco,x,1.69,-4.46,ancho,alto,.07);
+    caja('Paspartu_neutro_Galeria','#f7f2e3',x,1.69,-4.418,ancho-.09,alto-.09,.027);
+    caja('Plano_expositivo_neutro','#b6aea0',x,1.69,-4.40,ancho*.68,alto*.67,.009);
+  }
+  for (const [z,ancho] of [[-3.21,1.16],[-1.43,1.22],[.39,1.04]]) {
+    caja('Marco_lateral_Galeria',marco,-6.17,1.71,z,.07,1.12,ancho);
+    caja('Paspartu_lateral_Galeria','#f7f2e3',-6.129,1.71,z,.027,1.025,ancho-.09);
+    caja('Plano_expositivo_lateral_neutro','#c5b7a4',-6.109,1.71,z,.009,.68,ancho*.67);
+  }
+  for (const z of [-3.33,-.30]) {
+    caja('Riel_de_iluminacion_Galeria','#74716b',0,3.45,z,11.65,.09,.065);
+    for (const x of [-4.7,-2.35,0,2.35,4.7]) {
+      caja('Soporte_luminaria_Galeria','#77746d',x,3.30,z,.055,.24,.055);
+      caja('Luminaria_dirigida_Galeria','#dedbd3',x,3.13,z-.055,.15,.16,.17);
+    }
+  }
+  return {group,target:[0,1.11,-.4],camera:[11.9,9.0,13.7],etiquetas:[
+    {texto:'Galería del Tiempo',posicion:[0,3.71,-4.45]}
+  ]};
 }
