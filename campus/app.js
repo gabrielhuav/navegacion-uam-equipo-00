@@ -19,7 +19,7 @@ import {bloqueaArboladoEnAccesos,crearDetallesMapsAccesos,tramoRejaCICTE} from '
 import {crearDetallesMapsPlazas,detallarAroSerpentina} from 'detalles-maps-plazas';
 import {crearDetallesMapsPonente,cubrePerimetroMapsPonente} from 'detalles-maps-ponente';
 import {crearDetallesMapsCorredorCultural,detallarGaleriaCulturalE,crearInteriorIncalli,crearVistaLibreria,crearVistaGaleriaDelTiempo} from 'detalles-maps-corredor-cultural';
-import {construirCanchasDeportivas,construirGradasDeportivas,construirFachadaQ,detallarAccesoDeportivo,perimetroCruzaFutbol7,superficiesDeportivas} from 'detalles-deportivos-maps';
+import {construirAndadorMulticanchas,construirCanchasDeportivas,construirGradasDeportivas,construirFachadaQ,detallarAccesoDeportivo,perimetroCruzaFutbol7,superficiesDeportivas} from 'detalles-deportivos-maps';
 import {construirJardinTresGracias} from 'jardin-tres-gracias';
 import {parcelasVerdesHHP,andadorHHP,trazadosHHP,construirPaisajeHHP} from 'paisaje-h-hp';
 import {contornoPlazaEgresados,crearPlazaEgresados} from 'plaza-egresados';
@@ -1254,6 +1254,7 @@ function generate(){
  }
  // Campo natural, canchas y gradas, contrastados con Maps y las fotos de la UAM.
  construirCanchasDeportivas({THREE,world,box,slab,meshPoly,line,X,Z,S});
+ construirAndadorMulticanchas({THREE,world,meshPoly,line,X,Z});
  construirGradasDeportivas({THREE,world,box,X,Z});
  detallarAccesoDeportivo({THREE,world,slab});
  for(const [key,title] of [['campo','Campo de fútbol'],['basquet','Multicanchas'],['futbol7','Fútbol 7']]){
@@ -1404,6 +1405,7 @@ const sectorViews={
  kEstacionamiento:{target:[1032,5.8,380],offset:[-11,3.3,-26]},
  qExterior:{target:[1593,1.55,550],offset:[-56,12,-7]},
  rExterior:{target:[1370,5.1,280],offset:[-36,16,56]},
+ andadorDeportivo:{target:[1510,1.2,456],offset:[-4,59,-38]},
  deportes:{target:[1565,1.65,555],offset:[-62,121,144]},
  gradas:{target:[1602,2.25,668.25],offset:[-17.6,8.5,-13.5]},
  futbol7:{target:[1629.25,1.7,662.5],offset:[-31,29,-25]},

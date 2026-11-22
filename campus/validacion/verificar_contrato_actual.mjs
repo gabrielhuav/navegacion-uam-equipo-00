@@ -13,7 +13,7 @@ const data=JSON.parse(await read('campus_editado.json'));
 const geo=JSON.parse(await read('georreferencia.json'));
 const net=JSON.parse(await read('rutas.json'));
 const {ORIGINAL}=await import(pathToFileURL(path.join(campus,'model-data.js')).href);
-const {routeIssues,modelToGeo}=await import(pathToFileURL(path.join(campus,'route-space.js')).href);
+const {routeIssues,modelToGeo,segmentCuts}=await import(pathToFileURL(path.join(campus,'route-space.js')).href);
 const {BASE_ROUTES,ROUTE_GEO}=await import(pathToFileURL(path.join(campus,'route-data.js')).href);
 const parseGlb=async name=>{
   const raw=await file(name);
@@ -70,6 +70,21 @@ const imports=JSON.parse(html.match(/<script type="importmap">([\s\S]*?)<\/scrip
 const embedded=Buffer.from(imports['model-data'].split(',')[1],'base64').toString('utf8');
 assert.deepEqual(JSON.parse(embedded.match(/export const ORIGINAL = ([\s\S]*);$/)[1]),data,'Portátil pierde datos guardados');
 const marked=await parseGlb('UAM_Azcapotzalco.glb'),plain=await parseGlb('UAM_Azcapotzalco_sin_marca.glb');
+// Las superficies de juego no son pasos peatonales hacia Q ni hacia los talleres.
+const routeNodes=new Map(net.nodos.map(node=>[node.id,node]));
+for(const name of ['Cancha_borde_terracota','Campo_futbol']){
+  const surface=marked.gltf.nodes.find(node=>node.name===name);
+  assert.ok(surface?.matrix?.length===16,'Falta la superficie exportada '+name);
+  const matrix=surface.matrix;
+  const footprint=[[-.5,-.5],[.5,-.5],[.5,.5],[-.5,.5]].map(([u,v])=>({
+    x:matrix[12]+u*matrix[0]+v*matrix[8],
+    z:matrix[14]+u*matrix[2]+v*matrix[10],
+  }));
+  for(const {de,a} of net.aristas){
+    assert.ok(!segmentCuts(routeNodes.get(de),routeNodes.get(a),footprint),
+      `El tramo ${de}–${a} atraviesa la superficie de juego ${name}`);
+  }
+}
 for(const {gltf} of [marked,plain]){
   const buildingRoots=gltf.nodes.filter(x=>/^Edificio_/.test(x.name||''));
   assert.equal(buildingRoots.length,data.buildings.length);

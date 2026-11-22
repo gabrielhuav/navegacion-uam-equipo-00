@@ -1030,28 +1030,28 @@
     },
     {
       "id": "n113",
-      "lat": 19.50390124,
-      "lon": -99.19058789,
-      "x": 323.4731,
-      "z": 24.3713,
+      "lat": 19.50394492,
+      "lon": -99.19034482,
+      "x": 301.0958,
+      "z": 32.5689,
       "nivel": 0,
       "tipo": "cruce"
     },
     {
       "id": "n114",
-      "lat": 19.50413661,
-      "lon": -99.19054689,
-      "x": 323.4731,
-      "z": 48.7425,
+      "lat": 19.50405833,
+      "lon": -99.19032507,
+      "x": 301.0958,
+      "z": 44.3114,
       "nivel": 0,
       "tipo": "cruce"
     },
     {
       "id": "n115",
-      "lat": 19.5042201,
-      "lon": -99.19051836,
-      "x": 322.1437,
-      "z": 57.6048,
+      "lat": 19.50409043,
+      "lon": -99.19031948,
+      "x": 301.0958,
+      "z": 47.6347,
       "nivel": 0,
       "tipo": "entrada"
     },
@@ -1124,6 +1124,15 @@
       "lon": -99.18662248,
       "x": -61.1497,
       "z": 38.994,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n124",
+      "lat": 19.50385041,
+      "lon": -99.18973418,
+      "x": 241.497,
+      "z": 32.5689,
       "nivel": 0,
       "tipo": "cruce"
     }
@@ -1971,8 +1980,15 @@
     },
     {
       "de": "n111",
+      "a": "n124",
+      "metros": 8.92,
+      "tipo": "exterior",
+      "accesible": true
+    },
+    {
+      "de": "n124",
       "a": "n112",
-      "metros": 69.92,
+      "metros": 61,
       "tipo": "exterior",
       "accesible": true
     },
@@ -1984,23 +2000,23 @@
       "accesible": true
     },
     {
-      "de": "n111",
+      "de": "n124",
       "a": "n113",
-      "metros": 89.21,
+      "metros": 64.86,
       "tipo": "exterior",
       "accesible": true
     },
     {
       "de": "n113",
       "a": "n114",
-      "metros": 26.52,
+      "metros": 12.78,
       "tipo": "exterior",
       "accesible": true
     },
     {
       "de": "n114",
       "a": "n115",
-      "metros": 9.75,
+      "metros": 3.62,
       "tipo": "exterior",
       "accesible": true
     },
@@ -2152,7 +2168,7 @@
       "id": "Q",
       "nombre": "Q · Gimnasio de pesas",
       "nodo": "n115",
-      "referencia": "Punto aproximado. Dentro del campus, busca la fachada de Q junto al campo natural y confirma la puerta de pesas con la señalización local."
+      "referencia": "Sigue el andador entre las multicanchas y el campo natural hasta la fachada de Q. La llegada es aproximada; identifica la puerta de pesas con la señalización local."
     },
     {
       "id": "R",

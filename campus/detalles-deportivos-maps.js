@@ -240,6 +240,22 @@ function detallarAzoteaQ({THREE,grupo,w,d,techo,box,material}) {
 // Límites estimados tras proyectar la imagen aérea al croquis existente.
 export const superficiesDeportivas={campo:[1453,467,1572,684],basquet:[1462,398,1576,460],futbol7:[1589,602,1671,724]};
 
+// El plano de Protección Civil de 2026 dibuja la franja alrededor del campo.
+export function construirAndadorMulticanchas({THREE,world,meshPoly,line,X,Z}) {
+ const andador=new THREE.Group();
+ andador.name='Andador_multicanchas_hacia_Q';
+ andador.userData={approximate:true,reference:'Plano de Protección Civil UAM-A de 2026; ortofoto Esri y corpus 0096'};
+ world.add(andador);
+ // La vuelta enlaza el lado de 3P con la franja entre las canchas y el campo.
+ // Al llegar a Q se une al pavimento que ya acompaña su fachada.
+ meshPoly(andador,[
+  [1437,416],[1443,416],[1443,461],[1577,461],[1577,494.6],[1572.4,494.6],
+  [1572.4,466.4],[1443,466.4],[1443,591],[1437,591]
+ ],.315,'#c5c2b6','Pavimento_del_andador_deportivo');
+ const borde=[[1462,460.27],[1576,460.27]].map(([x,z])=>[X(x),Z(z)]);
+ line(andador,borde,'#9d9e91',.22,.317);
+}
+
 // Guías visuales del acabado: CGA AZC (infraestructura) y corpus 0074, 0075, 0096.
 export function construirCanchasDeportivas({THREE, world, box, slab, meshPoly, line, X, Z, S}) {
  const group=new THREE.Group();
