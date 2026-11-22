@@ -1,5 +1,9 @@
 # Campus UAM Azcapotzalco · modelo 2D/3D
 
+## Revisión integral en 20 zonas · 22 noviembre 2026
+
+Cada zona del inventario tiene una mejora nueva y un antes y después. Entre los cambios están las celosías de T, la escalera monumental de W, los lucernarios de CyAD y la separación entre el campo y las multicanchas. El buscador incluye D-102. [Las veinte comparaciones, fuentes y fechas](REVISION_INTEGRAL_20_ZONAS_AZC_2026-11-22.md).
+
 ## Implementación de la inspección en 20 zonas · 21 noviembre 2026
 
 El candidato detalla los pórticos de San Pablo, el jardín B–D, el cruce de G, el patio de H, el jardín de HP, el borde de Eje 5 y tres cierres deportivos. Los cortes de J, L y W incorporan los detalles de sus cubiertas o umbral. El buscador suma LAPLACE y Teletráfico y Comunicaciones Ópticas, con llegada al edificio W. [Cambios y pendientes por zona](IMPLEMENTACION_MAPS_20_ZONAS_AZC_2026-11-21.md).

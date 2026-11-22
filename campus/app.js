@@ -28,6 +28,10 @@ import {construirLlegadaPuerta6,excluirArboladoAmbientalPuerta6} from 'llegada-p
 import {crearEsculturaPielDelMar} from 'escultura-piel-del-mar';
 import {crearEsculturaDosSoluciones} from 'escultura-dos-soluciones';
 import {crearEsculturaPrimavera} from 'escultura-primavera';
+import {modelarZonasPoniente,mejorarInteriorIncalli} from 'revision-zonas-poniente';
+import {modelarZonasCentro} from 'revision-zonas-centro';
+import {modelarZonasOriente} from 'revision-zonas-oriente';
+import {modelarZonasCafeteriaDeportes} from 'revision-zonas-cafeteria-deportes';
 import {construirEdificioO,construirGaleriaSTalleres,reconstruirCubiertasTalleres} from 'sector-talleres-deportes';
 import {construirPlazaRoja,construirCuerpoConGaleriaF,construirPorticoV1} from 'sector-acceso-plaza';
 import {crearPlazasAjedrez} from 'plazas-ajedrez';
@@ -1367,6 +1371,11 @@ function generate(){
  for(const [i,p] of (data.jacarandas||[]).entries())jacaranda(p[0],p[1],i);
  for(const px of [715,877])for(let py=436;py<565;py+=48){if(data.cosei&&px>760&&py>=480)continue;if(!data.sculpture||Math.hypot(px-data.sculpture.position[0],py-data.sculpture.position[1])>18)tree(px,py,.6);}
  label('Eje 5 Norte · Montevideo',X(870),2,Z(743),'place');label('Av. San Pablo',X(-8),2,Z(400),'place');
+ const contextoRevision={THREE,world,data,buildingGroups,box,material,meshPoly,slab,line,X,Z,S,net:routeEditor?.getNet()||BASE_ROUTES};
+ modelarZonasPoniente(contextoRevision);
+ modelarZonasCentro(contextoRevision);
+ modelarZonasOriente(contextoRevision);
+ modelarZonasCafeteriaDeportes(contextoRevision);
  vegetation.visible=$('trees').checked;syncLabels();
  addCopyrightToModel();world.updateMatrixWorld(true);selectBuilding(selected);refreshEditor();routeEditor?.refresh();
 }
@@ -1445,7 +1454,7 @@ const sectorViews={
 const corpusViews={p4patio:'P4_patio_cubierto_estudio',p4acero:'P4_conexiones_acero_corpus',p2invernadero:'P2_invernadero_lateral'};
 const cameraButtons=['approved','maps','top','plaza','pavilions','cosei','gdetail','parking','tdetail','wdetail','p2detail','serpentina',...Object.keys(sculptureViews),...Object.keys(artworkViews),...Object.keys(corpusViews)];
 const interiores={
- incalli:{crear:crearInteriorIncalli,titulo:'C · Auditorio Incalli',nota:'Corte esquemático de la sala según la galería y las fotografías de la UAM.'},
+ incalli:{crear:Three=>mejorarInteriorIncalli(Three,crearInteriorIncalli(Three)),titulo:'C · Auditorio Incalli',nota:'Corte esquemático de la sala según la galería y las fotografías de la UAM.'},
  libreria:{crear:crearVistaLibreria,titulo:'C · Librería UAM',nota:'Vista del cancel, el corredor y el área de cajas y casilleros. El mobiliario se representa de forma esquemática.'},
  galeriaDelTiempo:{crear:crearVistaGaleriaDelTiempo,titulo:'C · Galería del Tiempo',nota:'Corte de reconocimiento de la sala en planta baja. Montaje y medidas esquemáticos.'},
  biblioteca:{crear:crearInteriorBiblioteca,titulo:'I · Sala de lectura',nota:'Corte esquemático de la sala de doble altura. Ubicaciones interiores aproximadas.'},

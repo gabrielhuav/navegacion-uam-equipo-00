@@ -2730,6 +2730,14 @@
       "referencia": "La ruta termina en el acceso de C. Busca la Oficina Técnica del Consejo Académico en el tercer piso."
     },
     {
+      "id": "D-102",
+      "nombre": "D-102 · Núcleo docente de Posgrados CyAD",
+      "nodo": "n33",
+      "edificio": "D",
+      "nivel": 1,
+      "referencia": "La ruta termina en el acceso de D. Busca el salón D-102 en el núcleo de Posgrados CyAD, primer piso, sección centro."
+    },
+    {
       "id": "D007",
       "nombre": "D007 · Sala de capacitación",
       "nodo": "n33",
