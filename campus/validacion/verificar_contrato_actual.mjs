@@ -13,7 +13,7 @@ const data=JSON.parse(await read('campus_editado.json'));
 const geo=JSON.parse(await read('georreferencia.json'));
 const net=JSON.parse(await read('rutas.json'));
 const {ORIGINAL}=await import(pathToFileURL(path.join(campus,'model-data.js')).href);
-const {routeIssues,modelToGeo,segmentCuts}=await import(pathToFileURL(path.join(campus,'route-space.js')).href);
+const {routeIssues,modelToGeo,pointInside,segmentCuts}=await import(pathToFileURL(path.join(campus,'route-space.js')).href);
 const {BASE_ROUTES,ROUTE_GEO}=await import(pathToFileURL(path.join(campus,'route-data.js')).href);
 const parseGlb=async name=>{
   const raw=await file(name);
@@ -26,7 +26,7 @@ assert.deepEqual(JSON.parse(await read('campus_base.json')),ORIGINAL,'Base incom
 assert.deepEqual(net,BASE_ROUTES,'Portátil/red incorporada obsoletos');assert.deepEqual(geo,ROUTE_GEO);
 assert.deepEqual(routeIssues(net,data,geo),[],'Rutas cortan obstáculos canónicos o tienen datos inválidos');
 assert.ok(net.nodos.length>=115&&net.aristas.length>=120);
-assert.equal(net.destinos.filter(d=>!d.edificio).length,31);
+assert.equal(net.destinos.filter(d=>!d.edificio).length,32);
 assert.ok(net.perimetro?.length>=3,'Falta el límite para iniciar rutas desde el GPS');
 assert.ok(net.destinos.some(d=>d.edificio==='G'&&d.id==='G302-A'));
 assert.ok(net.destinos.some(d=>d.edificio==='T'&&d.id==='T_CSE'));
@@ -63,6 +63,14 @@ for(const e of net.aristas){links.get(e.de).push(e.a);links.get(e.a).push(e.de);
 const seen=new Set(),queue=[net.nodos[0].id];
 while(queue.length){const id=queue.pop();if(seen.has(id))continue;seen.add(id);queue.push(...links.get(id));}
 assert.equal(seen.size,net.nodos.length);
+const puertasPeatonales = new Map([
+  ['V1', 'ACCESO_PUERTA_2'], ['P1', 'ACCESO_P1'], ['P2', 'ACCESO_P2'], ['P3', 'ACCESO_P3'],
+]);
+assert.deepEqual(net.destinos.filter(d => d.id.startsWith('ACCESO_')).map(d => d.id).sort(),
+  [...puertasPeatonales.values()].sort());
+const cruz = (a, b, c) => (b.x - a.x) * (c.z - a.z) - (b.z - a.z) * (c.x - a.x);
+const mismosLados = (a, b, c, d) => cruz(a, b, c) * cruz(a, b, d) >= -1e-8;
+const enModelo = ([x, z]) => ({ x, z });
 const app=await read('app.js'),html=await read('Visor_UAM_autonomo.html');
 assert.ok(html.includes(app),'Código portátil obsoleto: ejecutar build.mjs');
 assert.ok(/xMin:\s*-390,\s*xMax:\s*390,\s*zMin:\s*-150,\s*zMax:\s*170,\s*pxPorMetro:\s*2/.test(app));
@@ -122,6 +130,41 @@ for (const {gltf} of [marked, plain]) {
     assert.equal(paños.filter(paño => paño.name === 'Encuentro_reja_' + acceso).length, 2);
   }
   assert.equal(paños.filter(paño => paño.name === 'Vuelta_exterior_Futbol_7').length, 3);
+  const tramosReja = paños.filter(paño => !paño.name.startsWith('Poste_reja_'))
+    .map(paño => paño.extras.extremosXZ.map(enModelo));
+  for (const { de, a } of net.aristas) {
+    const inicio = routeNodes.get(de), fin = routeNodes.get(a);
+    assert.ok(tramosReja.every(([c, d]) => mismosLados(inicio, fin, c, d) || mismosLados(c, d, inicio, fin)),
+      'La reja atraviesa el eje peatonal ' + de + '–' + a);
+  }
+  for (const [puerta, destino] of puertasPeatonales) {
+    const acceso = net.destinos.find(d => d.id === destino);
+    const piso = gltf.nodes.find(nodo => nodo.name === 'Andador_Puerta_' + puerta);
+    assert.ok(piso?.mesh >= 0 && gltf.nodes.some(nodo => nodo.name === 'Banqueta_Puerta_' + puerta && nodo.mesh >= 0),
+      'Falta el pavimento desde la banqueta de ' + puerta);
+    const { nodos, huellaXZ } = piso.extras;
+    assert.equal(nodos[0], acceso.nodo);
+    const primero = routeNodes.get(nodos[0]);
+    assert.equal(primero.tipo, 'acceso');
+    const retornos = paños.filter(paño => paño.name === 'Encuentro_reja_' + puerta);
+    const umbral = retornos.length ? retornos.map(paño => paño.extras.extremosXZ[0]) :
+      vanos.find(vano => vano.id === puerta).extremosXZ;
+    const [a, b] = umbral.map(enModelo);
+    assert.ok(Math.abs(cruz(a, b, primero)) < .002 &&
+      (primero.x - a.x) * (primero.x - b.x) + (primero.z - a.z) * (primero.z - b.z) < 0,
+      'El inicio no está sobre el vano de ' + puerta);
+    const huella = huellaXZ.map(enModelo);
+    for (let i = 1; i < nodos.length; i++) {
+      assert.ok(links.get(nodos[i - 1]).includes(nodos[i]), 'Falta enlazar el andador de ' + puerta);
+      const inicio = routeNodes.get(nodos[i - 1]), fin = routeNodes.get(nodos[i]);
+      for (const t of [0, .25, .5, .75, 1]) {
+        assert.ok(pointInside({ x: inicio.x + t * (fin.x - inicio.x), z: inicio.z + t * (fin.z - inicio.z) }, huella),
+          'El eje sale del pavimento de ' + puerta);
+      }
+    }
+    assert.ok(links.get(nodos.at(-1)).some(id => !nodos.includes(id)), 'Andador sin salida a la red: ' + puerta);
+  }
+  assert.ok(gltf.nodes.some(nodo => nodo.name === 'Continuidad_vehicular_Puerta_7' && nodo.mesh >= 0));
 }
 assert.equal(plain.gltf.nodes.some(x=>x.name==='Marca_copyright_modelo'||x.name?.startsWith('Copyright_integrado_')),false);
 if(data.showCopyright!==false){

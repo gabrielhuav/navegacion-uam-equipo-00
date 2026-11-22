@@ -38,6 +38,10 @@ import {modelarAccesosOriente,detallarVistasOriente} from 'accesos-zonas-oriente
 import {detallarZonasSanPablo,detallarCortesSanPablo} from 'detalle-zonas-san-pablo';
 import {detallarZonasAcademicas,detallarCortesAcademicos} from 'detalle-zonas-academicas';
 import {detallarZonasDeportivas,detallarCortesDeportivos} from 'detalle-zonas-deportivas';
+import {construirCaminosDePuertas} from 'caminos-de-puertas';
+import {aplicarCuartaPasadaPoniente,interiorCuartaPasadaPoniente} from 'cuarta-pasada-poniente';
+import {modelarCuartaPasadaCentro,detallarCortesCuartaPasadaCentro} from 'cuarta-pasada-centro';
+import {detallarCuartaPasadaOriente,detallarCortesCuartaPasadaOriente} from 'cuarta-pasada-oriente';
 import {construirEdificioO,construirGaleriaSTalleres,reconstruirCubiertasTalleres} from 'sector-talleres-deportes';
 import {construirPlazaRoja,construirCuerpoConGaleriaF,construirPorticoV1} from 'sector-acceso-plaza';
 import {crearPlazasAjedrez} from 'plazas-ajedrez';
@@ -1343,6 +1347,7 @@ function generate(){
  const vueltaCampo=vueltaExteriorFutbol7(data.site[2],data.site[3],S());
  const detallesPonente=crearDetallesMapsPonente(THREE,data,encuentrosReja,vueltaCampo);
  world.add(detallesAccesos,crearDetallesMapsPlazas(THREE,data),detallesPonente,corredorCultural);
+ construirCaminosDePuertas({THREE,world,data,net:routeEditor?.getNet()||BASE_ROUTES,meshPoly,vanos:detallesPonente.userData.vanos});
  // El trazado se calcula después de las geometrías reales y de sus transformaciones editadas.
  parkingObstaclesCache=null;
  for(const [i,r] of data.parking.entries())parkingArea(r,'parking_'+i,'Estacionamiento '+(i+1));
@@ -1352,8 +1357,7 @@ function generate(){
   // V2 permanece reservado en el croquis. La lámina se ve continua en Street View.
   if(gate.id==='V2')continue;
   const vehicular=gate.type==='vehicle';
-  if(gate.id==='V3')box(world,'Acceso_V3',X(gate.x),.5,Z(gate.y),7,.6,5,'#bc3535');
-  const puertas={V1:'Puerta 2',P1:'Puerta 4',P2:'Puerta 5',P3:'Puerta 6'};
+  const puertas={V1:'Puerta 2',P1:'Puerta 4',P2:'Puerta 5',P3:'Puerta 6',V3:'Puerta 7 · Vehicular'};
   label(puertas[gate.id]||(vehicular?'Auto':'Peatón'),X(gate.x),5,Z(gate.y),gate.type);
  }
  let seed=1729;const rand=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};
@@ -1380,6 +1384,9 @@ function generate(){
  detallarZonasSanPablo(contextoRevision);
  detallarZonasAcademicas(contextoRevision);
  detallarZonasDeportivas(contextoRevision);
+ aplicarCuartaPasadaPoniente(contextoRevision);
+ modelarCuartaPasadaCentro(contextoRevision);
+ detallarCuartaPasadaOriente(contextoRevision);
  vegetation.visible=$('trees').checked;syncLabels();
  addCopyrightToModel();world.updateMatrixWorld(true);selectBuilding(selected);refreshEditor();routeEditor?.refresh();
 }
@@ -1509,6 +1516,9 @@ function openInterior(id){
   detallarCortesSanPablo(id,THREE,model);
   detallarCortesAcademicos(id,THREE,model);
   detallarCortesDeportivos(id,THREE,model);
+  interiorCuartaPasadaPoniente(id,THREE,model);
+  detallarCortesCuartaPasadaCentro(id,THREE,model);
+  detallarCortesCuartaPasadaOriente(id,THREE,model);
   enclosure.model=model;
  }
  const model=enclosure.model;
@@ -1761,8 +1771,8 @@ function vialidadEstacionamientos(){
   // Cruzar el carril es la única excepción visual; nunca se pinta dentro de edificios o esculturas.
   for(let k=-2;k<=2;k++)draw.draw('Paso_peatonal_estacionamiento',X(px)+k*.75,.325,Z(pz),.42,.035,8.8,'#f4f3ea',site.hard);
  }
- for(const gate of data.gates.filter(gt=>gt.type==='vehicle'&&gt.id!=='V1')){
-  const x=X(gate.x)+(gate.id==='V3'?-3.5:3.5),z=Z(gate.y)-3.2;
+ for(const gate of data.gates.filter(gt=>gt.id==='V3')){
+  const x=X(gate.x)-3.5,z=Z(gate.y)-3.2;
   // Cabina completa y brazo de pluma deben quedar fuera de la reserva peatonal.
   if(!draw.clear(x,z,2.9,3,physical)||!draw.clear(x,z+4,.5,4.6,physical))continue;
   box(g,'Caseta_vigilancia_'+gate.id,x,1.35,z,2.4,2.5,2.2,'#c8c9c0');box(g,'Techo_caseta_'+gate.id,x,2.68,z,2.8,.24,2.6,'#b8292f');box(g,'Ventana_caseta_'+gate.id,x,1.5,z+1.12,1.8,.95,.08,'#2c3e44');box(g,'Base_pluma_'+gate.id,x,.65,z+2.1,.35,1.1,.35,'#d94b2b');box(g,'Pluma_vehicular_'+gate.id,x,1.05,z+4.2,.12,.12,3.8,'#f4f3ea');
@@ -1876,7 +1886,9 @@ async function planoBlob(withMark=true){
  r.outputColorSpace=renderer.outputColorSpace;r.toneMapping=renderer.toneMapping;r.toneMappingExposure=renderer.toneMappingExposure;
  const cam=new THREE.OrthographicCamera(PLANO.xMin,PLANO.xMax,-PLANO.zMin,-PLANO.zMax,1,2500);cam.position.set(0,1000,0);cam.up.set(0,0,-1);cam.lookAt(0,0,0);
  const exteriores=[];
- world.getObjectByName('Portico_San_Pablo_V1')?.traverse(node=>{if(node.userData.fueraDelPredio)exteriores.push(node);});
+ for(const nombre of ['Portico_San_Pablo_V1','Conexiones_peatonales_de_las_puertas']){
+  world.getObjectByName(nombre)?.traverse(node=>{if(node.userData.fueraDelPredio)exteriores.push(node);});
+ }
  const ocultos=[...['Base maqueta','Eje_5_Norte_Montevideo','Av_San_Pablo'].map(n=>world.getObjectByName(n)),...exteriores,editHelper,highlight,routeEditor?.group].filter(Boolean).map(node=>({node,visible:node.visible})),was=vegetation.visible,fog=scene.fog,g=grid.visible;
  for(const o of ocultos)o.node.visible=false;vegetation.visible=true;scene.fog=null;grid.visible=false;
  try{r.render(scene,cam);return await watermarkedPlan(r.domElement,withMark);}

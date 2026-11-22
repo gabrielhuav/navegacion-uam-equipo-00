@@ -72,7 +72,12 @@ class Red {
   final List<Arista> _aristas;
   final _vecinos = <String, List<(String, Arista)>>{};
   static const _distancia = Distance(roundResult: false);
-  static const _accesosPeatonalesAzc = {'ACCESO_P1', 'ACCESO_P2', 'ACCESO_P3'};
+  static const _accesosPeatonalesAzc = {
+    'ACCESO_PUERTA_2',
+    'ACCESO_P1',
+    'ACCESO_P2',
+    'ACCESO_P3',
+  };
   static const _tramosDeOrigen = {'exterior', 'pasillo', 'rampa'};
 
   /// El camino más corto entre dos nodos (algoritmo de Dijkstra). Null si no hay camino.

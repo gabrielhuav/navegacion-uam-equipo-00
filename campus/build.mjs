@@ -23,6 +23,7 @@ for(const name of ['interiores-biblioteca-g','interior-cafeteria','interiores-w-
  'revision-zonas-poniente','revision-zonas-centro','revision-zonas-oriente','revision-zonas-cafeteria-deportes',
  'accesos-zonas-poniente','accesos-zonas-centro','accesos-zonas-oriente',
  'detalle-zonas-san-pablo','detalle-zonas-academicas','detalle-zonas-deportivas','sector-talleres-deportes','plazas-ajedrez','recintos-deportivos',
+ 'caminos-de-puertas','cuarta-pasada-poniente','cuarta-pasada-centro','cuarta-pasada-oriente',
  'detalles-maps-accesos','detalles-maps-plazas','detalles-maps-ponente','detalles-maps-corredor-cultural'])imports[name]=uri(await read('./'+name+'.js'));
 let html=await read('./index.html');html=html.replace(/<script type="importmap">[\s\S]*?<\/script>/,`<script type="importmap">${JSON.stringify({imports})}</script>`).replace('<script type="module" src="./app.js"></script>',`<script type="module">${await read('./app.js')}</script>`);
 await fs.writeFile(new URL('./Visor_UAM_autonomo.html',import.meta.url),html);await fs.writeFile(new URL('./campus_base.json',import.meta.url),JSON.stringify(ORIGINAL,null,2));

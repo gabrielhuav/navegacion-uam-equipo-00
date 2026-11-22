@@ -92,6 +92,19 @@ void main() {
     expect(sala.referencia, 'Pórtico.');
   });
 
+  test('reconoce el paso peatonal de Puerta 2 como origen exterior', () {
+    final conPuertaDos = leerRed(
+      jsonEncode(datosPiloto).replaceFirst('ACCESO_P1', 'ACCESO_PUERTA_2'),
+    );
+    final (ruta, porAcceso) = conPuertaDos.rutaDesde(
+      const LatLng(19.49949, -99.1900),
+      sala,
+    )!;
+    expect(porAcceso, isTrue);
+    expect(ruta.inicioAcceso, 'ACCESO_PUERTA_2');
+    expect(ruta.puntos.first, const LatLng(19.5000, -99.1900));
+  });
+
   test('en el campus comienza en el tramo y no agrega el desvío al nodo', () {
     final (ruta, porAcceso) = piloto.rutaDesde(
       const LatLng(19.5005, -99.19001),

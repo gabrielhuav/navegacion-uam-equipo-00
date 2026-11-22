@@ -162,7 +162,7 @@ class Red(
     }
 }
 
-private val ACCESOS_PEATONALES_AZC = setOf("ACCESO_P1", "ACCESO_P2", "ACCESO_P3")
+private val ACCESOS_PEATONALES_AZC = setOf("ACCESO_PUERTA_2", "ACCESO_P1", "ACCESO_P2", "ACCESO_P3")
 private val TRAMOS_DE_ORIGEN = setOf("exterior", "pasillo", "rampa")
 private const val DISTANCIA_MAXIMA_AL_ANDADOR = 20.0
 

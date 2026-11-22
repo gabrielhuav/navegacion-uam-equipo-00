@@ -1,5 +1,10 @@
 # Campus UAM Azcapotzalco · modelo 2D/3D
 
+## Andadores de las puertas y cuarta pasada del 22 de noviembre de 2026
+
+Puertas 2, 4, 5 y 6 quedan unidas a la red peatonal desde sus vanos. La 7 tiene continuidad vehicular. Se detallaron las 20 zonas con referencia visual, entre ellas los balcones de HO, los casilleros de L, las cerchas abiertas de W y el portón de P2. [Comparaciones, rutas, fuentes y alcance](CUARTA_PASADA_20_ZONAS_AZC_2026-11-22.md).
+
+
 ## Uniones de rejas y tercera pasada del 22 de noviembre de 2026
 
 Las rejas llegan a los pórticos de San Pablo, el cierre se une a ambos lados de CICTE y rodea Fútbol 7 por fuera de la cancha. La revisión zona por zona incorpora detalles como la retícula abierta del comedor, el despiece del paso de G y nuevos elementos de taller. [Comparaciones y fuentes para las 20 zonas](TERCERA_PASADA_20_ZONAS_AZC_2026-11-22.md).

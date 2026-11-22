@@ -46,8 +46,10 @@ export function routeIssues(net,data,geo,{complete=true}={}){
    if(!parent||!data.buildings.some(b=>b.id===d.edificio)||parent.nodo!==d.nodo||!Number.isInteger(d.nivel)||!d.referencia)errors.push('Destino interior sin edificio, piso o acceso coherentes: '+d.id);
   }
   if(n){const shapes=blocks.filter(o=>o.id===d.id);if(shapes.length){let distance=Infinity;for(const shape of shapes)for(let i=0;i<shape.poly.length;i++){const a=shape.poly[i],b=shape.poly[(i+1)%shape.poly.length],dx=b.x-a.x,dz=b.z-a.z,t=Math.max(0,Math.min(1,((n.x-a.x)*dx+(n.z-a.z)*dz)/(dx*dx+dz*dz)));distance=Math.min(distance,Math.hypot(n.x-a.x-t*dx,n.z-a.z-t*dz));}if(distance>5)errors.push('Entrada alejada de su edificio: '+d.id);}
-   const gate=data.gates.find(g=>'ACCESO_'+g.id===d.id);if(gate&&Math.hypot(n.x-(gate.x-895)*s,n.z-(gate.y-390)*s)>3)errors.push('Nodo alejado del acceso: '+d.id);
-   if(net.perimetro&&gate?.type==='pedestrian'&&n.tipo!=='acceso')errors.push('Acceso peatonal sin tipo de nodo de acceso: '+d.id);
+   const accesoMixto=d.id==='ACCESO_PUERTA_2';
+   const gate=data.gates.find(g=>accesoMixto ? g.id==='V1' : 'ACCESO_'+g.id===d.id);
+   if(gate&&Math.hypot(n.x-(gate.x-895)*s,n.z-(gate.y-390)*s)>(accesoMixto?4:3))errors.push('Nodo alejado del acceso: '+d.id);
+   if(net.perimetro&&(accesoMixto||gate?.type==='pedestrian')&&n.tipo!=='acceso')errors.push('Acceso peatonal sin tipo de nodo de acceso: '+d.id);
    const plaza=data.plazas.find(p=>(p.name==='Plaza COSEI'?'COSEI':p.name==='Plaza Roja'?'PLAZA_ROJA':'')===d.id);if(plaza){const r=plaza.rect;if(n.x<(r[0]-895)*s||n.x>(r[2]-895)*s||n.z<(r[1]-390)*s||n.z>(r[3]-390)*s)errors.push('Destino fuera de su plaza: '+d.id);}
   }
  }

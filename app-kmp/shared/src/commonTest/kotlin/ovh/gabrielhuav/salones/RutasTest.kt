@@ -97,6 +97,18 @@ class RutasTest {
     }
 
     @Test
+    fun reconoceElPasoPeatonalDePuertaDosComoOrigenExterior() {
+        val destinos = piloto.destinos.map { destino ->
+            if (destino.id == "ACCESO_P1") destino.copy(id = "ACCESO_PUERTA_2") else destino
+        }
+        val conPuertaDos = Red(piloto.nodos, piloto.aristas, destinos, piloto.perimetro)
+        val (ruta, porAcceso) = conPuertaDos.rutaDesde(Ubicacion(19.49999, -99.1900), salon)!!
+        assertTrue(porAcceso)
+        assertEquals("ACCESO_PUERTA_2", ruta.inicioAcceso)
+        assertEquals(piloto.nodos.getValue("A").lugar, ruta.puntos.first())
+    }
+
+    @Test
     fun proyectaAlAndadorYContinuaPorElExtremoQueAcortaElRecorrido() {
         val (ruta, porAcceso) = piloto.rutaDesde(Ubicacion(19.50025, -99.19002), salon)!!
         assertFalse(porAcceso)

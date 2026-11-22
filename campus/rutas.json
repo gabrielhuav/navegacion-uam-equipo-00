@@ -22,9 +22,9 @@
   "nodos": [
     {
       "id": "n1",
-      "lat": 19.50296402,
-      "lon": -99.18348229,
-      "x": -367.3413,
+      "lat": 19.50295981,
+      "lon": -99.18345505,
+      "x": -370,
       "z": 40.7665,
       "nivel": 0,
       "tipo": "acceso"
@@ -76,9 +76,9 @@
     },
     {
       "id": "n7",
-      "lat": 19.50335774,
-      "lon": -99.1834137,
-      "x": -367.3413,
+      "lat": 19.50335352,
+      "lon": -99.18338646,
+      "x": -370,
       "z": 81.5329,
       "nivel": 0,
       "tipo": "acceso"
@@ -850,10 +850,10 @@
     },
     {
       "id": "n93",
-      "lat": 19.50476732,
-      "lon": -99.18908488,
+      "lat": 19.50478872,
+      "lon": -99.18908115,
       "x": 194.9701,
-      "z": 135.1497,
+      "z": 137.3653,
       "nivel": 0,
       "tipo": "acceso"
     },
@@ -1135,13 +1135,58 @@
       "z": 32.5689,
       "nivel": 0,
       "tipo": "cruce"
+    },
+    {
+      "id": "n125",
+      "lat": 19.50182146,
+      "lon": -99.18365337,
+      "x": -370,
+      "z": -77.1018,
+      "nivel": 0,
+      "tipo": "acceso"
+    },
+    {
+      "id": "n126",
+      "lat": 19.5018341,
+      "lon": -99.18373509,
+      "x": -362.024,
+      "z": -77.1018,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n127",
+      "lat": 19.50187096,
+      "lon": -99.18383124,
+      "x": -352.2754,
+      "z": -74.8862,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n128",
+      "lat": 19.50192156,
+      "lon": -99.18415813,
+      "x": -320.3713,
+      "z": -74.8862,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n129",
+      "lat": 19.50200287,
+      "lon": -99.18414396,
+      "x": -320.3713,
+      "z": -66.4671,
+      "nivel": 0,
+      "tipo": "cruce"
     }
   ],
   "aristas": [
     {
       "de": "n1",
       "a": "n2",
-      "metros": 9.16,
+      "metros": 12.06,
       "tipo": "exterior",
       "accesible": true
     },
@@ -1176,7 +1221,7 @@
     {
       "de": "n7",
       "a": "n8",
-      "metros": 9.16,
+      "metros": 12.06,
       "tipo": "exterior",
       "accesible": true
     },
@@ -1848,7 +1893,7 @@
     {
       "de": "n22",
       "a": "n93",
-      "metros": 12.66,
+      "metros": 14.97,
       "tipo": "exterior",
       "accesible": true
     },
@@ -2054,6 +2099,41 @@
       "metros": 14.96,
       "tipo": "exterior",
       "accesible": true
+    },
+    {
+      "de": "n125",
+      "a": "n126",
+      "metros": 8.68,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n126",
+      "a": "n127",
+      "metros": 10.88,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n127",
+      "a": "n128",
+      "metros": 34.72,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n128",
+      "a": "n129",
+      "metros": 9.16,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n129",
+      "a": "n24",
+      "metros": 30.38,
+      "tipo": "exterior",
+      "accesible": false
     }
   ],
   "destinos": [
@@ -2203,19 +2283,28 @@
       "nodo": "n72"
     },
     {
+      "id": "ACCESO_PUERTA_2",
+      "nombre": "Puerta 2 · San Pablo Xalpa (peatonal)",
+      "nodo": "n125",
+      "referencia": "Cruza el pórtico de uso mixto por el lado de la torre, sigue la franja de llegada y el paso entre estacionamientos hacia el andador de D."
+    },
+    {
       "id": "ACCESO_P1",
       "nombre": "Puerta 4 · San Pablo Xalpa (P1)",
-      "nodo": "n1"
+      "nodo": "n1",
+      "referencia": "Vano peatonal entre las jambas, junto a la banqueta de Av. San Pablo. Consulta la señalización para ingreso o salida."
     },
     {
       "id": "ACCESO_P2",
       "nombre": "Puerta 5 · San Pablo Xalpa (P2)",
-      "nodo": "n7"
+      "nodo": "n7",
+      "referencia": "Vano peatonal junto a la banqueta de Av. San Pablo, hacia el andador de Plaza Roja."
     },
     {
       "id": "ACCESO_P3",
       "nombre": "Puerta 6 · Eje 5 Norte (P3)",
-      "nodo": "n93"
+      "nodo": "n93",
+      "referencia": "Vano del acceso junto a la banqueta de Eje 5 Norte. El andador conecta con el borde deportivo y M."
     },
     {
       "id": "G006",
