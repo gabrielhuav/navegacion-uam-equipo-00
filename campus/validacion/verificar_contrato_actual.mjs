@@ -95,6 +95,34 @@ for(const {gltf} of [marked,plain]){
   assert.ok(!gltf.nodes.some(n=>['Selección_editor','Vista_previa_estacionamiento'].includes(n.name)||/Editor_red|^Nodo_n|^Arista_/.test(n.name||'')));
   assert.ok(!gltf.nodes.some(n=>/^Interior_(I_|J_|L_|G302_)/.test(n.name||'')),'Una vista interior entró en el GLB del campus');
 }
+// Cada encuentro equivale al extremo de dos paños. Los únicos extremos
+// de grado uno son los apoyos que dejan libre el vano de un acceso.
+const claveExtremo = punto => punto.map(coordenada => Math.round(coordenada * 1e5)).join('/');
+for (const {gltf} of [marked, plain]) {
+  const cierre = gltf.nodes.find(nodo => nodo.name === 'Cierres_Maps_poniente');
+  assert.ok(cierre?.children?.length, 'Falta el cierre perimetral exportado');
+  const vanos = cierre.extras.vanos;
+  assert.deepEqual(vanos.map(vano => vano.id).sort(), ['P1', 'P2', 'P3', 'V1', 'V3']);
+  const libres = new Set(vanos.flatMap(vano => vano.extremosXZ.map(claveExtremo)));
+  assert.equal(libres.size, 10);
+  const incidencias = new Map();
+  const paños = cierre.children.map(indice => gltf.nodes[indice]);
+  for (const paño of paños) {
+    if (paño.name.startsWith('Poste_reja_')) continue;
+    assert.equal(paño.extras.extremosXZ.length, 2);
+    for (const extremo of paño.extras.extremosXZ) {
+      const llave = claveExtremo(extremo);
+      incidencias.set(llave, (incidencias.get(llave) || 0) + 1);
+    }
+  }
+  assert.deepEqual(new Set([...incidencias].filter(([, grado]) => grado === 1).map(([extremo]) => extremo)), libres,
+    'El perímetro tiene un extremo libre fuera de un vano');
+  assert.ok([...incidencias.values()].every(grado => grado === 1 || grado === 2), 'Hay paños solapados en una unión');
+  for (const acceso of ['V1', 'P1', 'P2']) {
+    assert.equal(paños.filter(paño => paño.name === 'Encuentro_reja_' + acceso).length, 2);
+  }
+  assert.equal(paños.filter(paño => paño.name === 'Vuelta_exterior_Futbol_7').length, 3);
+}
 assert.equal(plain.gltf.nodes.some(x=>x.name==='Marca_copyright_modelo'||x.name?.startsWith('Copyright_integrado_')),false);
 if(data.showCopyright!==false){
   assert.equal(marked.gltf.nodes.length-plain.gltf.nodes.length,34);

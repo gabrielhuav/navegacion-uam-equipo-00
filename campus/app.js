@@ -15,11 +15,11 @@ import {crearInteriorBiblioteca,crearInteriorG302,crearInteriorL} from 'interior
 import {crearInteriorCafeteria} from 'interior-cafeteria';
 import {crearInteriorW,crearInteriorR} from 'interiores-w-r';
 import {construirCubiertaL,detallarFachadaH,detallarVestibuloHO,construirFachadaKEstacionamiento} from 'detalles-academicos-maps';
-import {bloqueaArboladoEnAccesos,crearDetallesMapsAccesos,tramoRejaCICTE} from 'detalles-maps-accesos';
+import {bloqueaArboladoEnAccesos,crearDetallesMapsAccesos} from 'detalles-maps-accesos';
 import {crearDetallesMapsPlazas,detallarAroSerpentina} from 'detalles-maps-plazas';
 import {crearDetallesMapsPonente} from 'detalles-maps-ponente';
 import {crearDetallesMapsCorredorCultural,detallarGaleriaCulturalE,crearInteriorIncalli,crearVistaLibreria,crearVistaGaleriaDelTiempo} from 'detalles-maps-corredor-cultural';
-import {construirAndadorMulticanchas,construirCanchasDeportivas,construirGradasDeportivas,construirFachadaQ,detallarAccesoDeportivo,perimetroCruzaFutbol7,superficiesDeportivas} from 'detalles-deportivos-maps';
+import {construirAndadorMulticanchas,construirCanchasDeportivas,construirGradasDeportivas,construirFachadaQ,detallarAccesoDeportivo,vueltaExteriorFutbol7,superficiesDeportivas} from 'detalles-deportivos-maps';
 import {construirJardinTresGracias} from 'jardin-tres-gracias';
 import {parcelasVerdesHHP,andadorHHP,trazadosHHP,construirPaisajeHHP} from 'paisaje-h-hp';
 import {contornoPlazaEgresados,crearPlazaEgresados} from 'plaza-egresados';
@@ -35,6 +35,9 @@ import {modelarZonasCafeteriaDeportes} from 'revision-zonas-cafeteria-deportes';
 import {modelarAccesosPoniente,detallarVistasPoniente,crearInteriorDocenciaD,crearInteriorMicroelectronicaF} from 'accesos-zonas-poniente';
 import {modelarAccesosCentro,detallarVistasCentro} from 'accesos-zonas-centro';
 import {modelarAccesosOriente,detallarVistasOriente} from 'accesos-zonas-oriente';
+import {detallarZonasSanPablo,detallarCortesSanPablo} from 'detalle-zonas-san-pablo';
+import {detallarZonasAcademicas,detallarCortesAcademicos} from 'detalle-zonas-academicas';
+import {detallarZonasDeportivas,detallarCortesDeportivos} from 'detalle-zonas-deportivas';
 import {construirEdificioO,construirGaleriaSTalleres,reconstruirCubiertasTalleres} from 'sector-talleres-deportes';
 import {construirPlazaRoja,construirCuerpoConGaleriaF,construirPorticoV1} from 'sector-acceso-plaza';
 import {crearPlazasAjedrez} from 'plazas-ajedrez';
@@ -1333,10 +1336,12 @@ function generate(){
  registerEditable('sculpture_primavera_E','Primavera · jardín de E','sculpture',primavera);
  if(primavera.parent)label('Primavera',primavera.position.x,4.2,primavera.position.z,'place');
  agregarEntornoCorpus({THREE,data,world,box,material,X,Z,S,net:routeEditor?.getNet()||BASE_ROUTES});
- // El cierre de CICTE ya está modelado con su paño propio. La cancha próxima al
- // límite conserva el espacio de juego y sus muretes interiores.
- const omitirCierre=(x,z)=>perimetroCruzaFutbol7(x,z)||(x===60&&z>tramoRejaCICTE[0]&&z<tramoRejaCICTE[1]);
- const detallesPonente=crearDetallesMapsPonente(THREE,data,omitirCierre);
+ const puerta2=data.gates.find(gate=>gate.id==='V1');
+ const porticoV1=puerta2&&construirPorticoV1({THREE,world,gate:puerta2,box,slab,material,X,Z,S});
+ const encuentrosReja=new Map([...detallesAccesos.children,porticoV1].filter(nodo=>nodo?.userData.encuentrosReja)
+  .map(nodo=>[nodo.userData.existingGate,nodo.userData.encuentrosReja]));
+ const vueltaCampo=vueltaExteriorFutbol7(data.site[2],data.site[3],S());
+ const detallesPonente=crearDetallesMapsPonente(THREE,data,encuentrosReja,vueltaCampo);
  world.add(detallesAccesos,crearDetallesMapsPlazas(THREE,data),detallesPonente,corredorCultural);
  // El trazado se calcula después de las geometrías reales y de sus transformaciones editadas.
  parkingObstaclesCache=null;
@@ -1347,8 +1352,7 @@ function generate(){
   // V2 permanece reservado en el croquis. La lámina se ve continua en Street View.
   if(gate.id==='V2')continue;
   const vehicular=gate.type==='vehicle';
-  if(gate.id==='V1')construirPorticoV1({THREE,world,gate,box,slab,material,X,Z,S});
-  else if(!['P1','P2'].includes(gate.id))box(world,'Acceso_'+gate.id,X(gate.x),.5,Z(gate.y),vehicular?7:3,.6,5,vehicular?'#bc3535':'#1d72b6');
+  if(gate.id==='V3')box(world,'Acceso_V3',X(gate.x),.5,Z(gate.y),7,.6,5,'#bc3535');
   const puertas={V1:'Puerta 2',P1:'Puerta 4',P2:'Puerta 5',P3:'Puerta 6'};
   label(puertas[gate.id]||(vehicular?'Auto':'Peatón'),X(gate.x),5,Z(gate.y),gate.type);
  }
@@ -1373,6 +1377,9 @@ function generate(){
  modelarAccesosPoniente(contextoRevision);
  modelarAccesosCentro(contextoRevision);
  modelarAccesosOriente(contextoRevision);
+ detallarZonasSanPablo(contextoRevision);
+ detallarZonasAcademicas(contextoRevision);
+ detallarZonasDeportivas(contextoRevision);
  vegetation.visible=$('trees').checked;syncLabels();
  addCopyrightToModel();world.updateMatrixWorld(true);selectBuilding(selected);refreshEditor();routeEditor?.refresh();
 }
@@ -1499,6 +1506,9 @@ function openInterior(id){
   detallarVistasPoniente(id,THREE,model);
   detallarVistasCentro(id,THREE,model);
   detallarVistasOriente(id,THREE,model);
+  detallarCortesSanPablo(id,THREE,model);
+  detallarCortesAcademicos(id,THREE,model);
+  detallarCortesDeportivos(id,THREE,model);
   enclosure.model=model;
  }
  const model=enclosure.model;

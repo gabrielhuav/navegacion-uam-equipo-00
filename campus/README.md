@@ -1,5 +1,9 @@
 # Campus UAM Azcapotzalco · modelo 2D/3D
 
+## Uniones de rejas y tercera pasada del 22 de noviembre de 2026
+
+Las rejas llegan a los pórticos de San Pablo, el cierre se une a ambos lados de CICTE y rodea Fútbol 7 por fuera de la cancha. La revisión zona por zona incorpora detalles como la retícula abierta del comedor, el despiece del paso de G y nuevos elementos de taller. [Comparaciones y fuentes para las 20 zonas](TERCERA_PASADA_20_ZONAS_AZC_2026-11-22.md).
+
 ## Perímetro, interiores y accesos · segunda pasada del 22 de noviembre de 2026
 
 El modelo distingue reja roja, lámina acanalada y paños de piedra con malla. HP tiene cuatro mesas de ajedrez y HO comparte el diseño de sombrilla ajustado a su patio. El visor incluye los cortes de D-102 y F302. [Antes y después de las 20 zonas y fuentes](SEGUNDA_PASADA_20_ZONAS_AZC_2026-11-22.md).

@@ -15,7 +15,6 @@ const pañosPuerta2 = [
   [[178,233],[269,233],[270,303],[263,309],[184,309],[178,303]],
 ];
 // Bordes exactos de los trece segmentos genéricos centrados entre 336 y 432.
-export const tramoRejaCICTE = [332,436];
 
 function preparar(THREE,data,net) {
   const root = new THREE.Group();
@@ -74,20 +73,6 @@ function preparar(THREE,data,net) {
     mesh.castShadow = h>1;
     return mesh;
   }
-  function cajasAgrupadas(g,nombre,cajas,color,sombra=false) {
-    if (!cajas.length) return;
-    const base = cubo.getAttribute('position'), indices = cubo.index, posiciones = [];
-    for (const [x,y,z,w,h,d] of cajas) {
-      for (let j=0; j<indices.count; j++) {
-        const i = indices.getX(j);
-        posiciones.push(x+base.getX(i)*w,y+base.getY(i)*h,z+base.getZ(i)*d);
-      }
-    }
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute('position',new THREE.Float32BufferAttribute(posiciones,3));
-    geometry.computeVertexNormals();
-    malla(g,nombre,geometry,color).castShadow = sombra;
-  }
   function superficie(g,nombre,poligonos,y,color) {
     const positions = [];
     for (const contorno of poligonos) {
@@ -109,22 +94,7 @@ function preparar(THREE,data,net) {
     return ![...huellas,...pasos].some(q => polygonsOverlap(p,q)) &&
       polygonArea(intersectConvex(p,predio))>w*d-1e-6;
   };
-  return {THREE,root,s,punto,rect,pasos,huellas,predio,grupo,malla,caja,cajasAgrupadas,superficie,libre};
-}
-
-function reja({cajasAgrupadas},g,x,segmentos) {
-  const altura = 1.66, zocalos = [], travesanos = [], barrotes = [];
-  for (const [inicio,fin] of segmentos) {
-    const largo = fin-inicio;
-    if (largo<.24) continue;
-    const centro = (inicio+fin)/2;
-    zocalos.push([x,.235,centro,.28,.20,largo]);
-    for (const y of [.42,altura-.02]) travesanos.push([x,y,centro,.065,.07,largo]);
-    for (let z=inicio+.09; z<fin-.08; z+=.22) barrotes.push([x,(altura+.32)/2,z,.072,altura-.32,.061]);
-  }
-  cajasAgrupadas(g,'Zocalo_reja_San_Pablo',zocalos,materiales.hormigon);
-  cajasAgrupadas(g,'Travesano_reja_San_Pablo',travesanos,materiales.reja);
-  cajasAgrupadas(g,'Barrotes_reja_San_Pablo',barrotes,materiales.reja,true);
+  return {THREE,root,s,punto,rect,pasos,huellas,predio,grupo,malla,caja,superficie,libre};
 }
 
 function portalPeatonal(ctx,gate,amplio) {
@@ -148,14 +118,7 @@ function portalPeatonal(ctx,gate,amplio) {
     caja(g,'Apoyo_portico_'+gate.id,0,(bajoDintel+.14)/2,otraJamba,1.2,bajoDintel-.14,.88,hormigon);
   }
   caja(g,'Dintel_portico_'+gate.id,0,bajoDintel+.20,0,1.82,.40,2*mitad+1.04,hormigon);
-  for (const lado of [-1,1]) {
-    const segmentos = [];
-    for (let z=mitad+1.12; z<7.5; z+=.55) {
-      const ini = lado>0?z:-z-.55, fin = lado>0?z+.55:-z;
-      if (libre(p.x,p.z+(ini+fin)/2,.32,.55)) segmentos.push([ini,fin]);
-    }
-    reja(ctx,g,0,segmentos);
-  }
+  g.userData.encuentrosReja = [torreZ, otraJamba].map(dz => [p.x, p.z + dz]);
   const alero = rectanglePolygon(.80,0,3.45,2*mitad-.2);
   // El delantal queda a ras del pavimento y deja libre el vano peatonal.
   superficie(g,'Piso_portico_'+gate.id,[alero],.322,hormigonClaro);
@@ -326,8 +289,5 @@ export function crearDetallesMapsAccesos(THREE,data,net=BASE_ROUTES) {
   }
   estacionamientoPuerta2(ctx,data);
   senderoJardin(ctx,data);
-  const [inicio,fin] = tramoRejaCICTE, origen = ctx.punto([60.34,inicio]);
-  const g = ctx.grupo('Reja_perimetral_CICTE','Street View de San Pablo, enero 2025',origen);
-  reja(ctx,g,0,[[0,(fin-inicio)*ctx.s]]);
   return ctx.root;
 }

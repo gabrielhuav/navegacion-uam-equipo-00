@@ -21,16 +21,18 @@ function perfilDeFondo(lado, x, z, indice) {
     case 2:
       if (x < 865) return 'cierre_esquematico';
       return Math.floor(indice / 2) % 2 ? 'reja_Eje_5' : 'muro_Eje_5';
-    default: return z < 608 ? 'reja_San_Pablo' : 'paño_acanalado';
+    default:
+      if (z >= 332 && z < 436) return 'reja_CICTE';
+      return z < 608 ? 'reja_San_Pablo' : 'paño_acanalado';
   }
 }
 
-export function crearDetallesMapsPonente(THREE, data, omitirPunto) {
+export function crearDetallesMapsPonente(THREE, data, encuentros, vuelta) {
   const grupo = new THREE.Group();
   grupo.name = 'Cierres_Maps_poniente';
   grupo.userData = {
     aproximado: true,
-    panos: [],
+    panos: [], vanos: [],
     referencia: 'Frente de San Pablo Xalpa, Eje 5, Central Rosario y Ferrocarriles en Street View (2024–2025)',
   };
 
@@ -130,14 +132,21 @@ export function crearDetallesMapsPonente(THREE, data, omitirPunto) {
           posiciones[y + 1] += .54 * (posiciones[y] - 1.87);
         }
       }
-    } else if (perfil === 'reja_San_Pablo') {
+    } else if (perfil === 'poste_terminal') {
+      caja('Poste_terminal_de_reja', '#803c37', ancho / 2, 1.06, 0, ancho, 1.76, .23);
+    } else if (perfil === 'reja_San_Pablo' || perfil === 'reja_CICTE') {
       caja('Zocalo_bajo_San_Pablo', '#64615a', ancho/2, .19, 0, ancho, .10, .29);
       reja(ancho, .24, 1.91);
       caja('Montante_rojo_San_Pablo', '#803c37', .05, 1.07, 0, .105, 1.67, .12);
+      if (perfil === 'reja_CICTE') {
+        for (const altura of [.59, .84, 1.09, 1.34, 1.59]) {
+          caja('Travesaño_intermedio_CICTE', '#864541', ancho / 2, altura, 0, ancho, .036, .062);
+        }
+      }
     } else if (perfil === 'paño_acanalado') {
       caja('Paño_acanalado_San_Pablo', '#6b7474', ancho / 2, 1.025, 0, ancho, 1.71, .13);
       for (let x = .06; x < ancho - .025; x += .14) {
-        caja('Nervadura_de_lámina', '#838a88', x, 1.025, .076, .031, 1.69, .035);
+        for (const cara of [-1, 1]) caja('Nervadura_de_lámina', '#838a88', x, 1.025, .076 * cara, .031, 1.69, .035);
       }
       caja('Remate_de_lámina', '#959b94', ancho / 2, 1.885, .018, ancho, .048, .18);
     } else {
@@ -173,35 +182,100 @@ export function crearDetallesMapsPonente(THREE, data, omitirPunto) {
     }
   }
 
-  for (let lado = 0; lado < data.site.length; lado++) {
-    const [x0, z0] = data.site[lado], [x1, z1] = data.site[(lado + 1) % data.site.length];
-    const dx = x1 - x0, dz = z1 - z0, largo = Math.hypot(dx, dz);
-    for (let desde = 0; desde < largo; desde += paso) {
-      const longitud = Math.min(paso, largo - desde);
-      if (longitud < .001) break;
-      const mitad = (desde + longitud / 2) / largo;
-      const x = x0 + mitad * dx, z = z0 + mitad * dz;
-      if (omitirPunto(x, z)) continue;
-      if (data.gates.some(gate => gate.id !== 'V2' && Math.hypot(gate.x - x, gate.y - z) < 21)) continue;
+  const aModelo = ([x, z]) => [(x - 895) * escala, (z - 390) * escala];
 
-      const observado = pañosObservados.get(lado + '/' + desde);
-      const perfil = observado?.perfil ?? perfilDeFondo(lado, x, z, Math.floor(desde / paso));
-      const tramo = new THREE.Group();
-      tramo.name = observado?.tipo ?? perfil;
-      tramo.rotation.y = -Math.atan2(dz, dx);
-      const origen = desde / largo;
-      tramo.position.set((x0 + origen * dx - 895) * escala, 0, (z0 + origen * dz - 390) * escala);
-      grupo.add(tramo);
-      if (observado) grupo.userData.panos.push(observado.referencia);
+  function agregarTramo(inicio, fin, perfil, nombre) {
+    const [dx, dz] = [fin[0] - inicio[0], fin[1] - inicio[1]];
+    const longitud = Math.hypot(dx, dz);
+    if (longitud < 1e-5) return;
 
-      for (const pieza of piezasPaño(perfil, longitud * escala)) {
-        const copia = pieza.clone();
-        if (!materialesEnUso.has(copia.material)) {
-          copia.userData.disposeMaterial = true;
-          materialesEnUso.add(copia.material);
-        }
-        tramo.add(copia);
+    const tramo = new THREE.Group();
+    tramo.name = nombre;
+    tramo.rotation.y = -Math.atan2(dz, dx);
+    tramo.position.set(inicio[0], 0, inicio[1]);
+    tramo.userData.extremosXZ = [inicio, fin];
+    grupo.add(tramo);
+    for (const pieza of piezasPaño(perfil, longitud)) {
+      const copia = pieza.clone();
+      if (!materialesEnUso.has(copia.material)) {
+        copia.userData.disposeMaterial = true;
+        materialesEnUso.add(copia.material);
       }
+      tramo.add(copia);
+    }
+  }
+
+  for (let lado = 0; lado < data.site.length; lado++) {
+    const a = data.site[lado], b = data.site[(lado + 1) % data.site.length];
+    const [x0, z0] = aModelo(a);
+    const [x1, z1] = aModelo(b);
+    const dx = x1 - x0, dz = z1 - z0, largo = Math.hypot(dx, dz);
+    const ux = dx / largo, uz = dz / largo;
+    const aDistancia = ([x, z]) => (x - x0) * ux + (z - z0) * uz;
+    const aPunto = t => [x0 + t * ux, z0 + t * uz];
+    const cortes = [0, largo];
+    const vanos = [];
+    const pasoMetros = paso * escala;
+    for (let t = pasoMetros; t < largo - 1e-6; t += pasoMetros) cortes.push(t);
+
+    for (const gate of data.gates) {
+      const portico = encuentros.get(gate.id);
+      const sobreElLado = (lado === 3 && portico) || (lado === 2 && gate.id === 'P3') ||
+        (lado === 0 && gate.id === 'V3');
+      if (!sobreElLado) continue;
+
+      const centro = aDistancia(aModelo([gate.x, gate.y]));
+      // La reserva de V3 conserva el ancho del croquis. En Puerta 6 se
+      // usa la franja del umbral observado desde la avenida.
+      const proyecciones = portico ? portico.map(punto => ({punto, t: aDistancia(punto)})) :
+        (gate.id === 'P3' ? [[gate.x - 6, a[1]], [gate.x + 11, a[1]]].map(punto => aDistancia(aModelo(punto))) :
+          [centro - 3.55, centro + 3.55]).map(t => ({punto: aPunto(t), t}));
+      proyecciones.sort((primero, segundo) => primero.t - segundo.t);
+      const [primero, segundo] = proyecciones;
+      cortes.push(primero.t, segundo.t);
+      vanos.push([primero.t, segundo.t]);
+      grupo.userData.vanos.push({id: gate.id, extremosXZ: proyecciones.map(p => p.punto)});
+
+      for (const extremo of proyecciones) {
+        const borde = aPunto(extremo.t);
+        if (portico) {
+          agregarTramo(borde, extremo.punto, 'reja_San_Pablo', 'Encuentro_reja_' + gate.id);
+        }
+        agregarTramo(aPunto(extremo.t - .095), aPunto(extremo.t + .095), 'poste_terminal', 'Poste_reja_' + gate.id);
+      }
+    }
+
+    if (lado === 2 && vuelta.length) {
+      const contorno = vuelta.map(aModelo);
+      const inicio = aDistancia(contorno[0]), fin = aDistancia(contorno.at(-1));
+      cortes.push(inicio, fin);
+      vanos.push([inicio, fin]);
+      // Usa los mismos puntos que la línea principal para sellar las juntas.
+      contorno[0] = aPunto(inicio);
+      contorno[contorno.length - 1] = aPunto(fin);
+      for (let i = 1; i < contorno.length; i++) {
+        agregarTramo(contorno[i - 1], contorno[i], 'muro_F7', 'Vuelta_exterior_Futbol_7');
+      }
+    }
+
+    if (lado === 3) {
+      for (const z of [332, 436, 608]) cortes.push(aDistancia(aModelo([a[0], z])));
+    }
+
+    cortes.sort((primero, segundo) => primero - segundo);
+    for (let i = 1; i < cortes.length; i++) {
+      const desde = cortes[i - 1], hasta = cortes[i];
+      if (hasta - desde < 1e-5) continue;
+      const mitad = (desde + hasta) / 2;
+      if (vanos.some(([inicio, fin]) => mitad > inicio && mitad < fin)) continue;
+
+      const xy = aPunto(mitad);
+      const x = 895 + xy[0] / escala, z = 390 + xy[1] / escala;
+      const indice = Math.floor(mitad / pasoMetros);
+      const observado = pañosObservados.get(lado + '/' + indice * paso);
+      const perfil = observado?.perfil ?? perfilDeFondo(lado, x, z, indice);
+      agregarTramo(aPunto(desde), aPunto(hasta), perfil, observado?.tipo ?? perfil);
+      if (observado) grupo.userData.panos.push(observado.referencia);
     }
   }
   unidad.dispose();

@@ -46,7 +46,8 @@ const imports=JSON.parse(html.match(/<script type="importmap">([\s\S]*?)<\/scrip
 const embeddedSources=['site-clearance','detalles-corpus','accesos-modelados','detalles-arquitectura-corpus','detalles-entorno-corpus','interiores-biblioteca-g','interior-cafeteria','interiores-w-r','detalles-academicos-maps','detalles-deportivos-maps','jardin-tres-gracias','paisaje-h-hp','plaza-egresados',
  'paisaje-academico','llegada-puerta6','escultura-piel-del-mar','escultura-dos-soluciones','escultura-primavera','sector-acceso-plaza',
  'revision-zonas-poniente','revision-zonas-centro','revision-zonas-oriente','revision-zonas-cafeteria-deportes',
- 'accesos-zonas-poniente','accesos-zonas-centro','accesos-zonas-oriente','sector-talleres-deportes','plazas-ajedrez','recintos-deportivos',
+ 'accesos-zonas-poniente','accesos-zonas-centro','accesos-zonas-oriente',
+ 'detalle-zonas-san-pablo','detalle-zonas-academicas','detalle-zonas-deportivas','sector-talleres-deportes','plazas-ajedrez','recintos-deportivos',
  'detalles-maps-accesos','detalles-maps-plazas','detalles-maps-ponente','detalles-maps-corredor-cultural'];
 assert.deepEqual(Object.keys(imports).sort(),['three','orbit','exporter','texture-utils','model-data','copyright-layout','route-space','route-data','route-editor',...embeddedSources].sort());assert.ok(Object.values(imports).every(v=>v.startsWith('data:text/javascript;base64,')));
 for(const name of embeddedSources){

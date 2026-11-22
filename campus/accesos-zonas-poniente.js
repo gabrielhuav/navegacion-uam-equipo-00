@@ -241,7 +241,7 @@ export function crearInteriorMicroelectronicaF(THREE) {
   group.name = 'Interior_F302_Microelectronica';
   group.userData = {
     approximate:true,visualOnly:true,
-    reference:'Laboratorios de Electrónica UAM, corpus web 000347–000349; digitalización simplificada',
+    reference:'Laboratorios de Electrónica UAM, corpus web 000385–000387; digitalización simplificada',
   };
   const caja = escenaInterior(THREE,group);
   const pared = '#e3e0d5';

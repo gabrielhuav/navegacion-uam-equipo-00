@@ -294,7 +294,7 @@ export function construirPorticoV1({THREE,world,gate,box,slab,material,X,Z,S}) {
   grupo.userData = {approximate:true,existingGate:gate.id,reference:'Street View, enero 2025',operationVerified:false};
   world.add(grupo);
   const x = X(gate.x), z = Z(gate.y), margen = 3.7;
-  const hormigon = '#a9aea8', cementoOscuro = '#858c87', reja = '#963a34';
+  const hormigon = '#a9aea8', cementoOscuro = '#858c87';
   const torre = new THREE.Mesh(new THREE.CylinderGeometry(1.15,1.15,6.4,24),material(cementoOscuro));
   torre.name = 'Torre_cilindrica_San_Pablo';
   torre.position.set(x,3.42,z-margen-1.0);
@@ -302,14 +302,7 @@ export function construirPorticoV1({THREE,world,gate,box,slab,material,X,Z,S}) {
   grupo.add(torre);
   box(grupo,'Jamba_norte_San_Pablo',x,2.26,z+margen+.42,1.50,4.06,.84,hormigon);
   box(grupo,'Dintel_concreto_San_Pablo',x,4.96,z,2.15,1.17,2*margen+1.14,hormigon);
-  for (const lado of [-1,1]) {
-    const extremo = z+lado*(margen+2.05);
-    box(grupo,'Trabe_reja_lateral_San_Pablo',x,1.84,extremo,.09,.10,2.8,reja);
-    box(grupo,'Zocalo_reja_lateral_San_Pablo',x,.47,extremo,.08,.08,2.8,reja);
-    for (let k=-1.34; k<=1.4; k+=.18) {
-      box(grupo,'Barra_reja_lateral_San_Pablo',x,1.15,extremo+k,.075,1.37,.063,reja);
-    }
-  }
+  grupo.userData.encuentrosReja = [[x, z-margen-1.0], [x, z+margen+.42]];
   const mitadPx = (margen-.09)/S();
   const bordePredio = 60;
   slab(grupo,[bordePredio,gate.y-mitadPx,gate.x+2,gate.y+mitadPx],'#b8b4a7',.128,.10,'Atrio_de_acceso_San_Pablo');

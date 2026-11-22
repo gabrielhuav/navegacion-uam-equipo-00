@@ -5,10 +5,25 @@ import {franjasMulticanchasPoniente} from 'sector-talleres-deportes';
 const futbol7 = {centro: [1629.25, 662.5], ancho: 45.7, largo: 109.8, giro: .329};
 const ejeGradas = [[1595, 648], [1609, 688.5]];
 
-export function perimetroCruzaFutbol7(px, pz) {
+// Continúa el cierre exterior detrás de Fútbol 7. Las coordenadas se
+// derivan de la misma huella girada de los muretes para no tocar el juego.
+export function vueltaExteriorFutbol7(a, b, escala) {
  const [cx,cz]=futbol7.centro,cos=Math.cos(futbol7.giro),sin=Math.sin(futbol7.giro);
- const dx=px-cx,dz=pz-cz;
- return Math.abs(dx*cos-dz*sin)<futbol7.ancho/2+4 && Math.abs(dx*sin+dz*cos)<futbol7.largo/2+4;
+ const retiro=.65/escala;
+ const ancho=futbol7.ancho/2+retiro,largo=futbol7.largo/2+retiro;
+ const [dx,dz]=[b[0]-a[0],b[1]-a[1]];
+ const lados=[-ancho,ancho].map(x=>{
+  const fin=[cx+x*cos+largo*sin,cz-x*sin+largo*cos];
+  const producto=dx*cos-dz*sin;
+  if(Math.abs(producto)<1e-9)return null;
+  const proporcion=((fin[0]-a[0])*cos-(fin[1]-a[1])*sin)/producto;
+  const corte=[a[0]+dx*proporcion,a[1]+dz*proporcion];
+  const tramoLateral=(fin[0]-corte[0])*sin+(fin[1]-corte[1])*cos;
+  return proporcion>0&&proporcion<1&&tramoLateral>0&&tramoLateral<2*largo?{proporcion,corte,fin}:null;
+ });
+ if(lados.some(lado=>!lado))return [];
+ lados.sort((primero,segundo)=>primero.proporcion-segundo.proporcion);
+ return [lados[0].corte,lados[0].fin,lados[1].fin,lados[1].corte];
 }
 
 // El techo largo aparece al lado del murete de la cancha de fútbol 7 en las vistas aéreas.
