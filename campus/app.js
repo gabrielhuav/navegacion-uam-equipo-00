@@ -23,7 +23,7 @@ import {construirAndadorMulticanchas,construirCanchasDeportivas,construirGradasD
 import {construirJardinTresGracias} from 'jardin-tres-gracias';
 import {parcelasVerdesHHP,andadorHHP,trazadosHHP,construirPaisajeHHP} from 'paisaje-h-hp';
 import {contornoPlazaEgresados,crearPlazaEgresados} from 'plaza-egresados';
-import {andadorAcademico,jardinesAcademicos,construirPaisajeAcademico} from 'paisaje-academico';
+import {andadorAcademico,jardinesAcademicos,construirPaisajeAcademico,construirJardinPosgrados,excluirArboladoAmbientalPosgrados} from 'paisaje-academico';
 import {construirEdificioO,construirGaleriaSTalleres,reconstruirCubiertasTalleres} from 'sector-talleres-deportes';
 import {construirPlazaRoja,construirCuerpoConGaleriaF,construirPorticoV1} from 'sector-acceso-plaza';
 import {crearPlazasAjedrez} from 'plazas-ajedrez';
@@ -1129,7 +1129,7 @@ function tree(px,py,size=1,palm=false,elevation=0){
  else {const c=new THREE.Mesh(crown,material(['#47774e','#5b8557','#689460'][Math.floor(px+py)%3]));c.scale.set(2.9*size,3.3*size,2.9*size);c.position.set(x,5*size+elevation,z);c.castShadow=true;group.add(c);}
 }
 function inside(px,py,poly){let v=false;for(let i=0,j=poly.length-1;i<poly.length;j=i++){let a=poly[i],b=poly[j];if((a[1]>py)!=(b[1]>py)&&px<(b[0]-a[0])*(py-a[1])/(b[1]-a[1])+a[0])v=!v;}return v;}
-function excluded(x,y){const t=data.buildings.find(b=>b.id==='T'),r=t?.rects[0];if(r&&x>r[0]-5+(t.offsetX||0)/S()&&x<r[0]+70+(t.offsetX||0)/S()&&y>r[1]-36+(t.offsetZ||0)/S()&&y<r[1]+(t.offsetZ||0)/S())return true;if(inside(x,y,contornoPlazaEgresados))return true;const rects=[...data.buildings.flatMap(b=>b.rects),...data.plazas.map(p=>p.rect),...data.parking,...data.paths,[1453,360,1650,686],[1440,260,1510,375]];return rects.some(r=>x>r[0]-10&&x<r[2]+10&&y>r[1]-10&&y<r[3]+10);}
+function excluded(x,y){if(excluirArboladoAmbientalPosgrados(x,y))return true;const t=data.buildings.find(b=>b.id==='T'),r=t?.rects[0];if(r&&x>r[0]-5+(t.offsetX||0)/S()&&x<r[0]+70+(t.offsetX||0)/S()&&y>r[1]-36+(t.offsetZ||0)/S()&&y<r[1]+(t.offsetZ||0)/S())return true;if(inside(x,y,contornoPlazaEgresados))return true;const rects=[...data.buildings.flatMap(b=>b.rects),...data.plazas.map(p=>p.rect),...data.parking,...data.paths,[1453,360,1650,686],[1440,260,1510,375]];return rects.some(r=>x>r[0]-10&&x<r[2]+10&&y>r[1]-10&&y<r[3]+10);}
 let mexicanFlagMaterial;
 function flagMaterial(){
  if(mexicanFlagMaterial)return mexicanFlagMaterial;
@@ -1297,6 +1297,7 @@ function generate(){
  for(const spec of data.corridors||[])corridor(spec);
  if(data.cosei)coseiPlaza(data.cosei);
  construirPaisajeAcademico({THREE,world,box,slab,meshPoly,material,tree,X,Z,S});
+ construirJardinPosgrados({THREE,world,box,slab,meshPoly,tree,X,Z,S});
  construirGimnasioExteriorM({THREE,world,meshPoly,box,material,X,Z});
  construirPaisajeHHP({THREE,world,meshPoly,slab,tree,X,Z,S});
  const egresados=crearPlazaEgresados({THREE,world,material,X,Z});
@@ -1377,6 +1378,7 @@ const artworkViews={uroboros:'T_escultura_acero_patio',primeraLetra:'W_escultura
 const sectorViews={
  accesoSanPablo:{target:[66,2.6,220],offset:[-24,8,8]},
  jardinBD:{target:[351,.7,362],offset:[-28,69,25]},
+ jardinPosgrados:{target:[403,1.1,255],offset:[-22,66,-41]},
  llegadaD:{target:[407,1,275],offset:[34,24,-38]},
  patioH:{target:[824,.5,345],offset:[9,53,19]},
  bardaEje5:{target:[971,1.15,693],offset:[-17,13,23]},

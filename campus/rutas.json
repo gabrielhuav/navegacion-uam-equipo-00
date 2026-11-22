@@ -2166,7 +2166,7 @@
     },
     {
       "id": "Q",
-      "nombre": "Q · Gimnasio de pesas",
+      "nombre": "Q · Gimnasio de pesas (Acondicionamiento físico)",
       "nodo": "n115",
       "referencia": "Sigue el andador entre las multicanchas y el campo natural hasta la fachada de Q. La llegada es aproximada; identifica la puerta de pesas con la señalización local."
     },
@@ -2696,6 +2696,14 @@
       "edificio": "K",
       "nivel": 1,
       "referencia": "La ruta termina en el acceso de K. Busca el aula K-116 en el primer piso."
+    },
+    {
+      "id": "K306",
+      "nombre": "K-306 · Aula",
+      "nodo": "n60",
+      "edificio": "K",
+      "nivel": 3,
+      "referencia": "La ruta termina en el acceso de K. Busca el aula K-306 en el tercer piso."
     },
     {
       "id": "K308",

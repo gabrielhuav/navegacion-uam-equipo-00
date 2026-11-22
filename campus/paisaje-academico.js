@@ -51,3 +51,60 @@ export function construirPaisajeAcademico({THREE,world,box,slab,meshPoly,materia
   meshPoly(group,[[905,613],[943,613],[966,605],[969,615],[960,617],[906,617]],
     .36,'#b6b4a9','Solera_frente_galeria_T');
 }
+
+
+const jardinPosgrados = [
+  [270,242],[531,242],[531,275],[521,280],[295,280],[283,277],[280,269],[269,265],
+];
+
+// El Sendero 3 y la ortofoto muestran grupos de copas escalonados en el jardín de D.
+const arbolesPosgrados = [
+  [285,251,.83],[305,258,1.04],[325,249,.91],[344,258,1.12],[374,261,1.02],
+  [396,253,.88],[410,268,1.22],[439,257,1.17],[468,251,1.19],[490,266,1.04],
+  [515,255,.92],
+];
+
+export function excluirArboladoAmbientalPosgrados(x,z) {
+  return x>=266&&x<=532&&z>=234&&z<=280;
+}
+
+export function construirJardinPosgrados({THREE,world,box,slab,meshPoly,tree,X,Z,S}) {
+  const grupo = new THREE.Group();
+  grupo.name = 'Jardin_y_andador_Posgrados_D';
+  grupo.userData = {
+    approximate:true,
+    reference:'UAM Azcapotzalco, Sendero Interpretativo 3 Posgrados y ortofoto Esri registrada',
+  };
+  world.add(grupo);
+
+  // Franja entre el estacionamiento y el jardín. El cruce transversal conecta con el andador existente.
+  const [inicio,fin] = [266,542];
+  const [bordeEstacionamiento,bordeJardin] = [235,242];
+  slab(grupo,[inicio,bordeEstacionamiento,fin,bordeJardin],'#a9a89c',.281,.073,'Andador_Posgrados_concreto');
+  for (const borde of [bordeEstacionamiento,bordeJardin]) {
+    slab(grupo,[inicio,borde-.35,fin,borde+.35],'#c0bbad',.283,.078,'Borde_enrasado_andador_Posgrados');
+  }
+  for (let x=inicio+8; x<fin-2; x+=8) {
+    box(grupo,'Junta_andador_Posgrados',X(x),.319,Z((bordeEstacionamiento+bordeJardin)/2),
+      .027,.008,(bordeJardin-bordeEstacionamiento-.7)*S(),'#88897e');
+  }
+
+  meshPoly(grupo,jardinPosgrados,.245,'#7c8c54','Cesped_jardin_Posgrados');
+  const zonasVerdes = [
+    [[279,249],[297,244],[329,245],[340,251],[328,260],[304,270],[288,268]],
+    [[335,251],[364,247],[391,253],[408,260],[411,271],[394,277],[372,275],[348,267]],
+    [[417,246],[455,244],[480,247],[494,255],[481,265],[461,274],[435,269],[419,257]],
+    [[486,267],[502,256],[519,249],[530,253],[527,271],[515,278],[497,279]],
+  ];
+  for (const [i,parcela] of zonasVerdes.entries()) {
+    meshPoly(grupo,parcela,.252,['#74874f','#788a54','#70864f','#748b54'][i],'Manto_vegetal_Posgrados');
+  }
+  const claros = [
+    [[288,275],[301,265],[323,261],[344,263],[359,271],[373,278],[295,279]],
+    [[405,276],[418,270],[431,271],[438,276],[461,279],[410,279]],
+  ];
+  for (const claro of claros) meshPoly(grupo,claro,.256,'#96916a','Claro_terroso_jardin_Posgrados');
+
+  for (const [x,z,tamano] of arbolesPosgrados) tree(x,z,tamano,false,.248);
+  return grupo;
+}
