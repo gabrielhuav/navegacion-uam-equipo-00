@@ -116,21 +116,40 @@ const setosJK = [
 ];
 
 export function excluirArboladoAmbientalJK(x,z) {
-  return x>=915&&x<=958&&z>=417&&z<=438;
+  return x>=913&&x<=970&&z>=413&&z<=444;
 }
 
-export function construirJardinJK({THREE,world,vegetation,box,meshPoly,material,X,Z,S}) {
+export function construirJardinJK({THREE,world,vegetation,box,meshPoly,material,tree,X,Z,S}) {
   const terreno = new THREE.Group();
   terreno.name = 'Jardin_entre_J_y_K';
   terreno.userData = {
     approximate: true,
-    reference: 'Panteras Al Rescate, Recorrido en RV por la UAM Azcapotzalco, 8:03–8:10; ortofoto Esri registrada',
+    reference: 'Panteras Al Rescate, Recorrido en RV por la UAM Azcapotzalco, 8:03–8:10 y 9:35–10:23; planta EAE 10 de Elogio al espacio',
   };
   world.add(terreno);
   meshPoly(terreno,[[915,418],[955,418],[958,421],[958,434],[953,437],[916,436]],
     .246,'#829653','Cesped_entre_cafeteria_y_K');
   meshPoly(terreno,[[938,426],[948,424],[953,429],[950,434],[941,434]],
     .253,'#78894e','Franja_verde_bajo_yucas_J_K');
+
+  // El piso claro de la galería bordea los setos. Junto a K-001 se ensancha
+  // el paño de adoquín con un alcorque. La posición de la esquina es aproximada.
+  meshPoly(terreno,[[913,413],[967,413],[967,419],[913,419]],
+    .249,'#c4c5bb','Franja_clara_al_pie_de_K');
+  meshPoly(terreno,[[956,418],[967,418],[967,441],[962,443],[956,442]],
+    .25,'#94998b','Ensanche_adoquinado_K');
+  const alcorque = [960,427,965,436];
+  for (let z=418;z<440;z+=2.3) {
+    const desfase=Math.round((z-418)/2.3)%2===0 ? 0 : 1.05;
+    for (let x=956+desfase;x+2.1<=967;x+=2.1) {
+      if(x+2.1>alcorque[0]&&x<alcorque[2]&&z+2.3>alcorque[1]&&z<alcorque[3])continue;
+      const tonos=['#a1a394','#adae9e','#a7a899'];
+      meshPoly(terreno,[[x+.055,z+.055],[x+2.045,z+.055],[x+2.045,z+2.245],[x+.055,z+2.245]],
+        .259,tonos[Math.round(x+z)%tonos.length],'Adoquin_ensanche_K');
+    }
+  }
+  meshPoly(terreno,[[960,427],[965,427],[965,436],[960,436]],.266,'#747553','Alcorque_rectangular_K');
+  tree(962.4,431.5,.63,false,.27);
 
   const plantas = new THREE.Group();
   plantas.name = 'Setos_y_yucas_J_K';

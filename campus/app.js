@@ -25,6 +25,7 @@ import {parcelasVerdesHHP,andadorHHP,trazadosHHP,construirPaisajeHHP} from 'pais
 import {contornoPlazaEgresados,crearPlazaEgresados} from 'plaza-egresados';
 import {andadorAcademico,jardinesAcademicos,construirPaisajeAcademico,construirJardinPosgrados,excluirArboladoAmbientalPosgrados,construirJardinJK,excluirArboladoAmbientalJK} from 'paisaje-academico';
 import {construirLlegadaPuerta6,excluirArboladoAmbientalPuerta6} from 'llegada-puerta6';
+import {crearEsculturaPielDelMar} from 'escultura-piel-del-mar';
 import {construirEdificioO,construirGaleriaSTalleres,reconstruirCubiertasTalleres} from 'sector-talleres-deportes';
 import {construirPlazaRoja,construirCuerpoConGaleriaF,construirPorticoV1} from 'sector-acceso-plaza';
 import {crearPlazasAjedrez} from 'plazas-ajedrez';
@@ -1299,7 +1300,7 @@ function generate(){
  if(data.cosei)coseiPlaza(data.cosei);
  construirPaisajeAcademico({THREE,world,box,slab,meshPoly,material,tree,X,Z,S});
  construirJardinPosgrados({THREE,world,box,slab,meshPoly,tree,X,Z,S});
- construirJardinJK({THREE,world,vegetation,box,meshPoly,material,X,Z,S});
+ construirJardinJK({THREE,world,vegetation,box,meshPoly,material,tree,X,Z,S});
  construirLlegadaPuerta6({THREE,world,meshPoly,tree});
  construirGimnasioExteriorM({THREE,world,meshPoly,box,material,X,Z});
  construirPaisajeHHP({THREE,world,meshPoly,slab,tree,X,Z,S});
@@ -1310,6 +1311,10 @@ function generate(){
  const tresGracias=construirJardinTresGracias({THREE,world,material,X,Z});
  registerEditable('sculpture_tres_gracias_HP','Las tres Gracias · HP','sculpture',tresGracias);
  if(tresGracias.parent)label('Las tres Gracias',tresGracias.position.x,4.8,tresGracias.position.z,'place');
+ const pielDelMar=crearEsculturaPielDelMar({THREE,material,X,Z});
+ world.add(pielDelMar);
+ registerEditable('sculpture_piel_del_mar_K','La piel del mar · jardín de K','sculpture',pielDelMar);
+ if(pielDelMar.parent)label('La piel del mar',pielDelMar.position.x,3.4,pielDelMar.position.z,'place');
  agregarEntornoCorpus({THREE,data,world,box,material,X,Z,S,net:routeEditor?.getNet()||BASE_ROUTES});
  const detallesPonente=crearDetallesMapsPonente(THREE,data,perimetroCruzaFutbol7);
  world.add(detallesAccesos,crearDetallesMapsPlazas(THREE,data),detallesPonente,corredorCultural);
@@ -1414,6 +1419,8 @@ const sectorViews={
  qAzotea:{target:[1588,2.7,573],offset:[-19,15,-14]},
  kEstacionamiento:{target:[1032,5.8,380],offset:[-11,3.3,-26]},
  jardinJK:{target:[938,1.05,428],offset:[16,12,18]},
+ jardinDesdeK:{target:[952,.9,427],offset:[9.8,19,8]},
+ pielDelMar:{target:[1033,1.6,370],offset:[-10,3.7,-3]},
  qExterior:{target:[1593,1.55,550],offset:[-56,12,-7]},
  rExterior:{target:[1370,5.1,280],offset:[-36,16,56]},
  puerta6:{target:[1370,1.3,650],offset:[-12,45,43]},
@@ -1594,6 +1601,7 @@ function parkingObstacles(){
  }
  for(const entry of editables.values())if(entry.kind==='sculpture'&&entry.node.parent){const poly=parkingNodeBounds(entry.node,.22);if(poly.length)hard.push(poly);}
  const plazuela=world.getObjectByName('Plazuela_bancas_curvas_J');if(plazuela)hard.push(parkingNodeBounds(plazuela,.15));
+ const pielDelMar=world.getObjectByName('La_piel_del_mar_K');if(pielDelMar)hard.push(parkingNodeBounds(pielDelMar,.15));
  for(const p of data.plazas)hard.push(parkingWorldRect(p.rect,.12));
  for(const r of data.paths)pedestrian.push(parkingWorldRect(r,.12));
  const net=routeEditor?.getNet()||BASE_ROUTES,nodes=new Map(net.nodos.map(n=>[n.id,n]));

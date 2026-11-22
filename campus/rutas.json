@@ -2610,6 +2610,38 @@
       "referencia": "Llegada al acceso de D; auditorio en planta baja. Consulta la señalización del edificio."
     },
     {
+      "id": "W001",
+      "nombre": "W001 · Sala",
+      "nodo": "n47",
+      "edificio": "W",
+      "nivel": 0,
+      "referencia": "La ruta termina en el acceso de W. Sigue la señalización de W001 en la planta baja."
+    },
+    {
+      "id": "W002",
+      "nombre": "W002 · Sala",
+      "nodo": "n47",
+      "edificio": "W",
+      "nivel": 0,
+      "referencia": "La ruta termina en el acceso de W. Sigue la señalización de W002 en la planta baja."
+    },
+    {
+      "id": "W003",
+      "nombre": "W003 · Sala",
+      "nodo": "n47",
+      "edificio": "W",
+      "nivel": 1,
+      "referencia": "La ruta termina en el acceso de W. Sigue la señalización de W003 en el primer piso."
+    },
+    {
+      "id": "W004",
+      "nombre": "W004 · Sala",
+      "nodo": "n47",
+      "edificio": "W",
+      "nivel": 1,
+      "referencia": "La ruta termina en el acceso de W. Sigue la señalización de W004 en el primer piso."
+    },
+    {
       "id": "W_LAPLACE",
       "nombre": "Laboratorio de Aplicaciones de Plasma Frío y Conversión de Energía (LAPLACE)",
       "nodo": "n47",
@@ -2687,7 +2719,7 @@
       "nodo": "n60",
       "edificio": "K",
       "nivel": 0,
-      "referencia": "La ruta termina en el acceso de K. Busca el auditorio K-001 en planta baja."
+      "referencia": "La ruta termina en el acceso de K. Busca la puerta roja del auditorio K-001 en la galería de planta baja frente al jardín de la cafetería."
     },
     {
       "id": "K_POSGRADOS_CBI",
