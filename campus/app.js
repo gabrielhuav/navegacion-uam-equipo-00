@@ -27,6 +27,7 @@ import {andadorAcademico,jardinesAcademicos,construirPaisajeAcademico,construirJ
 import {construirLlegadaPuerta6,excluirArboladoAmbientalPuerta6} from 'llegada-puerta6';
 import {crearEsculturaPielDelMar} from 'escultura-piel-del-mar';
 import {crearEsculturaDosSoluciones} from 'escultura-dos-soluciones';
+import {crearEsculturaPrimavera} from 'escultura-primavera';
 import {construirEdificioO,construirGaleriaSTalleres,reconstruirCubiertasTalleres} from 'sector-talleres-deportes';
 import {construirPlazaRoja,construirCuerpoConGaleriaF,construirPorticoV1} from 'sector-acceso-plaza';
 import {crearPlazasAjedrez} from 'plazas-ajedrez';
@@ -1320,6 +1321,10 @@ function generate(){
  world.add(dosSoluciones);
  registerEditable('sculpture_dos_soluciones','Dos soluciones · San Pablo Xalpa','sculpture',dosSoluciones);
  if(dosSoluciones.parent)label('Dos soluciones',dosSoluciones.position.x,5.4,dosSoluciones.position.z,'place');
+ const primavera=crearEsculturaPrimavera({THREE,material,X,Z});
+ world.add(primavera);
+ registerEditable('sculpture_primavera_E','Primavera · jardín de E','sculpture',primavera);
+ if(primavera.parent)label('Primavera',primavera.position.x,4.2,primavera.position.z,'place');
  agregarEntornoCorpus({THREE,data,world,box,material,X,Z,S,net:routeEditor?.getNet()||BASE_ROUTES});
  const detallesPonente=crearDetallesMapsPonente(THREE,data,perimetroCruzaFutbol7);
  world.add(detallesAccesos,crearDetallesMapsPlazas(THREE,data),detallesPonente,corredorCultural);
@@ -1398,6 +1403,7 @@ const sectorViews={
  jardinBD:{target:[351,.7,362],offset:[-28,69,25]},
  dosSoluciones:{target:[174,2.2,535],offset:[-11,5,-6]},
  jardinPosgrados:{target:[403,1.1,255],offset:[-22,66,-41]},
+ primaveraE:{target:[588,1.5,465],offset:[9,6.5,16]},
  llegadaD:{target:[407,1,275],offset:[34,24,-38]},
  patioH:{target:[824,.5,345],offset:[9,53,19]},
  bardaEje5:{target:[971,1.15,693],offset:[-17,13,23]},

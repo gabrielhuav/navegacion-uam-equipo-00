@@ -2690,6 +2690,46 @@
       "referencia": "La ruta termina en el acceso de C. Busca la Galería del Tiempo en planta baja, dentro del corredor cultural."
     },
     {
+      "id": "C_CELEX",
+      "nombre": "C · Coordinación de Lenguas Extranjeras (CELEX)",
+      "nodo": "n51",
+      "edificio": "C",
+      "nivel": 1,
+      "referencia": "La ruta termina en el acceso de C. Busca CELEX en el primer piso."
+    },
+    {
+      "id": "C_GESTION_ACADEMICA",
+      "nombre": "C · Coordinación de Gestión Académica",
+      "nodo": "n51",
+      "edificio": "C",
+      "nivel": 2,
+      "referencia": "La ruta termina en el acceso de C. Busca la Coordinación de Gestión Académica en el segundo piso."
+    },
+    {
+      "id": "C_RECTORIA",
+      "nombre": "C · Rectoría de la Unidad",
+      "nodo": "n51",
+      "edificio": "C",
+      "nivel": 3,
+      "referencia": "La ruta termina en el acceso de C. Busca la Rectoría de la Unidad en el tercer piso."
+    },
+    {
+      "id": "C_CAJA_UNIDAD",
+      "nombre": "C · Caja de la Unidad",
+      "nodo": "n51",
+      "edificio": "C",
+      "nivel": 3,
+      "referencia": "La ruta termina en el acceso de C. Busca la Caja de la Unidad en el tercer piso."
+    },
+    {
+      "id": "C_OTCA",
+      "nombre": "C · Oficina Técnica del Consejo Académico",
+      "nodo": "n51",
+      "edificio": "C",
+      "nivel": 3,
+      "referencia": "La ruta termina en el acceso de C. Busca la Oficina Técnica del Consejo Académico en el tercer piso."
+    },
+    {
       "id": "D007",
       "nombre": "D007 · Sala de capacitación",
       "nodo": "n33",
