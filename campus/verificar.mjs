@@ -49,7 +49,8 @@ const embeddedSources=['site-clearance','detalles-corpus','accesos-modelados','d
 assert.deepEqual(Object.keys(imports).sort(),['three','orbit','exporter','texture-utils','model-data','copyright-layout','route-space','route-data','route-editor',...embeddedSources].sort());assert.ok(Object.values(imports).every(v=>v.startsWith('data:text/javascript;base64,')));
 for(const name of embeddedSources){
  const source=Buffer.from(imports[name].split(',')[1],'base64').toString();
- assert.equal(source,await fs.readFile(new URL('./'+name+'.js',import.meta.url),'utf8'),'Módulo portátil distinto de la fuente: '+name);
+ const original=(await fs.readFile(new URL('./'+name+'.js',import.meta.url),'utf8')).replace(/\r\n/g,'\n');
+ assert.equal(source,original,'Módulo portátil distinto de la fuente: '+name);
  assert.ok(!/from\s*['"]\.{1,2}\//.test(source),'Import relativo no resoluble en módulo incrustado: '+name);
 }
 const exporter=Buffer.from(imports.exporter.split(',')[1],'base64').toString();assert.ok(exporter.includes("from 'texture-utils'"));

@@ -109,7 +109,7 @@ function preparar(THREE,data,net) {
     return ![...huellas,...pasos].some(q => polygonsOverlap(p,q)) &&
       polygonArea(intersectConvex(p,predio))>w*d-1e-6;
   };
-  return {THREE,root,s,punto,rect,pasos,huellas,predio,grupo,caja,cajasAgrupadas,superficie,libre};
+  return {THREE,root,s,punto,rect,pasos,huellas,predio,grupo,malla,caja,cajasAgrupadas,superficie,libre};
 }
 
 function reja({cajasAgrupadas},g,x,segmentos) {
@@ -229,6 +229,56 @@ function estacionamientoPuerta2(ctx,data) {
   superficie(g,'Franja_verde_entre_panos_Puerta_2',subtractObstacles(jardin,obstaculos),.280,cesped);
 }
 
+function detallarJardinBD(ctx,data,andador) {
+  const {THREE,root,grupo,malla,caja,punto,rect,huellas,pasos,predio,superficie} = ctx;
+  const g = grupo('Jardin_B_D_mobiliario_y_canteros',
+    'Levantamiento UAM 2023, lámina VE 01/02, y registro fotográfico del jardín 2013 y 2017');
+  const obstaculos = [...huellas,...pasos,...data.paths.map(rect),...andador];
+  const tonoConcreto = '#abaea3';
+  const mallaCircular = (nombre,x,y,z,rSuperior,rInferior,altura,color) => {
+    const m = malla(g,nombre,new THREE.CylinderGeometry(rSuperior,rInferior,altura,20),color);
+    m.position.set(x,y,z);
+  };
+
+  // El levantamiento permite reconocer el jardín y el alineamiento junto a C.
+  // Los bordes de suelo, el mobiliario y la altura de los setos son aproximados.
+  const paños = [
+    {contorno:[[260,381],[304,373],[332,391],[338,418],[321,438],[264,435]],color:'#7d8c59'},
+    {contorno:[[346,391],[381,382],[413,393],[417,422],[402,444],[348,444]],color:'#77874f'},
+    {contorno:[[254,405],[274,403],[289,413],[298,432],[273,441],[255,431]],color:'#95866a'},
+    {contorno:[[397,408],[421,400],[429,412],[429,432],[416,442],[397,432]],color:'#998b6c'},
+  ];
+  for (const [i,{contorno,color}] of paños.entries()) {
+    const partes = subtractObstacles(intersectConvex(contorno.map(punto),predio),obstaculos);
+    superficie(g,'Suelo_jardin_B_D_'+i,partes,.117+i*.004,color);
+  }
+
+  const setos = [[429.2,411,431.5,433.5],[429.2,439,431.5,448.3]];
+  for (const [x0,z0,x1,z1] of setos) {
+    const huella = rect([x0,z0,x1,z1]);
+    if (obstaculos.some(p => polygonsOverlap(p,huella))) continue;
+    const p = punto([(x0+x1)/2,(z0+z1)/2]), w = (x1-x0)*ctx.s, d = (z1-z0)*ctx.s;
+    caja(g,'Bordillo_del_cantero_jardin_B_D',p.x,.15,p.z,w,.10,d,tonoConcreto);
+    caja(g,'Seto_bajo_junto_a_C',p.x,.44,p.z,w-.18,.48,d-.16,'#4b6638');
+    root.userData.reservasArbolado.push(huella);
+  }
+
+  for (const {x,z} of [[356,426],[380,426]].map(punto)) {
+    const huella = rectanglePolygon(x,z,3.18,3.18);
+    if (obstaculos.some(p => polygonsOverlap(p,huella))) continue;
+    mallaCircular('Plataforma_circular_jardin_B_D',x,.159,z,1.58,1.59,.12,tonoConcreto);
+    mallaCircular('Pedestal_mesa_jardin_B_D',x,.529,z,.22,.31,.62,'#777b70');
+    mallaCircular('Tablero_circular_jardin_B_D',x,.884,z,.74,.74,.09,'#babdb0');
+    for (let i=0;i<4;i++) {
+      const a = Math.PI*(.25+.5*i), asientoX = x+1.16*Math.cos(a), asientoZ = z+1.16*Math.sin(a);
+      mallaCircular('Base_asiento_jardin_B_D',asientoX,.361,asientoZ,.14,.19,.284,'#777b70');
+      mallaCircular('Asiento_independiente_jardin_B_D',asientoX,.538,asientoZ,.29,.27,.07,'#aeb1a2');
+    }
+    root.userData.reservasArbolado.push(huella);
+  }
+}
+
+
 function senderoJardin(ctx,data) {
   const {THREE,root,grupo,punto,superficie,rect,huellas,predio} = ctx;
   const g = grupo('Andadores_observados_B_D','Vista aérea de Google Maps y Esri');
@@ -248,6 +298,7 @@ function senderoJardin(ctx,data) {
   });
   superficie(g,'Sendero_curvo_visible_desde_C',tramos,.313,'#b8af97');
   root.userData.reservasArbolado.push(...tramos);
+  detallarJardinBD(ctx,data,tramos);
   const b = data.buildings.find(b => b.id==='B');
   if (b) {
     const [x0,z0,x1,z1] = b.rects[0];

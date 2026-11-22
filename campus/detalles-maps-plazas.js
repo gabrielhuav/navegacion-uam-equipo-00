@@ -132,7 +132,13 @@ function detallarPatioH(THREE, raiz, data, X, Z) {
   const patioH = new THREE.Group();
   patioH.name = 'H_patio_central_ajardinado';
   patioH.position.set(X(medioX), .355, Z(medioZ));
-  patioH.userData = {approximate: true, reference: 'Vista aérea registrada sobre el patio. Cotas y función de las bandas pendientes.', source: fuenteH};
+  patioH.userData = {
+    approximate: true,
+    reference: 'Contornos del croquis existente. Pavimento y arriate interpretados a partir de fotos del patio de 2007.',
+    source: fuenteH,
+    historicalPhoto: 'https://sandrocohen.blogspot.com/2007/09/',
+    institutionalPhoto: 'https://kali.azc.uam.mx/aleph/numeros/aleph115.pdf#page=6'
+  };
   raiz.add(patioH);
 
   // Posición relativa a los cuatro bordes del patio. Los números proceden de la
@@ -140,8 +146,8 @@ function detallarPatioH(THREE, raiz, data, X, Z) {
   const aX = x => X(x0 + (x - 785) / 78 * (x1 - x0)) - patioH.position.x;
   const aZ = z => Z(z0 + (z - 316) / 58 * (z1 - z0)) - patioH.position.z;
 
-  function suelo(nombre, puntos, y, color) {
-    const objeto = superficie(THREE, patioH, nombre, puntos.map(([x, z]) => [aX(x), y, aZ(z)]), acabado(THREE, color));
+  function suelo(nombre, puntos, y, material) {
+    const objeto = superficie(THREE, patioH, nombre, puntos.map(([x, z]) => [aX(x), y, aZ(z)]), material);
     objeto.userData.disposeMaterial = true;
   }
 
@@ -149,29 +155,44 @@ function detallarPatioH(THREE, raiz, data, X, Z) {
   base.position.y = -.085;
   base.userData.disposeMaterial = true;
 
+  // El suelo claro del patio se distingue del corredor terracota protegido
+  // por el edificio. Los pasillos conservan el nivel y el contorno del modelo.
+  const losas = despieceDePavimento(THREE, [182, 173, 154], [155, 148, 137]);
+  suelo('H_losas_claras_del_patio', [[791,322],[857,322],[857,368],[791,368]], .004, losas);
+
   // Las tres trazas claras del lado de HP se interpretan como franjas al ras.
   // El contorno del patio, el nivel y los espacios de paso no se desplazan.
   const tonos = ['#b4aaa0', '#d4c9b7', '#dcd1bc'];
   for (let i = 0; i < tonos.length; i++) {
     const x = 861 - i * 2.05, z = 372 - i * 2.05;
     suelo('H_banda_clara_del_claustro_' + (i + 1), [[x-1.68,318.6],[x,318.6],[x,z],
-      [833.4,z],[833.4,z-1.68],[x-1.68,z-1.68]], .008, tonos[i]);
+      [833.4,z],[833.4,z-1.68],[x-1.68,z-1.68]], .008, acabado(THREE, tonos[i]));
   }
 
   const jardines = [
     {nombre: 'paño_vegetado_mayor', puntos: [[833,369],[817,370],[803,365],[798,358],[801,351],[810,347],[820,352],[828,356]],
-      color: '#687d4c', arbol: [816,360,3.4]},
+      color: '#687d4c', arbol: [816,360,3.4], guarnicion: true},
     {nombre: 'arriate_lado_HP', puntos: [[858,340],[850,341],[841,339],[834,332],[835,326],[842,324],[850,328],[857,331]],
       color: '#61734c', arbol: [846,333,2.75]},
     {nombre: 'paño_en_esquina', puntos: [[855,323],[849,319],[839,319],[831,322],[836,327],[843,328],[850,326]],
       color: '#777945', arbol: [843,323,1.9]},
   ];
-  for (const {nombre, puntos, color, arbol} of jardines) {
-    suelo('H_borde_' + nombre, puntos, .012, '#77736a');
+  for (const {nombre, puntos, color, arbol, guarnicion} of jardines) {
+    suelo('H_borde_' + nombre, puntos, .012, acabado(THREE, '#888176'));
     const xMedio = puntos.reduce((s, [x]) => s + x / puntos.length, 0);
     const zMedio = puntos.reduce((s, [, z]) => s + z / puntos.length, 0);
     const interior = puntos.map(([x, z]) => [xMedio + .93 * (x - xMedio), zMedio + .91 * (z - zMedio)]);
-    suelo('H_' + nombre, interior, .018, color);
+    suelo('H_' + nombre, interior, .018, acabado(THREE, color));
+    if (guarnicion) {
+      const contorno = new THREE.Shape(puntos.map(([x, z]) => new THREE.Vector2(aX(x), -aZ(z))));
+      contorno.holes.push(new THREE.Path(interior.map(([x, z]) => new THREE.Vector2(aX(x), -aZ(z)))));
+      const perfil = new THREE.ExtrudeGeometry(contorno, {depth: .11, bevelEnabled: false});
+      const borde = malla(THREE, patioH, 'H_guarnicion_de_concreto_del_arriate', perfil, acabado(THREE, '#bcb3a5'));
+      borde.rotation.x = -Math.PI / 2;
+      borde.position.y = .016;
+      borde.castShadow = true;
+      borde.userData.disposeMaterial = true;
+    }
     const [x, z, radio] = arbol;
     const alto = 1.9 + radio * .5;
     const tronco = malla(THREE, patioH, 'H_tronco_de_patio', new THREE.CylinderGeometry(.13, .21, alto, 8), acabado(THREE, '#615640'));

@@ -1357,7 +1357,7 @@ const interiores={
  libreria:{crear:crearVistaLibreria,titulo:'C · Librería UAM',nota:'Vista del cancel, el corredor y el área de cajas y casilleros. El mobiliario se representa de forma esquemática.'},
  galeriaDelTiempo:{crear:crearVistaGaleriaDelTiempo,titulo:'C · Galería del Tiempo',nota:'Corte de reconocimiento de la sala en planta baja. Montaje y medidas esquemáticos.'},
  biblioteca:{crear:crearInteriorBiblioteca,titulo:'I · Sala de lectura',nota:'Corte esquemático de la sala de doble altura. Ubicaciones interiores aproximadas.'},
- cafeteria:{crear:crearInteriorCafeteria,titulo:'J · Comedor',nota:'Corte esquemático basado en las fotos comunitarias de 2017.'},
+ cafeteria:{crear:crearInteriorCafeteria,titulo:'J · Comedor',nota:'Corte esquemático basado en la planta y las fotos de la remodelación de 2009 y en fotos comunitarias de 2017.'},
  redes:{crear:crearInteriorG302,titulo:'G302-A · Aula de Redes',nota:'Piso 3. Corte esquemático basado en el recorrido de Electrónica y las fotografías del aula.'},
  cyad:{crear:crearInteriorL,titulo:'L · Vestíbulo de CyAD',nota:'Corte esquemático según fotos comunitarias de 2024 y 2026.'},
  atrioW:{crear:crearInteriorW,titulo:'W · Atrio',nota:'Corte esquemático del atrio, las galerías y el muro de vidrio con su pila, basado en fotos y el recorrido de 360°.'},

@@ -250,9 +250,9 @@ export function crearInteriorW(THREE) {
 
 // El mapa y la UAM identifican el gimnasio de duela en R. La cubierta se muestra en corte.
 export function crearInteriorR(THREE) {
-  const {group, caja, barra, marcarPiso, colocarMallas} = prepararCorte(THREE, 'Interior_R_Gimnasio_duela', 'Google Maps: Gimnasio UAM, fotos 1–3, 5, 7–9; Expo Deportiva UAM-A');
+  const {group, caja, barra, marcarPiso, colocarMallas} = prepararCorte(THREE, 'Interior_R_Gimnasio_duela', 'Coordinación General Académica UAM-A, foto de la cancha de duela; Expo Deportiva UAM-A; fotos comunitarias del gimnasio');
   const duela = ['#bd9255', '#c89d5c', '#cca463', '#c49b61', '#d3ab68', '#cda16b'];
-  const rojo = '#a3333c', gris = '#848d8e', muro = '#e2e0d6', azul = '#36a4ce';
+  const rojo = '#a3333c', gris = '#848d8e', muro = '#e2e0d6', azul = '#36a4ce', ocre = '#c99c46';
   const blanco = '#f3ecda', linea = '#56656a', xBorde = 16.5, zFondo = -10.4, zFrente = 10.4;
   caja('#9d9c91', 0, -.27, 1.7, 33.3, .5, 24.3);
   caja('#be955b', 0, -.023, 0, 33, .05, 20.8);
@@ -286,11 +286,18 @@ export function crearInteriorR(THREE) {
     const angulo = lado > 0 ? Math.PI : 0;
     marcarPiso(blanco, semicirculo(centro, 0, 1.82, angulo - Math.PI / 2, angulo + Math.PI / 2), .055);
     marcarPiso(blanco, semicirculo(lado * 12.43, 0, 6.30, angulo - Math.PI / 2, angulo + Math.PI / 2), .057);
-    caja(rojo, lado * 15.55, .86, 0, .56, 1.72, .82);
-    barra('#e7e3d8', [lado * 15.55, 1.6, 0], [lado * 13.42, 3.16, 0], .13);
-    caja('#aabcc1', lado * 13.39, 3.49, 0, .064, 1.08, 1.79);
-    caja(blanco, lado * 13.34, 3.38, 0, .033, .46, .63);
-    caja('#aabcc1', lado * 13.317, 3.38, 0, .028, .386, .55);
+    // Soportes triangulados por arriba del tablero y contra el muro de cabecera.
+    caja(rojo, lado * 16.28, 3.8, 0, .34, 7.6, .28);
+    for (const z of [-.59, .59]) {
+      barra(rojo, [lado * 16.08, 7.43, z], [lado * 13.44, 3.97, z], .11);
+      barra(rojo, [lado * 16.08, 5.20, z], [lado * 13.44, 3.62, z], .090);
+    }
+    caja(rojo, lado * 13.46, 3.65, 0, .095, .09, 1.27);
+    caja('#c3d3d4', lado * 13.39, 3.49, 0, .035, 1.08, 1.79, undefined, .42);
+    for (const y of [2.96, 4.02]) caja(rojo, lado * 13.38, y, 0, .046, .046, 1.80);
+    for (const z of [-.872, .872]) caja(rojo, lado * 13.38, 3.49, z, .046, 1.08, .046);
+    for (const y of [3.16, 3.60]) caja(rojo, lado * 13.35, y, 0, .055, .026, .62);
+    for (const z of [-.30, .30]) caja(rojo, lado * 13.35, 3.38, z, .055, .45, .026);
     const aro = new THREE.Mesh(new THREE.TorusGeometry(.222, .026, 6, 24), new THREE.MeshStandardMaterial({color: '#ad5940', roughness: .83}));
     aro.position.set(lado * 13.09, 3.04, 0);
     aro.rotation.x = Math.PI / 2;
@@ -318,9 +325,29 @@ export function crearInteriorR(THREE) {
   for (const lado of [-1, 1]) {
     const largoMuro = lado < 0 ? 17.8 : 7.1;
     const centroMuro = zFondo + largoMuro / 2;
-    caja(muro, lado * xBorde, 3.78, centroMuro, .19, 7.56, largoMuro);
-    caja(gris, lado * (xBorde - .108), .38, centroMuro, .055, .76, largoMuro);
+    caja(lado < 0 ? ocre : muro, lado * xBorde, 3.78, centroMuro, .19, 7.56, largoMuro);
+    caja(gris, lado * (xBorde - .108), .12, centroMuro, .055, .24, largoMuro);
   }
+
+  // Espalderas y portería junto al muro de la cabecera fotografiada por la UAM.
+  const madera = '#76502d', maderaClara = '#ac7841';
+  for (const centro of [-2.97, -1.77, .92]) {
+    for (const z of [centro - .38, centro + .38]) caja(madera, -16.24, 1.27, z, .095, 2.54, .074);
+    for (let y = .30; y <= 2.47; y += .21) caja(maderaClara, -16.14, y, centro, .053, .045, .82);
+  }
+  const golX = -15.61, golZ = -6.08, anchoGol = 2.62, altoGol = 1.83;
+  const claroGol = '#eee7d4', oscuroGol = '#302c29', redGol = '#a59375';
+  for (const z of [golZ - anchoGol / 2, golZ + anchoGol / 2]) {
+    for (let i = 0; i < 10; i++) caja(i % 2 ? claroGol : oscuroGol, golX, (i + .5) * altoGol / 10, z, .072, altoGol / 10, .072);
+    barra(redGol, [golX, altoGol, z], [golX - .70, 0, z], .035);
+    caja(oscuroGol, golX - .35, .037, z, .74, .064, .048);
+  }
+  for (let i = 0; i < 14; i++) {
+    const z = golZ - anchoGol / 2 + (i + .5) * anchoGol / 14;
+    caja(i % 2 ? claroGol : oscuroGol, golX, altoGol, z, .072, .072, anchoGol / 14);
+    barra(redGol, [golX, altoGol, z], [golX - .70, .05, z], .012);
+  }
+  for (let i = 1; i < 10; i++) caja(redGol, golX - .70 * i / 10, altoGol * (1 - i / 10), golZ, .012, .012, anchoGol);
 
   // Las fotos 2, 8 y 9 muestran las gradas lineales frente a los ventanales altos.
   const grisGradas = ['#a4a6a3', '#b9bab4', '#aeb0ab'];

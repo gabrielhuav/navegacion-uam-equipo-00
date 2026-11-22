@@ -2640,6 +2640,22 @@
       "edificio": "C",
       "nivel": 0,
       "referencia": "La ruta termina en el acceso de C. Busca la Galería del Tiempo en planta baja, dentro del corredor cultural."
+    },
+    {
+      "id": "D007",
+      "nombre": "D007 · Sala de capacitación",
+      "nodo": "n33",
+      "edificio": "D",
+      "nivel": 0,
+      "referencia": "La ruta termina en el acceso de D. Busca la sala D007 en planta baja."
+    },
+    {
+      "id": "D008",
+      "nombre": "D008 · Sala de capacitación",
+      "nodo": "n33",
+      "edificio": "D",
+      "nivel": 0,
+      "referencia": "La ruta termina en el acceso de D. Busca la sala D008 en planta baja."
     }
   ]
 }
