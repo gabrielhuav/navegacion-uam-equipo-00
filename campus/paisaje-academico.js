@@ -116,7 +116,40 @@ const setosJK = [
 ];
 
 export function excluirArboladoAmbientalJK(x,z) {
-  return x>=913&&x<=970&&z>=413&&z<=444;
+  return x>=913&&x<=970&&z>=413&&z<=446;
+}
+
+// Paños de pares de ladrillos rectangulares que alternan su orientación.
+function colocarAdoquinJK({THREE,terreno,material,X,Z,S,alcorque}) {
+  const paso = .48/S(), junta = .009/S();
+  const lotes = ['#989b91','#a5a79a','#8e9286','#a2a48e'].map(color=>({color,vertices:[]}));
+  for (let fila=0;418.34+(fila+1)*paso<=442.2;fila++) {
+    const z = 418.34+fila*paso;
+    for (let columna=0;956.05+(columna+1)*paso<=969.75;columna++) {
+      const x = 956.05+columna*paso;
+      if (x+paso>alcorque[0]&&x<alcorque[2]&&z+paso>alcorque[1]&&z<alcorque[3]) continue;
+      const horizontal = (fila+columna)%2===0;
+      const ancho = horizontal ? paso : paso/2;
+      const fondo = horizontal ? paso/2 : paso;
+      for (let pieza=0;pieza<2;pieza++) {
+        const izquierda = x+(horizontal?0:pieza*ancho);
+        const inicio = z+(horizontal?pieza*fondo:0);
+        const x0 = X(izquierda+junta), x1 = X(izquierda+ancho-junta);
+        const z0 = Z(inicio+junta), z1 = Z(inicio+fondo-junta);
+        const lote = lotes[(fila*3+columna+pieza+Math.floor(columna/5))%lotes.length];
+        lote.vertices.push(x0,.26,z0, x0,.26,z1, x1,.26,z1, x0,.26,z0, x1,.26,z1, x1,.26,z0);
+      }
+    }
+  }
+  for (const {color,vertices} of lotes) {
+    const geometria = new THREE.BufferGeometry();
+    geometria.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));
+    geometria.computeVertexNormals();
+    const malla = new THREE.Mesh(geometria,material(color));
+    malla.name = 'Adoquin_ensanche_K';
+    malla.receiveShadow = true;
+    terreno.add(malla);
+  }
 }
 
 export function construirJardinJK({THREE,world,vegetation,box,meshPoly,material,tree,X,Z,S}) {
@@ -124,7 +157,7 @@ export function construirJardinJK({THREE,world,vegetation,box,meshPoly,material,
   terreno.name = 'Jardin_entre_J_y_K';
   terreno.userData = {
     approximate: true,
-    reference: 'Panteras Al Rescate, Recorrido en RV por la UAM Azcapotzalco, 8:03–8:10 y 9:35–10:23; planta EAE 10 de Elogio al espacio',
+    reference: 'Panteras Al Rescate, Recorrido en RV por la UAM Azcapotzalco, 8:03–8:10 y 9:51–10:04; plano PC 2026, EAE 10 y ortofoto Esri',
   };
   world.add(terreno);
   meshPoly(terreno,[[915,418],[955,418],[958,421],[958,434],[953,437],[916,436]],
@@ -132,24 +165,25 @@ export function construirJardinJK({THREE,world,vegetation,box,meshPoly,material,
   meshPoly(terreno,[[938,426],[948,424],[953,429],[950,434],[941,434]],
     .253,'#78894e','Franja_verde_bajo_yucas_J_K');
 
-  // El piso claro de la galería bordea los setos. Junto a K-001 se ensancha
-  // el paño de adoquín con un alcorque. La posición de la esquina es aproximada.
-  meshPoly(terreno,[[913,413],[967,413],[967,419],[913,419]],
+  // El piso de K y el adoquín se encuentran junto a K-001. En el otro extremo
+  // se ve un borde bajo antes de la terracota de J. Se modela el suelo visible.
+  meshPoly(terreno,[[913,413],[969.8,413],[969.8,418],[913,418]],
     .249,'#c4c5bb','Franja_clara_al_pie_de_K');
-  meshPoly(terreno,[[956,418],[967,418],[967,441],[962,443],[956,442]],
-    .25,'#94998b','Ensanche_adoquinado_K');
+  meshPoly(terreno,[[956,418],[969.8,418],[969.8,442.3],[956,442.3]],
+    .248,'#7c8175','Ensanche_adoquinado_K');
+  meshPoly(terreno,[[956,418],[969.8,418],[969.8,418.29],[956,418.29]],
+    .258,'#b0b1a5','Junta_entre_galeria_y_adoquin_K');
+
   const alcorque = [960,427,965,436];
-  for (let z=418;z<440;z+=2.3) {
-    const desfase=Math.round((z-418)/2.3)%2===0 ? 0 : 1.05;
-    for (let x=956+desfase;x+2.1<=967;x+=2.1) {
-      if(x+2.1>alcorque[0]&&x<alcorque[2]&&z+2.3>alcorque[1]&&z<alcorque[3])continue;
-      const tonos=['#a1a394','#adae9e','#a7a899'];
-      meshPoly(terreno,[[x+.055,z+.055],[x+2.045,z+.055],[x+2.045,z+2.245],[x+.055,z+2.245]],
-        .259,tonos[Math.round(x+z)%tonos.length],'Adoquin_ensanche_K');
-    }
-  }
-  meshPoly(terreno,[[960,427],[965,427],[965,436],[960,436]],.266,'#747553','Alcorque_rectangular_K');
-  tree(962.4,431.5,.63,false,.27);
+  colocarAdoquinJK({THREE,terreno,material,X,Z,S,alcorque});
+  meshPoly(terreno,[[960,427],[965,427],[965,436],[960,436]],.263,'#777751','Alcorque_rectangular_K');
+  tree(962.4,431.5,.58,false,.267);
+  tree(963.3,434.4,.53,false,.267);
+
+  // Alturas y límites orientativos de la transición observada en 10:02–10:04.
+  box(terreno,'Borde_bajo_hacia_J',X(962.9),.278,Z(442.32),13.8*S(),.053,.35*S(),'#aaa797');
+  meshPoly(terreno,[[956,442.49],[969.8,442.49],[969.8,446],[956,446]],
+    .305,'#ad7969','Loseta_terracota_del_borde_de_J');
 
   const plantas = new THREE.Group();
   plantas.name = 'Setos_y_yucas_J_K';
