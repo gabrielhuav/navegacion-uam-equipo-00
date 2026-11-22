@@ -19,7 +19,7 @@ import {bloqueaArboladoEnAccesos,crearDetallesMapsAccesos,tramoRejaCICTE} from '
 import {crearDetallesMapsPlazas,detallarAroSerpentina} from 'detalles-maps-plazas';
 import {crearDetallesMapsPonente,cubrePerimetroMapsPonente} from 'detalles-maps-ponente';
 import {crearDetallesMapsCorredorCultural,detallarGaleriaCulturalE,crearInteriorIncalli,crearVistaLibreria,crearVistaGaleriaDelTiempo} from 'detalles-maps-corredor-cultural';
-import {construirCanchasDeportivas,construirGradasDeportivas,detallarAccesoDeportivo,perimetroCruzaFutbol7,superficiesDeportivas} from 'detalles-deportivos-maps';
+import {construirCanchasDeportivas,construirGradasDeportivas,construirFachadaQ,detallarAccesoDeportivo,perimetroCruzaFutbol7,superficiesDeportivas} from 'detalles-deportivos-maps';
 import {construirJardinTresGracias} from 'jardin-tres-gracias';
 import {parcelasVerdesHHP,andadorHHP,trazadosHHP,construirPaisajeHHP} from 'paisaje-h-hp';
 import {contornoPlazaEgresados,crearPlazaEgresados} from 'plaza-egresados';
@@ -744,14 +744,16 @@ function azcBuildingJ(part,b,w,d,h){
  const g=new THREE.Group();g.name='J_cafeteria_y_lucernario';g.userData={approximate:true,reference:'imagen_0004, imagen_0155 y Cafetería J en Maps'};part.add(g);
  const front=-d/2,recess=.38,band=Math.min(1.18,h*.35),soffit=h-band+.2,glass=front+recess-.09;
  const frame='#8e938d',glassColor='#364346',red='#a3232b';
- box(g,'Cuerpo de concreto',0,soffit/2,recess/2,w,soffit,d-recess,'#a3a39a');
+ // El recorrido de 7:54 a 8:09 muestra el cancel girando hacia la galería lateral.
+ const pasoLateral=Math.min(2.55,w*.17),centroComedor=-pasoLateral/2,limiteComedor=w/2-pasoLateral;
+ box(g,'Cuerpo de concreto',centroComedor,soffit/2,recess/2,w-pasoLateral,soffit,d-recess,'#a3a39a');
  box(g,'J_fascia_concreto',0,soffit+band/2,0,w+1,band,d+.8,'#898b82');
  box(g,'Azotea',0,h+.28,0,w+.32,.16,d+.32,b.roof||'#a54f42');
  box(g,'J_umbral_bajo_canceleria',0,.20,front+.03,w-.58,.14,1.18,'#c0b5a4');
  box(g,'J_rampa_acceso',-w*.25,.18,front-1.4,3.2,.22,2.6,'#c4c2b6');
- const span=w-.76,bays=Math.max(6,Math.round(span/1.56)),bay=span/bays,base=.27,windowHeight=soffit-base-.08;
+ const span=w-pasoLateral-.50,bays=Math.max(6,Math.round(span/1.56)),bay=span/bays,base=.27,windowHeight=soffit-base-.08;
  for(let i=0;i<bays;i++){
-  const x=-span/2+bay*(i+.5),centerDoor=Math.abs(x)<=bay*.6;
+  const x=centroComedor-span/2+bay*(i+.5),centerDoor=Math.abs(x)<=bay*.6;
   box(g,'J_ventanal_cafeteria',x,base+windowHeight/2,glass,bay-.07,windowHeight,.085,i%3===0?'#485554':glassColor);
   box(g,'J_franja_naranja_cancel',x,base+windowHeight*.48,glass-.056,bay-.08,.10,.025,'#bf6234');
   if(centerDoor){
@@ -759,9 +761,33 @@ function azcBuildingJ(part,b,w,d,h){
    for(const side of [-1,1])box(g,'J_tirador_acceso',x+side*.14,1.13,glass-.105,.052,.27,.09,'#b8b8aa');
   }else box(g,'J_rail_inferior_cancel',x,.42,glass-.05,bay-.07,.055,.051,frame);
  }
- for(let i=0;i<=bays;i++)box(g,'J_montante_cancel',-span/2+bay*i,base+windowHeight/2,glass-.035,.065,windowHeight+.07,.086,frame);
+ for(let i=0;i<=bays;i++)box(g,'J_montante_cancel',centroComedor-span/2+bay*i,base+windowHeight/2,glass-.035,.065,windowHeight+.07,.086,frame);
  for(const y of [base,base+windowHeight*.74,base+windowHeight])
-  box(g,'J_travesano_cancel',0,y,glass-.044,span+.07,.06,.075,frame);
+  box(g,'J_travesano_cancel',centroComedor,y,glass-.044,span+.07,.06,.075,frame);
+
+ const lateral=new THREE.Group();lateral.name='J_galeria_lateral_de_cafeteria';
+ lateral.userData={approximate:true,reference:'Recorrido en RV, 7:54–8:09; planta de remodelación, 2009'};
+ g.add(lateral);
+ const vidrioLateral=limiteComedor+.04,comienzo=front+.36,largo=d*.67;
+ const anchoPaño=1.36,paños=Math.floor(largo/anchoPaño),altoRejilla=.43;
+ const altoVidrio=windowHeight-altoRejilla;
+ box(lateral,'J_loseta_terracota_en_galeria',limiteComedor+pasoLateral/2,.281,0,pasoLateral,.078,d,'#b07061');
+ for(let i=0;i<paños;i++){
+  const z=comienzo+(i+.5)*anchoPaño;
+  box(lateral,'J_cancel_lateral',vidrioLateral,base+altoVidrio/2,z,.074,altoVidrio,anchoPaño-.05,
+   i%3===1?'#526661':'#465450');
+  box(lateral,'J_banda_naranja_lateral',vidrioLateral+.052,base+altoVidrio*.58,z,.025,.125,anchoPaño-.065,'#c16c38');
+  box(lateral,'J_montante_de_galeria',vidrioLateral+.028,base+windowHeight/2,z-anchoPaño/2,.069,windowHeight,.067,frame);
+  box(lateral,'J_fondo_rejilla_lateral',vidrioLateral,soffit-.08-altoRejilla/2,z,.060,altoRejilla,anchoPaño-.06,'#696d61');
+  for(let k=0;k<5;k++)box(lateral,'J_lama_de_ventilacion',vidrioLateral+.035,soffit-.12-k*.078,z,.076,.029,anchoPaño-.06,'#a0a698');
+ }
+ const largoCancel=paños*anchoPaño;
+ for(const y of [base+.07,base+altoVidrio*.35,base+altoVidrio])box(lateral,'J_travesaño_lateral',
+  vidrioLateral+.066,y,comienzo+largoCancel/2,.042,.056,largoCancel,frame);
+ for(let z=front+1.45;z<d/2-.4;z+=3.05){
+  box(lateral,'J_junta_de_loseta_lateral',limiteComedor+pasoLateral/2,.324,z,pasoLateral,.005,.025,'#a06257');
+  box(lateral,'J_luz_empotrada_galeria',w/2-pasoLateral*.4,soffit-.018,z,.45,.032,.43,'#e3e2da');
+ }
  for(const side of [-1,1])for(const x of [-w*.3,-w*.1,w*.1,w*.3])
   box(g,'J_junta_hormigon_alero',x,soffit+band/2,side*(d/2+.405),.027,band*.94,.008,'#6f756d');
  for(const x of [-w*.31,-w*.1,w*.11,w*.32])
@@ -874,6 +900,7 @@ function building(b){const g=new THREE.Group();g.name='Edificio_'+b.id;g.userDat
   if(b.id==='W'){azcBuildingW(part,b,w,d,h);continue;}
   if(b.id==='P2'){azcBuildingP2(part,b,w,d,h);continue;}
   if(b.id==='J'){azcBuildingJ(part,b,w,d,h);continue;}
+  if(b.id==='Q'){construirFachadaQ({THREE,part,w,d,h,box,material});continue;}
   if(b.id==='R'){azcBuildingR(part,b,w,d,h);continue;}
   if(b.id==='O'){construirEdificioO({THREE,part,b,w,d,h,box,data});continue;}
   if(b.id==='S'){construirGaleriaSTalleres({THREE,part,b,w,d,h,box,data});continue;}
@@ -904,6 +931,16 @@ function building(b){const g=new THREE.Group();g.name='Edificio_'+b.id;g.userDat
   }
   if(b.reinforced)reinforceG(part,w,d,h,b.floors);
   if(b.id==='H')detallarFachadaH({part,b,w,d,idx,box,data});
+  if(b.id==='K'){
+   // El giro del video 360° a los 8:00 permite leer la k roja desde la galería de J.
+   const rotulo=new THREE.Group();rotulo.name='K_rotulo_rojo_hacia_J';
+   rotulo.userData={approximate:true,reference:'Recorrido en RV, 8:00, vista girada desde J'};
+   rotulo.position.set(-w/2+w*.064,h-1.12,d/2+.12);part.add(rotulo);
+   const rojo='#aa3541';
+   box(rotulo,'K_asta_del_rotulo',-.19,0,0,.162,1.15,.135,rojo);
+   box(rotulo,'K_brazo_superior_del_rotulo',.048,.047,0,.156,.54,.135,rojo).rotation.z=-.96;
+   box(rotulo,'K_brazo_inferior_del_rotulo',.07,-.32,0,.16,.65,.135,rojo).rotation.z=.79;
+  }
   if(b.id==='L')construirCubiertaL({THREE,part,w,d,h,box,material});
   else if(b.ribbed)for(let zz=-d/2+1;zz<d/2;zz+=2.4)box(part,'Nervadura de cubierta',0,h+.6,zz,w,.35,.22,'#7e2426');
   if(b.skylight){box(part,'Lucernario base',0,h+1,0,w*.47,1.4,d*.47,'#36464a');box(part,'Lucernario vidrio',0,h+1.8,0,w*.35,.3,d*.35,'#9cbcc2');}
@@ -1349,7 +1386,7 @@ const sectorViews={
  llegadaD:{target:[407,1,275],offset:[34,24,-38]},
  patioH:{target:[824,.5,345],offset:[9,53,19]},
  bardaEje5:{target:[971,1.15,693],offset:[-17,13,23]},
- galeriaF:{target:[555,4.75,566],offset:[9,.4,-8.5]},
+ galeriaF:{target:[616,3.7,568],offset:[12,2.65,0]},
  hGalerias:{target:[802,3.8,405],offset:[20,20,79]},
  hJardines:{target:[923,1.1,267],offset:[14,76,-121]},
  hoEgresados:{target:[725,.4,298.5],offset:[7,9,-12]},
@@ -1368,6 +1405,8 @@ const sectorViews={
  oLaboratorios:{target:[1245,2,434],offset:[2,2,-8.8]},
  mGimnasio:{target:[1235,.8,588],offset:[-10,10,-12]},
  jExterior:{target:[935,2.4,514],offset:[-37,13,-36]},
+ jGaleria:{target:[959,1.9,509],offset:[8.2,5.5,-20]},
+ qExterior:{target:[1593,1.55,550],offset:[-56,12,-7]},
  rExterior:{target:[1370,5.1,280],offset:[-36,16,56]},
  deportes:{target:[1565,1.65,555],offset:[-62,121,144]},
  gradas:{target:[1602,2.25,668.25],offset:[-17.6,8.5,-13.5]},

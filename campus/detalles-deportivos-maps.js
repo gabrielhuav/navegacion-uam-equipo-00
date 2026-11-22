@@ -111,6 +111,77 @@ export function construirGradasDeportivas({THREE, world, box, X, Z}) {
  }
 }
 
+// La fotografía 0075 identifica Q por la letra roja en la cara que mira al campo natural.
+export function construirFachadaQ({THREE,part,w,d,h,box,material}) {
+ const grupo=new THREE.Group();
+ grupo.name='Q_fachada_hacia_el_campo_natural';
+ grupo.userData={approximate:true,reference:'Corpus UAM-A 0075; plano institucional CBI; vista aérea Esri',
+  orientation:'Hacia el campo natural',access:'Se distinguen varios vanos; puerta específica de pesas pendiente'};
+ part.add(grupo);
+ const frente=-w/2,fondo=d/2,base=.28,fascia=.84;
+ const dintel=h-fascia,paños=16,paso=d/paños;
+ const cemento='#aeb7b5',rojo='#ad4945',marco='#adb6b1';
+ const vidrio=['#59635f','#657470','#536362'];
+ box(grupo,'Q_cuerpo_bajo',.24,dintel/2,0,w-.48,dintel,d,'#889491');
+ box(grupo,'Q_azotea',0,h-.05,0,w,.16,d,'#686c62');
+ box(grupo,'Q_fascia_roja_campo',frente-.065,dintel+fascia/2,0,.23,fascia,d+.18,rojo);
+ box(grupo,'Q_fascia_roja_Ferrocarriles',w/2-.02,dintel+fascia/2,0,.19,fascia,d+.13,'#9a4141');
+ for(const extremo of [-1,1])box(grupo,'Q_remate_terracota',0,dintel+fascia/2,extremo*fondo,w,fascia,.16,rojo);
+
+ // Se identifican hojas y paños de fachada, sin asignarles usos que la imagen no distingue.
+ for(let i=0;i<paños;i++){
+  const z=-fondo+(i+.5)*paso,ancho=paso-.13;
+  const acceso=[1,4,8,10,14].includes(i);
+  if(acceso){
+   box(grupo,'Q_vano_en_fachada',frente+.087,(base+dintel)/2,z,.11,dintel-base,ancho,
+    i===14?'#39403c':vidrio[i%vidrio.length]);
+   box(grupo,'Q_junta_de_hojas',frente+.015,(base+dintel)/2,z,.053,dintel-base,.056,marco);
+   for(const offset of [-.105,.105])
+    box(grupo,'Q_tirador',frente-.025,1.18,z+offset,.071,.22,.035,'#c6c8bb');
+  }else{
+   box(grupo,'Q_paño_bajo_de_fachada',frente+.045,.89,z,.15,1.22,ancho,cemento);
+   box(grupo,'Q_vitrina_alta',frente+.029,(1.50+dintel)/2,z,.11,dintel-1.50,ancho,vidrio[i%vidrio.length]);
+  }
+  box(grupo,'Q_travesaño_de_cancel',frente-.014,1.52,z,.051,.048,ancho,marco);
+  box(grupo,'Q_montante_de_fachada',frente-.016,(base+dintel)/2,z-paso/2+.039,.079,dintel-base,.084,marco);
+ }
+ box(grupo,'Q_andador_junto_al_campo',frente-.65,.274,0,1.30,.077,d,'#aaa694');
+
+ // Marquesina clara y perfiles rojizos observados en el tercio sur de la fachada.
+ const vuelo=1.78,largo=d*.318,zMarquesina=-fondo+largo/2+.38;
+ const alturaMarquesina=dintel+.05;
+ const cubierta=new THREE.Mesh(new THREE.BoxGeometry(vuelo,.085,largo),
+  new THREE.MeshStandardMaterial({color:'#e3e3d7',transparent:true,opacity:.66,depthWrite:false,roughness:.62}));
+ cubierta.name='Q_marquesina_translucida';
+ cubierta.position.set(frente-vuelo/2,alturaMarquesina,zMarquesina);
+ cubierta.rotation.z=.048; cubierta.userData.disposeMaterial=true; grupo.add(cubierta);
+ for(const x of [frente-.10,frente-vuelo+.10])
+  box(grupo,'Q_larguero_rojo_de_marquesina',x,alturaMarquesina-.063,zMarquesina,.11,.12,largo,'#884840');
+ for(let i=0;i<=8;i++){
+  const z=zMarquesina+largo*(i/8-.5);
+  box(grupo,'Q_travesaño_de_marquesina',frente-vuelo/2,alturaMarquesina-.091,z,vuelo,.068,.084,'#8b4943').rotation.z=.048;
+ }
+ for(const z of [zMarquesina-largo*.43,zMarquesina+largo*.43])
+  box(grupo,'Q_apoyo_metalico_marquesina',frente-vuelo+.09,alturaMarquesina/2,z,.099,alturaMarquesina,.099,'#854b42');
+
+ const letra=new THREE.Shape();
+ letra.absellipse(0,.07,.254,.272,0,Math.PI*2,false,0);
+ const hueco=new THREE.Path();
+ hueco.absellipse(0,.07,.147,.174,0,Math.PI*2,true,0);
+ letra.holes.push(hueco);
+ const grupoRotulo=new THREE.Group();grupoRotulo.name='Q_rotulo_rojo_identificado';grupo.add(grupoRotulo);
+ grupoRotulo.position.set(frente-.191,dintel+fascia*.49,d*.245);
+ grupoRotulo.rotation.y=-Math.PI/2;
+ const anillo=new THREE.Mesh(new THREE.ExtrudeGeometry(letra,{depth:.07,bevelEnabled:false,curveSegments:10}),material('#8e3131'));
+ grupoRotulo.add(anillo);
+ box(grupoRotulo,'Q_asta_del_rotulo',.197,-.20,.034,.105,.43,.071,'#8e3131');
+
+ // En el panorama desde Ferrocarriles se ve la franja alta por encima de la reja perimetral.
+ box(grupo,'Q_vano_alto_hacia_Ferrocarriles',w/2-.014,dintel*.69,-d*.06,.115,.63,d*.45,'#565c55');
+ for(const z of [-.276,-.152,-.031,.093,.16])
+  box(grupo,'Q_montante_de_fachada_posterior',w/2+.057,dintel*.69,z*d,.046,.68,.075,'#8e524b');
+}
+
 // Límites estimados tras proyectar la imagen aérea al croquis existente.
 export const superficiesDeportivas={campo:[1453,467,1572,684],basquet:[1462,398,1576,460],futbol7:[1589,602,1671,724]};
 

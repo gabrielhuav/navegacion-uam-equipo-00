@@ -82,6 +82,10 @@ function losetaRoja(THREE) {
       datos.set([color[0]+grano,color[1]+grano,color[2]+grano,255],pos);
     }
   }
+  return acabadoConMapa(THREE,datos,lado);
+}
+
+function acabadoConMapa(THREE, datos, lado) {
   const mapa = new THREE.DataTexture(datos,lado,lado);
   mapa.colorSpace = THREE.SRGBColorSpace;
   mapa.wrapS = mapa.wrapT = THREE.RepeatWrapping;
@@ -149,6 +153,23 @@ export function construirPlazaRoja({THREE,world,rect,box,material,X,Z,S,data,net
   return plaza;
 }
 
+// El grano y las juntas pertenecen al solado, sin geometría por encima del paso.
+function pavimentoGaleriaF(THREE) {
+  const lado = 128, piezas = 4;
+  const datos = new Uint8Array(lado*lado*4);
+  for (let j=0; j<lado; j++) {
+    for (let i=0; i<lado; i++) {
+      const col=i*piezas/lado, fila=j*piezas/lado;
+      const junta=col%1<.032 || fila%1<.032;
+      const particula=(i*23+j*31+(i*j)%37)%23;
+      const base=junta?158:181+4*((Math.floor(col)+3*Math.floor(fila))%4);
+      const tono=base+(particula<5?-23:particula-10);
+      datos.set([tono,tono,tono-6,255],(j*lado+i)*4);
+    }
+  }
+  return acabadoConMapa(THREE,datos,lado);
+}
+
 export function construirCuerpoConGaleriaF({THREE,part,w,d,h,box,material,data}) {
   const piso1 = data.storeyHeight, piso2 = Math.min(h,piso1*2);
   const front = -d/2, fondo = Math.min(2.65,d*.24), pared = front+fondo;
@@ -162,31 +183,66 @@ export function construirCuerpoConGaleriaF({THREE,part,w,d,h,box,material,data})
   g.userData = {approximate:true,level:1,side:'Plaza Roja',reference:'Corpus imagen_0049'};
   part.add(g);
   const centro = front+fondo/2, paso = w-.24;
+  const extremo = paso/2, zPasillo = front+.21, zMuro = pared-.102;
+  const areaPiso = recorteRect([-extremo,zPasillo,extremo,zMuro],x=>x,z=>z);
+  piso(THREE,g,'F_pavimento_granulado_galeria_piso_1',[areaPiso],piso1+.004,pavimentoGaleriaF(THREE),2.5)
+    .userData.disposeMaterial = true;
   box(g,'Losa_galeria_F_P1',0,piso1-.14,centro,w,.28,fondo,'#aaa9a1');
   box(g,'Antepecho_concreto_F_P1',0,piso1+.53,front+.105,w,1.06,.21,'#b3b4ad');
+  box(g,'Cara_interior_antepecho_F_P1',0,piso1+.53,front+.219,paso,1.045,.017,'#888a80');
   box(g,'Remate_antepecho_F_P1',0,piso1+1.075,front+.105,w,.055,.21,'#c7c8c0');
   box(g,'Dala_superior_galeria_F_P1',0,piso2-.265,front+.13,w,.53,.26,'#a8a9a2');
+  box(g,'Cara_interior_dala_F_P1',0,piso2-.332,front+.267,paso,.395,.014,'#8a8d83');
   box(g,'Plafon_galeria_F_P1',0,piso2-.065,centro,w,.13,fondo,'#dfddd2');
-  box(g,'Tabique_blanco_galeria_F_P1',0,(piso1+piso2)/2,pared-.05,w,claro,.1,'#d6d5c9');
+
+  // La foto muestra accesos remetidos desde la galería. Se esquematizan los
+  // dos que se distinguen en la toma, conservando el volumen detrás del muro.
+  const puertas = [
+    {x:extremo-15.1,ancho:1.03,color:'#823936'},
+    {x:extremo-7.4,ancho:1.12,color:'#615c53'},
+  ].filter(p=>p.x-p.ancho/2>-extremo);
+  const panos = [];
+  let inicio = -extremo;
+  for (const {x,ancho,color} of puertas) {
+    const izq = x-ancho/2, der = x+ancho/2, alto = Math.min(2.24,claro-.62);
+    panos.push([inicio,izq]);
+    box(g,'Hoja_rehundida_galeria_F',x,piso1+alto/2,pared-.026,ancho-.16,alto,.052,color);
+    box(g,'Dintel_acceso_galeria_F',x,piso1+(alto+claro)/2,pared-.075,ancho,claro-alto,.15,'#d6d5c9');
+    for (const borde of [izq,der]) box(g,'Jamba_concreto_galeria_F',borde,piso1+alto/2,pared-.082,.13,alto,.17,'#bbb9ad');
+    box(g,'Tirador_acceso_galeria_F',x+ancho*.26,piso1+1.025,pared-.058,.047,.18,.029,'#b3ad9d');
+    inicio = der;
+  }
+  panos.push([inicio,extremo]);
+
   const altoVentana = .46, yVentana = piso2-.71;
   box(g,'Ventana_corrida_alta_F_P1',0,yVentana,pared-.113,paso,altoVentana,.027,'#628589');
-  for (let x=-paso/2+.45; x<paso/2; x+=1.8) {
+  box(g,'Marco_horizontal_ventana_F_P1',0,yVentana-altoVentana/2,pared-.137,paso,.057,.042,'#c2c6be');
+  for (let x=-extremo+.45; x<extremo; x+=1.8) {
     box(g,'Marco_ventana_alta_F_P1',x,yVentana,pared-.132,.055,altoVentana+.05,.043,'#d0d3ca');
   }
-  for (let x=-paso/2+1.6; x<paso/2-1; x+=4.2) {
-    box(g,'Luminaria_lineal_galeria_F_P1',x,piso2-.18,centro,1.13,.08,.16,'#efeee1');
+  for (let x=-extremo+1.6; x<extremo-1; x+=4.2) {
+    box(g,'Perfil_luminaria_recesada_F_P1',x,piso2-.145,centro,.36,.03,1.10,'#a4a69c');
+    box(g,'Difusor_luminaria_transversal_F_P1',x,piso2-.165,centro,.29,.018,1.01,'#efeee1');
   }
-  // Juntas visibles desde la galería. Se dibujan en relieve muy bajo y se agrupan.
+  for (let x=extremo-1.15; x>-extremo; x-=8.4) {
+    box(g,'Encuentro_transversal_plafon_F_P1',x,piso2-.138,centro,.032,.015,fondo-.04,'#a39f92');
+  }
+
+  // Las juntas siguen cada paño de tabique y terminan en las jambas.
   const juntas = [];
-  for (let y=piso1+.22; y<yVentana-.29; y+=.16) {
-    juntas.push(-paso/2,y,pared-.113,paso/2,y,pared-.113);
-    const desfase = Math.round((y-piso1)/.16)%2*.2;
-    for (let x=-paso/2+.4+desfase; x<paso/2; x+=.4) juntas.push(x,y-.15,pared-.113,x,y,pared-.113);
+  for (const [izq,der] of panos) {
+    const ancho = der-izq, cx = (izq+der)/2;
+    box(g,'Tabique_blanco_galeria_F_P1',cx,(piso1+piso2)/2,pared-.05,ancho,claro,.10,'#d6d5c9');
+    box(g,'Zoclo_tabique_galeria_F_P1',cx,piso1+.053,pared-.112,ancho,.10,.026,'#aaa89d');
+    for (let y=piso1+.22; y<yVentana-.29; y+=.16) {
+      juntas.push(izq,y,pared-.111,der,y,pared-.111);
+      const desfase = Math.round((y-piso1)/.16)%2*.20;
+      for (let x=izq+.40+desfase; x<der; x+=.40) juntas.push(x,y-.15,pared-.111,x,y,pared-.111);
+    }
   }
   const lineas = new THREE.BufferGeometry();
   lineas.setAttribute('position',new THREE.Float32BufferAttribute(juntas,3));
-  const lineMat = new THREE.LineBasicMaterial({color:'#bdbbb0'});
-  const line = new THREE.LineSegments(lineas,lineMat);
+  const line = new THREE.LineSegments(lineas,new THREE.LineBasicMaterial({color:'#b9b7aa'}));
   line.name = 'Juntas_tabique_galeria_F_P1';
   line.userData.disposeMaterial = true;
   g.add(line);
@@ -204,6 +260,9 @@ export function construirCuerpoConGaleriaF({THREE,part,w,d,h,box,material,data})
   piso(THREE,g,'Rayas_negras_junta_F_P1',rayas,piso1+.012,material('#3c3c3a'));
   const xPlaca = w/2-2.35, yPlaca = piso2-.34, anchoPlaca = fondo-.46;
   box(g,'Placa_guinda_galeria_F_P1',xPlaca,yPlaca,centro,.08,.29,anchoPlaca,'#7b2b2b');
+  for (const z of [centro-anchoPlaca*.33,centro+anchoPlaca*.33]) {
+    box(g,'Sujecion_rotulo_F_P1',xPlaca,piso2-.161,z,.023,.072,.024,'#72665d');
+  }
   if (typeof document !== 'undefined') {
     const lienzo = document.createElement('canvas');
     lienzo.width = 512;

@@ -1048,9 +1048,9 @@
     },
     {
       "id": "n115",
-      "lat": 19.5042222,
-      "lon": -99.19053198,
-      "x": 323.4731,
+      "lat": 19.5042201,
+      "lon": -99.19051836,
+      "x": 322.1437,
       "z": 57.6048,
       "nivel": 0,
       "tipo": "entrada"
@@ -2000,7 +2000,7 @@
     {
       "de": "n114",
       "a": "n115",
-      "metros": 9.64,
+      "metros": 9.75,
       "tipo": "exterior",
       "accesible": true
     },
@@ -2152,7 +2152,7 @@
       "id": "Q",
       "nombre": "Q · Gimnasio de pesas",
       "nodo": "n115",
-      "referencia": "Llegada exterior al sector deportivo. Confirma la puerta del gimnasio con la señalización."
+      "referencia": "Llegada aproximada por el lado de Ferrocarriles. La fachada con accesos mira al campo natural; confirma allí la puerta de pesas con la señalización."
     },
     {
       "id": "R",
