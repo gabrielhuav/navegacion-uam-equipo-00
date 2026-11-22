@@ -1,7 +1,8 @@
 import fs from 'node:fs/promises';
 import {ORIGINAL} from './model-data.js';
 const uri=s=>'data:text/javascript;base64,'+Buffer.from(s).toString('base64');
-const read=p=>fs.readFile(new URL(p,import.meta.url),'utf8');
+// Embed Git's LF form even when a Windows editor has saved mixed line endings.
+const read=async p=>(await fs.readFile(new URL(p,import.meta.url),'utf8')).replace(/\r\n/g,'\n');
 // No reescribir rutas intactas por diferencias CRLF/LF: conserva los bytes
 // actuales sin recurrir a restauraciones de Git que puedan borrar trabajo ajeno.
 async function writeTextIfChanged(file,text){
