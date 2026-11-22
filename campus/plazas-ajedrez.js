@@ -4,6 +4,7 @@ import {contornoPlazaEgresados} from 'plaza-egresados';
 
 const estudio = 'https://zaloamati.azc.uam.mx/bitstreams/0a1a854d-435b-48b7-8ea4-17d7c1ea6cd3/download#page=38';
 const obras = 'https://bertely.wordpress.com/wp-content/uploads/2009/05/plazas-del-ajedrez-obra-02.jpg';
+const alturaReferencia = 4.15;
 const norteHP = 'https://bertely.wordpress.com/wp-content/uploads/2009/05/plazas-del-ajedrez-noche-01.jpg';
 
 // Las fotos de obra y de las lonarias terminadas se distinguen de la planta
@@ -17,11 +18,11 @@ export const plazasAjedrez = [
     evidencia: 'El montaje de obra documenta cuatro mesas alrededor del mástil. La foto reciente desde H confirma la lona junto a las trabes. Medidas, número de bancas y posición de cada mueble aproximados.'
   },
   {
-    id: 'HP', centro: [906, 371], ancho: 8.3, fondo: 5.15, altura: 4.15,
-    mesas: [[-1.62, -1.1], [1.6, -1.1], [-1.62, 1.1]],
+    id: 'HP', centro: [906, 371], ancho: 8.3, fondo: 5.15, altura: alturaReferencia,
+    mesas: [[-1.62, -1.1], [1.6, -1.1], [-1.62, 1.1], [1.6, 1.1]],
     bancas: [[-3.25, -.95, .5, 1.52], [-3.25, .91, .5, 1.52], [3.08, .55, .52, 1.5]],
     referenciaVisual: norteHP,
-    evidencia: 'La foto nocturna del acceso de HP confirma la lonaria, mástil central, brazos y bancas independientes. Se representan las tres mesas que se distinguen. Inventario actual y posición precisa pendientes.'
+    evidencia: 'La foto nocturna del acceso de HP confirma la lonaria, mástil central, brazos y bancas independientes. El usuario confirmó cuatro mesas. Sus posiciones y las de las bancas son aproximadas.'
   }
 ];
 
@@ -80,11 +81,12 @@ export function verificarPlazasAjedrez({data, net, X, Z}) {
 }
 
 function crearCubierta({THREE, grupo, plaza, material, box}) {
-  const lonaHO = plaza.id === 'HO';
-  const cotaAlero = lonaHO ? 0 : .26;
+  // Ambas lonarias comparten el perfil, el mástil y los costados cóncavos.
+  // Cada patio conserva su huella y altura de la maqueta.
+  const escalaVertical = plaza.altura / alturaReferencia;
   const aleros = [
-    [-.496, 0, 2.95], [0, -.496, 2.70], [.496, 0, 2.91], [0, .496, 2.72]
-  ].map(([x, z, y]) => new THREE.Vector3(x * plaza.ancho, y + cotaAlero, z * plaza.fondo));
+    [-.496, 0, 3.21], [0, -.496, 2.96], [.496, 0, 3.17], [0, .496, 2.98]
+  ].map(([x, z, y]) => new THREE.Vector3(x * plaza.ancho, y * escalaVertical, z * plaza.fondo));
   const pico = new THREE.Vector3(0, plaza.altura, -.05);
   const posiciones = [...pico];
   const indices = [];
@@ -93,7 +95,7 @@ function crearCubierta({THREE, grupo, plaza, material, box}) {
 
   function puntoRadial(orilla, t) {
     const punto = pico.clone().lerp(orilla, t);
-    punto.y -= (lonaHO ? .18 : .35) * Math.sin(Math.PI * t);
+    punto.y -= .35 * escalaVertical * Math.sin(Math.PI * t);
     return punto;
   }
 
@@ -104,7 +106,7 @@ function crearCubierta({THREE, grupo, plaza, material, box}) {
     const orilla = a.clone().lerp(b, fraccion);
     orilla.x *= 1 - .205 * concavidad;
     orilla.z *= 1 - .205 * concavidad;
-    orilla.y -= .16 * concavidad;
+    orilla.y -= .16 * escalaVertical * concavidad;
     return orilla;
   }
 
@@ -127,7 +129,7 @@ function crearCubierta({THREE, grupo, plaza, material, box}) {
   geometria.setAttribute('position', new THREE.Float32BufferAttribute(posiciones, 3));
   geometria.setIndex(indices);
   geometria.computeVertexNormals();
-  const lona = new THREE.Mesh(geometria, new THREE.MeshStandardMaterial({color: lonaHO ? '#efeee5' : '#f1f0e8', roughness: .91, side: THREE.DoubleSide}));
+  const lona = new THREE.Mesh(geometria, new THREE.MeshStandardMaterial({color: '#f1f0e8', roughness: .91, side: THREE.DoubleSide}));
   lona.name = 'Membrana_tensada_blanca';
   lona.userData.disposeMaterial = true;
   lona.castShadow = true;
@@ -150,7 +152,7 @@ function crearCubierta({THREE, grupo, plaza, material, box}) {
   // La obra muestra un mástil compuesto y ramas curvas en abanico. Los
   // tensores quedan suspendidos. Las cuatro puntas conservan el perímetro libre.
   const acero = '#b8c0bf';
-  const encuentro = lonaHO ? 1.56 : 1.71;
+  const encuentro = 1.71 * escalaVertical;
   box(grupo, 'Dado_central_de_lonaria', 0, .061, 0, anchoDado, .12, anchoDado, '#aaa79c');
   for (const [x, z] of [[-.115, -.085], [.115, -.085], [.115, .085], [-.115, .085]]) {
     barra('Montante_mastil_central', [new THREE.Vector3(x, .12, z), new THREE.Vector3(x, encuentro, z)], .037, acero);
@@ -173,7 +175,7 @@ function crearCubierta({THREE, grupo, plaza, material, box}) {
       const base = new THREE.Vector3(extremo.x * .041, encuentro, extremo.z * .041);
       const curva = [
         base,
-        new THREE.Vector3(extremo.x * .16, encuentro + .60, extremo.z * .16),
+        new THREE.Vector3(extremo.x * .16, encuentro + .60 * escalaVertical, extremo.z * .16),
         new THREE.Vector3(extremo.x * .51, extremoBrazo.y - .12, extremo.z * .51),
         extremoBrazo
       ];

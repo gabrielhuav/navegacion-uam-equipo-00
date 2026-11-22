@@ -1,5 +1,9 @@
 # Campus UAM Azcapotzalco · modelo 2D/3D
 
+## Perímetro, interiores y accesos · segunda pasada del 22 de noviembre de 2026
+
+El modelo distingue reja roja, lámina acanalada y paños de piedra con malla. HP tiene cuatro mesas de ajedrez y HO comparte el diseño de sombrilla ajustado a su patio. El visor incluye los cortes de D-102 y F302. [Antes y después de las 20 zonas y fuentes](SEGUNDA_PASADA_20_ZONAS_AZC_2026-11-22.md).
+
 ## Revisión integral en 20 zonas · 22 noviembre 2026
 
 Cada zona del inventario tiene una mejora nueva y un antes y después. Entre los cambios están las celosías de T, la escalera monumental de W, los lucernarios de CyAD y la separación entre el campo y las multicanchas. El buscador incluye D-102. [Las veinte comparaciones, fuentes y fechas](REVISION_INTEGRAL_20_ZONAS_AZC_2026-11-22.md).

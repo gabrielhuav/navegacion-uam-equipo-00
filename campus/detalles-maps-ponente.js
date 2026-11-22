@@ -10,15 +10,29 @@ const referencias = [
 ];
 const paso = 8;
 
-// En el perímetro existente, t es la distancia desde el inicio del lado en el croquis.
-export function cubrePerimetroMapsPonente(detalles, lado, t) {
-  return detalles.userData.panos.some(pano => pano.lado === lado && pano.desde === t);
+// Las transiciones que se pierden entre panoramas se aproximan sobre el eje
+// del croquis. Las secciones sin evidencia directa retienen un cierre liso.
+function perfilDeFondo(lado, x, z, indice) {
+  switch (lado) {
+    case 0: return x >= 1310 ? 'muro_R' : 'cierre_esquematico';
+    case 1:
+      if (z < 396) return 'muro_R';
+      return Math.floor(indice / 2) % 2 ? 'reja_F7' : 'muro_F7';
+    case 2:
+      if (x < 865) return 'cierre_esquematico';
+      return Math.floor(indice / 2) % 2 ? 'reja_Eje_5' : 'muro_Eje_5';
+    default: return z < 608 ? 'reja_San_Pablo' : 'paño_acanalado';
+  }
 }
 
-export function crearDetallesMapsPonente(THREE, data, omitirPunto = () => false) {
+export function crearDetallesMapsPonente(THREE, data, omitirPunto) {
   const grupo = new THREE.Group();
   grupo.name = 'Cierres_Maps_poniente';
-  grupo.userData = {aproximado: true, panos: []};
+  grupo.userData = {
+    aproximado: true,
+    panos: [],
+    referencia: 'Frente de San Pablo Xalpa, Eje 5, Central Rosario y Ferrocarriles en Street View (2024–2025)',
+  };
 
   const cajaBase = new THREE.BoxGeometry();
   const unidad = cajaBase.toNonIndexed();
@@ -90,9 +104,9 @@ export function crearDetallesMapsPonente(THREE, data, omitirPunto = () => false)
   const materiales = new Map();
   const materialesEnUso = new Set();
 
-  function piezasPaño(perfil) {
-    if (plantillas.has(perfil)) return plantillas.get(perfil);
-    const ancho = paso * escala;
+  function piezasPaño(perfil, ancho) {
+    const clave = perfil + '/' + ancho.toFixed(5);
+    if (plantillas.has(clave)) return plantillas.get(clave);
     if (perfil === 'muro_R') {
       muro(ancho, 1.62);
       malla(ancho, 1.78, 2.57, .065);
@@ -100,9 +114,34 @@ export function crearDetallesMapsPonente(THREE, data, omitirPunto = () => false)
       muro(ancho, perfil === 'muro_F7' ? 1.43 : .26);
       if (perfil === 'reja_F7') reja(ancho, .43, 1.60);
       malla(ancho, 1.58, 2.46, .055);
-    } else {
+    } else if (perfil === 'reja_campo') {
       reja(ancho, .20, 1.88);
       malla(ancho, .24, 2.38, .12);
+    } else if (perfil === 'muro_Eje_5') {
+      muro(ancho, 1.72);
+    } else if (perfil === 'reja_Eje_5') {
+      muro(ancho, .19);
+      reja(ancho, .36, 1.89);
+      malla(ancho, 1.87, 2.26, .065);
+      const piezasDeMalla = ['Poste_de_malla', 'Marco_de_malla', 'Malla_eslabonada'];
+      for (const {nombre, posiciones} of lotes.values()) {
+        if (!piezasDeMalla.includes(nombre)) continue;
+        for (let y = 1; y < posiciones.length; y += 3) {
+          posiciones[y + 1] += .54 * (posiciones[y] - 1.87);
+        }
+      }
+    } else if (perfil === 'reja_San_Pablo') {
+      caja('Zocalo_bajo_San_Pablo', '#64615a', ancho/2, .19, 0, ancho, .10, .29);
+      reja(ancho, .24, 1.91);
+      caja('Montante_rojo_San_Pablo', '#803c37', .05, 1.07, 0, .105, 1.67, .12);
+    } else if (perfil === 'paño_acanalado') {
+      caja('Paño_acanalado_San_Pablo', '#6b7474', ancho / 2, 1.025, 0, ancho, 1.71, .13);
+      for (let x = .06; x < ancho - .025; x += .14) {
+        caja('Nervadura_de_lámina', '#838a88', x, 1.025, .076, .031, 1.69, .035);
+      }
+      caja('Remate_de_lámina', '#959b94', ancho / 2, 1.885, .018, ancho, .048, .18);
+    } else {
+      caja('Cierre_sin_acabado_confirmado', '#777a71', ancho / 2, .94, 0, ancho, 1.62, .33);
     }
 
     const piezas = Array.from(lotes.values(), ({nombre, color, posiciones}) => {
@@ -116,10 +155,11 @@ export function crearDetallesMapsPonente(THREE, data, omitirPunto = () => false)
       return pieza;
     });
     lotes.clear();
-    plantillas.set(perfil, piezas);
+    plantillas.set(clave, piezas);
     return piezas;
   }
 
+  const pañosObservados = new Map();
   for (const {lado, punto, celdas, tipo, perfiles, pano, fecha, rumbo} of referencias) {
     const [x0, z0] = data.site[lado], [x1, z1] = data.site[(lado + 1) % data.site.length];
     const dx = x1 - x0, dz = z1 - z0, largo = Math.hypot(dx, dz);
@@ -128,20 +168,33 @@ export function crearDetallesMapsPonente(THREE, data, omitirPunto = () => false)
     for (let indice = 0; indice < celdas; indice++) {
       const desde = inicio + indice * paso;
       if (desde + paso > largo) break;
-      const fraccion = (desde + paso / 2) / largo;
-      const px = x0 + fraccion * dx, pz = z0 + fraccion * dz;
-      if (omitirPunto(px, pz) || data.gates.some(gate => Math.hypot(gate.x - px, gate.y - pz) < 21)) continue;
+      const perfil = perfiles[indice % perfiles.length];
+      pañosObservados.set(lado + '/' + desde, {tipo, perfil, referencia: {lado, desde, pano, fecha, rumbo}});
+    }
+  }
 
+  for (let lado = 0; lado < data.site.length; lado++) {
+    const [x0, z0] = data.site[lado], [x1, z1] = data.site[(lado + 1) % data.site.length];
+    const dx = x1 - x0, dz = z1 - z0, largo = Math.hypot(dx, dz);
+    for (let desde = 0; desde < largo; desde += paso) {
+      const longitud = Math.min(paso, largo - desde);
+      if (longitud < .001) break;
+      const mitad = (desde + longitud / 2) / largo;
+      const x = x0 + mitad * dx, z = z0 + mitad * dz;
+      if (omitirPunto(x, z)) continue;
+      if (data.gates.some(gate => gate.id !== 'V2' && Math.hypot(gate.x - x, gate.y - z) < 21)) continue;
+
+      const observado = pañosObservados.get(lado + '/' + desde);
+      const perfil = observado?.perfil ?? perfilDeFondo(lado, x, z, Math.floor(desde / paso));
       const tramo = new THREE.Group();
-      tramo.name = tipo;
+      tramo.name = observado?.tipo ?? perfil;
       tramo.rotation.y = -Math.atan2(dz, dx);
       const origen = desde / largo;
       tramo.position.set((x0 + origen * dx - 895) * escala, 0, (z0 + origen * dz - 390) * escala);
       grupo.add(tramo);
-      grupo.userData.panos.push({lado, desde, pano, fecha, rumbo});
+      if (observado) grupo.userData.panos.push(observado.referencia);
 
-      const perfil = perfiles[indice % perfiles.length];
-      for (const pieza of piezasPaño(perfil)) {
+      for (const pieza of piezasPaño(perfil, longitud * escala)) {
         const copia = pieza.clone();
         if (!materialesEnUso.has(copia.material)) {
           copia.userData.disposeMaterial = true;

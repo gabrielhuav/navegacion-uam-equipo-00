@@ -2666,6 +2666,14 @@
       "referencia": "La ruta termina en el acceso de E. El directorio de Electrónica ubica el aula audiovisual en el tercer piso."
     },
     {
+      "id": "F302",
+      "nombre": "F302 · Laboratorio de Microelectrónica",
+      "nodo": "n87",
+      "edificio": "F",
+      "nivel": 3,
+      "referencia": "La ruta termina en el acceso de F. Busca el Laboratorio de Microelectrónica en el tercer piso."
+    },
+    {
       "id": "F306",
       "nombre": "F306 · Aula Audiovisual",
       "nodo": "n87",

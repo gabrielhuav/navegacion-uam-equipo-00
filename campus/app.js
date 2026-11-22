@@ -14,10 +14,10 @@ import {agregarEntornoCorpus} from 'detalles-entorno-corpus';
 import {crearInteriorBiblioteca,crearInteriorG302,crearInteriorL} from 'interiores-biblioteca-g';
 import {crearInteriorCafeteria} from 'interior-cafeteria';
 import {crearInteriorW,crearInteriorR} from 'interiores-w-r';
-import {construirBardaFrenteT,construirCubiertaL,detallarFachadaH,detallarVestibuloHO,construirFachadaKEstacionamiento} from 'detalles-academicos-maps';
+import {construirCubiertaL,detallarFachadaH,detallarVestibuloHO,construirFachadaKEstacionamiento} from 'detalles-academicos-maps';
 import {bloqueaArboladoEnAccesos,crearDetallesMapsAccesos,tramoRejaCICTE} from 'detalles-maps-accesos';
 import {crearDetallesMapsPlazas,detallarAroSerpentina} from 'detalles-maps-plazas';
-import {crearDetallesMapsPonente,cubrePerimetroMapsPonente} from 'detalles-maps-ponente';
+import {crearDetallesMapsPonente} from 'detalles-maps-ponente';
 import {crearDetallesMapsCorredorCultural,detallarGaleriaCulturalE,crearInteriorIncalli,crearVistaLibreria,crearVistaGaleriaDelTiempo} from 'detalles-maps-corredor-cultural';
 import {construirAndadorMulticanchas,construirCanchasDeportivas,construirGradasDeportivas,construirFachadaQ,detallarAccesoDeportivo,perimetroCruzaFutbol7,superficiesDeportivas} from 'detalles-deportivos-maps';
 import {construirJardinTresGracias} from 'jardin-tres-gracias';
@@ -32,6 +32,9 @@ import {modelarZonasPoniente,mejorarInteriorIncalli} from 'revision-zonas-ponien
 import {modelarZonasCentro} from 'revision-zonas-centro';
 import {modelarZonasOriente} from 'revision-zonas-oriente';
 import {modelarZonasCafeteriaDeportes} from 'revision-zonas-cafeteria-deportes';
+import {modelarAccesosPoniente,detallarVistasPoniente,crearInteriorDocenciaD,crearInteriorMicroelectronicaF} from 'accesos-zonas-poniente';
+import {modelarAccesosCentro,detallarVistasCentro} from 'accesos-zonas-centro';
+import {modelarAccesosOriente,detallarVistasOriente} from 'accesos-zonas-oriente';
 import {construirEdificioO,construirGaleriaSTalleres,reconstruirCubiertasTalleres} from 'sector-talleres-deportes';
 import {construirPlazaRoja,construirCuerpoConGaleriaF,construirPorticoV1} from 'sector-acceso-plaza';
 import {crearPlazasAjedrez} from 'plazas-ajedrez';
@@ -1330,28 +1333,19 @@ function generate(){
  registerEditable('sculpture_primavera_E','Primavera · jardín de E','sculpture',primavera);
  if(primavera.parent)label('Primavera',primavera.position.x,4.2,primavera.position.z,'place');
  agregarEntornoCorpus({THREE,data,world,box,material,X,Z,S,net:routeEditor?.getNet()||BASE_ROUTES});
- const detallesPonente=crearDetallesMapsPonente(THREE,data,perimetroCruzaFutbol7);
+ // El cierre de CICTE ya está modelado con su paño propio. La cancha próxima al
+ // límite conserva el espacio de juego y sus muretes interiores.
+ const omitirCierre=(x,z)=>perimetroCruzaFutbol7(x,z)||(x===60&&z>tramoRejaCICTE[0]&&z<tramoRejaCICTE[1]);
+ const detallesPonente=crearDetallesMapsPonente(THREE,data,omitirCierre);
  world.add(detallesAccesos,crearDetallesMapsPlazas(THREE,data),detallesPonente,corredorCultural);
  // El trazado se calcula después de las geometrías reales y de sus transformaciones editadas.
  parkingObstaclesCache=null;
  for(const [i,r] of data.parking.entries())parkingArea(r,'parking_'+i,'Estacionamiento '+(i+1));
  for(const [i,p] of (data.extraParking||[]).entries())parkingArea(p.rect,p.id,'Estacionamiento nuevo '+(i+1));
  vialidadEstacionamientos();
- // Perímetro cerrado, excepto en los seis accesos definidos; T permanece sin salida.
- const poly=[...data.site,data.site[0]];
- for(let lado=0;lado<poly.length-1;lado++){
-  const [a,b]=[poly[lado],poly[lado+1]],dx=b[0]-a[0],dz=b[1]-a[1];
-  const len=Math.hypot(dx,dz),yaw=-Math.atan2(dz,dx);
-  for(let t=0;t<len;t+=8){
-   const u=(t+4)/len,px=a[0]+dx*u,py=a[1]+dz*u;
-   if(perimetroCruzaFutbol7(px,py)||data.gates.some(g=>Math.hypot(g.x-px,g.y-py)<21))continue;
-   if(cubrePerimetroMapsPonente(detallesPonente,lado,t)||(px===60&&py>tramoRejaCICTE[0]&&py<tramoRejaCICTE[1]))continue;
-   const tramoObservado=lado===2&&((px>=943&&px<985)||(px>=1052&&px<1095));
-   if(tramoObservado)construirBardaFrenteT({THREE,world,box,x:X(px),z:Z(py),width:8*S(),yaw,postes:Math.floor(t/16)%2===0});
-   else box(world,'Perímetro',X(px),.9,Z(py),8*S(),1.7,.45,'#71816d').rotation.y=yaw;
-  }
- }
  for(const gate of data.gates){
+  // V2 permanece reservado en el croquis. La lámina se ve continua en Street View.
+  if(gate.id==='V2')continue;
   const vehicular=gate.type==='vehicle';
   if(gate.id==='V1')construirPorticoV1({THREE,world,gate,box,slab,material,X,Z,S});
   else if(!['P1','P2'].includes(gate.id))box(world,'Acceso_'+gate.id,X(gate.x),.5,Z(gate.y),vehicular?7:3,.6,5,vehicular?'#bc3535':'#1d72b6');
@@ -1376,6 +1370,9 @@ function generate(){
  modelarZonasCentro(contextoRevision);
  modelarZonasOriente(contextoRevision);
  modelarZonasCafeteriaDeportes(contextoRevision);
+ modelarAccesosPoniente(contextoRevision);
+ modelarAccesosCentro(contextoRevision);
+ modelarAccesosOriente(contextoRevision);
  vegetation.visible=$('trees').checked;syncLabels();
  addCopyrightToModel();world.updateMatrixWorld(true);selectBuilding(selected);refreshEditor();routeEditor?.refresh();
 }
@@ -1454,6 +1451,8 @@ const sectorViews={
 const corpusViews={p4patio:'P4_patio_cubierto_estudio',p4acero:'P4_conexiones_acero_corpus',p2invernadero:'P2_invernadero_lateral'};
 const cameraButtons=['approved','maps','top','plaza','pavilions','cosei','gdetail','parking','tdetail','wdetail','p2detail','serpentina',...Object.keys(sculptureViews),...Object.keys(artworkViews),...Object.keys(corpusViews)];
 const interiores={
+ docenciaD:{crear:crearInteriorDocenciaD,titulo:'D-102 · Posgrados CyAD',nota:'Reconstrucción esquemática del cancel y la galería del primer piso a partir de la galería institucional.'},
+ microelectronicaF:{crear:crearInteriorMicroelectronicaF,titulo:'F302 · Laboratorio de Microelectrónica',nota:'Corte esquemático del aula basado en las fotografías de Electrónica. Distribución y medidas aproximadas.'},
  incalli:{crear:Three=>mejorarInteriorIncalli(Three,crearInteriorIncalli(Three)),titulo:'C · Auditorio Incalli',nota:'Corte esquemático de la sala según la galería y las fotografías de la UAM.'},
  libreria:{crear:crearVistaLibreria,titulo:'C · Librería UAM',nota:'Vista del cancel, el corredor y el área de cajas y casilleros. El mobiliario se representa de forma esquemática.'},
  galeriaDelTiempo:{crear:crearVistaGaleriaDelTiempo,titulo:'C · Galería del Tiempo',nota:'Corte de reconocimiento de la sala en planta baja. Montaje y medidas esquemáticos.'},
@@ -1495,7 +1494,14 @@ function openInterior(id){
  if(editMode)setEditing(false);
  $('editRoutes').checked=false;$('routeEditor').hidden=true;
  closeInterior();
- const model=enclosure.model??=enclosure.crear(THREE);
+ if(!enclosure.model){
+  const model=enclosure.crear(THREE);
+  detallarVistasPoniente(id,THREE,model);
+  detallarVistasCentro(id,THREE,model);
+  detallarVistasOriente(id,THREE,model);
+  enclosure.model=model;
+ }
+ const model=enclosure.model;
  activeInterior=model;interiorScene.add(model.group);
  $('interior').value=id;$('interiorTitle').textContent=enclosure.titulo;$('interiorNote').textContent=enclosure.nota;
  interiorLabels=model.etiquetas.map(({texto,posicion})=>{

@@ -33,36 +33,6 @@ export function construirCubiertaL({THREE,part,w,d,h,box,material}) {
  }
 }
 
-// Tramo de Eje 5 visible en Street View de enero de 2025, frente a T.
-// Sustituye el acabado de las piezas del límite existente.
-export function construirBardaFrenteT({THREE,world,box,x,z,width,yaw,postes}) {
- const group=new THREE.Group();
- group.name='T_barda_de_piedra_y_reja_Eje_5';
- group.position.set(x,0,z);
- group.rotation.y=yaw;
- world.add(group);
- if(!postes){
-  box(group,'T_pano_piedra_perimetral',0,.94,0,width,1.68,.45,'#54504a');
-  for(let row=0;row<4;row++){
-   const y=.32+row*.4;
-   box(group,'T_junta_horizontal_piedra',0,y,.229,width,.024,.012,'#716b62');
-   for(let i=1;i<5;i++){
-    const x=width*((i+row%2*.46)/5-.5);
-    box(group,'T_junta_vertical_piedra',x,y+.2,.229,.027,.39,.012,'#716b62');
-   }
-  }
-  return;
- }
- box(group,'T_zocalo_bajo_reja',0,.24,0,width,.28,.37,'#5e554d');
- const count=Math.round(width/.21);
- for(let i=0;i<count;i++){
-  const x=width*((i+.5)/count-.5);
-  box(group,'T_barrote_rojo_Eje_5',x,1.08,0,.055,1.6,.055,'#9d4239');
-  box(group,'T_remate_inclinado_Eje_5',x,1.93,.083,.048,.31,.042,'#9d4239').rotation.x=.55;
- }
- box(group,'T_travesano_alto_reja',0,1.77,0,width,.07,.065,'#8a3830');
-}
-
 // El panorama de CyADtv (junio de 2019) muestra la cara de K hacia el estacionamiento.
 export function construirFachadaKEstacionamiento({THREE,part,w,d,h,b,box}) {
  const group=new THREE.Group();
