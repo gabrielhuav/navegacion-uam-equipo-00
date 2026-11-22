@@ -31,6 +31,12 @@ assert.ok(net.perimetro?.length>=3,'Falta el límite para iniciar rutas desde el
 assert.ok(net.destinos.some(d=>d.edificio==='G'&&d.id==='G302-A'));
 assert.ok(net.destinos.some(d=>d.edificio==='T'&&d.id==='T_CSE'));
 assert.ok(net.destinos.some(d=>d.edificio==='I'&&d.id==='I_HEMEROTECA'));
+const entradaW=net.destinos.find(d=>d.id==='W').nodo;
+for(const [id,nivel] of [['W_LAPLACE',1],['W_TELETRAFICO',3]]){
+  const destino=net.destinos.find(d=>d.id===id);
+  assert.ok(destino?.edificio==='W'&&destino.nodo===entradaW&&destino.nivel===nivel,
+            'Laboratorio sin piso documentado o llegada a W: '+id);
+}
 assert.equal(data.buildings.length,26);
 assert.equal(data.gates.filter(x=>x.type==='vehicle').length,3);
 assert.equal(data.gates.filter(x=>x.type==='pedestrian').length,3);

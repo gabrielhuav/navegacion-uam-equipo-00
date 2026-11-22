@@ -2150,8 +2150,9 @@
     },
     {
       "id": "Q",
-      "nombre": "Edificio Q",
-      "nodo": "n115"
+      "nombre": "Q · Gimnasio de pesas",
+      "nodo": "n115",
+      "referencia": "Llegada exterior al sector deportivo. Confirma la puerta del gimnasio con la señalización."
     },
     {
       "id": "R",
@@ -2187,12 +2188,12 @@
     },
     {
       "id": "ACCESO_P1",
-      "nombre": "Acceso peatonal P1",
+      "nombre": "Puerta 4 · San Pablo Xalpa (P1)",
       "nodo": "n1"
     },
     {
       "id": "ACCESO_P2",
-      "nombre": "Acceso peatonal P2",
+      "nombre": "Puerta 5 · San Pablo Xalpa (P2)",
       "nodo": "n7"
     },
     {
@@ -2591,6 +2592,22 @@
       "edificio": "D",
       "nivel": 0,
       "referencia": "Llegada al acceso de D; auditorio en planta baja. Consulta la señalización del edificio."
+    },
+    {
+      "id": "W_LAPLACE",
+      "nombre": "Laboratorio de Aplicaciones de Plasma Frío y Conversión de Energía (LAPLACE)",
+      "nodo": "n47",
+      "edificio": "W",
+      "nivel": 1,
+      "referencia": "La ruta llega al acceso del edificio W. Sigue la señalización hacia el módulo A, primer piso."
+    },
+    {
+      "id": "W_TELETRAFICO",
+      "nombre": "Laboratorio de Teletráfico y Comunicaciones Ópticas",
+      "nodo": "n47",
+      "edificio": "W",
+      "nivel": 3,
+      "referencia": "La ruta llega al acceso del edificio W. Busca la señalización del tercer nivel, según Conexión CBI."
     }
   ]
 }

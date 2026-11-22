@@ -1,0 +1,282 @@
+import {BASE_ROUTES} from 'route-data';
+import {intersectConvex, polygonArea, polygonsOverlap, rectanglePolygon, segmentPolygon, subtractObstacles} from 'site-clearance';
+
+const materiales = {
+  hormigon: '#aeafa8', hormigonClaro: '#bdb8a8', gris: '#939b94', terracota: '#a24a3f',
+  metal: '#5e6967', vidrio: '#556d6e', reja: '#9e3d35', asfalto: '#606766',
+  amarillo: '#d6b658', blanco: '#e6e2d2', cesped: '#758651',
+};
+
+// Vistas aéreas de Google Maps y Esri registradas al croquis. El tramo curvo
+// termina antes de que el sendero desaparezca bajo las copas.
+const curvaVisible = [[432,365],[427,361],[419,356],[413,352],[408,347],[405,342],[405,335]];
+const pañosPuerta2 = [
+  [[86,233],[157,231],[165,237],[165,291],[91,295],[86,289]],
+  [[178,233],[269,233],[270,303],[263,309],[184,309],[178,303]],
+];
+// Bordes exactos de los trece segmentos genéricos centrados entre 336 y 432.
+export const tramoRejaCICTE = [332,436];
+
+function preparar(THREE,data,net) {
+  const root = new THREE.Group();
+  root.name = 'Detalles_Maps_accesos_y_jardin_B_D';
+  root.userData = {
+    approximate:true,visualOnly:true,reference:'Auditoría Maps AZC, zonas 01–06',
+    reservasAparcamiento:[], reservasArbolado:[],
+  };
+  const s = data.metersPerPixel;
+  const punto = ([x,z]) => ({x:(x-895)*s,z:(z-390)*s});
+  const rect = ([x0,z0,x1,z1]) => [[x0,z0],[x1,z0],[x1,z1],[x0,z1]].map(punto);
+  const nodos = new Map(net.nodos.map(n => [n.id,n]));
+  const pasos = net.aristas.flatMap(({de,a}) => {
+    const inicio = nodos.get(de), fin = nodos.get(a);
+    if (!inicio || !fin || inicio.nivel !== 0 || fin.nivel !== 0 ||
+      Math.hypot(fin.x-inicio.x,fin.z-inicio.z) < .001) return [];
+    return [segmentPolygon(inicio,fin,3.2)];
+  });
+  const huellas = data.buildings.flatMap(b => b.rects.map(([x0,z0,x1,z1]) => {
+    const centro = punto([(x0+x1)/2,(z0+z1)/2]);
+    const factor = b.diamond ? Math.SQRT1_2 : 1;
+    return rectanglePolygon(centro.x+(b.offsetX||0),centro.z+(b.offsetZ||0),
+      (x1-x0)*s*factor,(z1-z0)*s*factor,b.diamond ? (b.facadeYaw??Math.PI/4) : 0);
+  }));
+  const predio = data.site.map(punto);
+  const paleta = new Map();
+  const materialesUsados = new Set();
+  const cubo = new THREE.BoxGeometry(1,1,1);
+  function material(color) {
+    if (!paleta.has(color)) paleta.set(color,new THREE.MeshStandardMaterial({color,roughness:.92}));
+    return paleta.get(color);
+  }
+  function grupo(nombre,reference,origen={x:0,z:0}) {
+    const group = new THREE.Group();
+    group.name = nombre;
+    group.position.set(origen.x,0,origen.z);
+    group.userData = {approximate:true,visualOnly:true,reference};
+    root.add(group);
+    return group;
+  }
+  function malla(g,nombre,geometry,color) {
+    const mesh = new THREE.Mesh(geometry,material(color));
+    mesh.name = nombre;
+    mesh.receiveShadow = true;
+    if (!materialesUsados.has(color)) {
+      mesh.userData.disposeMaterial = true;
+      materialesUsados.add(color);
+    }
+    g.add(mesh);
+    return mesh;
+  }
+  function caja(g,nombre,x,y,z,w,h,d,color) {
+    const mesh = malla(g,nombre,cubo.clone(),color);
+    mesh.position.set(x,y,z);
+    mesh.scale.set(w,h,d);
+    mesh.castShadow = h>1;
+    return mesh;
+  }
+  function cajasAgrupadas(g,nombre,cajas,color,sombra=false) {
+    if (!cajas.length) return;
+    const base = cubo.getAttribute('position'), indices = cubo.index, posiciones = [];
+    for (const [x,y,z,w,h,d] of cajas) {
+      for (let j=0; j<indices.count; j++) {
+        const i = indices.getX(j);
+        posiciones.push(x+base.getX(i)*w,y+base.getY(i)*h,z+base.getZ(i)*d);
+      }
+    }
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position',new THREE.Float32BufferAttribute(posiciones,3));
+    geometry.computeVertexNormals();
+    malla(g,nombre,geometry,color).castShadow = sombra;
+  }
+  function superficie(g,nombre,poligonos,y,color) {
+    const positions = [];
+    for (const contorno of poligonos) {
+      const forma = contorno.map(p => new THREE.Vector2(p.x,p.z));
+      for (const [a,b,c] of THREE.ShapeUtils.triangulateShape(forma,[])) {
+        const [p,q,r] = [contorno[a],contorno[b],contorno[c]];
+        const normalY = (q.z-p.z)*(r.x-p.x)-(q.x-p.x)*(r.z-p.z);
+        for (const i of normalY>0 ? [p,q,r] : [p,r,q]) positions.push(i.x,y,i.z);
+      }
+    }
+    if (!positions.length) return;
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));
+    geometry.computeVertexNormals();
+    malla(g,nombre,geometry,color);
+  }
+  const libre = (x,z,w,d) => {
+    const p = rectanglePolygon(x,z,w,d);
+    return ![...huellas,...pasos].some(q => polygonsOverlap(p,q)) &&
+      polygonArea(intersectConvex(p,predio))>w*d-1e-6;
+  };
+  return {THREE,root,s,punto,rect,pasos,huellas,predio,grupo,caja,cajasAgrupadas,superficie,libre};
+}
+
+function reja({cajasAgrupadas},g,x,segmentos) {
+  const altura = 1.66, zocalos = [], travesanos = [], barrotes = [];
+  for (const [inicio,fin] of segmentos) {
+    const largo = fin-inicio;
+    if (largo<.24) continue;
+    const centro = (inicio+fin)/2;
+    zocalos.push([x,.235,centro,.28,.20,largo]);
+    for (const y of [.42,altura-.02]) travesanos.push([x,y,centro,.065,.07,largo]);
+    for (let z=inicio+.09; z<fin-.08; z+=.22) barrotes.push([x,(altura+.32)/2,z,.072,altura-.32,.061]);
+  }
+  cajasAgrupadas(g,'Zocalo_reja_San_Pablo',zocalos,materiales.hormigon);
+  cajasAgrupadas(g,'Travesano_reja_San_Pablo',travesanos,materiales.reja);
+  cajasAgrupadas(g,'Barrotes_reja_San_Pablo',barrotes,materiales.reja,true);
+}
+
+function portalPeatonal(ctx,gate,amplio) {
+  const {grupo,caja,superficie,punto,libre} = ctx;
+  const {hormigon,gris,terracota,vidrio,hormigonClaro} = materiales;
+  const p = punto([gate.x,gate.y]);
+  const mitad = amplio ? 3.4 : 2.12;
+  const ladoTorre = amplio ? 1 : -1;
+  const torreZ = ladoTorre*(mitad+.52), otraJamba = -ladoTorre*(mitad+.44);
+  const bajoDintel = amplio ? 3.55 : 2.75, altoTorre = amplio ? 5.68 : 3.94;
+  const g = grupo('Portico_Mapas_'+gate.id,'Street View, enero 2025',p);
+  g.userData.existingGate = gate.id;
+  g.userData.operationVerified = false;
+  if (libre(p.x,p.z+torreZ,1.4,1.04)) {
+    caja(g,'Torre_portico_'+gate.id,0,.14+altoTorre/2,torreZ,1.4,altoTorre,1.04,amplio?gris:terracota);
+    if (amplio) for (const dz of [-.32,0,.32]) {
+      caja(g,'Ranura_alta_torre_'+gate.id,-.712,3.79,torreZ+dz,.026,.76,.145,vidrio);
+    }
+  }
+  if (libre(p.x,p.z+otraJamba,1.2,.88)) {
+    caja(g,'Apoyo_portico_'+gate.id,0,(bajoDintel+.14)/2,otraJamba,1.2,bajoDintel-.14,.88,hormigon);
+  }
+  caja(g,'Dintel_portico_'+gate.id,0,bajoDintel+.20,0,1.82,.40,2*mitad+1.04,hormigon);
+  for (const lado of [-1,1]) {
+    const segmentos = [];
+    for (let z=mitad+1.12; z<7.5; z+=.55) {
+      const ini = lado>0?z:-z-.55, fin = lado>0?z+.55:-z;
+      if (libre(p.x,p.z+(ini+fin)/2,.32,.55)) segmentos.push([ini,fin]);
+    }
+    reja(ctx,g,0,segmentos);
+  }
+  const alero = rectanglePolygon(.80,0,3.45,2*mitad-.2);
+  // El delantal queda a ras del pavimento y deja libre el vano peatonal.
+  superficie(g,'Piso_portico_'+gate.id,[alero],.322,hormigonClaro);
+}
+
+function detallesPuerta2(ctx,gate) {
+  const {grupo,caja,punto,libre} = ctx;
+  const {hormigon,gris,metal,vidrio,amarillo,blanco} = materiales;
+  const p = punto([gate.x,gate.y]), g = grupo('Detalles_Puerta_2','Maps, diciembre 2023 y enero 2025',p);
+  g.userData.existingGate = gate.id;
+  const x = 3.86, z = 2.89, w = 1.90, d = 1.49;
+  if (libre(p.x+x,p.z+z,w+.20,d+.20)) {
+    caja(g,'Plinto_caseta_Puerta_2',x,.39,z,w,.14,d,hormigon);
+    caja(g,'Base_caseta_Puerta_2',x,.77,z,w,.63,d,gris);
+    caja(g,'Vidrio_caseta_Puerta_2',x,1.52,z,w-.05,.87,d-.05,vidrio);
+    caja(g,'Alero_caseta_Puerta_2',x,2.06,z,w+.2,.19,d+.2,metal);
+    for (const sx of [-1,1]) for (const sz of [-1,1]) {
+      caja(g,'Montante_caseta_Puerta_2',x+sx*(w/2-.055),1.58,z+sz*(d/2-.055),.08,1.05,.08,metal);
+    }
+    caja(g,'Parteluz_caseta_Puerta_2',x-w/2+.02,1.52,z,.08,.91,.045,metal);
+  }
+  // Detalle exterior de la torre previa, sobre su arco hacia San Pablo.
+  for (const a of [-.30,.30]) {
+    const ventanilla = caja(g,'Ventanilla_baja_torre_Puerta_2',-Math.cos(a)*1.164,1.42,-4.70+Math.sin(a)*1.164,
+      .055,.47,.24,metal);
+    ventanilla.rotation.y = a;
+  }
+  for (let i=0; i<10; i++) {
+    caja(g,'Franja_vado_Puerta_2',-.36,.341,-2.77+i*.54,1.46,.012,.28,i%2?blanco:amarillo);
+  }
+}
+
+function estacionamientoPuerta2(ctx,data) {
+  const {root,grupo,punto,rect,huellas,pasos,predio,superficie} = ctx;
+  if (!data.parking[0] || data.removedElements?.includes('parking_0')) return;
+  const area = data.parking[0], [x0,z0,x1,z1] = area;
+  const centro = punto([(x0+x1)/2,(z0+z1)/2]);
+  const edit = data.elementEdits?.parking_0 || {};
+  const w = (x1-x0)*ctx.s, d = (z1-z0)*ctx.s;
+  const cos = Math.cos(edit.rotation || 0), sin = Math.sin(edit.rotation || 0);
+  const transformar = p => {
+    const x = (p.x-centro.x)*(edit.width || w)/w, z = (p.z-centro.z)*(edit.depth || d)/d;
+    return {x:centro.x+(edit.offsetX||0)+x*cos+z*sin,z:centro.z+(edit.offsetZ||0)-x*sin+z*cos};
+  };
+  const limite = rect(area).map(transformar);
+  const recortar = p => intersectConvex(intersectConvex(p.map(transformar),limite),predio);
+  const reserva = recortar(rect([78,226,272,314]));
+  if (reserva.length<3) return;
+  root.userData.reservasAparcamiento.push(reserva);
+  root.userData.reservasArbolado.push(reserva);
+  const g = grupo('Panos_estacionamiento_Puerta_2','Aéreas Google Maps y Esri, ajuste a parking_0');
+  g.userData.existingParking = 'parking_0';
+  const obstaculos = [...huellas,...pasos,...data.paths.map(rect),...(data.driveAisles||[]).map(rect)];
+  const {asfalto,cesped,hormigonClaro,blanco} = materiales;
+  for (const [i,pan] of pañosPuerta2.entries()) {
+    const contorno = recortar(pan.map(punto));
+    superficie(g,'Asfalto_paño_Puerta_2_'+i,subtractObstacles(contorno,obstaculos),.274,asfalto);
+    const marcas = [];
+    for (const x of i===0 ? [97.5,153] : [190,219.5]) {
+      for (let z=242; z<=(i===0?288:302); z+=2.7/ctx.s) {
+        const raya = rect([x-4.4/ctx.s/2,z-.115/ctx.s,x+4.4/ctx.s/2,z+.115/ctx.s]);
+        const tramo = intersectConvex(recortar(raya),contorno);
+        marcas.push(...subtractObstacles(tramo,obstaculos,.002));
+      }
+    }
+    superficie(g,'Rayas_paño_Puerta_2_'+i,marcas,.297,blanco);
+  }
+  const paso = recortar(rect([169,229,175,306]));
+  superficie(g,'Paso_entre_panos_Puerta_2',subtractObstacles(paso,obstaculos),.291,hormigonClaro);
+  const jardin = recortar(rect([165.5,239,168.15,292]));
+  superficie(g,'Franja_verde_entre_panos_Puerta_2',subtractObstacles(jardin,obstaculos),.280,cesped);
+}
+
+function senderoJardin(ctx,data) {
+  const {THREE,root,grupo,punto,superficie,rect,huellas,predio} = ctx;
+  const g = grupo('Andadores_observados_B_D','Vista aérea de Google Maps y Esri');
+  const curva = new THREE.CatmullRomCurve3(curvaVisible.map(coordenadas => {
+    const p = punto(coordenadas);
+    return new THREE.Vector3(p.x,0,p.z);
+  }));
+  const bordes = curva.getPoints(18).map((p,i) => {
+    const tangent = curva.getTangent(i/18);
+    const half = .94;
+    return [{x:p.x+tangent.z*half,z:p.z-tangent.x*half},
+      {x:p.x-tangent.z*half,z:p.z+tangent.x*half}];
+  });
+  const tramos = bordes.slice(1).flatMap(([p,q],i) => {
+    const [a,b] = bordes[i];
+    return subtractObstacles(intersectConvex([a,b,q,p],predio),huellas,.004);
+  });
+  superficie(g,'Sendero_curvo_visible_desde_C',tramos,.313,'#b8af97');
+  root.userData.reservasArbolado.push(...tramos);
+  const b = data.buildings.find(b => b.id==='B');
+  if (b) {
+    const [x0,z0,x1,z1] = b.rects[0];
+    const adaptar = polygon => polygon.map(p => ({x:p.x+(b.offsetX||0),z:p.z+(b.offsetZ||0)}));
+    const banda = adaptar(rect([x0+(x1-x0)*.23,z0-6.2,x1-9,z0-.25]));
+    const terraza = subtractObstacles(intersectConvex(banda,predio),huellas);
+    superficie(g,'Franja_pavimentada_jardin_B',terraza,.317,materiales.hormigonClaro);
+    root.userData.reservasArbolado.push(...terraza);
+    const bordeTecho = adaptar(rect([x0+.25,z0+.24,x0+(x1-x0)*.083,z1-.24]));
+    superficie(g,'Remate_terracota_cubierta_B',[bordeTecho],
+      (b.height??b.floors*data.storeyHeight)+.408,'#9b5245');
+  }
+}
+
+export function bloqueaArboladoEnAccesos(reservas,x,z) {
+  const tronco = rectanglePolygon(x,z,.9,.9);
+  return reservas.some(poligono => polygonsOverlap(poligono,tronco));
+}
+
+export function crearDetallesMapsAccesos(THREE,data,net=BASE_ROUTES) {
+  const ctx = preparar(THREE,data,net);
+  for (const gate of data.gates) {
+    if (gate.id==='V1') detallesPuerta2(ctx,gate);
+    if (gate.id==='P1' || gate.id==='P2') portalPeatonal(ctx,gate,gate.id==='P2');
+  }
+  estacionamientoPuerta2(ctx,data);
+  senderoJardin(ctx,data);
+  const [inicio,fin] = tramoRejaCICTE, origen = ctx.punto([60.34,inicio]);
+  const g = ctx.grupo('Reja_perimetral_CICTE','Street View de San Pablo, enero 2025',origen);
+  reja(ctx,g,0,[[0,(fin-inicio)*ctx.s]]);
+  return ctx.root;
+}

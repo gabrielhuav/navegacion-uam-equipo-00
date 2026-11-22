@@ -10,6 +10,9 @@ import {andadorAcademico,jardinesAcademicos} from './paisaje-academico.js';
 const source=fs.readFileSync(new URL('./app.js',import.meta.url),'utf8');
 const original=JSON.parse(fs.readFileSync(new URL('./campus_editado.json',import.meta.url),'utf8'));
 const net=JSON.parse(fs.readFileSync(new URL('./rutas.json',import.meta.url),'utf8'));
+const accessSource=fs.readFileSync(new URL('./detalles-maps-accesos.js',import.meta.url),'utf8')
+ .replace(/from '(route-data|site-clearance)'/g,(_,name)=>'from '+JSON.stringify(new URL('./'+name+'.js',import.meta.url).href));
+const {crearDetallesMapsAccesos}=await import('data:text/javascript;base64,'+Buffer.from(accessSource).toString('base64'));
 const register=source.slice(source.indexOf('function registerEditable('),source.indexOf('// Las reservas son visuales'));
 const parking=source.slice(source.indexOf('let parkingObstaclesCache=null;'),source.indexOf('function editSnapshot()'));
 const factory=new Function('THREE','rectanglePolygon','segmentPolygon','convexHull','polygonArea','polygonsOverlap','subtractObstacles','intersectConvex','data','world','editables','buildingGroups','routeEditor','BASE_ROUTES','S','X','Z','box','material','cylinder','parcelasVerdesHHP','trazadosHHP','andadorHHP','jardinesAcademicos','andadorAcademico',register+parking+'\nreturn {parkingArea,vialidadEstacionamientos,parkingObstacles,registerEditable};');
@@ -43,6 +46,8 @@ for(const transformed of [false,true]){
   data.buildings.find(b=>b.id==='A').offsetX=4;
  }
  const S=()=>data.metersPerPixel,X=x=>(x-895)*S(),Z=z=>(z-390)*S(),cube=new THREE.BoxGeometry(1,1,1),material=()=>new THREE.MeshBasicMaterial();
+ const accesos=crearDetallesMapsAccesos(THREE,data,net);
+ world.add(accesos);
  function box(parent,name,x,y,z,w,h,d,color){const mesh=new THREE.Mesh(cube,material(color));mesh.name=name;mesh.position.set(x,y,z);mesh.scale.set(w,h,d);parent.add(mesh);return mesh;}
  for(const b of data.buildings){
   const g=new THREE.Group();g.position.set(b.offsetX||0,0,b.offsetZ||0);world.add(g);buildingGroups.set(b.id,g);
@@ -62,9 +67,11 @@ for(const transformed of [false,true]){
   return triangles;
  });
  const walks=[andadorHHP,andadorAcademico].map(([x0,z0,x1,z1])=>clearance.rectanglePolygon(X((x0+x1)/2),Z((z0+z1)/2),(x1-x0)*S(),(z1-z0)*S()));
+ const reservasAccesos=accesos.userData.reservasAparcamiento;
+ assert(reservasAccesos.length>0,'Falta la reserva de los paños de Puerta 2.');
  assert(masks.gardens.every(triangle=>triangle.length===3),'Los fragmentos de la reserva verde deben ser triángulos.');
  assertCoverage(masks.gardens,gardenTriangles,'La reserva verde');
- assertCoverage(masks.pavimentosPeatonales,walks,'Los andadores');
+ assertCoverage(masks.pavimentosPeatonales,[...walks,...reservasAccesos],'Los andadores y paños de Puerta 2');
  const landscapeMasks=[['garden',masks.gardens],['walkway',masks.pavimentosPeatonales]];
  let count=0,stalls=0,landscapeChecks=0;
  // Revisar cualquier descendiente de los grupos de parking, incluidas las cebras,

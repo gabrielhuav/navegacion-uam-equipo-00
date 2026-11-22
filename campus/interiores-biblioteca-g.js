@@ -148,6 +148,32 @@ export function crearInteriorL(THREE) {
   for(const dx of [-1.20,1.20])caja('#955637',x+dx,.23,z,.15,.46,.68);
   for(const dz of [-.16,.13])caja('#c58d63',x,.562,z+dz,2.75,.006,.014);
  }
+ // Umbral visible en el panorama CyADtv de junio de 2019. Posición didáctica dentro del corte.
+ const blanco='#eceae3', zUmbral=7.07, anchoCancel=7.2;
+ caja(blanco,0,2.54,zUmbral,anchoCancel,.12,.13);
+ caja(blanco,0,4.41,zUmbral,anchoCancel,.13,.13);
+ for(const x of [-3.55,-1.46,1.46,3.55]){
+  caja(blanco,x,3.47,zUmbral,.085,1.85,.092);
+ }
+ for(const x of [-2.51,2.51]){
+  caja(blanco,x,.075,zUmbral,2.06,.13,.13);
+  caja(blanco,x,1.16,zUmbral,2.06,.07,.09);
+ }
+ const vidrio=new THREE.MeshStandardMaterial({color:'#a6bfba',transparent:true,opacity:.17,depthWrite:false});
+ for(const [x,y,w,h] of [[0,3.48,7,1.72],[-2.51,1.32,1.99,2.34],[2.51,1.32,1.99,2.34]]){
+  const panel=new THREE.Mesh(new THREE.BoxGeometry(w,h,.034),vidrio);
+  panel.name='L_cancel_blanco_del_umbral';
+  panel.position.set(x,y,zUmbral);
+  group.add(panel);
+ }
+ const cilindro=new THREE.CylinderGeometry(.27,.27,4.46,16);
+ const concreto=new THREE.MeshStandardMaterial({color:'#c6c6bc',roughness:.82});
+ for(const x of [-3.62,3.62]){
+  const columna=new THREE.Mesh(cilindro,concreto);
+  columna.name='L_columna_redonda_del_umbral';
+  columna.position.set(x,2.23,zUmbral-.29);
+  group.add(columna);
+ }
  colocarMallas();
  return {group,target:[0,1.45,-.4],camera:[23,18,25],etiquetas:[
   {texto:'Zona de trabajo',posicion:[.55,.92,1.1]},

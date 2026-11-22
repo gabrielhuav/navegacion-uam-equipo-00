@@ -1,5 +1,11 @@
 # Campus UAM Azcapotzalco · modelo 2D/3D
 
+## Implementación de la inspección en 20 zonas · 21 noviembre 2026
+
+El candidato detalla los pórticos de San Pablo, el jardín B–D, el cruce de G, el patio de H, el jardín de HP, el borde de Eje 5 y tres cierres deportivos. Los cortes de J, L y W incorporan los detalles de sus cubiertas o umbral. El buscador suma LAPLACE y Teletráfico y Comunicaciones Ópticas, con llegada al edificio W. [Cambios y pendientes por zona](IMPLEMENTACION_MAPS_20_ZONAS_AZC_2026-11-21.md).
+
+La segunda revisión incorpora el corredor cultural de C a F, los pavimentos de Egresados y COSEI y el detalle de talleres de P a S. En **Interiores** se abren los modelos de Incalli y Librería. **Sectores del campus** incluye la llegada a D, la explanada de COSEI y la galería de S. [Segunda revisión y fuentes](IMPLEMENTACION_MAPS_20_ZONAS_AZC_2026-11-21.md#segunda-revisión).
+
 ## Revisión por zonas · 21 noviembre 2026
 
 El visor incorpora los dos patios de ajedrez de HO y HP, los jardines restaurados de Plaza Roja, la galería de F, el pórtico de San Pablo Xalpa, el andador frente a CyAD, las cubiertas de L y de los tres talleres, el acceso a O y tres multicanchas. La red suma 27 destinos con piso documentado en C, D y los talleres. **Sectores del campus** abre las vistas nuevas. [Comparación y fuentes de los 26 edificios](REVISION_POR_ZONAS_2026-11-21.md).

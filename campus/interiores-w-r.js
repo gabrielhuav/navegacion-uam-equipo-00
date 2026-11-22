@@ -141,11 +141,19 @@ export function crearInteriorW(THREE) {
     const angulo = Math.PI * (1 - i / segmentos);
     return [semicubierta * Math.cos(angulo), arranque + flecha * Math.sin(angulo)];
   });
+  // La vista desde las galerías distingue los dos cordones y el alma triangular de cada arco.
+  const cordonInferior = perfil.map(([x, y]) => [x * .989, y - .17 - .18 * (y - arranque) / flecha]);
   for (const z of [-9.8, -7.52, -5.24, -2.96, -.68, 1.6, 3.88, 6.16, 8.44]) {
     for (let i = 1; i < perfil.length; i++) {
       const [x0, y0] = perfil[i - 1];
       const [x1, y1] = perfil[i];
       barra(rojo, [x0, y0, z], [x1, y1, z], .115, .082);
+      barra(rojo, [...cordonInferior[i - 1], z], [...cordonInferior[i], z], .062);
+    }
+    for (let i = 1; i < perfil.length - 1; i += 2) {
+      const inferior = [...cordonInferior[i], z];
+      barra(rojo, [...perfil[i - 1], z], inferior, .042);
+      barra(rojo, inferior, [...perfil[i + 1], z], .042);
     }
   }
   for (const i of [0, 3, 6, 8, 10, 13, 16]) {
@@ -166,7 +174,7 @@ export function crearInteriorW(THREE) {
       {texto: 'Atrio longitudinal', posicion: [0, .6, 3.5]},
       {texto: 'Muro de vidrio y pila', posicion: [0, 2.98, -10.62]},
       {texto: 'Galerías de ambos lados', posicion: [4.8, 6.84, -3.4]},
-      {texto: 'Cubierta con arcos rojos', posicion: [0, 11.28, -5.3]},
+      {texto: 'Cerchas curvas rojas', posicion: [0, 11.28, -5.3]},
     ],
   };
 }

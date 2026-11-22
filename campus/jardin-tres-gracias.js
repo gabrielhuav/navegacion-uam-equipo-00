@@ -1,5 +1,6 @@
 const centro = [916, 290];
 const nivelCesped = .27;
+const fotoBases = 'https://www.google.com/maps/place/Edificio+HP/@19.5029781,-99.1877747,3a,75y,90t/data=!3m3!1e2!3m1!1sCIABIhDLa2vs6qIahFkbZ713kqGG';
 
 // Contornos esquemáticos en metros, a partir de los alzados y las fotos del catálogo.
 const figuras = [
@@ -65,14 +66,16 @@ export function construirJardinTresGracias({THREE, world, material, X, Z}) {
   obra.name = 'Las_tres_Gracias_HP';
   obra.userData = {
     title: 'Las tres Gracias', artist: 'Manuel Marín', catalogId: 'EAE 05',
-    material: 'Acero al carbón oxidado y concreto', approximate: true
+    material: 'Acero al carbón oxidado y concreto', approximate: true, reference: fotoBases
   };
   obra.position.set(X(centro[0]), nivelCesped, Z(centro[1]));
   world.add(obra);
 
   const oxido = material('#6c493a');
   const oxidoOscuro = material('#513b33');
-  const concreto = material('#99968a');
+  const concreto = new THREE.MeshStandardMaterial({vertexColors: true, roughness: .96});
+  const concretoClaro = new THREE.Color('#b1aa96');
+  const tinteBase = new THREE.Color('#7f855f');
 
   function trazar(contorno, forma) {
     forma.moveTo(...contorno[0]);
@@ -97,13 +100,36 @@ export function construirJardinTresGracias({THREE, world, material, X, Z}) {
     figura.rotation.y = giro;
     obra.add(figura);
 
+    // Las fotos muestran apoyos bajos en onda con cantos redondeados y un tinte
+    // verdoso junto al césped. Los perfiles y anclajes se mantienen esquemáticos.
     const extremo = largoBase / 2;
     const base = new THREE.Shape();
     base.moveTo(-extremo, 0);
     base.lineTo(extremo, 0);
-    base.bezierCurveTo(extremo * .58, .12, extremo * .32, .48, 0, .53);
-    base.bezierCurveTo(-extremo * .33, .58, -extremo * .72, .21, -extremo, 0);
-    figura.add(extruir(base, .84, concreto, 'Base_ondulada_de_concreto'));
+    base.lineTo(extremo * .985, .10);
+    base.bezierCurveTo(extremo * .64, .17, extremo * .36, .48, .04, .53);
+    base.bezierCurveTo(-extremo * .36, .57, -extremo * .75, .34, -extremo, .08);
+    base.closePath();
+    const profundidad = .79;
+    const geometriaBase = new THREE.ExtrudeGeometry(base, {
+      depth: profundidad, curveSegments: 20, bevelEnabled: true,
+      bevelThickness: .036, bevelSize: .040, bevelSegments: 3
+    });
+    geometriaBase.translate(0, 0, -profundidad / 2);
+    const puntosBase = geometriaBase.getAttribute('position');
+    const colores = [];
+    for (let i = 0; i < puntosBase.count; i++) {
+      const bajo = Math.max(0, 1 - puntosBase.getY(i) / .53);
+      const variacion = .05 * Math.sin(11 * puntosBase.getX(i) + 8 * puntosBase.getZ(i));
+      const tono = concretoClaro.clone().lerp(tinteBase, .72 * bajo).multiplyScalar(1 + variacion);
+      colores.push(tono.r, tono.g, tono.b);
+    }
+    geometriaBase.setAttribute('color', new THREE.Float32BufferAttribute(colores, 3));
+    const baseOndulada = new THREE.Mesh(geometriaBase, concreto);
+    baseOndulada.name = 'Base_ondulada_de_concreto';
+    baseOndulada.castShadow = baseOndulada.receiveShadow = true;
+    if (nombre === figuras[0].nombre) baseOndulada.userData.disposeMaterial = true;
+    figura.add(baseOndulada);
 
     for (const {borde, calados = [], giro: pliegue = 0} of placas) {
       const forma = trazar(borde, new THREE.Shape());

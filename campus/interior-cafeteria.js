@@ -40,14 +40,37 @@ export function crearInteriorCafeteria(THREE) {
   box('Cabezal del cancel', metal, 0, 2.83, -4.45, 17.2, .09, .12);
   box('Plafón parcial del comedor', '#b9b6a7', -2.6, 3.41, -3.1, 12.1, .11, 3.25);
   for (const x of [-7, -4, -1, 2]) box('Luminaria lineal', '#f2e9c9', x, 3.34, -2.8, 1.5, .04, .22);
-  for (const x of [-6, -2, 2, 6]) {
-    const diagonal = box('Diagonal de la cubierta alta', orange, x, 4.49, -5.6, 2.43, .066, .083);
-    diagonal.rotation.x = .4;
-    diagonal.rotation.z = .39;
-    const mirror = box('Diagonal de la cubierta alta', orange, x + 2, 4.49, -5.6, 2.43, .066, .083);
-    mirror.rotation.z = -.39;
+  // Galería de septiembre de 2017. Vista parcial de la cubierta de celosía desde el cancel.
+  const trussColor = '#973e34';
+  const trussBays = 8, trussWidth = 17.2;
+  const trussPoint = (i, row) => [
+    (i / trussBays - .5) * trussWidth,
+    4.56 + row * .38,
+    -3.14 - row * 1.65,
+  ];
+  function strut(name, start, end) {
+    const a = new THREE.Vector3(...start), b = new THREE.Vector3(...end);
+    const delta = b.clone().sub(a);
+    const member = box(name, trussColor, ...a.clone().lerp(b, .5), .062, delta.length(), .062);
+    member.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), delta.normalize());
   }
-  box('Línea alta de la cubierta', metal, 0, 4.97, -5.6, 17.25, .11, .12);
+  for (let row = 0; row < 3; row++) {
+    strut('Cordón de la celosía de J', trussPoint(0, row), trussPoint(trussBays, row));
+    if (row === 2) continue;
+    for (let i = 0; i <= trussBays; i++) {
+      strut('Montante de la celosía de J', trussPoint(i, row), trussPoint(i, row + 1));
+      if (i < trussBays) strut('Diagonal de la celosía de J', trussPoint(i, row), trussPoint(i + 1, row + 1));
+    }
+  }
+  const globe = new THREE.SphereGeometry(.23, 12, 8);
+  const globeMaterial = new THREE.MeshStandardMaterial({color:'#f1ece1', roughness:.68});
+  for(const x of [-5.4, 0, 5.4]){
+    box('Suspensión del globo', metal, x, 4.47, -5.35, .023, .69, .023);
+    const lamp = new THREE.Mesh(globe, globeMaterial);
+    lamp.name = 'Luminaria esférica bajo la celosía';
+    lamp.position.set(x, 4.05, -5.35);
+    group.add(lamp);
+  }
 
   for (const x of [-6, -2.9, .25]) for (const z of [-2.4, .75, 3.95]) {
     box('Tablero de mesa', '#e2ded1', x, .8, z, 1.84, .09, 1.08);

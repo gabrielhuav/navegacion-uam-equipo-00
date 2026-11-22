@@ -4,6 +4,7 @@ export const franjasMulticanchasPoniente = [[1465, 1499], [1502, 1536], [1539, 1
 // Las naves 1P, 2P y 3P tienen módulos claros junto a una banda longitudinal oscura.
 // Se reconstruye su ritmo desde la vista aérea, con perfil bajo basado en 0015, 0022 y 0027.
 export function reconstruirCubiertasTalleres({THREE, data, buildingGroups, box, material, X, Z}) {
+  const proporciones = {P1: .73, P2: .86, P3: .90};
   for (const id of ['P1', 'P2', 'P3']) {
     const edificio = data.buildings.find(b => b.id === id);
     const volumen = buildingGroups.get(id)?.getObjectByName(id + '_volumen_0');
@@ -22,7 +23,7 @@ export function reconstruirCubiertasTalleres({THREE, data, buildingGroups, box, 
     const cantidad = 11;
     const paso = (fondo - 1.1) / cantidad;
     const claro = paso - .16;
-    const anchoClaro = ancho * (id === 'P3' ? .87 : .80);
+    const anchoClaro = ancho * proporciones[id];
     const inicio = -ancho / 2 + .34;
     const anchoFranja = ancho - anchoClaro - .58;
     const forma = new THREE.Shape();
@@ -46,6 +47,151 @@ export function reconstruirCubiertasTalleres({THREE, data, buildingGroups, box, 
     box(serie, id + '_franja_longitudinal_azotea', inicio + anchoClaro + anchoFranja / 2,
       base + .10, 0, anchoFranja, .20, fondo - 1.1, '#666964');
   }
+  detallarConexionP({buildingGroups, box, material});
+  detallarMarquesinaYEscaleraP1({THREE, buildingGroups, box});
+  detallarPatiosDeTalleres({THREE, data, buildingGroups, box, material, X, Z});
+}
+
+// La cubierta roja de P conecta visualmente las naves. Sus juntas se leen en la ortofoto.
+function detallarConexionP({buildingGroups, box, material}) {
+  const volumen = buildingGroups.get('P')?.getObjectByName('P_volumen_0');
+  const azotea = volumen?.getObjectByName('Azotea');
+  if (!azotea || volumen.getObjectByName('P_junta_de_cubierta')) return;
+  const {x: ancho, z: fondo} = azotea.scale;
+  const y = azotea.position.y + azotea.scale.y / 2;
+  azotea.material = material('#a96454');
+  for (const proporcion of [-.24, -.08, .16, .35]) {
+    box(volumen, 'P_junta_de_cubierta', ancho * proporcion, y + .018, 0, .12, .046, fondo * .92, '#855448');
+  }
+  box(volumen, 'P_paño_terracota_conexion', ancho * .22, y + .012, 0, ancho * .095, .032, fondo * .88, '#ad6e5c');
+}
+
+// Fotos 0002, 0009 y 0013. Se trabaja dentro de las envolventes ya asignadas a la escalera y cubierta.
+function detallarMarquesinaYEscaleraP1({THREE, buildingGroups, box}) {
+  const volumen = buildingGroups.get('P1')?.getObjectByName('P1_volumen_0');
+  const marquesina = volumen?.getObjectByName('P1_marquesina_roja');
+  if (!marquesina || volumen.getObjectByName('P1_travesaño_marquesina')) return;
+  const {x, y, z} = marquesina.position;
+  const {x: ancho, y: alto, z: fondo} = marquesina.scale;
+  marquesina.material = new THREE.MeshStandardMaterial({color: '#e9dfcc', transparent: true, depthWrite: false, opacity: .60, roughness: .74});
+  marquesina.userData.disposeMaterial = true;
+  marquesina.castShadow = false;
+  for (const lateral of [-1, 1]) {
+    box(volumen, 'P1_borde_tubular_marquesina', x + lateral * (ancho / 2 - .064), y - alto * .32, z, .11, .12, fondo, '#a23933');
+  }
+  const divisiones = Math.ceil(fondo / 3.2);
+  for (let i = 0; i <= divisiones; i++) {
+    const posZ = z + (i / divisiones - .5) * (fondo - .095);
+    box(volumen, 'P1_travesaño_marquesina', x, y - alto * .32, posZ, ancho, .11, .075, '#a23933');
+  }
+
+  const escalera = volumen.getObjectByName('P1_escalera_exterior');
+  if (!escalera) return;
+  const {x: anchoEscalera, y: altura, z: largo} = escalera.scale;
+  const arranque = escalera.position.y - altura / 2;
+  const frente = escalera.position.z - largo / 2;
+  const peldaños = 13;
+  const huella = largo / peldaños;
+  for (let i = 1; i <= peldaños; i++) {
+    const altoEscalera = altura * i / peldaños;
+    box(volumen, 'P1_peldaño_de_concreto', escalera.position.x, arranque + altoEscalera / 2,
+      frente + (i - .5) * huella, anchoEscalera, altoEscalera, huella, i % 2 ? '#b3b1a7' : '#b7b5aa');
+  }
+  escalera.removeFromParent();
+}
+
+function detallarPatiosDeTalleres({THREE, data, buildingGroups, box, material, X, Z}) {
+  const edificio = data.buildings.find(b => b.id === 'P4');
+  const naveP3 = data.buildings.find(b => b.id === 'P3');
+  const volumen = buildingGroups.get('P4')?.getObjectByName('P4_volumen_0');
+  const cubierta = volumen?.getObjectByName('P4_patio_cubierto_estudio');
+  if (!cubierta || volumen.getObjectByName('P4_pavimento_de_estudio')) return;
+
+  // La loseta terracota sigue el espacio bajo la cubierta y las franjas grises de 0016 y 0021.
+  const {x, z} = cubierta.position;
+  const ancho = cubierta.scale.x;
+  const fondo = cubierta.scale.z;
+  box(volumen, 'P4_pavimento_de_estudio', x, .210, z, ancho, .075, fondo, '#b48166');
+  for (const lateral of [-1, 1]) {
+    box(volumen, 'P4_cenefa_gris_del_patio', x + lateral * (ancho / 2 - .21), .251, z, .40, .010, fondo, '#96968c');
+  }
+  for (let distancia = -fondo / 2 + .96; distancia < fondo / 2 - .2; distancia += .96) {
+    box(volumen, 'P4_junta_de_loseta', x, .25, z + distancia, ancho - .80, .008, .023, '#926b56');
+  }
+  for (const eje of [-1.8, -.90, 0, .90, 1.80]) {
+    box(volumen, 'P4_junta_de_loseta', x + eje, .25, z, .023, .008, fondo, '#926b56');
+  }
+  const disco = volumen.getObjectByName('P4_piso_circular_patio');
+  if (disco) {
+    const radio = disco.geometry.parameters.radiusTop;
+    const cenefa = new THREE.Mesh(new THREE.RingGeometry(radio - .14, radio + .09, 48), material('#999489'));
+    cenefa.name = 'P4_cenefa_circular_del_patio';
+    cenefa.rotation.x = -Math.PI / 2;
+    cenefa.position.set(x, .259, z);
+    volumen.add(cenefa);
+  }
+
+  // 0015, 0022 y 0027 sitúan el pavimento de trabajo entre la fachada de P4 y la nave de P3.
+  if (!edificio?.rects[1] || !naveP3?.rects[0]) return;
+  const zInicio = Z(edificio.rects[1][3] + 2);
+  const zFin = Z(edificio.rects[0][3] - 4);
+  const xInicio = X(edificio.rects[0][2]);
+  const xFin = X(naveP3.rects[0][0]) + (naveP3.offsetX || 0) - (edificio.offsetX || 0);
+  const disponible = xFin - xInicio;
+  if (disponible < 5 || zFin <= zInicio) return;
+  const patios = new THREE.Group();
+  patios.name = 'Patio_de_trabajo_entre_P4_y_P3';
+  patios.userData = {approximate: true, reference: 'Esri 2025; corpus AZC 0015, 0022 y 0027'};
+  buildingGroups.get('P4').add(patios);
+  const centro = (zInicio + zFin) / 2;
+  const largo = zFin - zInicio;
+  const pasoP4 = Math.min(3.1, disponible * .35);
+  const pasoP3 = Math.min(3.35, disponible * .38);
+  const medio = disponible - pasoP4 - pasoP3;
+  box(patios, 'Faja_de_concreto_junto_a_P4', xInicio + pasoP4 / 2, .214, centro, pasoP4, .13, largo, '#b4b0a2');
+  box(patios, 'Adoquín_del_paso_P3', xFin - pasoP3 / 2, .214, centro, pasoP3, .13, largo, '#ad9e84');
+  box(patios, 'Franja_verde_entre_talleres', xInicio + pasoP4 + medio / 2, .194, centro, medio, .11, largo * .76, '#777d56');
+  for (let posZ = zInicio + 1.65; posZ < zFin; posZ += 1.65) {
+    box(patios, 'Junta_del_adoquín', xFin - pasoP3 / 2, .283, posZ, pasoP3, .008, .025, '#897e6b');
+  }
+}
+
+// Foto 0003. La circulación mira al patio de S y desemboca en la llegada exterior ya trazada.
+export function construirGaleriaSTalleres({THREE, part, w, d, h, box, data}) {
+  const grupo = new THREE.Group();
+  grupo.name = 'S_galeria_abierta_de_talleres';
+  grupo.userData = {approximate: true, reference: 'Corpus AZC 0003; Esri 2025', llegadaExterior: 'n104'};
+  part.add(grupo);
+  const nivel = data.storeyHeight;
+  const frente = -d / 2;
+  const anchoGaleria = Math.min(3.15, d * .34);
+  const fondoGaleria = frente + anchoGaleria;
+  const gris = '#bdbcb3', muro = '#d1cdc0', rojo = '#a84233';
+
+  box(grupo, 'S_cuerpo_retranqueado', 0, nivel / 2, anchoGaleria / 2, w, nivel, d - anchoGaleria, muro);
+  box(grupo, 'S_planta_alta_sobre_galeria', 0, (nivel + h) / 2, 0, w, h - nivel, d, gris);
+  box(grupo, 'S_losa_de_azotea', 0, h + .17, 0, w, .34, d, '#898b72');
+  box(grupo, 'S_piso_corrido_de_loseta', 0, .18, frente + anchoGaleria / 2, w, .25, anchoGaleria, '#c6c2b8');
+  box(grupo, 'S_trabe_de_borde', 0, nivel - .16, frente + .29, w, .36, .46, '#aeada4');
+  const claros = 9;
+  const espacio = (w - 1.10) / claros;
+  for (let i = 0; i <= claros; i++) {
+    const x = -w / 2 + .55 + i * espacio;
+    box(grupo, 'S_pilar_de_concreto', x, (nivel + .30) / 2, frente + .29, .48, nivel - .30, .47, gris);
+    box(grupo, 'S_junta_de_loseta', x, .31, frente + anchoGaleria / 2, .024, .007, anchoGaleria, '#a6a398');
+    if (i === claros) continue;
+    box(grupo, 'S_plafon_rojo_pasillo', x + espacio / 2, nivel - .34, frente + anchoGaleria / 2,
+      .23, .46, anchoGaleria - .42, rojo);
+    box(grupo, 'S_luminaria_lineal', x + espacio / 2, nivel - .45, frente + anchoGaleria * .40,
+      1.52, .064, .12, '#e6e4d9');
+    box(grupo, 'S_ventana_de_planta_alta', x + espacio / 2, nivel + 1.86, frente + .021,
+      espacio * .57, .83, .066, '#687a75');
+  }
+  for (const retiro of [.15, .24, .34, .43]) {
+    box(grupo, 'S_conducto_bajo_plafon', 0, nivel - .16, fondoGaleria - retiro, w - 1.40, .042, .042, '#92968d');
+  }
+  box(grupo, 'S_gabinete_hidrante_rojo', -w / 2 + .55 + espacio * 2, 1.40, frente + .54, .38, .70, .19, rojo);
+  return grupo;
 }
 
 // Dos niveles documentados por Energía. La cara del peine conserva la llegada n106.
