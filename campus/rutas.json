@@ -2214,7 +2214,7 @@
     },
     {
       "id": "ACCESO_P3",
-      "nombre": "Acceso peatonal P3",
+      "nombre": "Puerta 6 · Eje 5 Norte (P3)",
       "nodo": "n93"
     },
     {
@@ -2672,6 +2672,30 @@
       "edificio": "D",
       "nivel": 0,
       "referencia": "La ruta termina en el acceso de D. Busca la sala D008 en planta baja."
+    },
+    {
+      "id": "J_SANITARIOS",
+      "nombre": "J · Sanitarios",
+      "nodo": "n79",
+      "edificio": "J",
+      "nivel": 0,
+      "referencia": "La ruta termina en el acceso de la cafetería. Sigue los señalamientos de sanitarios en planta baja."
+    },
+    {
+      "id": "K001",
+      "nombre": "K-001 · Auditorio / Sala audiovisual",
+      "nodo": "n60",
+      "edificio": "K",
+      "nivel": 0,
+      "referencia": "La ruta termina en el acceso de K. Busca el auditorio K-001 en planta baja."
+    },
+    {
+      "id": "K_POSGRADOS_CBI",
+      "nombre": "K · Coordinación de Estudios de Posgrado de CBI",
+      "nodo": "n60",
+      "edificio": "K",
+      "nivel": 3,
+      "referencia": "La ruta termina en el acceso de K. Busca la Coordinación de Estudios de Posgrado de CBI en el tercer piso."
     },
     {
       "id": "K_VINCULACION_CSH",

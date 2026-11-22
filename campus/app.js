@@ -23,7 +23,8 @@ import {construirAndadorMulticanchas,construirCanchasDeportivas,construirGradasD
 import {construirJardinTresGracias} from 'jardin-tres-gracias';
 import {parcelasVerdesHHP,andadorHHP,trazadosHHP,construirPaisajeHHP} from 'paisaje-h-hp';
 import {contornoPlazaEgresados,crearPlazaEgresados} from 'plaza-egresados';
-import {andadorAcademico,jardinesAcademicos,construirPaisajeAcademico,construirJardinPosgrados,excluirArboladoAmbientalPosgrados} from 'paisaje-academico';
+import {andadorAcademico,jardinesAcademicos,construirPaisajeAcademico,construirJardinPosgrados,excluirArboladoAmbientalPosgrados,construirJardinJK,excluirArboladoAmbientalJK} from 'paisaje-academico';
+import {construirLlegadaPuerta6,excluirArboladoAmbientalPuerta6} from 'llegada-puerta6';
 import {construirEdificioO,construirGaleriaSTalleres,reconstruirCubiertasTalleres} from 'sector-talleres-deportes';
 import {construirPlazaRoja,construirCuerpoConGaleriaF,construirPorticoV1} from 'sector-acceso-plaza';
 import {crearPlazasAjedrez} from 'plazas-ajedrez';
@@ -1298,6 +1299,8 @@ function generate(){
  if(data.cosei)coseiPlaza(data.cosei);
  construirPaisajeAcademico({THREE,world,box,slab,meshPoly,material,tree,X,Z,S});
  construirJardinPosgrados({THREE,world,box,slab,meshPoly,tree,X,Z,S});
+ construirJardinJK({THREE,world,vegetation,box,meshPoly,material,X,Z,S});
+ construirLlegadaPuerta6({THREE,world,meshPoly,tree});
  construirGimnasioExteriorM({THREE,world,meshPoly,box,material,X,Z});
  construirPaisajeHHP({THREE,world,meshPoly,slab,tree,X,Z,S});
  const egresados=crearPlazaEgresados({THREE,world,material,X,Z});
@@ -1333,13 +1336,18 @@ function generate(){
   const vehicular=gate.type==='vehicle';
   if(gate.id==='V1')construirPorticoV1({THREE,world,gate,box,slab,material,X,Z,S});
   else if(!['P1','P2'].includes(gate.id))box(world,'Acceso_'+gate.id,X(gate.x),.5,Z(gate.y),vehicular?7:3,.6,5,vehicular?'#bc3535':'#1d72b6');
-  const puertas={V1:'Puerta 2',P1:'Puerta 4',P2:'Puerta 5'};
+  const puertas={V1:'Puerta 2',P1:'Puerta 4',P2:'Puerta 5',P3:'Puerta 6'};
   label(puertas[gate.id]||(vehicular?'Auto':'Peatón'),X(gate.x),5,Z(gate.y),gate.type);
  }
  let seed=1729;const rand=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};
- for(let n=0;n<520;n++){const x=75+rand()*1600,y=95+rand()*590;if(inside(x,y,data.site)&&!excluded(x,y))tree(x,y,.7+rand()*.6);}
+ for(let n=0;n<520;n++){
+  const x=75+rand()*1600,y=95+rand()*590;
+  if(!inside(x,y,data.site)||excluded(x,y))continue;
+  const size=.7+rand()*.6;
+  if(!excluirArboladoAmbientalJK(x,y)&&!excluirArboladoAmbientalPuerta6(x,y))tree(x,y,size);
+ }
  for(let x=90;x<1560;x+=39){let y=80+(x-60)*144/1515+11;if(!excluded(x,y))tree(x,y,.9);}
- for(let x=80;x<1650;x+=34)if(!data.gates.some(g=>Math.hypot(g.x-x,g.y-689)<25))tree(x,688,.8);
+ for(let x=80;x<1650;x+=34)if(!excluirArboladoAmbientalPuerta6(x,688)&&!data.gates.some(g=>Math.hypot(g.x-x,g.y-689)<25))tree(x,688,.8);
  tree(803,354,1,true);tree(845,354,1,true);tree(1312,248,1,true);tree(1335,248,1,true);for(const p of [[805,331],[847,331]])tree(p[0],p[1],.6);
  for(const [i,p] of (data.jacarandas||[]).entries())jacaranda(p[0],p[1],i);
  for(const px of [715,877])for(let py=436;py<565;py+=48){if(data.cosei&&px>760&&py>=480)continue;if(!data.sculpture||Math.hypot(px-data.sculpture.position[0],py-data.sculpture.position[1])>18)tree(px,py,.6);}
@@ -1405,8 +1413,10 @@ const sectorViews={
  mFachada:{target:[1324,2.25,628],offset:[12,4.2,-13]},
  qAzotea:{target:[1588,2.7,573],offset:[-19,15,-14]},
  kEstacionamiento:{target:[1032,5.8,380],offset:[-11,3.3,-26]},
+ jardinJK:{target:[938,1.05,428],offset:[16,12,18]},
  qExterior:{target:[1593,1.55,550],offset:[-56,12,-7]},
  rExterior:{target:[1370,5.1,280],offset:[-36,16,56]},
+ puerta6:{target:[1370,1.3,650],offset:[-12,45,43]},
  andadorDeportivo:{target:[1510,1.2,456],offset:[-4,59,-38]},
  deportes:{target:[1565,1.65,555],offset:[-62,121,144]},
  gradas:{target:[1602,2.25,668.25],offset:[-17.6,8.5,-13.5]},

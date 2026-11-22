@@ -111,73 +111,110 @@ export function construirGradasDeportivas({THREE, world, box, X, Z}) {
  }
 }
 
-// La fotografía 0075 identifica Q por la letra roja en la cara que mira al campo natural.
+// Aleph 364, p. 13: frente de Q desde el campo el 22 de abril de 2024.
 export function construirFachadaQ({THREE,part,w,d,h,box,material}) {
  const grupo=new THREE.Group();
  grupo.name='Q_fachada_hacia_el_campo_natural';
- grupo.userData={approximate:true,reference:'Corpus UAM-A 0075; plano institucional CBI; vista aérea Esri',
+ grupo.userData={approximate:true,reference:'Aleph 364, p. 13 (abril de 2024); corpus UAM-A 0075 y 0096',
   orientation:'Hacia el campo natural',access:'Se distinguen varios vanos; puerta específica de pesas pendiente'};
  part.add(grupo);
- const frente=-w/2,fondo=d/2,base=.28,fascia=.84;
- const dintel=h-fascia,paños=16,paso=d/paños;
- const cemento='#aeb7b5',rojo='#ad4945',marco='#adb6b1';
- const vidrio=['#59635f','#657470','#536362'];
- box(grupo,'Q_cuerpo_bajo',.24,dintel/2,0,w-.48,dintel,d,'#889491');
+
+ const frente=-w/2,fondo=d/2,base=.30,fascia=.96;
+ const remateCubierta=.36,division=-fondo+d*.345;
+ const rojo='#a94a47',gris='#7c858b',blanco='#cfd2c9';
+ const desdeIzquierda=fraccion=>-fondo+fraccion*d;
+ box(grupo,'Q_cuerpo_bajo',.24,(h-remateCubierta)/2,0,w-.48,h-remateCubierta,d,gris);
+ box(grupo,'Q_muro_gris_campo',frente+.22,(h-remateCubierta)/2,0,.55,h-remateCubierta,d,gris);
  box(grupo,'Q_azotea_verde',0,h-.05,0,w,.16,d,'#65735e');
  detallarAzoteaQ({THREE,grupo,w,d,techo:h+.03,box,material});
- box(grupo,'Q_fascia_roja_campo',frente-.065,dintel+fascia/2,0,.23,fascia,d+.18,rojo);
- box(grupo,'Q_fascia_roja_Ferrocarriles',w/2-.02,dintel+fascia/2,0,.19,fascia,d+.13,'#9a4141');
- for(const extremo of [-1,1])box(grupo,'Q_remate_terracota',0,dintel+fascia/2,extremo*fondo,w,fascia,.16,rojo);
+ box(grupo,'Q_fascia_roja_campo',frente-.085,h-fascia/2,(division+fondo)/2,.26,fascia,fondo-division+.08,rojo);
+ box(grupo,'Q_fascia_sobre_marquesina',frente-.065,h-remateCubierta/2,(-fondo+division)/2,.22,remateCubierta,division+fondo,rojo);
+ box(grupo,'Q_fascia_roja_Ferrocarriles',w/2-.02,h-fascia/2,0,.19,fascia,d+.13,'#9a4141');
+ box(grupo,'Q_remate_terracota',0,h-remateCubierta/2,-fondo,w,remateCubierta,.16,rojo);
+ box(grupo,'Q_remate_terracota',0,h-fascia/2,fondo,w,fascia,.16,rojo);
 
- // Se identifican hojas y paños de fachada, sin asignarles usos que la imagen no distingue.
- for(let i=0;i<paños;i++){
-  const z=-fondo+(i+.5)*paso,ancho=paso-.13;
-  const acceso=[1,4,8,10,14].includes(i);
-  if(acceso){
-   box(grupo,'Q_vano_en_fachada',frente+.087,(base+dintel)/2,z,.11,dintel-base,ancho,
-    i===14?'#39403c':vidrio[i%vidrio.length]);
-   box(grupo,'Q_junta_de_hojas',frente+.015,(base+dintel)/2,z,.053,dintel-base,.056,marco);
-   for(const offset of [-.105,.105])
-    box(grupo,'Q_tirador',frente-.025,1.18,z+offset,.071,.22,.035,'#c6c8bb');
-  }else{
-   box(grupo,'Q_paño_bajo_de_fachada',frente+.045,.89,z,.15,1.22,ancho,cemento);
-   box(grupo,'Q_vitrina_alta',frente+.029,(1.50+dintel)/2,z,.11,dintel-1.50,ancho,vidrio[i%vidrio.length]);
-  }
-  box(grupo,'Q_travesaño_de_cancel',frente-.014,1.52,z,.051,.048,ancho,marco);
-  box(grupo,'Q_montante_de_fachada',frente-.016,(base+dintel)/2,z-paso/2+.039,.079,dintel-base,.084,marco);
+ // Vanos visibles en la toma de 2024, sin asignar los servicios a sus puertas.
+ const perfil='#b4b8b5';
+ for(const [fraccion,ancho,alto,color] of [
+  [.073,d*.024,1.94,'#676e72'],
+  [.121,d*.049,1.88,'#6e7e86'],
+  [.259,d*.025,1.91,'#606a6e'],
+  [.369,d*.023,1.94,'#8a4c48'],
+  [.476,d*.028,1.97,'#747e80'],
+ ]){
+  const z=desdeIzquierda(fraccion);
+  box(grupo,'Q_vano_en_fachada',frente-.080,base+alto/2,z,.075,alto+.075,ancho+.075,perfil);
+  box(grupo,'Q_hoja_de_vano',frente-.126,base+alto/2,z,.034,alto,ancho,color);
+  box(grupo,'Q_travesaño_de_vano',frente-.151,base+alto*.66,z,.037,.064,ancho,perfil);
  }
+ for(const fraccion of [.105,.121,.137])
+  box(grupo,'Q_montante_porton_bajo_marquesina',frente-.153,base+.94,desdeIzquierda(fraccion),.041,1.88,.055,'#4c5c64');
+
+ // Las franjas oscuras bajo la cubierta son angostas. El resto del frente se lee como muro.
+ const largoMarquesina=d*.342,centroMarquesina=-fondo+largoMarquesina/2+.09;
+ for(let i=0;i<6;i++){
+  const ancho=largoMarquesina/6;
+  box(grupo,'Q_banda_alta_bajo_marquesina',frente-.057,2.44,centroMarquesina-largoMarquesina/2+(i+.5)*ancho,.039,.30,ancho-.23,'#626d72');
+ }
+
+ const centroCancel=desdeIzquierda(.703),anchoCancel=d*.123,altoCancel=h-fascia-base-.075;
+ const cristal='#4d5d62';
+ box(grupo,'Q_cancel_principal_vidrio',frente-.100,base+altoCancel/2,centroCancel,.082,altoCancel,anchoCancel,cristal);
+ for(const posicion of [-.5,-.38,-.28,-.15,.15,.28,.38,.5]){
+  box(grupo,'Q_montante_blanco_cancel_principal',frente-.157,base+altoCancel/2,centroCancel+anchoCancel*posicion,.069,altoCancel+.065,.085,blanco);
+ }
+ for(const f of [0,.25,.5,.75,1]){
+  const y=base+altoCancel*f;
+  if(f===0||f===1)box(grupo,'Q_marco_blanco_cancel_principal',frente-.158,y,centroCancel,.069,.071,anchoCancel+.079,blanco);
+  else{
+   for(const lado of [-1,1])
+    box(grupo,'Q_reticula_blanca_cancel_principal',frente-.158,y,centroCancel+lado*anchoCancel*.325,.069,.054,anchoCancel*.35,blanco);
+  }
+ }
+ const ventana=desdeIzquierda(.811),anchoVentana=d*.033;
+ box(grupo,'Q_marco_ventanuco',frente-.095,1.77,ventana,.089,.76,anchoVentana,perfil);
+ box(grupo,'Q_vidrio_ventanuco',frente-.149,1.77,ventana,.031,.64,anchoVentana-.12,'#666e72');
  box(grupo,'Q_andador_junto_al_campo',frente-.65,.274,0,1.30,.077,d,'#aaa694');
 
- // Marquesina clara y perfiles rojizos observados en el tercio sur de la fachada.
- const vuelo=1.78,largo=d*.318,zMarquesina=-fondo+largo/2+.38;
- const alturaMarquesina=dintel+.05;
- const cubierta=new THREE.Mesh(new THREE.BoxGeometry(vuelo,.085,largo),
-  new THREE.MeshStandardMaterial({color:'#e3e3d7',transparent:true,opacity:.66,depthWrite:false,roughness:.62}));
+ // Perfil continuo de la marquesina curva y nervios estrechos sobre el tramo izquierdo.
+ const vuelo=1.78,alturaMarquesina=h-.39,caida=.43,grosor=.06;
+ const perfilMarquesina=new THREE.Shape();
+ perfilMarquesina.moveTo(frente,alturaMarquesina);
+ perfilMarquesina.quadraticCurveTo(frente-vuelo*.98,alturaMarquesina,frente-vuelo,alturaMarquesina-caida);
+ perfilMarquesina.lineTo(frente-vuelo+.06,alturaMarquesina-caida);
+ perfilMarquesina.quadraticCurveTo(frente-vuelo*.96,alturaMarquesina-grosor,frente,alturaMarquesina-grosor);
+ perfilMarquesina.closePath();
+ const inicioMarquesina=centroMarquesina-largoMarquesina/2;
+ const cubierta=new THREE.Mesh(
+  new THREE.ExtrudeGeometry(perfilMarquesina,{depth:largoMarquesina,bevelEnabled:false,curveSegments:8}),
+  new THREE.MeshStandardMaterial({color:'#d8dbda',transparent:true,opacity:.72,depthWrite:false,roughness:.68}));
  cubierta.name='Q_marquesina_translucida';
- cubierta.position.set(frente-vuelo/2,alturaMarquesina,zMarquesina);
- cubierta.rotation.z=.048; cubierta.userData.disposeMaterial=true; grupo.add(cubierta);
- for(const x of [frente-.10,frente-vuelo+.10])
-  box(grupo,'Q_larguero_rojo_de_marquesina',x,alturaMarquesina-.063,zMarquesina,.11,.12,largo,'#884840');
- for(let i=0;i<=8;i++){
-  const z=zMarquesina+largo*(i/8-.5);
-  box(grupo,'Q_travesaño_de_marquesina',frente-vuelo/2,alturaMarquesina-.091,z,vuelo,.068,.084,'#8b4943').rotation.z=.048;
+ cubierta.position.z=inicioMarquesina;
+ cubierta.userData.disposeMaterial=true;grupo.add(cubierta);
+ const perfilNervio=new THREE.ExtrudeGeometry(perfilMarquesina,{depth:.045,bevelEnabled:false,curveSegments:8});
+ const pasoNervio=.74;
+ for(let z=inicioMarquesina+.06;z<inicioMarquesina+largoMarquesina-.055;z+=pasoNervio){
+  const nervio=new THREE.Mesh(perfilNervio,material('#abb0ac'));
+  nervio.name='Q_nervio_marquesina';
+  nervio.position.z=z;
+  grupo.add(nervio);
  }
- for(const z of [zMarquesina-largo*.43,zMarquesina+largo*.43])
-  box(grupo,'Q_apoyo_metalico_marquesina',frente-vuelo+.09,alturaMarquesina/2,z,.099,alturaMarquesina,.099,'#854b42');
+ box(grupo,'Q_larguero_frontal_marquesina',frente-vuelo+.028,alturaMarquesina-caida,centroMarquesina,.102,.079,largoMarquesina,'#a8abaa');
 
  const letra=new THREE.Shape();
- letra.absellipse(0,.07,.254,.272,0,Math.PI*2,false,0);
+ letra.absellipse(0,.09,.355,.355,0,Math.PI*2,false,0);
  const hueco=new THREE.Path();
- hueco.absellipse(0,.07,.147,.174,0,Math.PI*2,true,0);
+ hueco.absellipse(0,.09,.227,.230,0,Math.PI*2,true,0);
  letra.holes.push(hueco);
  const grupoRotulo=new THREE.Group();grupoRotulo.name='Q_rotulo_rojo_identificado';grupo.add(grupoRotulo);
- grupoRotulo.position.set(frente-.191,dintel+fascia*.49,d*.245);
+ grupoRotulo.position.set(frente-.236,h-fascia*.52,desdeIzquierda(.941));
  grupoRotulo.rotation.y=-Math.PI/2;
  const anillo=new THREE.Mesh(new THREE.ExtrudeGeometry(letra,{depth:.07,bevelEnabled:false,curveSegments:10}),material('#8e3131'));
  grupoRotulo.add(anillo);
- box(grupoRotulo,'Q_asta_del_rotulo',.197,-.20,.034,.105,.43,.071,'#8e3131');
+ box(grupoRotulo,'Q_asta_del_rotulo',.274,-.28,.034,.142,.51,.071,'#8e3131');
 
  // En el panorama desde Ferrocarriles se ve la franja alta por encima de la reja perimetral.
+ const dintel=h-.84;
  box(grupo,'Q_vano_alto_hacia_Ferrocarriles',w/2-.014,dintel*.69,-d*.06,.115,.63,d*.45,'#565c55');
  for(const z of [-.276,-.152,-.031,.093,.16])
   box(grupo,'Q_montante_de_fachada_posterior',w/2+.057,dintel*.69,z*d,.046,.68,.075,'#8e524b');

@@ -44,7 +44,7 @@ const flag=descendants(asta).find(n=>n.name==='Bandera_México');assert.ok(flag)
 const html=await fs.readFile(new URL('./Visor_UAM_autonomo.html',import.meta.url),'utf8');
 const imports=JSON.parse(html.match(/<script type="importmap">([\s\S]*?)<\/script>/)[1]).imports;
 const embeddedSources=['site-clearance','detalles-corpus','accesos-modelados','detalles-arquitectura-corpus','detalles-entorno-corpus','interiores-biblioteca-g','interior-cafeteria','interiores-w-r','detalles-academicos-maps','detalles-deportivos-maps','jardin-tres-gracias','paisaje-h-hp','plaza-egresados',
- 'paisaje-academico','sector-acceso-plaza','sector-talleres-deportes','plazas-ajedrez','recintos-deportivos',
+ 'paisaje-academico','llegada-puerta6','sector-acceso-plaza','sector-talleres-deportes','plazas-ajedrez','recintos-deportivos',
  'detalles-maps-accesos','detalles-maps-plazas','detalles-maps-ponente','detalles-maps-corredor-cultural'];
 assert.deepEqual(Object.keys(imports).sort(),['three','orbit','exporter','texture-utils','model-data','copyright-layout','route-space','route-data','route-editor',...embeddedSources].sort());assert.ok(Object.values(imports).every(v=>v.startsWith('data:text/javascript;base64,')));
 for(const name of embeddedSources){

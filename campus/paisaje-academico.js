@@ -108,3 +108,61 @@ export function construirJardinPosgrados({THREE,world,box,slab,meshPoly,tree,X,Z
   for (const [x,z,tamano] of arbolesPosgrados) tree(x,z,tamano,false,.248);
   return grupo;
 }
+
+const setosJK = [
+  [917,420,936,423.1],
+  [939.5,420,954,423.1],
+  [952,422.8,955,435.4],
+];
+
+export function excluirArboladoAmbientalJK(x,z) {
+  return x>=915&&x<=958&&z>=417&&z<=438;
+}
+
+export function construirJardinJK({THREE,world,vegetation,box,meshPoly,material,X,Z,S}) {
+  const terreno = new THREE.Group();
+  terreno.name = 'Jardin_entre_J_y_K';
+  terreno.userData = {
+    approximate: true,
+    reference: 'Panteras Al Rescate, Recorrido en RV por la UAM Azcapotzalco, 8:03–8:10; ortofoto Esri registrada',
+  };
+  world.add(terreno);
+  meshPoly(terreno,[[915,418],[955,418],[958,421],[958,434],[953,437],[916,436]],
+    .246,'#829653','Cesped_entre_cafeteria_y_K');
+  meshPoly(terreno,[[938,426],[948,424],[953,429],[950,434],[941,434]],
+    .253,'#78894e','Franja_verde_bajo_yucas_J_K');
+
+  const plantas = new THREE.Group();
+  plantas.name = 'Setos_y_yucas_J_K';
+  vegetation.add(plantas);
+  for (const [x0,z0,x1,z1] of setosJK) {
+    const ancho=(x1-x0)*S(), fondo=(z1-z0)*S(), x=X((x0+x1)/2), z=Z((z0+z1)/2);
+    box(plantas,'Seto_recortado_J_K',x,.56,z,ancho,.62,fondo,'#476b35');
+    box(plantas,'Copa_clara_seto_J_K',x,.89,z,ancho-.12,.14,fondo-.12,'#698b46');
+  }
+
+  const tallo = new THREE.CylinderGeometry(.071,.112,1,7);
+  const hoja = new THREE.ConeGeometry(.085,1,4);
+  const vertical = new THREE.Vector3(0,1,0);
+  // Siluetas visibles desde la galería. La altura y el sitio de cada tallo son orientativos.
+  for (const [x,z,altura,radio] of [[943.2,428.5,2.67,1.1],[945.6,429.7,1.87,.86],[940.7,430,1.31,.7]]) {
+    const tronco = new THREE.Mesh(tallo,material('#74624b'));
+    tronco.name = 'Tronco_yuca_J_K';
+    tronco.position.set(X(x),.25+altura/2,Z(z));
+    tronco.scale.y=altura;
+    tronco.castShadow=true;
+    plantas.add(tronco);
+    for (let i=0;i<15;i++) {
+      const angulo=i*2*Math.PI/15;
+      const deltaY=i%3===0?.62:-.21;
+      const direccion=new THREE.Vector3(Math.cos(angulo)*radio,deltaY,Math.sin(angulo)*radio);
+      const longitud=direccion.length();
+      const pala=new THREE.Mesh(hoja,material(['#4f773c','#72994f','#3f6938'][i%3]));
+      pala.name='Hoja_radial_yuca_J_K';
+      pala.position.set(X(x)+direccion.x*.5,altura+.25+deltaY*.5,Z(z)+direccion.z*.5);
+      pala.scale.y=longitud;
+      pala.quaternion.setFromUnitVectors(vertical,direccion.normalize());
+      plantas.add(pala);
+    }
+  }
+}
