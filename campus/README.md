@@ -1,5 +1,9 @@
 # Campus UAM Azcapotzalco · modelo 2D/3D
 
+## Recorrido de 50 zonas · 22 de noviembre de 2026
+
+En **Recorrido de 50 zonas** se puede saltar a cada lugar desde el visor. La revisión cubre accesos, fachadas, jardines, andadores y recintos deportivos de la Unidad. [Plano numerado, comparativas y fuentes por zona](REVISION_50_ZONAS_AZC_2026-11-22.md).
+
 ## Pavimentos y umbrales · quinta pasada del 22 de noviembre de 2026
 
 Se perfilaron los encuentros de J y K, el patio de H, el andador de deportivas, los bordes del paso de G y las llegadas de San Pablo. [Comparaciones con cámara fija, registro de 20 zonas y pruebas](QUINTA_PASADA_20_ZONAS_AZC_2026-11-22.md).

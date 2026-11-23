@@ -15,6 +15,7 @@ const net=JSON.parse(await read('rutas.json'));
 const {ORIGINAL}=await import(pathToFileURL(path.join(campus,'model-data.js')).href);
 const {routeIssues,modelToGeo,pointInside,segmentCuts}=await import(pathToFileURL(path.join(campus,'route-space.js')).href);
 const {BASE_ROUTES,ROUTE_GEO}=await import(pathToFileURL(path.join(campus,'route-data.js')).href);
+const {zonasAzc}=await import(pathToFileURL(path.join(campus,'zonas-azc.js')).href);
 const parseGlb=async name=>{
   const raw=await file(name);
   assert.equal(raw.subarray(0,4).toString(),'glTF');
@@ -75,6 +76,13 @@ const app=await read('app.js'),html=await read('Visor_UAM_autonomo.html');
 assert.ok(html.includes(app),'Código portátil obsoleto: ejecutar build.mjs');
 assert.ok(/xMin:\s*-390,\s*xMax:\s*390,\s*zMin:\s*-150,\s*zMax:\s*170,\s*pxPorMetro:\s*2/.test(app));
 const imports=JSON.parse(html.match(/<script type="importmap">([\s\S]*?)<\/script>/)[1]).imports;
+assert.deepEqual(zonasAzc.map(zona=>zona.id),Array.from({length:50},(_,i)=>String(i+1).padStart(2,'0')));
+assert.equal(new Set(zonasAzc.map(zona=>zona.focus)).size,50);
+const vector=coordinates=>Array.isArray(coordinates)&&coordinates.length===3&&coordinates.every(Number.isFinite);
+for(const zona of zonasAzc){
+  assert.ok(zona.title&&zona.focus.startsWith('Zona50_'+zona.id+'_'));
+  assert.ok(vector(zona.target)&&vector(zona.offset),'Encuadre inválido: '+zona.id);
+}
 const embedded=Buffer.from(imports['model-data'].split(',')[1],'base64').toString('utf8');
 assert.deepEqual(JSON.parse(embedded.match(/export const ORIGINAL = ([\s\S]*);$/)[1]),data,'Portátil pierde datos guardados');
 const marked=await parseGlb('UAM_Azcapotzalco.glb'),plain=await parseGlb('UAM_Azcapotzalco_sin_marca.glb');
@@ -94,6 +102,13 @@ for(const name of ['Cancha_borde_terracota','Campo_futbol']){
   }
 }
 for(const {gltf} of [marked,plain]){
+  const zonasExportadas=gltf.nodes.filter(n=>/^Zona50_\d{2}_/.test(n.name||''));
+  assert.deepEqual([...new Set(zonasExportadas.map(n=>n.name.slice(7,9)))].sort(),zonasAzc.map(zona=>zona.id));
+  const nombresDeZona=new Set(zonasExportadas.map(n=>n.name));
+  for(const zona of zonasAzc)assert.ok(nombresDeZona.has(zona.focus),'Falta el detalle principal: '+zona.id);
+  for(const grupo of zonasExportadas){
+    assert.ok(grupo.children?.length&&grupo.extras?.reference,'Zona sin detalle o fuente: '+grupo.name);
+  }
   const buildingRoots=gltf.nodes.filter(x=>/^Edificio_/.test(x.name||''));
   assert.equal(buildingRoots.length,data.buildings.length);
   for(const b of data.buildings){const node=buildingRoots.find(x=>x.name==='Edificio_'+b.id);assert.ok(node);assert.equal(node.extras.floors,b.floors);}
@@ -189,7 +204,7 @@ if(baseline){
   assert.deepEqual(data.buildings.map(b=>({id:b.id,rects:b.rects,offsetX:b.offsetX,offsetZ:b.offsetZ})),
                    old.buildings.map(b=>({id:b.id,rects:b.rects,offsetX:b.offsetX,offsetZ:b.offsetZ})));
 }
-console.log(JSON.stringify({pass:true,read_only:true,buildings:26,parking:data.parking.length,
+console.log(JSON.stringify({pass:true,read_only:true,zones:zonasAzc.length,buildings:26,parking:data.parking.length,
   routeNodes:net.nodos.length,routeEdges:net.aristas.length,routeDestinations:net.destinos.length,routeComponent:1,png:[1560,640],
   marked:{sha256:marked.sha256,bytes:marked.bytes,nodes:marked.gltf.nodes.length},
   plain:{sha256:plain.sha256,bytes:plain.bytes,nodes:plain.gltf.nodes.length},

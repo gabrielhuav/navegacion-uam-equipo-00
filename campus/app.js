@@ -42,6 +42,10 @@ import {construirCaminosDePuertas} from 'caminos-de-puertas';
 import {aplicarCuartaPasadaPoniente,interiorCuartaPasadaPoniente} from 'cuarta-pasada-poniente';
 import {modelarCuartaPasadaCentro,detallarCortesCuartaPasadaCentro} from 'cuarta-pasada-centro';
 import {detallarCuartaPasadaOriente,detallarCortesCuartaPasadaOriente} from 'cuarta-pasada-oriente';
+import {mejorarPoniente50} from 'revision-50-poniente';
+import {mejorarCentro50} from 'revision-50-centro';
+import {mejorarOriente50} from 'revision-50-oriente';
+import {zonasAzc} from 'zonas-azc';
 import {construirEdificioO,construirGaleriaSTalleres,reconstruirCubiertasTalleres} from 'sector-talleres-deportes';
 import {construirPlazaRoja,construirCuerpoConGaleriaF,construirPorticoV1} from 'sector-acceso-plaza';
 import {crearPlazasAjedrez} from 'plazas-ajedrez';
@@ -1387,6 +1391,9 @@ function generate(){
  aplicarCuartaPasadaPoniente(contextoRevision);
  modelarCuartaPasadaCentro(contextoRevision);
  detallarCuartaPasadaOriente(contextoRevision);
+ mejorarPoniente50(contextoRevision);
+ mejorarCentro50(contextoRevision);
+ mejorarOriente50(contextoRevision);
  vegetation.visible=$('trees').checked;syncLabels();
  addCopyrightToModel();world.updateMatrixWorld(true);selectBuilding(selected);refreshEditor();routeEditor?.refresh();
 }
@@ -1418,6 +1425,7 @@ function campusNorth(geo){
 }
 const sculptureViews={habitaciones:'sculpture_habitaciones_luz',universitas:'sculpture_universitas',casaAbierta:'sculpture_casa_abierta',vidrioCosei:'sculpture_vidrio_COSEI',pergola:'sculpture_G',tresGracias:'sculpture_tres_gracias_HP'};
 const artworkViews={uroboros:'T_escultura_acero_patio',primeraLetra:'W_escultura_negra_acceso'};
+const zonaViews=new Map(zonasAzc.map(zona=>['zona-'+zona.id,zona]));
 const sectorViews={
  accesoSanPablo:{target:[66,2.6,220],offset:[-24,8,8]},
  jardinBD:{target:[351,.7,362],offset:[-28,69,25]},
@@ -1534,10 +1542,14 @@ function openInterior(id){
  controls.minDistance=3;controls.maxDistance=185;controls.maxPolarAngle=THREE.MathUtils.degToRad(86);
  controls.target.set(...model.target);
  $('sectorDetalle').value='';
+ $('zonaAzc').value='';
  for(const button of [...cameraButtons,'spin'])$(button)?.classList.remove('active');
  resize();
 }
-function view(mode){closeInterior();const artwork=sculptureViews[mode]||artworkViews[mode],sector=sectorViews[mode];controls.maxDistance=1500;controls.minDistance=corpusViews[mode]||artwork||sector?6:30;topMode=mode==='top';controls.maxPolarAngle=topMode?Math.PI:THREE.MathUtils.degToRad(78);focusMode=Boolean(artwork||sector)||['plaza','pavilions','cosei','gdetail','parking','tdetail','wdetail','p2detail','serpentina',...Object.keys(corpusViews)].includes(mode);camera=topMode?ortho:perspective;controls.object=camera;controls.enableRotate=!topMode;controls.target.set(0,0,0);camera.zoom=1;camera.up.set(0,1,0);
+function view(mode){
+ const zona=zonaViews.get(mode);
+ closeInterior();const artwork=sculptureViews[mode]||artworkViews[mode],sector=sectorViews[mode];controls.maxDistance=1500;controls.minDistance=zona?2:corpusViews[mode]||artwork||sector?6:30;topMode=mode==='top';controls.maxPolarAngle=topMode?Math.PI:THREE.MathUtils.degToRad(78);focusMode=Boolean(artwork||sector||zona)||['plaza','pavilions','cosei','gdetail','parking','tdetail','wdetail','p2detail','serpentina',...Object.keys(corpusViews)].includes(mode);camera=topMode?ortho:perspective;controls.object=camera;controls.enableRotate=!topMode;controls.target.set(0,0,0);camera.zoom=1;camera.up.set(0,1,0);
+ if(zona)controls.autoRotate=false;
  if(corpusViews[mode]){
   const node=world.getObjectByName(corpusViews[mode]);
   if(node){world.updateMatrixWorld(true);const bounds=new THREE.Box3().setFromObject(node),size=bounds.getSize(new THREE.Vector3());bounds.getCenter(controls.target);controls.target.y=mode==='p4patio'?1.35:Math.max(1.5,controls.target.y-1);const angle=Math.atan(Math.tan(THREE.MathUtils.degToRad(perspective.fov/2))*Math.min(1,perspective.aspect));const distance=mode!=='p4acero'?12:Math.max(12,size.length()*.58/Math.sin(angle));const direction=(mode==='p4patio'?new THREE.Vector3(-.08,.10,-1):mode==='p4acero'?new THREE.Vector3(-.65,.3,-1):new THREE.Vector3(-1,.35,.45)).normalize();camera.position.copy(controls.target).addScaledVector(direction,distance);}
@@ -1557,7 +1569,11 @@ function view(mode){closeInterior();const artwork=sculptureViews[mode]||artworkV
    camera.position.copy(controls.target).add(direction.normalize().multiplyScalar(Math.max(9,size.length()*1.98)));
   }else{camera.position.set(0,580,630);message('Esta escultura no está incluida en los datos cargados.');}
  }
- else if(sector){const [x,y,z]=sector.target;controls.target.set(X(x),y,Z(z));camera.position.copy(controls.target).add(new THREE.Vector3(...sector.offset));}
+ else if(sector||zona){
+  const {target:[x,y,z],offset}=zona||sector;
+  controls.target.set(X(x),y,Z(z));
+  camera.position.copy(controls.target).add(new THREE.Vector3(...offset));
+ }
  else if(mode==='tdetail'){const b=data.buildings.find(b=>b.id==='T'),r=b.rects[0];controls.target.set(X((r[0]+r[2])/2)+(b.offsetX||0)-(r[2]-r[0])*S()*.25,2.8,Z(r[1])+(b.offsetZ||0)-2.5);camera.position.copy(controls.target).add(new THREE.Vector3(-24,14,-38));}
  else if(mode==='wdetail'){controls.target.set(148.5,4.8,-41.7);camera.position.set(106,15,-76);}
  else if(mode==='p2detail'){controls.target.set(192,4.5,44);camera.position.set(148,34,108);}
@@ -1569,10 +1585,11 @@ function view(mode){closeInterior();const artwork=sculptureViews[mode]||artworkV
  else if(mode==='maps'){const north=campusNorth(georeference);camera.position.set(north?-north.x*630:-70,580,north?-north.z*630:-630);}
  else if(mode==='top'){camera.position.set(0,1000,0);const north=campusNorth(georeference);if(north)camera.up.set(north.x,0,north.z);else camera.up.set(.17,0,.985);}
  else camera.position.set(0,580,630);
- camera.lookAt(controls.target);camera.updateProjectionMatrix();controls.update();$('sectorDetalle').value=sector?mode:'';for(const id of cameraButtons)if($(id))$(id).classList.toggle('active',id===mode);resize();}
+ camera.lookAt(controls.target);camera.updateProjectionMatrix();controls.update();$('sectorDetalle').value=sector?mode:'';$('zonaAzc').value=zona?mode:'';for(const id of cameraButtons)if($(id))$(id).classList.toggle('active',id===mode);resize();}
 for(const mode of cameraButtons)if($(mode))$(mode).onclick=()=>view(mode);
 $('interior').onchange=e=>openInterior(e.target.value);
 $('sectorDetalle').onchange=e=>view(e.target.value||'approved');
+$('zonaAzc').onchange=e=>view(e.target.value||'approved');
 $('volverCampus').onclick=()=>view('approved');
 $('spin').onclick=()=>{if(topMode)view('maps');controls.autoRotate=!controls.autoRotate;$('spin').classList.toggle('active',controls.autoRotate);};
 $('trees').onchange=()=>vegetation.visible=$('trees').checked;$('names').onchange=syncLabels;$('grid').onchange=()=>grid.visible=$('grid').checked;
@@ -1886,9 +1903,7 @@ async function planoBlob(withMark=true){
  r.outputColorSpace=renderer.outputColorSpace;r.toneMapping=renderer.toneMapping;r.toneMappingExposure=renderer.toneMappingExposure;
  const cam=new THREE.OrthographicCamera(PLANO.xMin,PLANO.xMax,-PLANO.zMin,-PLANO.zMax,1,2500);cam.position.set(0,1000,0);cam.up.set(0,0,-1);cam.lookAt(0,0,0);
  const exteriores=[];
- for(const nombre of ['Portico_San_Pablo_V1','Conexiones_peatonales_de_las_puertas']){
-  world.getObjectByName(nombre)?.traverse(node=>{if(node.userData.fueraDelPredio)exteriores.push(node);});
- }
+ world.traverse(node=>{if(node.userData.fueraDelPredio)exteriores.push(node);});
  const ocultos=[...['Base maqueta','Eje_5_Norte_Montevideo','Av_San_Pablo'].map(n=>world.getObjectByName(n)),...exteriores,editHelper,highlight,routeEditor?.group].filter(Boolean).map(node=>({node,visible:node.visible})),was=vegetation.visible,fog=scene.fog,g=grid.visible;
  for(const o of ocultos)o.node.visible=false;vegetation.visible=true;scene.fog=null;grid.visible=false;
  try{r.render(scene,cam);return await watermarkedPlan(r.domElement,withMark);}
@@ -1916,7 +1931,15 @@ async function startCampus(){
  let routes=structuredClone(BASE_ROUTES);if(location.protocol==='http:'){try{const response=await fetch('./rutas.json',{cache:'no-store'});if(response.ok)routes=await response.json();}catch{notice+=' Se usa la red incorporada al visor.';}}
  data.version=8;savedData=JSON.stringify(data);generate();
  routeEditor=createRouteEditor({scene,canvas:renderer.domElement,getCamera:()=>camera,getData:()=>data,getGeo:()=>georeference,initial:routes,onDirty:updateSaveState,message,viewTop:()=>view('top'),busy:()=>isSaving,onEnable:()=>{if(editMode)setEditing(false);}});
- view('approved');resize();updateSaveState();$('interior').disabled=false;$('sectorDetalle').disabled=false;message(notice);
+ for(const [label,first,last] of [['Poniente',1,17],['Centro',18,34],['Oriente',35,50]]){
+  const group=document.createElement('optgroup');
+  group.label=label;
+  for(const [mode,zona] of zonaViews){
+   if(Number(zona.id)>=first&&Number(zona.id)<=last)group.append(new Option(`${zona.id} · ${zona.title}`,mode));
+  }
+  $('zonaAzc').append(group);
+ }
+ view('approved');resize();updateSaveState();$('interior').disabled=false;$('sectorDetalle').disabled=false;$('zonaAzc').disabled=false;message(notice);
 }
 startCampus();
 const v=new THREE.Vector3(),scaleA=new THREE.Vector3(),scaleB=new THREE.Vector3(),scaleRight=new THREE.Vector3();
