@@ -63,6 +63,8 @@ function detallarPlantaBajaCICTE({THREE, buildingGroups, box}) {
   for (const paño of paños) {
     const {x, y, z} = paño.position;
     const {x: ancho, y: alto} = paño.scale;
+    box(grupo, 'Zocalo_de_concreto_del_ventanal_CICTE', x, y-alto/2+.105, z-.065,
+      ancho-.015, .21, .063, '#b6b7ac');
     box(grupo, 'Travesano_de_ventanal_PB_CICTE', x, y+.03, z-.062,
       ancho-.035, .064, .052, '#b8bbb2');
     for (const signo of [-1, 1]) {

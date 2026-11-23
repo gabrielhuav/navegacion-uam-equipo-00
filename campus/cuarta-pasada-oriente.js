@@ -148,6 +148,8 @@ function detallarPersianaP2(THREE, volumen, box) {
       y, frente + .041, .071, alto + .042, .061, sombra);
     box(grupo, 'P2_tirador_cierre_de_persiana', x + lado * .147, y + .045, frente + .085, .098, .046, .045, '#6e4a3c');
   }
+  box(grupo, 'P2_dintel_de_sombra_del_anexo', x, y + alto / 2 + .09, frente + .045,
+    ancho + .18, .092, .105, '#6f5144');
   for (const fraccion of [-.49,.49]) {
     box(grupo, 'P2_bastidor_horizontal_de_persiana', x, y + fraccion * alto, frente + .035,
       ancho + .04,.071,.066,sombra);

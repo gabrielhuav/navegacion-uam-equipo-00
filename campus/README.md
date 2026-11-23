@@ -1,5 +1,10 @@
 # Campus UAM Azcapotzalco · modelo 2D/3D
 
+## Pavimentos y umbrales · quinta pasada del 22 de noviembre de 2026
+
+Se perfilaron los encuentros de J y K, el patio de H, el andador de deportivas, los bordes del paso de G y las llegadas de San Pablo. [Comparaciones con cámara fija, registro de 20 zonas y pruebas](QUINTA_PASADA_20_ZONAS_AZC_2026-11-22.md).
+
+
 ## Andadores de las puertas y cuarta pasada del 22 de noviembre de 2026
 
 Puertas 2, 4, 5 y 6 quedan unidas a la red peatonal desde sus vanos. La 7 tiene continuidad vehicular. Se detallaron las 20 zonas con referencia visual, entre ellas los balcones de HO, los casilleros de L, las cerchas abiertas de W y el portón de P2. [Comparaciones, rutas, fuentes y alcance](CUARTA_PASADA_20_ZONAS_AZC_2026-11-22.md).

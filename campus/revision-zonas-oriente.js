@@ -198,6 +198,8 @@ export function modelarZonasOriente({THREE, data, buildingGroups, box, material}
       const {x, y, z} = peldaño.position;
       box(detalle, 'P1_nariz_del_peldaño', x, y + peldaño.scale.y / 2 - .026,
         z - peldaño.scale.z / 2 - .009, peldaño.scale.x, .052, .047, '#d2c9ba');
+      box(detalle, 'P1_banda_clara_de_la_huella_del_peldaño', x, y + peldaño.scale.y / 2 + .004,
+        z - peldaño.scale.z / 2 + .084, peldaño.scale.x - .048, .005, .125, '#c9c0ad');
     }
     const escalera = p1.getObjectByName('P1_muro_rampa_escalera');
     const cuerpo = p1.getObjectByName('Cuerpo de concreto');

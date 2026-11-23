@@ -86,6 +86,15 @@ function balconesHO({ THREE, buildingGroups, box, material }) {
     const ventana = volumen.getObjectByName('Ventanal_curvo_' + piso);
     if (!ventana) continue;
     const vidrio = ventana.geometry.parameters;
+    // Una franja oscura bajo el vidrio hace visible el retranqueo en la
+    // fachada curva, como en la toma 0006 desde el jardín.
+    const umbral = new THREE.Mesh(new THREE.CylinderGeometry(vidrio.radiusTop + .035,
+      vidrio.radiusTop + .035, .125, 40, 1, true, vidrio.thetaStart, vidrio.thetaLength), material('#55635f'));
+    umbral.name = 'HO_canto_rehundido_del_ventanal_curvo';
+    umbral.position.copy(ventana.position);
+    umbral.position.y -= vidrio.height / 2 - .035;
+    umbral.scale.z = ventana.scale.z;
+    grupo.add(umbral);
     for (let bay = 1; bay < 14; bay++) {
       const angulo = vidrio.thetaStart + vidrio.thetaLength * bay / 14;
       const x = Math.sin(angulo) * (vidrio.radiusTop + .026);

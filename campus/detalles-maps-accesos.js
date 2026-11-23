@@ -197,7 +197,7 @@ function detallarJardinBD(ctx,data,andador) {
   const g = grupo('Jardin_B_D_mobiliario_y_canteros',
     'Levantamiento UAM 2023, lámina VE 01/02, y registro fotográfico del jardín 2013 y 2017');
   const obstaculos = [...huellas,...pasos,...data.paths.map(rect),...andador];
-  const tonoConcreto = '#abaea3';
+  const tonoConcreto = '#a7a497';
   const mallaCircular = (nombre,x,y,z,rSuperior,rInferior,altura,color) => {
     const m = malla(g,nombre,new THREE.CylinderGeometry(rSuperior,rInferior,altura,20),color);
     m.position.set(x,y,z);
@@ -230,6 +230,15 @@ function detallarJardinBD(ctx,data,andador) {
     const huella = rectanglePolygon(x,z,3.18,3.18);
     if (obstaculos.some(p => polygonsOverlap(p,huella))) continue;
     mallaCircular('Plataforma_circular_jardin_B_D',x,.159,z,1.58,1.59,.12,tonoConcreto);
+    // La foto de las mesas muestra tierra apisonada hasta su encuentro con el césped.
+    // El contorno se recorta contra las mismas reservas del jardín.
+    const tierra = Array.from({length: 15}, (_, i) => {
+      const angulo = i * Math.PI * 2 / 15;
+      const radio = 2.14 + .15 * Math.sin(i * 2.4);
+      return {x: x + radio * Math.cos(angulo), z: z + radio * Math.sin(angulo)};
+    });
+    const suelo = subtractObstacles(intersectConvex(tierra, predio), obstaculos);
+    superficie(g, 'Tierra_bajo_la_mesa_del_jardin', suelo, .143, '#8d8169');
     mallaCircular('Pedestal_mesa_jardin_B_D',x,.529,z,.22,.31,.62,'#777b70');
     mallaCircular('Tablero_circular_jardin_B_D',x,.884,z,.74,.74,.09,'#babdb0');
     for (let i=0;i<4;i++) {

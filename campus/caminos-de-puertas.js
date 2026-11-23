@@ -55,6 +55,34 @@ export function construirCaminosDePuertas({ THREE, world, data, net, meshPoly, v
     pavimento.userData = { ancho, nodos, huellaXZ: huella };
     const delantal = meshPoly(grupo, exterior.map(aCroquis), .345, '#c5beb0', 'Banqueta_Puerta_' + puerta);
     delantal.userData.fueraDelPredio = true;
+
+    // La banqueta y el vano se distinguen mediante juntas superficiales.
+    // Las juntas se acomodan en el ancho actual y quedan libres de resaltes.
+    const distancia = Math.hypot(x - banqueta[0], z - banqueta[1]);
+    const trazaBanqueta = puerta === 'V1' || puerta === 'P1' || puerta === 'P2';
+    if (trazaBanqueta) {
+      const hombro = (ancho - .16) / 2;
+      for (let avance = .75; avance < distancia - .45; avance += 1.35) {
+        const centro = [banqueta[0] + avance, z];
+        const junta = [
+          [centro[0] - .023, z - hombro], [centro[0] + .023, z - hombro],
+          [centro[0] + .023, z + hombro], [centro[0] - .023, z + hombro],
+        ];
+        meshPoly(grupo, junta.map(aCroquis), .348, '#928c7e', 'Junta_banqueta_' + puerta)
+          .userData.fueraDelPredio = true;
+      }
+      if (puerta === 'V1') {
+        // Street View, enero 2025: remate amarillo a ambos lados de la entrada.
+        // Las dos trazas terminan antes del borde peatonal.
+        const calle = banqueta[0] - .14;
+        for (const lado of [-1, 1]) {
+          const z0 = z + lado * (ancho / 2 + .20);
+          const z1 = z + lado * (ancho / 2 + 3.15);
+          meshPoly(grupo, [[calle-.09,z0],[calle+.09,z0],[calle+.09,z1],[calle-.09,z1]].map(aCroquis),
+            .349, '#bb9b45', 'Remate_amarillo_de_banqueta_Puerta_2').userData.fueraDelPredio = true;
+        }
+      }
+    }
   }
 
   // Puerta 7 está documentada para circulación vehicular. Su entrada enlaza

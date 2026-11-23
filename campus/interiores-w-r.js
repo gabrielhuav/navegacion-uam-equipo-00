@@ -110,6 +110,8 @@ export function crearInteriorW(THREE) {
     caja('#263a37', x * .96, 1.62, vidrioZ, .10, 2.79, .12);
   }
   caja('#547f78', 0, 1.65, vidrioZ, 6.36, 2.66, .052, undefined, .52);
+  caja('#525d58', 0, 2.99, vidrioZ, 6.40, .065, .089);
+  caja('#53635e', 0, .353, vidrioZ, 6.36, .079, .084);
   for (const x of [-1.5, -.5, .5, 1.5]) {
     caja('#a6cebd', x, 1.59, vidrioZ + .035, .062, 1.84, .014, undefined, .38);
   }

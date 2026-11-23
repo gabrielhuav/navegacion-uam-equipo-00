@@ -437,17 +437,29 @@ export function construirCanchasDeportivas({THREE, world, box, slab, meshPoly, l
 }
 
 // Acabado del andador lateral de la cancha documentado en el corpus 0075 y 0076.
-export function detallarAccesoDeportivo({THREE, world, slab}) {
+export function detallarAccesoDeportivo({THREE, world, slab, meshPoly}) {
  const group=new THREE.Group();
  group.name='Andador_lateral_deportes';
  group.userData={approximate:true,reference:'Adoquín y guarnición: corpus AZC, imagen_0075 e imagen_0076'};
  world.add(group);
  slab(group,[1436.7,455,1443.3,668],'#8e8d7b',.18,.15,'Base_andador_deportivo');
  for(const x of [1436.7,1442.75])slab(group,[x,455,x+.55,668],'#b8b6a8',.261,.044,'Guarnicion_andador_deportivo');
- const colors=['#827f74','#8e8878','#8a7b72','#7e8475'];
- for(let i=0;i<39;i++){
-  const start=457+i*5.34,end=Math.min(start+5.20,666);
-  slab(group,[1437.3,start,1442.7,end],colors[(i*13+Math.floor(i/4))%colors.length],.259,.025,'Adoquin_andador_deportivo');
+ const colors=['#8b8981','#969188','#918a80','#858980'];
+ // El corpus 0076 muestra piezas rectangulares alternadas en toda la franja,
+ // con un borde claro continuo. El acabado sólo cubre la huella ya dibujada.
+ meshPoly(group,[[1437.3,455],[1442.7,455],[1442.7,668],[1437.3,668]],.319,
+   '#716f67','Juntas_del_andador_deportivo');
+ for (let fila=0; fila<64; fila++) {
+   const inicio = 455 + fila * 213 / 64;
+   const fin = 455 + (fila + 1) * 213 / 64 - .10;
+   const separacion = fila % 2 ? 1439.05 : 1440.95;
+   for (const [columna, [x0,x1]] of [[1437.3,separacion-.05],[separacion+.05,1442.7]].entries()) {
+     meshPoly(group,[[x0,inicio],[x1,inicio],[x1,fin],[x0,fin]],.322,
+       colors[(fila * 3 + columna) % colors.length],'Loseta_rectangular_andador_deportivo');
+   }
  }
- slab(group,[1437.3,455,1442.7,456.98],'#b7b2a1',.258,.027,'Empalme_concreto_andador_deportivo');
+ for (const x of [1436.7,1442.75]) {
+   meshPoly(group,[[x,455],[x+.55,455],[x+.55,668],[x,668]],.323,
+     '#c3beb0','Canto_claro_continuo_andador_deportivo');
+ }
 }

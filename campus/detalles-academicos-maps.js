@@ -136,7 +136,8 @@ export function detallarVestibuloHO({THREE,part,b,w,d,h,box,material,data}) {
  core.position.y=(h+soffit)/2;
  core.scale.y=h-soffit;
  box(part,'HO_nucleo_PB_retranqueado',0,soffit/2,center+recess/2,width,soffit,depth-recess,'#b8b7ad');
- box(part,'HO_pavimento_vestibulo',0,.351,(front+back)/2,width,.024,recess,'#bbb5a8');
+ box(part,'HO_pavimento_vestibulo',0,.351,(front+back)/2,width,.024,recess,'#b3ad9f');
+ box(part,'HO_frente_de_concreto_claro_bajo_losa',0,.365,front+.07,width,.008,.13,'#d0c6b5');
 
  // Las juntas rojizas, el aluminio y las luminarias están visibles en imagen_0007.
  const panelWidth=width*.67;
@@ -151,7 +152,7 @@ export function detallarVestibuloHO({THREE,part,b,w,d,h,box,material,data}) {
   const x=(i/6-.5)*width;
   box(part,'HO_junta_roja_en_pavimento',x,.365,(front+back)/2,.078,.008,recess,'#a77973');
  }
- box(part,'HO_junta_roja_transversal',0,.365,(front+back)/2,width,.008,.075,'#a77973');
+ box(part,'HO_junta_roja_transversal',0,.366,(front+back)/2,width,.008,.1,'#a36860');
  for(const shift of [-.27,0,.27]){
   box(part,'HO_luminaria_de_plafon',shift*width,soffit-.026,(front+back)/2,.69,.038,.29,'#e9efea');
  }

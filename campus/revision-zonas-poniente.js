@@ -211,8 +211,9 @@ function detallarCorredorC({THREE, world, data, buildingGroups, slab, S}) {
   const inicio = 392 + corrimientoZ, fin = 417 + corrimientoZ;
   // Pavimento al ras en la llegada existente a C, sin ubicar sus puertas.
   slab(grupo,[bordeX,inicio,bordeX+6.4,fin],'#a26151',.306,.040,'Paño_terracota_C');
+  slab(grupo,[bordeX+.08,inicio,bordeX+.64,fin],'#b5a99a',.330,.004,'Franja_clara_del_umbral_C');
   for (let pz=inicio+1.2; pz<fin; pz+=1.2) {
-    slab(grupo,[bordeX+.11,pz,bordeX+6.25,pz+.043],'#b48270',.328,.006,'Junta_transversal_C');
+    slab(grupo,[bordeX+.68,pz,bordeX+6.25,pz+.043],'#b48270',.328,.006,'Junta_transversal_C');
   }
   for (const dx of [1.48, 3.12, 4.76, 6.32]) {
     slab(grupo,[bordeX+dx,inicio,bordeX+dx+.05,fin],'#bc8b79',.329,.006,'Junta_longitudinal_C');

@@ -122,7 +122,7 @@ export function excluirArboladoAmbientalJK(x,z) {
 // Paños de pares de ladrillos rectangulares que alternan su orientación.
 function colocarAdoquinJK({THREE,terreno,material,X,Z,S,alcorque}) {
   const paso = .48/S(), junta = .009/S();
-  const lotes = ['#989b91','#a5a79a','#8e9286','#a2a48e'].map(color=>({color,vertices:[]}));
+  const lotes = ['#838679','#97998d','#777d73','#8d9181'].map(color=>({color,vertices:[]}));
   for (let fila=0;418.34+(fila+1)*paso<=442.2;fila++) {
     const z = 418.34+fila*paso;
     for (let columna=0;956.05+(columna+1)*paso<=969.75;columna++) {
@@ -168,15 +168,19 @@ export function construirJardinJK({THREE,world,vegetation,box,meshPoly,material,
   // El piso de K y el adoquín se encuentran junto a K-001. En el otro extremo
   // se ve un borde bajo antes de la terracota de J. Se modela el suelo visible.
   meshPoly(terreno,[[913,413],[969.8,413],[969.8,418],[913,418]],
-    .249,'#c4c5bb','Franja_clara_al_pie_de_K');
+    .250,'#d5d4ca','Franja_clara_al_pie_de_K');
   meshPoly(terreno,[[956,418],[969.8,418],[969.8,442.3],[956,442.3]],
     .248,'#7c8175','Ensanche_adoquinado_K');
   meshPoly(terreno,[[956,418],[969.8,418],[969.8,418.29],[956,418.29]],
-    .258,'#b0b1a5','Junta_entre_galeria_y_adoquin_K');
+    .260,'#bebcb0','Junta_entre_galeria_y_adoquin_K');
 
   const alcorque = [960,427,965,436];
   colocarAdoquinJK({THREE,terreno,material,X,Z,S,alcorque});
-  meshPoly(terreno,[[960,427],[965,427],[965,436],[960,436]],.263,'#777751','Alcorque_rectangular_K');
+  const [izquierda, frente, derecha, fondo] = alcorque;
+  meshPoly(terreno,[[izquierda,frente],[derecha,frente],[derecha,fondo],[izquierda,fondo]],
+    .263,'#b2ad9d','Marco_al_ras_del_alcorque_K');
+  meshPoly(terreno,[[izquierda+.36,frente+.36],[derecha-.36,frente+.36],
+    [derecha-.36,fondo-.36],[izquierda+.36,fondo-.36]],.265,'#777751','Alcorque_rectangular_K');
   tree(962.4,431.5,.58,false,.267);
   tree(963.3,434.4,.53,false,.267);
 

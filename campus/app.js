@@ -1274,7 +1274,7 @@ function generate(){
  construirCanchasDeportivas({THREE,world,box,slab,meshPoly,line,X,Z,S});
  construirAndadorMulticanchas({THREE,world,meshPoly,line,X,Z});
  construirGradasDeportivas({THREE,world,box,X,Z});
- detallarAccesoDeportivo({THREE,world,slab});
+ detallarAccesoDeportivo({THREE,world,slab,meshPoly});
  for(const [key,title] of [['campo','Campo de fútbol'],['basquet','Multicanchas'],['futbol7','Fútbol 7']]){
   const [x0,z0,x1,z1]=superficiesDeportivas[key];label(title,X((x0+x1)/2),1,Z((z0+z1)/2),'place');
  }

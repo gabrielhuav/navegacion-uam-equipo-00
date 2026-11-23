@@ -33,8 +33,10 @@ function completarGaleriaT(THREE, edificio, box, material) {
   const fondo = 2.43;
   const centroX = (xInicio + xFin) / 2;
   const centroZ = frente - .24;
-  const juntas = '#a39c90';
-  box(grupo, 'T_solado_claro_de_la_galeria', centroX, .232, centroZ, ancho, .032, fondo, '#c9bdac');
+  const juntas = '#9c9489';
+  box(grupo, 'T_solado_claro_de_la_galeria', centroX, .232, centroZ, ancho, .032, fondo, '#cbc5b8');
+  box(grupo, 'T_canto_claro_del_corredor', centroX, .249, centroZ + fondo / 2 - .065,
+    ancho, .004, .127, '#d6cfc0');
   const secciones = Math.ceil(ancho / .52);
   for (let i = 1; i < secciones; i++) {
     box(grupo, 'T_junta_transversal_solado', xInicio + ancho * i / secciones, .249,
@@ -227,14 +229,14 @@ function ampliarPavimentoDeGradas(THREE, grada, box) {
   if (!grada) return;
   const grupo = grupoDetalle(THREE, grada, 'F7_llegada_frente_a_escaleras_de_gradas',
     'Corpus AZC 0072 y 0073; geometría de la grada y su alineación aérea existentes');
-  const tonos = ['#aaa998', '#a1a091', '#b1ada0', '#a5a495'];
+  const tonos = ['#a5a399', '#959383', '#b4ad9e', '#a19c8b'];
   const ancho = 6.25, fondo = 14.84, inicio = -.11;
   box(grupo, 'F7_pavimento_continuo_al_pie_de_gradas', inicio + ancho / 2, .179, 0,
-    ancho, .135, fondo, '#88887c');
+    ancho, .135, fondo, '#77776b');
   for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 7; j++) {
       box(grupo, 'F7_losa_de_aproximacion_a_gradas', inicio + (i + .5) * ancho / 3,
-        .245, (j - 3) * fondo / 7, ancho / 3 - .042, .022, fondo / 7 - .034, tonos[(2 * i + j) % tonos.length]);
+        .245, (j - 3) * fondo / 7, ancho / 3 - .095, .022, fondo / 7 - .078, tonos[(2 * i + j) % tonos.length]);
     }
   }
 }
@@ -282,6 +284,7 @@ function ampliarCorteL(THREE, escena) {
   }
   caja('L_puerta_azul_de_pasillo', '#344c68', -9.704, 1.19, -1.67, .063, 2.27, .96);
   caja('L_marco_superior_de_puerta', marco, -9.657, 2.36, -1.67, .06, .061, 1.07);
+  caja('L_umbral_de_aluminio_de_la_puerta_azul', '#a5a59d', -9.647, .039, -1.67, .142, .009, 1.064);
   for (const z of [-2.19, -1.15]) {
     caja('L_jamba_de_puerta', marco, -9.657, 1.19, z, .06, 2.34, .056);
   }

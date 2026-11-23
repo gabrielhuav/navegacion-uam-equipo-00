@@ -98,7 +98,7 @@ function pavimentoAjedrez(THREE, world, box, id, ancho, fondo, margen, fuente) {
   const plaza = world.getObjectByName('Plaza_de_ajedrez_' + id);
   if (!plaza) return;
   const detalle = grupo(THREE, plaza, id + '_continuidad_del_pavimento_de_ajedrez', fuente);
-  const piso = '#b0aba0', junta = '#88877f', terracota = '#a46f64';
+  const piso = '#bbb4a3', junta = '#8b8273', terracota = '#a26a5d';
   const semiancho = ancho / 2 + margen, semifondo = fondo / 2 + margen;
   // El plano del patio existente deja visible la cenefa que rodea las mesas.
   for (const lado of [-1, 1]) {

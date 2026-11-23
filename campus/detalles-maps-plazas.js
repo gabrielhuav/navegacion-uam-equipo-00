@@ -97,6 +97,10 @@ function detallarCruceG(THREE, raiz, data, X, Z) {
   const banda = ancho / 2;
   const interior = [[x0, .332], [x1, .332]];
   paño('G_loseta_terracota_del_vano', interior, -banda, banda, solado).userData.disposeMaterial = true;
+  // El canto claro acompaña el eje terracota hasta ambos umbrales (0080 y 0086).
+  const cantoInterior = [[x0, .335], [x1, .335]];
+  paño('G_canto_claro_continuo_del_vano', cantoInterior, -banda, -banda + .19, borde);
+  paño('G_canto_claro_continuo_del_vano', cantoInterior, banda - .19, banda, borde);
 
   // Las bandas llegan a los pavimentos actuales. Se recalculan con la posición
   // de G y mantienen visualmente las transiciones pequeñas de sus umbrales.
@@ -108,7 +112,7 @@ function detallarCruceG(THREE, raiz, data, X, Z) {
     const perfil = [[muro, .345], [limite, nivel]].sort((a, b) => a[0] - b[0]);
     paño(`G_umbral_de_loseta_${nombre}`, perfil, -banda, banda, solado);
     for (const lado of [-1, 1]) {
-      const extremos = [lado * banda, lado * (banda - .14)].sort((a, b) => a - b);
+      const extremos = [lado * banda, lado * (banda - .19)].sort((a, b) => a - b);
       paño(`G_borde_de_concreto_${nombre}`, perfil.map(([x, y]) => [x, y + .004]), ...extremos, borde);
     }
     // El ensanche transversal está en el claro inmediato al vano, con caras a ras del suelo.
@@ -151,14 +155,15 @@ function detallarPatioH(THREE, raiz, data, X, Z) {
     objeto.userData.disposeMaterial = true;
   }
 
-  const base = malla(THREE, patioH, 'H_pavimento_terracota', new THREE.BoxGeometry(X(x1) - X(x0), .17, Z(z1) - Z(z0)), acabado(THREE, '#a8655d'));
+  const base = malla(THREE, patioH, 'H_pavimento_terracota', new THREE.BoxGeometry(X(x1) - X(x0), .17, Z(z1) - Z(z0)), acabado(THREE, '#b86c5b'));
   base.position.y = -.085;
   base.userData.disposeMaterial = true;
 
   // El suelo claro del patio se distingue del corredor terracota protegido
   // por el edificio. Los pasillos conservan el nivel y el contorno del modelo.
-  const losas = despieceDePavimento(THREE, [182, 173, 154], [155, 148, 137]);
-  suelo('H_losas_claras_del_patio', [[791,322],[857,322],[857,368],[791,368]], .004, losas);
+  const losas = despieceDePavimento(THREE, [195, 185, 165], [151, 145, 132]);
+  suelo('H_losas_claras_del_patio', [[791,322],[849,322],[849,339],[857,344],[857,368],
+    [835,368],[829,362],[810,362],[804,368],[791,368]], .004, losas);
 
   // Las tres trazas claras del lado de HP se interpretan como franjas al ras.
   // El contorno del patio, el nivel y los espacios de paso no se desplazan.
@@ -183,6 +188,11 @@ function detallarPatioH(THREE, raiz, data, X, Z) {
     const zMedio = puntos.reduce((s, [, z]) => s + z / puntos.length, 0);
     const interior = puntos.map(([x, z]) => [xMedio + .93 * (x - xMedio), zMedio + .91 * (z - zMedio)]);
     suelo('H_' + nombre, interior, .018, acabado(THREE, color));
+    // Dejar tierra a la vista alrededor del tronco, dentro del arriate.
+    const [arbolX, arbolZ] = arbol;
+    const tierra = [[-1.64,-.40],[-.64,-1.17],[1.08,-.91],[1.64,.16],[.82,.92],[-.85,.83]];
+    suelo('H_tierra_visible_' + nombre, tierra.map(([x,z]) => [arbolX+x,arbolZ+z]),
+      .020, acabado(THREE, '#837454'));
     if (guarnicion) {
       const contorno = new THREE.Shape(puntos.map(([x, z]) => new THREE.Vector2(aX(x), -aZ(z))));
       contorno.holes.push(new THREE.Path(interior.map(([x, z]) => new THREE.Vector2(aX(x), -aZ(z)))));
@@ -279,7 +289,7 @@ function detallarExplanadaCosei(THREE, raiz, data, X, Z) {
 
   // Las dos juntas oscuras van dentro de franjas grises que cruzan el orden de
   // la loseta beige. Su cota es la del pavimento. Una refina la junta existente.
-  const concreto = acabado(THREE, '#9b9d94'), junta = acabado(THREE, '#4a4c43');
+  const concreto = acabado(THREE, '#b9b7a8'), junta = acabado(THREE, '#51534b');
   const juntas = [
     {x: .5731, desde: .005, hasta: .996},
     {x: .337, desde: .02, hasta: .84},
@@ -288,7 +298,7 @@ function detallarExplanadaCosei(THREE, raiz, data, X, Z) {
     const eje = localX(x0) + x * dX, desdeZ = localZ(z0 + (z1 - z0) * desde), hastaZ = localZ(z0 + (z1 - z0) * hasta);
     const pisoJunta = spec.rise + .042;
     const franja = tramo('COSEI_franja_de_concreto_con_junta_' + (i + 1),
-      [eje - .25, desdeZ, eje + .25, hastaZ], pisoJunta, concreto);
+      [eje - .32, desdeZ, eje + .32, hastaZ], pisoJunta, concreto);
     const corte = tramo('COSEI_junta_de_drenaje_' + (i + 1),
       [eje - .027, desdeZ, eje + .027, hastaZ], pisoJunta + .002, junta);
     franja.userData.disposeMaterial = corte.userData.disposeMaterial = i === 0;

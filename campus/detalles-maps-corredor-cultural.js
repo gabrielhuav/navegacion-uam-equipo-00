@@ -80,8 +80,12 @@ export function crearDetallesMapsCorredorCultural(THREE,data,net=BASE_ROUTES) {
   if (f && f[1]===565) {
     // Foto a pie de junio 2023. El pavimento gris está entre la fachada y el
     // borde de los arriates. La ubicación exacta del medallón queda pendiente.
-    superficie('Pavimento_gris_PB_F_Plaza_Roja','#a7aaa1',huella([487,559.02,644,565]),.369);
-    superficie('Junta_andador_PB_F_Plaza_Roja','#817f76',huella([487,559.05,644,559.21]),.372);
+    superficie('Pavimento_gris_PB_F_Plaza_Roja','#a7aaa1',huella([487,559.02,644,565]),.377);
+    superficie('Junta_andador_PB_F_Plaza_Roja','#817f76',huella([487,559.05,644,559.21]),.379);
+    // El claro gris de la galería se separa del paño terracota por su propio despiece.
+    for (let x = 489; x < 644; x += 4.8) {
+      superficie('Junta_transversal_del_solado_F','#8b8c82',huella([x,559.22,x+.09,565]),.379);
+    }
     arriates(bordesF,'F');
   }
   return group;
