@@ -1,5 +1,9 @@
 # Campus UAM Azcapotzalco · modelo 2D/3D
 
+## Detalles del recorrido de 360° · 22 de noviembre de 2026
+
+**Interiores** incluye los cortes de la escalera y galería alta de C y del paso alto de G hacia H. También se detallaron Incalli, los pasillos de CyAD y W, y los exteriores de Plaza Roja, H, J, T y K. [Minutos revisados, comparativas y decisiones](RECORRIDO_360_AZC_2026-11-22.md).
+
 ## Recorrido de 50 zonas · 22 de noviembre de 2026
 
 En **Recorrido de 50 zonas** se puede saltar a cada lugar desde el visor. La revisión cubre accesos, fachadas, jardines, andadores y recintos deportivos de la Unidad. [Plano numerado, comparativas y fuentes por zona](REVISION_50_ZONAS_AZC_2026-11-22.md).

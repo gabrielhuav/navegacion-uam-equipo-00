@@ -43,7 +43,7 @@ const pole=descendants(asta).find(n=>n.name==='Mástil');const polePosition=gltf
 const flag=descendants(asta).find(n=>n.name==='Bandera_México');assert.ok(flag);const flagMat=gltf.materials[gltf.meshes[flag.mesh].primitives[0].material];const flagTexture=gltf.textures[flagMat.pbrMetallicRoughness.baseColorTexture.index];assert.ok(Number.isInteger(gltf.images[flagTexture.source].bufferView),'La textura de la bandera no está incrustada en el GLB');
 const html=await fs.readFile(new URL('./Visor_UAM_autonomo.html',import.meta.url),'utf8');
 const imports=JSON.parse(html.match(/<script type="importmap">([\s\S]*?)<\/script>/)[1]).imports;
-const embeddedSources=['site-clearance','detalles-corpus','accesos-modelados','detalles-arquitectura-corpus','detalles-entorno-corpus','interiores-biblioteca-g','interior-cafeteria','interiores-w-r','detalles-academicos-maps','detalles-deportivos-maps','jardin-tres-gracias','paisaje-h-hp','plaza-egresados',
+const embeddedSources=['site-clearance','detalles-corpus','accesos-modelados','detalles-arquitectura-corpus','detalles-entorno-corpus','interiores-biblioteca-g','interior-cafeteria','interior-c-revision360','interior-g-puente-360','interiores-w-r','detalles-academicos-maps','detalles-deportivos-maps','jardin-tres-gracias','paisaje-h-hp','plaza-egresados',
  'paisaje-academico','llegada-puerta6','escultura-piel-del-mar','escultura-dos-soluciones','escultura-primavera','sector-acceso-plaza',
  'revision-zonas-poniente','revision-zonas-centro','revision-zonas-oriente','revision-zonas-cafeteria-deportes',
  'accesos-zonas-poniente','accesos-zonas-centro','accesos-zonas-oriente',

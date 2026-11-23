@@ -95,6 +95,16 @@ export function detallarFachadaH({part,b,w,d,idx,box,data}) {
  const floor=data.storeyHeight;
  const gallery=Math.min(2.8,d*.32),edge=d/2,back=edge-gallery;
  const span=w-.38,concrete='#bfc0b9',metal='#a4a9a3',glass='#3d4b4c';
+ const plafon=box(part,'H_plafon_claro_del_claustro_PB',0,floor-.327,back+gallery/2,span,.036,gallery,'#dad2c7');
+ plafon.userData.reference='https://www.youtube.com/watch?v=rU-4eFuBX2g&t=356s';
+ for(const borde of [back+.30,edge-.38]){
+  for(const desplazamiento of [-.054,.054])box(part,'H_tubo_longitudinal_del_claustro',0,
+   floor-.40,borde+desplazamiento,span-.33,.037,.040,'#8d8b7f');
+ }
+ for(let dx=-span/2+2.4;dx<span/2-1.5;dx+=4.1){
+  box(part,'H_union_transversal_de_tubos_del_claustro',dx,floor-.398,back+gallery/2,.026,.034,gallery-.62,'#979387');
+  box(part,'H_luminaria_en_plafon_del_claustro',dx+.37,floor-.391,back+gallery*.57,1.03,.041,.32,'#edeae0');
+ }
 
  // Las bandas altas dan sombra a las ventanas corridas. El paso de PB queda abierto.
  for(let level=1;level<Math.min(3,b.floors);level++){

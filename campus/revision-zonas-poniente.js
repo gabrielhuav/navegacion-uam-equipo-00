@@ -259,7 +259,7 @@ export function modelarZonasPoniente(contexto) {
 
 export function mejorarInteriorIncalli(THREE, vista) {
   const grupo = crearGrupo(THREE, vista.group, 'Umbral_rojo_Auditorio_Incalli',
-    'Maps Incalli #20, agosto de 2024, y contrato de limpieza UAM 2020');
+    'Maps Incalli #20; recorrido 360°, 0:27 y 1:15. https://www.youtube.com/watch?v=rU-4eFuBX2g&t=27s');
   const cubo = new THREE.BoxGeometry();
   // El vano se representa en el tramo posterior del corte. Su posición
   // relativa a la sala y al corredor es esquemática.
@@ -280,8 +280,11 @@ export function mejorarInteriorIncalli(THREE, vista) {
   caja('Marco_oscuro_del_umbral',0,1.16,6.85,2.24,2.30,.067,'#4a3935');
   for (const lado of [-1, 1]) {
     caja('Hoja_roja_de_Incalli',lado*.554,1.127,6.895,1.057,2.23,.053,'#a83432');
-    caja('Barra_de_puerta_Incalli',lado*.56,.91,6.946,.79,.053,.058,'#c3c1b6');
+    caja('Tirador_vertical_de_Incalli',lado*.19,1.02,6.962,.031,.27,.048,'#bea078');
+    for(const nivel of [.90,1.14])caja('Anclaje_de_tirador_Incalli',lado*.19,nivel,6.936,.041,.043,.052,'#86684c');
   }
+  caja('Marco_claro_del_dintel_Incalli',0,2.256,6.932,2.18,.034,.033,'#d8d1c2');
+  for(const lado of [-1,0,1])caja('Marco_vertical_claro_Incalli',lado*1.077,1.128,6.934,.032,2.23,.031,'#d8d1c2');
   caja('Pequena_placa_amarilla_Incalli',1.66,1.57,6.853,.48,.38,.025,'#cfb365');
   caja('Ventilacion_alta_del_umbral',0,2.50,6.847,2.21,.26,.028,'#585954');
   for (let i=0;i<6;i++) caja('Lama_ventilacion_Incalli',0,2.397+i*.04,6.865,2.19,.018,.032,'#a6a59b');

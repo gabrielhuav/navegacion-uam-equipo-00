@@ -52,6 +52,18 @@ function silla(caja, x, z, respaldo, color, patas = '#393030') {
 export function crearInteriorL(THREE) {
  const {group,caja,colocarMallas}=prepararEscena(THREE,'Interior_L_Patio_de_trabajo');
  const gris='#8c908a', techo='#d6cdbf', verde='#287464', ladrillo='#b7714e', crema='#efe8d9';
+ const corredor=new THREE.Group();
+ corredor.name='L_cancel_esmerilado_y_fluorescentes_360';
+ corredor.userData={approximate:true,reference:'https://www.youtube.com/watch?v=rU-4eFuBX2g&t=640s'};
+ group.add(corredor);
+ const geoCancel=new THREE.BoxGeometry();
+ const vidrioAula=new THREE.MeshStandardMaterial({color:'#779793',transparent:true,opacity:.34,roughness:.29,depthWrite:false});
+ const esmerilado=new THREE.MeshStandardMaterial({color:'#e0e5de',transparent:true,opacity:.76,roughness:.78,depthWrite:false});
+ function panelAula(nombre,material,x,y,z,ancho,alto,fondo){
+  const pieza=new THREE.Mesh(geoCancel,material);
+  pieza.name=nombre;pieza.position.set(x,y,z);pieza.scale.set(ancho,alto,fondo);
+  corredor.add(pieza);
+ }
  pisoBaldosas(caja,20,15.8,'#dcd5c9','#aba99f',.82);
  const maderas=['#b38e6f','#bd9878','#b89372','#c39d7c'];
  for(let i=0;i<25;i++){
@@ -73,9 +85,24 @@ export function crearInteriorL(THREE) {
   }
   for(let j=0;j<5;j++){
    const z=-6.24+j*2.8;
-   caja(j===1||j===4?verde:'#9cb0aa',-9.78,y,z,.08,2.58,2.68);
+   const puerta=j===1||j===4;
+   if(puerta||y>2) caja(puerta?verde:'#9cb0aa',-9.78,y,z,.08,2.58,2.68);
+   else{
+    panelAula('L_vidrio_de_aula_frente_a_casilleros',vidrioAula,-9.76,y,z,.035,2.56,2.67);
+    for(let franja=0;franja<6;franja++){
+     panelAula('L_franja_horizontal_esmerilada',esmerilado,-9.73,.45+franja*.161,z,.009,.108,2.64);
+    }
+    caja('#c2c5ba',-9.71,1.44,z,.064,.043,2.68);
+   }
    caja(crema,-9.71,y,z-1.34,.065,2.62,.046);
   }
+ }
+ // Bajo la losa se ve una línea longitudinal de luminarias blancas.
+ const xLuz=-8.34;
+ for(let tramo=0;tramo<6;tramo++){
+  const z=-4.37+tramo*2.15;
+  caja('#c4c5bc',xLuz,2.887,z,.13,.049,2.15);
+  caja('#f5f4e9',xLuz,2.855,z,.102,.019,2.08);
  }
  // La costura de bloques de vidrio distingue el fondo alto de los ventanales bajos.
  for(let x=-3.35;x<3.6;x+=.34){

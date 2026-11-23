@@ -19,6 +19,8 @@ import {bloqueaArboladoEnAccesos,crearDetallesMapsAccesos} from 'detalles-maps-a
 import {crearDetallesMapsPlazas,detallarAroSerpentina} from 'detalles-maps-plazas';
 import {crearDetallesMapsPonente} from 'detalles-maps-ponente';
 import {crearDetallesMapsCorredorCultural,detallarGaleriaCulturalE,crearInteriorIncalli,crearVistaLibreria,crearVistaGaleriaDelTiempo} from 'detalles-maps-corredor-cultural';
+import {crearInteriorEscalerasC} from 'interior-c-revision360';
+import {crearInteriorPuenteG} from 'interior-g-puente-360';
 import {construirAndadorMulticanchas,construirCanchasDeportivas,construirGradasDeportivas,construirFachadaQ,detallarAccesoDeportivo,vueltaExteriorFutbol7,superficiesDeportivas} from 'detalles-deportivos-maps';
 import {construirJardinTresGracias} from 'jardin-tres-gracias';
 import {parcelasVerdesHHP,andadorHHP,trazadosHHP,construirPaisajeHHP} from 'paisaje-h-hp';
@@ -468,6 +470,8 @@ function azcBuildingT(part,b,w,d,h){
   const vx=-1.5+i*2.8;
   const ventanilla=new THREE.Group();ventanilla.name='T_ventanilla_roja_CSE';ventanilla.position.set(vx,0,front+1.55);ventanilla.rotation.y=.20;details.add(ventanilla);
   box(ventanilla,'T_zocalo_terracota_CSE',0,.52,.04,2.52,1.04,.63,'#853f33');
+  const guardapolvo=box(ventanilla,'T_guardapolvo_claro_ventanilla_CSE',0,.394,-.280,2.46,.078,.024,'#c3b9a9');
+  guardapolvo.userData.reference='https://www.youtube.com/watch?v=rU-4eFuBX2g&t=493s';
   box(ventanilla,'T_pantalla_lateral_CSE',-1.18,1.62,.04,.14,2.15,.82,'#982d2a');
   box(ventanilla,'T_cristal_ventanilla_CSE',.02,1.85,-.14,2.19,1.58,.08,'#586b57');
   const marco='#bbc3b2';
@@ -774,6 +778,10 @@ function azcBuildingJ(part,b,w,d,h){
  box(g,'J_umbral_bajo_canceleria',0,.20,front+.03,w-.58,.14,1.18,'#c0b5a4');
  box(g,'J_rampa_acceso',-w*.25,.18,front-1.4,3.2,.22,2.6,'#c4c2b6');
  const span=w-pasoLateral-.50,bays=Math.max(6,Math.round(span/1.56)),bay=span/bays,base=.27,windowHeight=soffit-base-.08;
+ const cancelRecorrido=new THREE.Group();cancelRecorrido.name='J_cancel_frontal_recorrido_360';
+ cancelRecorrido.userData={approximate:true,reference:'https://www.youtube.com/watch?v=rU-4eFuBX2g&t=476s'};
+ g.add(cancelRecorrido);
+ const cabecera=base+windowHeight;
  for(let i=0;i<bays;i++){
   const x=centroComedor-span/2+bay*(i+.5),centerDoor=Math.abs(x)<=bay*.6;
   box(g,'J_ventanal_cafeteria',x,base+windowHeight/2,glass,bay-.07,windowHeight,.085,i%3===0?'#485554':glassColor);
@@ -781,7 +789,14 @@ function azcBuildingJ(part,b,w,d,h){
   if(centerDoor){
    box(g,'J_encuentro_hojas_acceso',x,base+windowHeight/2,glass-.06,.052,windowHeight,.061,'#a4a69b');
    for(const side of [-1,1])box(g,'J_tirador_acceso',x+side*.14,1.13,glass-.105,.052,.27,.09,'#b8b8aa');
-  }else box(g,'J_rail_inferior_cancel',x,.42,glass-.05,bay-.07,.055,.051,frame);
+  }else{
+   box(g,'J_rail_inferior_cancel',x,.42,glass-.05,bay-.07,.055,.051,frame);
+   box(cancelRecorrido,'J_panel_opaco_bajo_vidrio',x,.52,glass-.051,bay-.106,.40,.022,
+    i%3===0?'#9f9e93':'#888783');
+   box(cancelRecorrido,'J_travesano_sobre_panel_opaco',x,.733,glass-.07,bay-.076,.042,.035,frame);
+  }
+  for(let k=0;k<5;k++)box(cancelRecorrido,'J_lama_horizontal_del_frente',x,cabecera-.073-.043*k,
+   glass-.075,bay-.116,.013,.033,'#b4a89f');
  }
  for(let i=0;i<=bays;i++)box(g,'J_montante_cancel',centroComedor-span/2+bay*i,base+windowHeight/2,glass-.035,.065,windowHeight+.07,.086,frame);
  for(const y of [base,base+windowHeight*.74,base+windowHeight])
@@ -956,6 +971,18 @@ function building(b){const g=new THREE.Group();g.name='Edificio_'+b.id;g.userDat
   if(b.id==='H')detallarFachadaH({part,b,w,d,idx,box,data});
   if(b.id==='K'){
    construirFachadaKEstacionamiento({THREE,part,b,w,d,h,box});
+   if(gallery&&b.floors>1){
+    const dintel=data.storeyHeight-.30,centro=d/2-galleryWidth*.5;
+    const instalaciones=new THREE.Group();instalaciones.name='K_instalaciones_galeria_PB_recorrido_360';
+    instalaciones.userData={approximate:true,reference:'https://www.youtube.com/watch?v=rU-4eFuBX2g&t=609s'};
+    part.add(instalaciones);
+    for(const offset of [.16,.25,.34])box(instalaciones,'K_conducto_paralelo_al_cancel',0,dintel-.072,
+      d/2-galleryWidth+offset,w-.64,.035,.038,'#797c72');
+    for(let x=-w/2+2.45;x<w/2-1.7;x+=3.75){
+     box(instalaciones,'K_soporte_de_conductos_de_galeria',x,dintel-.044,d/2-galleryWidth+.25,.056,.088,.27,'#929388');
+     box(instalaciones,'K_luminaria_rectangular_de_soffito',x,dintel-.05,centro,1.04,.067,.43,'#e3e6dc');
+    }
+   }
    // El giro del video 360° a los 8:00 permite leer la k roja desde la galería de J.
    const rotulo=new THREE.Group();rotulo.name='K_rotulo_rojo_hacia_J';
    rotulo.userData={approximate:true,reference:'Recorrido en RV, 8:00, vista girada desde J'};
@@ -1257,6 +1284,10 @@ function generate(){
    // Luminarias y botes dobles en Plaza Roja (imagen_0025, 0040).
    for(const [lx,ly] of [[505,432],[585,432],[505,545],[585,545]]){
     box(world,'Luminaria_Plaza_Roja',X(lx),1.8,Z(ly),.11,3.2,.11,'#b8292f');
+    const globo=new THREE.Mesh(new THREE.SphereGeometry(.27,12,8),material('#e8e6d9'));
+    globo.name='Difusor_blanco_Plaza_Roja';globo.position.set(X(lx),3.56,Z(ly));
+    globo.userData={approximate:true,reference:'https://www.youtube.com/watch?v=rU-4eFuBX2g&t=232s'};
+    world.add(globo);
     box(world,'Bote_doble_Plaza_Roja',X(lx)+1.2,.48,Z(ly),.45,.72,.38,'#b8292f');
     box(world,'Bote_doble_Plaza_Roja',X(lx)+1.7,.48,Z(ly),.45,.72,.38,'#eceee9');
    }
@@ -1481,12 +1512,14 @@ const interiores={
  docenciaD:{crear:crearInteriorDocenciaD,titulo:'D-102 · Posgrados CyAD',nota:'Reconstrucción esquemática del cancel y la galería del primer piso a partir de la galería institucional.'},
  microelectronicaF:{crear:crearInteriorMicroelectronicaF,titulo:'F302 · Laboratorio de Microelectrónica',nota:'Corte esquemático del aula basado en las fotografías de Electrónica. Distribución y medidas aproximadas.'},
  incalli:{crear:Three=>mejorarInteriorIncalli(Three,crearInteriorIncalli(Three)),titulo:'C · Auditorio Incalli',nota:'Corte esquemático de la sala según la galería y las fotografías de la UAM.'},
+ escalerasC:{crear:crearInteriorEscalerasC,titulo:'C · Escalera y galería alta',nota:'Corte de reconocimiento según el recorrido de 360°. Alturas, peldaños y posición dentro de C aproximados.'},
  libreria:{crear:crearVistaLibreria,titulo:'C · Librería UAM',nota:'Vista del cancel, el corredor y el área de cajas y casilleros. El mobiliario se representa de forma esquemática.'},
  galeriaDelTiempo:{crear:crearVistaGaleriaDelTiempo,titulo:'C · Galería del Tiempo',nota:'Corte de reconocimiento de la sala en planta baja. Montaje y medidas esquemáticos.'},
  biblioteca:{crear:crearInteriorBiblioteca,titulo:'I · Sala de lectura',nota:'Corte esquemático de la sala de doble altura. Ubicaciones interiores aproximadas.'},
  cafeteria:{crear:crearInteriorCafeteria,titulo:'J · Comedor',nota:'Corte esquemático basado en la planta y las fotos de la remodelación de 2009 y en fotos comunitarias de 2017.'},
  redes:{crear:crearInteriorG302,titulo:'G302-A · Aula de Redes',nota:'Piso 3. Corte esquemático basado en el recorrido de Electrónica y las fotografías del aula.'},
- cyad:{crear:crearInteriorL,titulo:'L · Vestíbulo de CyAD',nota:'Corte esquemático según fotos comunitarias de 2024 y 2026.'},
+ puenteG:{crear:crearInteriorPuenteG,titulo:'G · Paso alto hacia H',nota:'Corte de reconocimiento del pasillo y de su enlace abierto según el recorrido de 360°.'},
+ cyad:{crear:crearInteriorL,titulo:'L · Vestíbulo de CyAD',nota:'Corte esquemático según fotos comunitarias y el recorrido de 360°.'},
  atrioW:{crear:crearInteriorW,titulo:'W · Atrio',nota:'Corte esquemático del atrio, las galerías y el muro de vidrio con su pila, basado en fotos y el recorrido de 360°.'},
  gimnasioR:{crear:crearInteriorR,titulo:'R · Gimnasio de duela',nota:'Corte esquemático de la cancha cubierta y las gradas laterales.'},
 };

@@ -63,6 +63,8 @@ export function crearInteriorW(THREE) {
   const zMuro = -1.65, largoMuro = 20.65, altoMuro = 2.83;
   const bandeja = '#727976', tuberia = '#8e4e49';
   const anchoAtrio = 10.0, fondo = 24, xInterior = anchoAtrio / 2, xExterior = 7.9;
+  const acabadoGaleria = ['#dadbd3', '#e2e2d8', '#dcddd4'];
+  const azulejoPB = ['#9da5a0', '#aab0aa', '#a2a9a3', '#949d97'];
   caja(concreto, 0, -.23, 0, 2 * xExterior, .42, fondo);
   caja('#55595a', 0, -.025, 0, anchoAtrio, .05, fondo);
   const columnasPiso = 16, filasPiso = 38;
@@ -134,6 +136,19 @@ export function crearInteriorW(THREE) {
     const borde = lado * xInterior;
     const anchura = xExterior - xInterior;
     caja('#dbd9cd', corredor, .016, 0, anchura, .035, fondo);
+    // Instalaciones visibles suspendidas en el intradós de ambas galerías.
+    for (const alto of [2.47, 5.49]) {
+      const tomas = [xInterior + .46, xInterior + .61, xInterior + .74];
+      tomas.forEach((x, i) => {
+        const color = ['#696e67', '#935450', '#838783'][i];
+        barra(color, [lado * x, alto, -9.64], [lado * x, alto, 10.57], i === 1 ? .063 : .041);
+      });
+      for (const z of [-8.82, -5.60, -2.38, .84, 4.06, 7.28, 10.35]) {
+        caja('#727975', lado * (xInterior + .60), alto + .001, z, .39, .034, .041);
+        caja('#7d837e', lado * (xInterior + .46), alto + .106, z, .026, .212, .035);
+        caja('#7d837e', lado * (xInterior + .74), alto + .106, z, .026, .212, .035);
+      }
+    }
 
     for (let nivel = 0; nivel <= 2; nivel++) {
       const y = nivel * 3.02;
@@ -154,6 +169,16 @@ export function crearInteriorW(THREE) {
       }
       for (let tramo = 0; tramo < 6; tramo++) {
         const z = -9.75 + tramo * 3.30;
+        if (nivel === 0) {
+          // Los paños grises bajo los tragaluces mantienen el despiece horizontal del video.
+          for (let fila = 0; fila < 7; fila++) {
+            for (let col = 0; col < 5; col++) {
+              const tono = azulejoPB[(fila * 3 + col + tramo) % azulejoPB.length];
+              caja(tono, lado * (xExterior - .111), .16 + fila * .281, z + (col - 2) * .593,
+                .032, .268, .579);
+            }
+          }
+        }
         caja('#768581', lado * (xExterior - .102), y + 2.33, z, .038, .52, 2.92);
         for (const desplazamiento of [-1.12, -.37, .39, 1.13]) {
           caja('#c9c9bf', lado * (xExterior - .13), y + 2.33, z + desplazamiento, .035, .54, .044);
@@ -173,9 +198,17 @@ export function crearInteriorW(THREE) {
       caja(concreto, corredor, y - .17, -.57, anchura, .34, 22.84);
       caja(concreto, borde + lado * .08, y + .35, -.57, .16, .70, 22.84);
       caja(rojo, borde + lado * .08, y + .87, -.57, .058, .07, 22.84);
+      // Piezas blancas en dos hileras, con juntas rehundidas sobre el soporte.
+      const anchoPanel = 22.84 / 11;
+      for (let panel = 0; panel < 11; panel++) {
+        const z = -.57 - 22.84 / 2 + (panel + .5) * anchoPanel;
+        for (let fila = 0; fila < 2; fila++) {
+          caja(acabadoGaleria[(panel + fila + nivel) % acabadoGaleria.length],
+            borde - lado * .013, y + .175 + fila * .35, z, .024, .329, anchoPanel - .029);
+        }
+      }
       for (let z = -11.45; z < 10.78; z += 2.22) {
         caja(rojo, borde + lado * .08, y + .78, z, .045, .235, .048);
-        caja(junta, borde - lado * .003, y + .35, z, .009, .64, .011);
       }
     }
   }
