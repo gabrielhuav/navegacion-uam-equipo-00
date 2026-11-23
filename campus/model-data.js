@@ -781,8 +781,8 @@ export const ORIGINAL = {
       530
     ],
     "caracol": [
-      809,
-      455
+      894,
+      462
     ]
   },
   "plazas": [

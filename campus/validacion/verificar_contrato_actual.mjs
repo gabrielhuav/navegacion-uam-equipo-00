@@ -86,6 +86,19 @@ for(const zona of zonasAzc){
 const embedded=Buffer.from(imports['model-data'].split(',')[1],'base64').toString('utf8');
 assert.deepEqual(JSON.parse(embedded.match(/export const ORIGINAL = ([\s\S]*);$/)[1]),data,'Portátil pierde datos guardados');
 const marked=await parseGlb('UAM_Azcapotzalco.glb'),plain=await parseGlb('UAM_Azcapotzalco_sin_marca.glb');
+assert.deepEqual(data.cosei.caracol,[894,462]);
+for(const {gltf} of [marked,plain]){
+  const caracoles=gltf.nodes.filter(n=>n.name==='Caracol_COSEI');
+  assert.equal(caracoles.length,1,'Debe haber un solo Caracol');
+  const [caracol]=caracoles;
+  assert.equal(caracol.extras.editableId,'caracol_COSEI');
+  const plaza=caracol.children.map(i=>gltf.nodes[i]).find(n=>n.name==='Plazuela_bancas_curvas_J');
+  assert.ok(plaza,'El Caracol debe contener las bancas de Cafetería J');
+  const hijos=plaza.children.map(i=>gltf.nodes[i]);
+  assert.equal(hijos.filter(n=>n.name==='Banca_curva_plazuela_J').length,2);
+  assert.ok(hijos.some(n=>n.name==='Zona50_29_J_bancas_curvas'));
+  assert.ok(!gltf.nodes.some(n=>n.name==='Banca_curva_caracol'),'Quedaron bancas duplicadas en COSEI');
+}
 // Las superficies de juego no son pasos peatonales hacia Q ni hacia los talleres.
 const routeNodes=new Map(net.nodos.map(node=>[node.id,node]));
 for(const name of ['Cancha_borde_terracota','Campo_futbol']){

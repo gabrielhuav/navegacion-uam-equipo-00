@@ -1173,12 +1173,6 @@ function coseiPlaza(spec){
   const strokes={S:[[[1,1],[.2,1],[0,.8],[.2,.55],[.8,.45],[1,.2],[.8,0],[0,0]]],O:[[[.2,0],[0,.2],[0,.8],[.2,1],[.8,1],[1,.8],[1,.2],[.8,0],[.2,0]]],Y:[[[0,1],[.5,.5],[1,1]],[[.5,.5],[.5,0]]],U:[[[0,1],[0,.2],[.2,0],[.8,0],[1,.2],[1,1]]],A:[[[0,0],[.4,1],[.6,1],[1,0]],[[.2,.4],[.8,.4]]],M:[[[0,0],[0,1],[.5,.45],[1,1],[1,0]]]};
   [...'SOY UAM'].forEach((ch,i)=>{for(const path of strokes[ch]||[])for(let k=1;k<path.length;k++){const a=new THREE.Vector3(i*1.35-4.5+path[k-1][0],.4+path[k-1][1]*2,0),b=new THREE.Vector3(i*1.35-4.5+path[k][0],.4+path[k][1]*2,0),delta=b.clone().sub(a);const m=box(g,'Letra_'+ch,0,0,0,.23,delta.length()+.12,.32,'#f3f1e8');m.position.copy(a).add(b).multiplyScalar(.5);m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),delta.normalize());}});
  }
- if(spec.caracol){
-  const g=new THREE.Group();g.name='Caracol_COSEI';g.position.set(X(spec.caracol[0]),spec.baseElevation,Z(spec.caracol[1]));world.add(g);registerEditable('caracol_COSEI','Caracol · bancas COSEI','sculpture',g);
-  const floor=new THREE.Mesh(new THREE.CylinderGeometry(8,8,.12,64),material('#969b94'));floor.position.y=.06;g.add(floor);
-  for(const [r,start,end] of [[7.5,.2,4.8],[4.6,2.3,6.4],[2.1,-.3,2.5]]){const s=new THREE.Shape();s.absarc(0,0,r,start,end,false);s.absarc(0,0,r-.55,end,start,true);s.closePath();const m=new THREE.Mesh(new THREE.ExtrudeGeometry(s,{depth:.75,bevelEnabled:false,curveSegments:40}),material('#a6a89e'));m.name='Banca_curva_caracol';m.rotation.x=-Math.PI/2;m.position.y=.85;m.castShadow=true;g.add(m);}
-  const garden=new THREE.Mesh(new THREE.CylinderGeometry(1.6,1.6,.15,32),material('#638153'));garden.position.y=.15;g.add(garden);
- }
  const g=new THREE.Group();g.name='Plaza_COSEI_detalle';g.userData={library:'I',rise:spec.rise,steps:spec.steps,approximate:true};world.add(g);
  const r=spec.terrace,base=spec.baseElevation,top=base+spec.rise;
  slab(g,r,'#b87861',base+spec.rise/2,spec.rise,'Plataforma_elevada_COSEI');
@@ -1245,8 +1239,16 @@ function generate(){
  const corredorCultural=crearDetallesMapsCorredorCultural(THREE,data,routeEditor?.getNet()||BASE_ROUTES);
  reservasArboladoCultural=corredorCultural.userData.reservasArbolado;
  vegetation=new THREE.Group();vegetation.name='Vegetación';world.add(vegetation);
- box(world,'Base maqueta',0,-2,10,760,4,310,'#b8beaf');meshPoly(world,data.site,.1,'#82a276','Predio');
- slab(world,[30,706,1770,736],'#88918d',-.03,.2,'Eje_5_Norte_Montevideo');slab(world,[22,70,48,705],'#88918d',-.03,.2,'Av_San_Pablo');
+ const vueltaCampo=vueltaExteriorFutbol7(data.site[2],data.site[3],S());
+ const predioVisual=[...data.site.slice(0,3),...vueltaCampo,...data.site.slice(3)];
+ box(world,'Base maqueta',0,-2,10,760,4,310,'#b8beaf');
+ meshPoly(world,predioVisual,.1,'#82a276','Predio');
+ // La calle pasa al exterior de la franja arbolada del recinto deportivo (ortofoto Esri).
+ const bordeEje5=[[30,706],[1210,706],[1240,709],[1275,718],[1310,730],[1350,738],
+  [1410,740],[1500,741],[1550,744],[1600,749],[1640,752],[1680,754],[1770,754]];
+ const otroBordeEje5=bordeEje5.map(([x,z])=>[x,Math.min(762,z+30)]).reverse();
+ meshPoly(world,[...bordeEje5,...otroBordeEje5],.07,'#88918d','Eje_5_Norte_Montevideo');
+ slab(world,[22,70,48,705],'#88918d',-.03,.2,'Av_San_Pablo');
  for(const r of data.paths)slab(world,r,'#d5cbb1');
  for(const p of data.plazas){
   const r=p.rect;
@@ -1265,8 +1267,12 @@ function generate(){
   }
   if(p.name!=='Patio H')label(p.name,X((r[0]+r[2])/2),1,Z((r[1]+r[3])/2),'place');
  }
- // Plazuela circular con bancas curvas de concreto entre H, I y Cafetería J (imagen_0004, 0150, 0155).
- const pj=new THREE.Group();pj.name='Plazuela_bancas_curvas_J';pj.position.set(X(894),.18,Z(462));world.add(pj);
+ // El Caracol es el conjunto de bancas junto a la cafetería J (imagen_0004 y 0155).
+ const [caracolX,caracolZ]=data.cosei?.caracol??ORIGINAL.cosei.caracol;
+ const caracol=new THREE.Group();caracol.name='Caracol_COSEI';
+ caracol.position.set(X(caracolX),.18,Z(caracolZ));world.add(caracol);
+ registerEditable('caracol_COSEI','Caracol · bancas junto a Cafetería J','sculpture',caracol);
+ const pj=new THREE.Group();pj.name='Plazuela_bancas_curvas_J';caracol.add(pj);
  const pjFloor=new THREE.Mesh(new THREE.CylinderGeometry(5.6,5.6,.12,36),material('#b4b6ae'));pjFloor.position.y=.06;pj.add(pjFloor);
  const pjGarden=new THREE.Mesh(new THREE.CylinderGeometry(1.5,1.5,.18,24),material('#567449'));pjGarden.position.y=.12;pj.add(pjGarden);
  for(const [start,end] of [[.25,2.6],[3.4,5.8]]){
@@ -1348,7 +1354,6 @@ function generate(){
  const porticoV1=puerta2&&construirPorticoV1({THREE,world,gate:puerta2,box,slab,material,X,Z,S});
  const encuentrosReja=new Map([...detallesAccesos.children,porticoV1].filter(nodo=>nodo?.userData.encuentrosReja)
   .map(nodo=>[nodo.userData.existingGate,nodo.userData.encuentrosReja]));
- const vueltaCampo=vueltaExteriorFutbol7(data.site[2],data.site[3],S());
  const detallesPonente=crearDetallesMapsPonente(THREE,data,encuentrosReja,vueltaCampo);
  world.add(detallesAccesos,crearDetallesMapsPlazas(THREE,data),detallesPonente,corredorCultural);
  construirCaminosDePuertas({THREE,world,data,net:routeEditor?.getNet()||BASE_ROUTES,meshPoly,vanos:detallesPonente.userData.vanos});
@@ -1883,6 +1888,12 @@ function validateCampus(d){
  if(d.extraParking!==undefined&&(!Array.isArray(d.extraParking)||d.extraParking.length>500||!d.extraParking.every(p=>typeof p.id==='string'&&/^parking_new_[a-z0-9_]+$/.test(p.id)&&rect(p.rect))))throw Error('Estacionamientos inválidos');
  if(d.removedElements!==undefined&&(!Array.isArray(d.removedElements)||!d.removedElements.every(id=>typeof id==='string')))throw Error('Elementos retirados inválidos');
  if(d.elementEdits!==undefined&&(!d.elementEdits||Array.isArray(d.elementEdits)||typeof d.elementEdits!=='object'||!Object.values(d.elementEdits).every(v=>v&&typeof v==='object'&&Object.entries(v).every(([key,n])=>['offsetX','offsetZ','rotation','width','depth'].includes(key)&&Number.isFinite(n)&&Math.abs(n)<10000)&&(!('width'in v)||v.width>=2)&&(!('depth'in v)||v.depth>=2))))throw Error('Posiciones de elementos inválidas');
+ const caracol=d.cosei?.caracol;
+ if(caracol!==undefined&&(!Array.isArray(caracol)||caracol.length!==2||!caracol.every(Number.isFinite)))throw Error('Posición del Caracol inválida');
+ const ajuste=d.elementEdits?.caracol_COSEI;
+ if(caracol?.[0]===809&&caracol[1]===455&&!ajuste?.offsetX&&!ajuste?.offsetZ){
+  return {...d,cosei:{...d.cosei,caracol:[...ORIGINAL.cosei.caracol]},version:8};
+ }
  return {...d,version:8};
 }
 // Plano 2D para la app móvil: vista ortográfica desde arriba, fondo transparente, +X a la derecha y -Z arriba.

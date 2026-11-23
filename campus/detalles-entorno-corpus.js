@@ -19,6 +19,7 @@ function contextoSeguro({THREE, data, world, X, Z, S, net}) {
     return {x: p.x, z: p.z};
   };
   const obstacles = [], routeObstacles = [];
+  let caracol;
   for (const b of data.buildings) for (const r of b.rects) {
     const factor = b.diamond ? Math.SQRT1_2 : 1;
     obstacles.push(rectanglePolygon(X((r[0] + r[2]) / 2) + (b.offsetX || 0),
@@ -48,9 +49,12 @@ function contextoSeguro({THREE, data, world, X, Z, S, net}) {
       [box.max.x, box.max.z], [box.min.x, box.max.z]].map(([x,z]) => {
       const p = new THREE.Vector3(x, 0, z).applyMatrix4(inversa); return {x:p.x,z:p.z};
     });
-    obstacles.push(corners);
+    if (child.userData.editableId === 'caracol_COSEI') caracol = corners;
+    else obstacles.push(corners);
   }
-  const clear = poly => poly.length >= 3 && !obstacles.some(o => polygonsOverlap(poly, o));
+  const clear = (poly, propiaPlazuela = false) => poly.length >= 3 &&
+    !obstacles.some(o => polygonsOverlap(poly, o)) &&
+    (propiaPlazuela || !caracol || !polygonsOverlap(poly, caracol));
   const footprint = (parent, x, z, width, depth, yaw = 0) =>
     rectanglePolygon(x, z, width, depth, yaw).map(p => localCampus(parent, p.x, p.z));
   const bounds = poly => ({minX:Math.min(...poly.map(p=>p.x)),maxX:Math.max(...poly.map(p=>p.x)),
@@ -196,14 +200,14 @@ function plazuelaJ(ctx, safe, h, report) {
   // Sólo sobre el pequeño jardín ya existente: no inventar una huella verde.
   const r=garden.geometry.parameters.radiusTop-.02, base=garden.position.y+garden.geometry.parameters.height/2;
   const points=Array.from({length:10},(_,i)=>({x:r*Math.cos(i*Math.PI*2/10),z:r*Math.sin(i*Math.PI*2/10)}));
-  const allowed=points.map(p=>safe.clear(safe.footprint(parent,p.x,p.z,.16,.16)));
+  const allowed=points.map(p=>safe.clear(safe.footprint(parent,p.x,p.z,.16,.16),true));
   for(let i=0;i<points.length;i++){
     if(!allowed[i])continue; const p=points[i];
     h.mesh(grupo,'Poste_delimitador_jardin_corpus',h.cylinder,'#8c9898',p.x,base+.34,p.z,.042,.68,.042);
     h.mesh(grupo,'Remate_poste_delimitador_corpus',h.halfSphere,'#bac3bf',p.x,base+.68,p.z,.058,.035,.058);
     report.postesJardin++;
     const j=(i+1)%points.length;if(!allowed[j])continue;const q=points[j];
-    const poly=segmentPolygon(p,q,.045).map(v=>safe.localCampus(parent,v.x,v.z));if(!safe.clear(poly))continue;
+    const poly=segmentPolygon(p,q,.045).map(v=>safe.localCampus(parent,v.x,v.z));if(!safe.clear(poly,true))continue;
     const cord=h.caja(grupo,'Cordon_delimitador_jardin_corpus',(p.x+q.x)/2,base+.52,(p.z+q.z)/2,.025,.025,Math.hypot(q.x-p.x,q.z-p.z),'#a5aeaa');
     cord.rotation.y=Math.atan2(q.x-p.x,q.z-p.z); report.cordonesJardin++;
   }

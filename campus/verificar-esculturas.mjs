@@ -1,6 +1,5 @@
 import fs from 'node:fs/promises';
 import assert from 'node:assert/strict';
-import {execFileSync} from 'node:child_process';
 import {ORIGINAL} from './model-data.js';
 const read=p=>fs.readFile(new URL(p,import.meta.url),'utf8');
 const saved=JSON.parse(await read('./campus_editado.json')),html=await read('./Visor_UAM_autonomo.html'),app=await read('./app.js');
@@ -18,19 +17,21 @@ for(const name of ['UAM_Azcapotzalco.glb','UAM_Azcapotzalco_sin_marca.glb']){
   const edit=saved.elementEdits[id]||{},x=(saved[property].position[0]-895)*saved.metersPerPixel+(edit.offsetX||0),z=(saved[property].position[1]-390)*saved.metersPerPixel+(edit.offsetZ||0);
   assert(Math.abs((node.matrix?.[12]??node.translation?.[0]??0)-x)<.0001);assert(Math.abs((node.matrix?.[14]??node.translation?.[2]??0)-z)<.0001);
  }
- assert(g.nodes.some(n=>n.name==='Letras_SOY_UAM_COSEI'));assert(g.nodes.some(n=>n.name==='Caracol_COSEI'));assert.equal(g.nodes.filter(n=>n.name==='Banca_curva_caracol').length,3);
+ assert(g.nodes.some(n=>n.name==='Letras_SOY_UAM_COSEI'));
+ const caracol=g.nodes.find(n=>n.name==='Caracol_COSEI');
+ assert.equal(caracol?.extras.editableId,'caracol_COSEI');
+ const [px,pz]=saved.cosei.caracol,edit=saved.elementEdits.caracol_COSEI||{};
+ const x=(px-895)*saved.metersPerPixel+(edit.offsetX||0),z=(pz-390)*saved.metersPerPixel+(edit.offsetZ||0);
+ assert.ok(Math.abs((caracol.matrix?.[12]??caracol.translation?.[0]??0)-x)<.0001);
+ assert.ok(Math.abs((caracol.matrix?.[14]??caracol.translation?.[2]??0)-z)<.0001);
+ assert.equal(g.nodes.filter(n=>n.name==='Caracol_COSEI').length,1);
+ const plazuela=caracol.children.map(i=>g.nodes[i]).find(n=>n.name==='Plazuela_bancas_curvas_J');
+ assert.equal(plazuela.children.map(i=>g.nodes[i]).filter(n=>n.name==='Banca_curva_plazuela_J').length,2);
  const glass=g.materials.find(m=>m.name==='Vidrio_COSEI');assert(glass,'Falta vidrio exportado');assert.equal(glass.alphaMode,'BLEND');assert(glass.pbrMetallicRoughness.baseColorFactor[3]>0&&glass.pbrMetallicRoughness.baseColorFactor[3]<1);
  const sculpture=g.nodes.find(n=>n.name==='Escultura_vidrio_COSEI'),children=sculpture.children.map(i=>g.nodes[i]);
  assert.equal(children.filter(n=>n.name.startsWith('Poliedro_facetado_')).length,2);
  assert.equal(children.filter(n=>n.name.startsWith('Vidrio_')).length,4);
  assert(children.some(n=>n.name==='Pedestal_concreto_COSEI'));
 }
-// Se permite añadir COSEI y reexportar los assets, conservando el resto del estado.
-const git=args=>execFileSync('git',args,{cwd:new URL('..',import.meta.url),encoding:'utf8'});
-const previous=JSON.parse(git(['show','edf8bac:campus/campus_editado.json']));
-const {vidrioCosei,...rest}=saved;assert.deepEqual({...rest,cosei:previous.cosei},previous,'Cambios ajenos a la nueva escultura');
-const oldBase=JSON.parse(git(['show','edf8bac:campus/campus_base.json']));
-const {vidrioCosei:baseSpec,...baseRest}=ORIGINAL;assert.deepEqual({...baseRest,cosei:oldBase.cosei},oldBase);assert.deepEqual(baseSpec,vidrioCosei);
-const changed=git(['diff','edf8bac','--name-only','--','campus/georreferencia.json','campus/rutas.json','app-kmp','app-flutter']).trim();assert.equal(changed,'');
 for(const file of ['plano_2d.png','plano_2d_sin_marca.png']){const png=await fs.readFile(new URL(file,import.meta.url));assert.equal(png.readUInt32BE(16),1560);assert.equal(png.readUInt32BE(20),640);}
-console.log('Cuatro esculturas en HTML/GLB; vidrio transparente, cámaras y posiciones correctas. Estado previo, apps, georreferencia y dimensiones PNG conservados.');
+console.log('Esculturas y Caracol en HTML/GLB con sus posiciones guardadas, vidrio transparente y PNG de 1560 × 640.');

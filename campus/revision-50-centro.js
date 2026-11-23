@@ -259,10 +259,14 @@ function plazuelaJ(c) {
     'Corpus AZC 0004, 0150 y 0155; recorrido 360°, 7:29–8:11, plazuela junto a J.');
   if (!grupo) return;
   // Las dos huellas curvas reciben una pieza de asiento dentro de cada banca.
-  for (const [desde, hasta] of [[.25, 2.6], [3.4, 5.8]]) {
-    anillo(c, grupo, 'J_remate_superior_de_banca_curva', [0, 0],
-      [1, 1, 4.235, 4.765], 1.103, -hasta + .018, -desde - .018, '#d4d0bf');
-  }
+  const bancas=plaza.children.filter(pieza=>pieza.name==='Banca_curva_plazuela_J');
+  [[.25, 2.6], [3.4, 5.8]].forEach(([desde, hasta], indice)=>{
+    const banca=bancas[indice];
+    const {x,y,z}=banca.position;
+    anillo(c, grupo, 'J_remate_superior_de_banca_curva', [x, z],
+      [1, 1, 4.235, 4.765], y+banca.geometry.parameters.options.depth+.003,
+      -hasta + .018, -desde - .018, '#d4d0bf');
+  });
 }
 
 function galeriaJ(c) {

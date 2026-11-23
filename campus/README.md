@@ -4,6 +4,8 @@
 
 En **Recorrido de 50 zonas** se puede saltar a cada lugar desde el visor. La revisión cubre accesos, fachadas, jardines, andadores y recintos deportivos de la Unidad. [Plano numerado, comparativas y fuentes por zona](REVISION_50_ZONAS_AZC_2026-11-22.md).
 
+El Caracol queda junto a la cafetería J, como en las fotos 0004 y 0155. Se unificó con las bancas curvas de esa plazuela y se apoyaron los acabados en las bancas. En Fútbol 7, el suelo sigue el cierre existente y Eje 5 se dibuja al exterior de la franja arbolada observada en la ortofoto. [Caracol antes y después](../docs/capturas/azc-caracol-antes-despues.jpg) · [Fútbol 7 antes y después](../docs/capturas/azc-futbol7-antes-despues.jpg).
+
 ## Pavimentos y umbrales · quinta pasada del 22 de noviembre de 2026
 
 Se perfilaron los encuentros de J y K, el patio de H, el andador de deportivas, los bordes del paso de G y las llegadas de San Pablo. [Comparaciones con cámara fija, registro de 20 zonas y pruebas](QUINTA_PASADA_20_ZONAS_AZC_2026-11-22.md).
