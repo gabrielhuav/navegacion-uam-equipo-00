@@ -43,7 +43,21 @@ const pole=descendants(asta).find(n=>n.name==='Mástil');const polePosition=gltf
 const flag=descendants(asta).find(n=>n.name==='Bandera_México');assert.ok(flag);const flagMat=gltf.materials[gltf.meshes[flag.mesh].primitives[0].material];const flagTexture=gltf.textures[flagMat.pbrMetallicRoughness.baseColorTexture.index];assert.ok(Number.isInteger(gltf.images[flagTexture.source].bufferView),'La textura de la bandera no está incrustada en el GLB');
 const html=await fs.readFile(new URL('./Visor_UAM_autonomo.html',import.meta.url),'utf8');
 const imports=JSON.parse(html.match(/<script type="importmap">([\s\S]*?)<\/script>/)[1]).imports;
-assert.deepEqual(Object.keys(imports).sort(),['three','orbit','exporter','texture-utils','model-data','copyright-layout','route-space','route-data','route-editor'].sort());assert.ok(Object.values(imports).every(v=>v.startsWith('data:text/javascript;base64,')));
+const embeddedSources=['site-clearance','detalles-corpus','accesos-modelados','detalles-arquitectura-corpus','detalles-entorno-corpus','interiores-biblioteca-g','interior-cafeteria','interior-c-revision360','interior-g-puente-360','interiores-w-r','detalles-academicos-maps','detalles-deportivos-maps','jardin-tres-gracias','paisaje-h-hp','plaza-egresados',
+ 'paisaje-academico','llegada-puerta6','escultura-piel-del-mar','escultura-dos-soluciones','escultura-primavera','sector-acceso-plaza',
+ 'revision-zonas-poniente','revision-zonas-centro','revision-zonas-oriente','revision-zonas-cafeteria-deportes',
+ 'accesos-zonas-poniente','accesos-zonas-centro','accesos-zonas-oriente',
+ 'detalle-zonas-san-pablo','detalle-zonas-academicas','detalle-zonas-deportivas','sector-talleres-deportes','plazas-ajedrez','recintos-deportivos',
+ 'caminos-de-puertas','cuarta-pasada-poniente','cuarta-pasada-centro','cuarta-pasada-oriente',
+ 'revision-50-poniente','revision-50-centro','revision-50-oriente','zonas-azc',
+ 'detalles-maps-accesos','detalles-maps-plazas','detalles-maps-ponente','detalles-maps-corredor-cultural'];
+assert.deepEqual(Object.keys(imports).sort(),['three','orbit','exporter','texture-utils','model-data','copyright-layout','route-space','route-data','route-editor',...embeddedSources].sort());assert.ok(Object.values(imports).every(v=>v.startsWith('data:text/javascript;base64,')));
+for(const name of embeddedSources){
+ const source=Buffer.from(imports[name].split(',')[1],'base64').toString();
+ const original=(await fs.readFile(new URL('./'+name+'.js',import.meta.url),'utf8')).replace(/\r\n/g,'\n');
+ assert.equal(source,original,'Módulo portátil distinto de la fuente: '+name);
+ assert.ok(!/from\s*['"]\.{1,2}\//.test(source),'Import relativo no resoluble en módulo incrustado: '+name);
+}
 const exporter=Buffer.from(imports.exporter.split(',')[1],'base64').toString();assert.ok(exporter.includes("from 'texture-utils'"));
 const png=await fs.readFile(new URL('./Vista_actual.png',import.meta.url));assert.equal(png.subarray(1,4).toString(),'PNG');
 console.log('Verificado: GLB 2 con asta de 18 m, bandera con textura incrustada, seis escalones que alcanzan la plataforma COSEI y dos jardineras; biblioteca I, conexiones, Plaza Roja y cubiertas conservadas; visor autónomo y PNG.');

@@ -10,3 +10,6 @@ gradlew text eol=lf
 # Binarios: que git no intente tocarlos.
 *.jar binary
 *.png binary
+
+# Las galerías auditadas conservan sus hashes en todos los sistemas.
+androidApp/src/main/assets/reconocimiento/corpus/**/*.json -text whitespace=cr-at-eol

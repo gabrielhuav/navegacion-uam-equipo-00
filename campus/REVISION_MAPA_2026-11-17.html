@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UAM Azcapotzalco · Revisión del mapa</title>
+<style>
+:root{font-family:system-ui,sans-serif;color:#23382c;background:#f4f5ef}*{box-sizing:border-box}body{margin:0}main{max-width:1500px;margin:auto;padding:28px 22px 46px}.fecha{color:#9a1439;font-weight:700;font-size:.85rem}h1{font-size:clamp(1.8rem,4vw,3rem);margin:.35em 0}.intro{max-width:950px;line-height:1.6;color:#526056}a{color:#8c1737;text-underline-offset:.15em}nav{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 12px}button,.abrir{padding:11px 16px;border:1px solid #cdd6cb;background:white;color:#253d2d;border-radius:9px;font:inherit;cursor:pointer}button[aria-pressed=true]{color:white;background:#97153a;border-color:#97153a}.abrir{text-decoration:none;margin-left:auto}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #deaf48;outline-offset:3px}.ajustes{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:14px 0}.ajustes label{display:flex;align-items:center;gap:10px}.panel{border:1px solid #ced5c8;border-radius:12px;background:#e4e9de;padding:12px;overflow:auto}.mapa{position:relative;width:100%;min-width:600px;line-height:0}.mapa img{width:100%;height:auto;display:block}.superior{position:absolute;inset:0;clip-path:inset(0 50% 0 0)}.corte{position:absolute;top:0;bottom:0;left:50%;width:3px;background:#97153a;box-shadow:0 0 0 1px white}.pie{font-size:.9rem;color:#4a5c4d;line-height:1.5}.cambios{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,285px),1fr));gap:15px;margin:26px 0}.cambios article{padding:19px;background:white;border:1px solid #d5ddd1;border-radius:12px}.cambios h2{font-size:1.1rem;margin:0 0 .65em}.cambios p{line-height:1.55;margin:0;color:#526056}.cambios .fuente{font-size:.87rem;margin-top:13px}.galeria{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;margin:18px 0 28px}.galeria figure{min-width:0;margin:0;background:white;border:1px solid #d5ddd1;border-radius:12px;overflow:hidden}.galeria img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;background:#e4e9de}.galeria figcaption{padding:15px;line-height:1.5;font-size:.92rem;color:#526056}.galeria strong{display:block;color:#23382c;margin-bottom:4px}.titulo-seccion{font-size:1.45rem;margin:32px 0 8px}.limites,.estado,.fuentes{max-width:1000px;line-height:1.6;font-size:.94rem;color:#526056}.estado{border-left:3px solid #97153a;padding:8px 15px;background:#fff}.fuentes a{display:inline-block;margin:0 15px 8px 0}[hidden]{display:none!important}@media(max-width:760px){main{padding:22px 14px}.galeria{grid-template-columns:1fr}.abrir{margin-left:0}.mapa{min-width:100%}.ajustes label{flex-wrap:wrap}.galeria img{aspect-ratio:16/9}}
+</style>
+<main>
+<div class="fecha">Revisión para Gabriel · 17 de noviembre de 2026</div>
+<h1>UAM Azcapotzalco</h1>
+<p class="intro">Las fotografías de ambos corpus ahora se reflejan en más partes del modelo: cubierta y mesas del patio de P4, conexiones de acero amarillas, invernadero de P2 y mobiliario de las plazas. Se conserva la base de Gemini junto con las correcciones de estacionamientos, entradas y acabados de W y P1.</p>
+<p class="estado">Envío al mismo PR #23 autorizado para revisión. La próxima actualización de Google Play todavía no se prepara; el entrenamiento y la versión 0.5.0 se conservan.</p>
+<nav aria-label="Comparar versiones">
+ <button id="actual" aria-pressed="true">Revisión actual</button>
+ <button id="antes" aria-pressed="false">Base de Gemini</button>
+ <button id="comparar" aria-pressed="false">Comparar</button>
+ <a class="abrir" href="index.html">Abrir modelo 3D ↗</a>
+</nav>
+<div class="ajustes">
+ <label id="cortina" hidden>Antes / después <input id="division" type="range" min="0" max="100" value="50" aria-label="División de comparación"></label>
+ <button id="alejar" aria-label="Alejar plano">−</button><span id="zoomEstado" aria-live="polite">100 %</span><button id="acercar" aria-label="Acercar plano">+</button><button id="ajustar">Ajustar</button>
+</div>
+<div class="panel" id="panel">
+ <div class="mapa" id="mapa">
+  <img id="fondo" src="plano_2d_sin_marca.png" alt="Plano revisado de UAM Azcapotzalco, con edificios, jardines, plazas, canchas y estacionamientos">
+  <div class="superior" id="superior" hidden><img src="plano_2d_sin_marca.png" alt="Revisión actual, lado izquierdo de la comparación"></div>
+  <div class="corte" id="corte" hidden></div>
+ </div>
+</div>
+<p class="pie" id="leyenda" aria-live="polite">Revisión actual · Mismo encuadre y ubicación que la base de Gemini. Usa + para acercar y desplázate por el plano.</p>
+<section class="cambios" aria-label="Qué se mejoró">
+ <article><h2>Estacionamientos despejados</h2><p>Los cajones, topes, camellones y carriles respetan edificios, esculturas y pasos peatonales. Las líneas conservan el grosor necesario para verse en el plano. No se asignan automáticamente plazas reservadas sin confirmar su ubicación.</p></article>
+ <article><h2>Entradas coherentes con las rutas</h2><p>Se abren las interrupciones necesarias en los antepechos de planta baja, el volumen bajo de W y el parasol inferior de T. Se conserva íntegra la pilastra de G, retraída respecto de la aproximación existente.</p></article>
+ <article><h2>Acabados del corpus</h2><p>W incorpora juntas de sus paneles de concreto, recortadas alrededor de las ventanas. En P1 se completa la retícula vertical del revestimiento cerámico azul. Las demás mejoras de Gemini se conservan.</p></article>
+ <article><h2>Patio de estudio de P4</h2><p>La losa opaca da paso a una cubierta traslúcida con bordes curvos, tubos rojos y cerchas. Las mesas macizas se reconstruyen con tablero, bancos y bastidor abierto, conservando sus ubicaciones.</p><p class="fuente"><a href="AMPLIACION_ARQUITECTURA_CORPUS_2026-11-17.md">Fotos 0016, 0021 y 0032 · evidencia y cambios</a></p></article>
+ <article><h2>Invernadero de P2</h2><p>Se distinguen los cerramientos traslúcidos, el techo a dos aguas y los bastidores blancos abiertos. La reconstrucción conserva la forma del recinto; su ubicación esquemática se corrige junto a P2 para separarlo de O y de las rampas.</p><p class="fuente"><a href="AMPLIACION_ARQUITECTURA_CORPUS_2026-11-17.md">Fotos 0036 y 0047 · evidencia y cambios</a></p></article>
+ <article><h2>Conexiones amarillas de P4</h2><p>El exhibidor incorpora perfiles I abiertos, placas de unión, rigidizadores y pernos. Se mantienen la base y la diagonal, sin atribuirle un título artístico o autor no confirmado.</p><p class="fuente"><a href="AMPLIACION_ARQUITECTURA_CORPUS_2026-11-17.md">Foto 0019 · evidencia y cambios</a></p></article>
+ <article><h2>Plazas y mobiliario</h2><p>Los botes de Plaza Roja ganan tapas y bocas de depósito; se añade una mesa hexagonal con asientos. J incorpora losetas, franjas y delimitadores del jardín, con bancas apoyadas y un arco reubicado dentro del pavimento para despejar la ruta. COSEI incorpora una rejilla circular.</p><p class="fuente"><a href="ENTORNO_CORPUS_2026-11-17.md">Corpus de alumnos y colección web · evidencia y posiciones aproximadas</a></p></article>
+</section>
+<h2 class="titulo-seccion">Los detalles en el modelo</h2>
+<p class="pie">Capturas de la revisión 3D. Abre cada imagen para verla completa; las referencias fotográficas están enlazadas en los documentos de evidencia.</p>
+<section class="galeria" aria-label="Capturas del modelo revisado">
+ <figure><a href="revision-2026-11-17/P4_patio.jpg"><img src="revision-2026-11-17/P4_patio.jpg" alt="Modelo del patio P4 con cubierta traslúcida, entramado rojo y mesas de estudio" loading="lazy"></a><figcaption><strong>P4 · Patio de estudio</strong>Cubierta ligera y mobiliario abierto, reconstruidos a partir de las fotografías del corpus.</figcaption></figure>
+ <figure><a href="revision-2026-11-17/P4_acero.jpg"><img src="revision-2026-11-17/P4_acero.jpg" alt="Detalle del exhibidor amarillo de P4 con perfiles I, placas, rigidizadores y pernos" loading="lazy"></a><figcaption><strong>P4 · Conexiones de acero</strong>La sección abierta de los perfiles y las uniones reemplazan la aproximación de bloques macizos.</figcaption></figure>
+ <figure><a href="revision-2026-11-17/P2_invernadero.jpg"><img src="revision-2026-11-17/P2_invernadero.jpg" alt="Modelo del invernadero junto a P2 con paños traslúcidos, techo a dos aguas y bastidores blancos" loading="lazy"></a><figcaption><strong>P2 · Invernadero</strong>Paneles traslúcidos y bastidores abiertos. Su posición esquemática se corrige para evitar O, columnas y rampas.</figcaption></figure>
+</section>
+<h2 class="titulo-seccion">Evidencia para revisar</h2>
+<div class="fuentes"><a href="AMPLIACION_ARQUITECTURA_CORPUS_2026-11-17.md">Arquitectura de P4 y P2</a><a href="ENTORNO_CORPUS_2026-11-17.md">Entorno y plazas</a><a href="EVIDENCIA_DETALLES_2026-11-17.md">Acabados de W y P1</a><a href="ACCESOS_MODELADOS_2026-11-17.md">Entradas y pasillos</a><a href="REVISION_MAPA_2026-11-17.md">Informe de la revisión</a></div>
+<p class="limites">Las huellas de los edificios, las rutas y la georreferencia permanecen iguales. Los detalles y sus dimensiones son aproximaciones visuales: las fotos no constituyen un levantamiento topográfico ni certifican accesibilidad. La mesa de Plaza Roja, los delimitadores y la rejilla se sitúan de forma esquemática dentro de superficies existentes; sus ubicaciones no son mediciones de campo. El corpus maestro y las fotos privadas no se incorporan a esta página.</p>
+</main>
+<script>
+let modo='actual',zoom=1;const $=id=>document.getElementById(id),base='revision-2026-11-17/base_gemini.png',revision='plano_2d_sin_marca.png';
+function mostrar(elegido){modo=elegido;for(const id of ['actual','antes','comparar'])$(id).setAttribute('aria-pressed',String(id===modo));$('fondo').src=modo==='actual'?revision:base;$('fondo').alt=modo==='actual'?'Plano revisado de UAM Azcapotzalco':'Plano de UAM Azcapotzalco en la base de Gemini';for(const id of ['superior','corte','cortina'])$(id).hidden=modo!=='comparar';$('leyenda').textContent=modo==='comparar'?'Izquierda: revisión actual · Derecha: base de Gemini. Desliza el control para comparar.':modo==='actual'?'Revisión actual · Mismo encuadre y ubicación que la base de Gemini. Usa + para acercar y desplázate por el plano.':'Base de Gemini · Se conserva como referencia de los cambios de esta revisión.';}
+for(const id of ['actual','antes','comparar'])$(id).onclick=()=>mostrar(id);
+$('division').oninput=e=>{const v=Number(e.target.value);$('superior').style.clipPath=`inset(0 ${100-v}% 0 0)`;$('corte').style.left=v+'%';};
+function escalar(v){zoom=Math.max(1,Math.min(4,v));$('mapa').style.width=(100*zoom)+'%';$('zoomEstado').textContent=Math.round(zoom*100)+' %';}
+$('acercar').onclick=()=>escalar(zoom+.5);$('alejar').onclick=()=>escalar(zoom-.5);$('ajustar').onclick=()=>{escalar(1);$('panel').scrollTo(0,0);};
+</script>
+</html>

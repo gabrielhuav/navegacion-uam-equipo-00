@@ -1,0 +1,27 @@
+# Jardín J–K, fachada de Q y llegada por Puerta 6
+
+22 de noviembre de 2026 · Actualización del [PR #23](https://github.com/gabrielhuav/navegacion-uam-equipo-00/pull/23).
+
+[Comparación antes y después de los tres sectores](../docs/capturas/azc-jk-q-puerta6-antes-despues.jpg), con los mismos encuadres del visor.
+
+## J y K · Recorrido, niveles y jardín
+
+En el recorrido general de Panteras Al Rescate se seleccionó **1440s60**, la calidad máxima del reproductor. Al girar desde la galería de J en 8:03–8:10 se distinguen el césped, los setos recortados y un grupo de yucas frente a K. El recorrido de CyAD también se abrió con su opción máxima de **2160s 4K**. Los videos se publicaron en 2021. El modelo incorpora los setos, el césped y las yucas en el jardín. Sus posiciones, tamaños y siluetas son aproximados. [Recorrido general, 8:03](https://www.youtube.com/watch?v=rU-4eFuBX2g&t=483s) · [Recorrido CyAD](https://www.youtube.com/watch?v=JhLh5uNsGf0) · [Ortofoto junto a J y K](https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/19/233175/117692).
+
+**Piso y apertura del paso.** El plano de Protección Civil muestra el encuentro en planta. El levantamiento publicado para el drenaje de K reproduce la azotea y menciona las plantas arquitectónicas que consultó. En las fuentes públicas consultadas falta una planta por pisos que ubique los dos umbrales del paso. Las fotos institucionales de mayo de 2026 confirman los sanitarios de J en planta baja. Las de K del congreso de octubre muestran su pasillo, sin vista al enlace desde J. El comunicado del 19 de noviembre indica que ese día seguía el paro del alumnado. Quedan por confirmar el nivel de la unión y el cruce peatonal público. La ruta entre J y K sigue por el exterior, con 81.98 m entre accesos. [Plano de Protección Civil](https://www.azc.uam.mx/docs/proteccioncivil/PlanoPuntosReunionUAMA.pdf) · [Estudio pluvial de E, K y P, §2.2.2 y §3.2.1](https://studylib.es/doc/4742428/proyecto-de-integraci%C3%B3n-en-ingenier%C3%ADa-civil--dise%C3%B1o) · [Fotos de J, p. 7](https://www.azc.uam.mx/CasaAbiertaAlDialogo/Mantenimiento_SANITARIOS(1).pdf#page=7) · [Pasillo de K en octubre](https://sociologia.azc.uam.mx/images/2026/10/15/sms_1.jpg) · [Comunicado del 19 de noviembre](https://www.azc.uam.mx/CasaAbiertaAlDialogo/Comunicado%2019%20de%20noviembre.pdf).
+
+El buscador incorpora **J · Sanitarios** y **K‑001 · Auditorio / Sala audiovisual**, ambos en planta baja, y **K · Coordinación de Estudios de Posgrado de CBI** en el tercer piso. Cada ruta termina en el acceso ya modelado del edificio y señala el piso del destino. [Sanitarios de J, p. 7](https://www.azc.uam.mx/CasaAbiertaAlDialogo/Mantenimiento_SANITARIOS(1).pdf#page=7) · [Convocatoria de K‑001](https://www.comecso.com/eventos/organizaciones-de-la-administracion-publica-y-la-implementacion-de-programas) · [Conexión CBI, p. 6](https://dcbi.azc.uam.mx/media/ConexionCBI/conexionCBI_33.pdf#page=6).
+
+## Q · Fachada hacia el campo y letrero de pesas
+
+La foto original de la inauguración del riego, el 22 de abril de 2024, muestra el frente de Q de extremo a extremo. Permitió reemplazar la hilera regular de paneles por un muro gris con vanos distintos, un cancel blanco, una marquesina curva en el tercio izquierdo y la **q** en relieve hacia el extremo derecho, vista desde el campo. La composición y las medidas vienen de una vista oblicua. La Universidad reporta la renovación de las ventanas del gimnasio en agosto y septiembre de 2026. El detalle de la maqueta se fecha según la toma de 2024. [Aleph 364, p. 13](https://kali.azc.uam.mx/aleph/numeros/aleph364.pdf#page=13) · [Respuesta institucional de noviembre, p. 6](https://www.azc.uam.mx/CasaAbiertaAlDialogo/RPP_UAMAZC.2NOV.pdf#page=6).
+
+Las fotos de la publicación, las de Actividades Deportivas y las del corpus permiten reconocer la fachada, sin leer un rótulo de pesas asociado a una hoja. La memoria fotográfica sanitaria de 2026 no incluye Q. La app mantiene la llegada aproximada a la fachada del campo en **n115**. [Actividades Deportivas](https://csu.azc.uam.mx/deportivas/) · [Memoria fotográfica de sanitarios](https://www.azc.uam.mx/CasaAbiertaAlDialogo/Mantenimiento_SANITARIOS(1).pdf).
+
+## Puerta 6 · Llegada de Eje 5 Norte
+
+El plano de Protección Civil identifica este acceso y Gestión Ambiental registra ahí el Sendero Interpretativo 4. La ortofoto muestra una superficie clara que se abre hacia el interior y grupos de copas en los bordes. El modelo ahora dibuja el ensanche pavimentado, su unión con el andador existente y los jardines a ambos lados. Los límites bajo el arbolado son aproximados. El buscador muestra **Puerta 6 · Eje 5 Norte (P3)** con el ID `ACCESO_P3` y la llegada existente `n93`. [Protección Civil](https://www.azc.uam.mx/docs/proteccioncivil/PlanoPuntosReunionUAMA.pdf) · [Sendero Interpretativo 4](https://gestion-ambiental.azc.uam.mx/IMAGES/senderosI/Sen_04-8.png) · [Ortofoto del acceso](https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/19/233173/117689).
+
+## Verificación
+
+Se regeneraron el visor portátil y las variantes con y sin marca del plano y el modelo. La red conserva sus 124 nodos y 131 tramos y pasa de 94 a 97 destinos. Los PNG conservan los 1560 × 640 píxeles y la georreferencia. Pasaron el contrato del visor, las pruebas geométricas y de Android y las auditorías de intersección a 1, 1.8 y 2.2 m. Los seis recursos de Azcapotzalco del APK de depuración coinciden con sus exportaciones canónicas.

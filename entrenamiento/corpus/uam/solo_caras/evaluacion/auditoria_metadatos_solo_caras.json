@@ -1,0 +1,21 @@
+{
+  "auditoria": "independiente_local_sin_modelos",
+  "imagenes_esperadas": 157,
+  "originales_sin_cambios_sha256": 157,
+  "archivos_protegidos_esperados": 55,
+  "archivos_protegidos_sin_cambios_sha256": 55,
+  "png_verificados_incluidas_laminas": 167,
+  "chunks_png_encontrados": [
+    "IDAT",
+    "IEND",
+    "IHDR"
+  ],
+  "archivos_texto_publico_revisados": 19,
+  "bytes_texto_revisados": 10296259,
+  "filas_manifiesto": 157,
+  "grupos_evaluacion_opacos": 24,
+  "sha256_publicos_solo_derivados": true,
+  "hallazgos_por_tipo": {},
+  "resultado": "sin_hallazgos",
+  "limite": "Verifica metadatos, estructura y coincidencias textuales privadas conocidas. No certifica ausencia visual de personas o identificadores; requiere revision manual de cada imagen."
+}

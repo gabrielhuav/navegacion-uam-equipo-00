@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "technical_approval": true,
+  "candidate_outer_evaluation_run": false,
+  "outer_queries_evaluated": 0,
+  "context": "retrospective_nested_internal_validation_not_external_blind_test",
+  "partial_preflight": false,
+  "checks": {
+    "inputs": {
+      "campuses": {
+        "azc": {
+          "native_photos": 143,
+          "native_groups": 23,
+          "legacy_unique_photos": 117,
+          "actual_rows": 118,
+          "anchored_photos": 299
+        },
+        "escom": {
+          "native_photos": 74,
+          "native_groups": 16,
+          "legacy_unique_photos": 42,
+          "actual_rows": 99,
+          "anchored_photos": 151
+        }
+      },
+      "source_aliases_checked": 463
+    },
+    "group_exclusion": {
+      "bundles_checked": 1131
+    },
+    "train_only": {
+      "query_feature_mutation_invariant": true,
+      "train_unique_photos": 133
+    },
+    "teacher_only_comparator": {
+      "azc": {
+        "human_reference_photos": 143,
+        "excluded_group_pairs_checked": 23,
+        "native_labels_and_vectors_identical": true
+      },
+      "escom": {
+        "human_reference_photos": 74,
+        "excluded_group_pairs_checked": 16,
+        "native_labels_and_vectors_identical": true
+      }
+    },
+    "objective": {
+      "outer_rows_rejected_for_selection": true,
+      "unsupported_visible": true,
+      "duplicate_photo_rejected": true,
+      "class5_supported_fixture_preserved": true
+    },
+    "inner_outer_mutation": {
+      "azc": {
+        "all_recipes": 29,
+        "inner_score_calls": 1278,
+        "outer_label_feature_mutation_invariant": true,
+        "teacher_comparator_mutation_invariant": true,
+        "outer_queries_evaluated": 0
+      },
+      "escom": {
+        "all_recipes": 29,
+        "inner_score_calls": 872,
+        "outer_label_feature_mutation_invariant": true,
+        "teacher_comparator_mutation_invariant": true,
+        "outer_queries_evaluated": 0
+      }
+    }
+  },
+  "failures": [],
+  "stable_bytes_during_verification": true,
+  "runtime": {
+    "python": "3.12.4",
+    "numpy": "1.26.4"
+  },
+  "sha256": {
+    "protocol": "a04dbd52ab84e4c37fd508ecf2435a4194b7d9fa20c95338a77218659f5693e5",
+    "driver": "5b88b078ce07bd29c3abd415164d5e4c6d4769277a9e1dd3bfe2d93cd99f56ab",
+    "objective": "4f32f8ba9512474e5c24a3431493cd841e6b4fac8280cf217a5ef97830e0e130",
+    "verifier": "421e8bdca844b01b65322aafa33eb86a019e865d1a774695731a622f25223d4c",
+    "metadata": "8becb5ce6fae7c0ee0892e6ee5e10ca2599b6f00655fb5662f8802919ad4d14e",
+    "npz": "93d4e07b2b44641dab5b87c18109b1d5b0873a781b73ede8f876c119bb405d0a"
+  }
+}

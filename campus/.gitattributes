@@ -1,0 +1,6 @@
+# Los módulos se incrustan en base64 dentro del visor portátil. Mantener LF en
+# la fuente y el HTML permite comprobar igualdad de bytes en Windows y Linux.
+*.js text eol=lf
+*.mjs text eol=lf
+*.html text eol=lf
+*.glb binary

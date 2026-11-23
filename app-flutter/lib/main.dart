@@ -163,6 +163,7 @@ class _PantallaMapaState extends State<PantallaMapa> {
       setState(() {
         _irALaSede = true;
         _ruta = null; // la ruta era del otro campus
+        _rutaTexto = '';
       });
       if (_vista != Vista.tresD) {
         _mapa.move(u.centro, 17);
@@ -177,7 +178,7 @@ class _PantallaMapaState extends State<PantallaMapa> {
     final red = _red;
     if (red == null) return;
     final elegido = await elegirRuta(context, red, lugar: _sede.titulo, conUbicacion: yo != null);
-    if (elegido == null || !mounted) return;
+    if (elegido == null || !mounted || _red != red) return;
     final (desde, hasta) = elegido;
     final calculada = desde == null
         ? red.rutaDesde(yo!, hasta)
@@ -185,12 +186,22 @@ class _PantallaMapaState extends State<PantallaMapa> {
             final r? => (r, false),
             null => null,
           };
+    final llegada = red.destinos.where((d) => d.id == hasta.edificio).firstOrNull;
+    final acceso = red.destinos.where((d) => d.id == calculada?.$1.inicioAcceso).firstOrNull;
     setState(() {
       _ruta = calculada?.$1;
       _rutaTexto = switch (calculada) {
-        (final r, final porAcceso) =>
-          'Ruta a ${hasta.nombre}: ${r.metros.round()} m · ${r.minutos} min a pie'
-              '${porAcceso ? ' (desde el acceso más cercano)' : ''}',
+        (final r, final porAcceso) => [
+          'Ruta a ${llegada == null ? hasta.nombre : '${llegada.nombre}, hasta el acceso'}'
+              ' · ${r.metros.round()} m · ${r.minutos} min a pie',
+          if (acceso != null) 'Inicio en ${acceso.nombre}.',
+          if (porAcceso && acceso == null) 'Inicio en el acceso más cercano.',
+          if (r.incluyeEscaleras) 'El recorrido incluye escaleras.',
+          if (hasta.piso case final piso?) '${hasta.nombre} · $piso',
+          ?hasta.referencia,
+        ].join('\n'),
+        null when desde == null && red.perimetro.length >= 3 =>
+          'No pudimos situar tu inicio en la red peatonal. Elige un origen en el campus.',
         null => 'No hay camino hacia ${hasta.nombre}.',
       };
       _irALaSede = true;
@@ -401,7 +412,7 @@ class _PantallaMapaState extends State<PantallaMapa> {
                             children: [
                               Text('Campus UAM', style: texto.titleLarge),
                               Text(yo != null ? describir(yo, sede) : _ubicacion.mensaje, style: texto.bodyMedium),
-                              if (_ruta != null)
+                              if (_rutaTexto.isNotEmpty)
                                 Text(_rutaTexto, style: texto.bodyMedium?.copyWith(color: colores.primary)),
                               const SizedBox(height: 8),
                               // Mapa real con el plano encima, solo el plano, o el modelo 3D.
@@ -494,7 +505,12 @@ class _PantallaMapaState extends State<PantallaMapa> {
                 if (_red != null)
                   FloatingActionButton.extended(
                     heroTag: 'ruta',
-                    onPressed: _ruta != null ? () => setState(() => _ruta = null) : () => _pedirRuta(yo),
+                    onPressed: _ruta != null
+                        ? () => setState(() {
+                            _ruta = null;
+                            _rutaTexto = '';
+                          })
+                        : () => _pedirRuta(yo),
                     label: Text(_ruta == null ? 'Ruta' : 'Quitar ruta'),
                   ),
                 FloatingActionButton.extended(

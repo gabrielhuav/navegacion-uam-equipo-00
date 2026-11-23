@@ -1,0 +1,2684 @@
+{
+  "provenance": "Target node transforms and geometry bounds captured from actual pre-expansion exported GLB; no photographs or corpus metadata.",
+  "sourceGlbSha256": "ba62c811e34944853f6c3a09a9d4f1ee27616b14e1571a8b0eaf3cad3138f73f",
+  "parts": [
+    {
+      "building": {
+        "name": "Edificio_P4",
+        "extras": {
+          "id": "P4",
+          "name": "P4 · Aulas y laboratorios (P-4)",
+          "floors": 4,
+          "approximate": true
+        }
+      },
+      "part": {
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          202.94610778443115,
+          0,
+          42.31736526946108,
+          1
+        ],
+        "name": "P4_volumen_0"
+      },
+      "children": [
+        {
+          "matrix": [
+            12.607185628742513,
+            0,
+            0,
+            0,
+            0,
+            0.95,
+            0,
+            0,
+            0,
+            0,
+            52.93053892215569,
+            0,
+            0,
+            1.1,
+            0,
+            1
+          ],
+          "name": "P4_franja_terracota",
+          "bounds": [
+            [
+              -0.5,
+              -0.5,
+              -0.5
+            ],
+            [
+              0.5,
+              0.5,
+              0.5
+            ]
+          ],
+          "material": {
+            "alphaMode": "OPAQUE",
+            "pbr": {
+              "baseColorFactor": [
+                0.46778379610254284,
+                0.08650046202808521,
+                0.057805430183792694,
+                1
+              ],
+              "metallicFactor": 0,
+              "roughnessFactor": 0.88
+            }
+          }
+        },
+        {
+          "matrix": [
+            12.607185628742513,
+            0,
+            0,
+            0,
+            0,
+            0.95,
+            0,
+            0,
+            0,
+            0,
+            52.93053892215569,
+            0,
+            0,
+            4.4,
+            0,
+            1
+          ],
+          "name": "P4_franja_terracota",
+          "bounds": [
+            [
+              -0.5,
+              -0.5,
+              -0.5
+            ],
+            [
+              0.5,
+              0.5,
+              0.5
+            ]
+          ],
+          "material": {
+            "alphaMode": "OPAQUE",
+            "pbr": {
+              "baseColorFactor": [
+                0.46778379610254284,
+                0.08650046202808521,
+                0.057805430183792694,
+                1
+              ],
+              "metallicFactor": 0,
+              "roughnessFactor": 0.88
+            }
+          }
+        },
+        {
+          "matrix": [
+            12.607185628742513,
+            0,
+            0,
+            0,
+            0,
+            0.95,
+            0,
+            0,
+            0,
+            0,
+            52.93053892215569,
+            0,
+            0,
+            7.699999999999999,
+            0,
+            1
+          ],
+          "name": "P4_franja_terracota",
+          "bounds": [
+            [
+              -0.5,
+              -0.5,
+              -0.5
+            ],
+            [
+              0.5,
+              0.5,
+              0.5
+            ]
+          ],
+          "material": {
+            "alphaMode": "OPAQUE",
+            "pbr": {
+              "baseColorFactor": [
+                0.46778379610254284,
+                0.08650046202808521,
+                0.057805430183792694,
+                1
+              ],
+              "metallicFactor": 0,
+              "roughnessFactor": 0.88
+            }
+          }
+        },
+        {
+          "matrix": [
+            12.607185628742513,
+            0,
+            0,
+            0,
+            0,
+            0.95,
+            0,
+            0,
+            0,
+            0,
+            52.93053892215569,
+            0,
+            0,
+            10.999999999999998,
+            0,
+            1
+          ],
+          "name": "P4_franja_terracota",
+          "bounds": [
+            [
+              -0.5,
+              -0.5,
+              -0.5
+            ],
+            [
+              0.5,
+              0.5,
+              0.5
+            ]
+          ],
+          "material": {
+            "alphaMode": "OPAQUE",
+            "pbr": {
+              "baseColorFactor": [
+                0.46778379610254284,
+                0.08650046202808521,
+                0.057805430183792694,
+                1
+              ],
+              "metallicFactor": 0,
+              "roughnessFactor": 0.88
+            }
+          }
+        },
+        {
+          "matrix": [
+            6.4,
+            0,
+            0,
+            0,
+            0,
+            0.22,
+            0,
+            0,
+            0,
+            0,
+            32.69293413173653,
+            0,
+            -9.503592814371258,
+            3.45,
+            0,
+            1
+          ],
+          "name": "P4_patio_cubierto_estudio",
+          "bounds": [
+            [
+              -0.5,
+              -0.5,
+              -0.5
+            ],
+            [
+              0.5,
+              0.5,
+              0.5
+            ]
+          ],
+          "material": {
+            "alphaMode": "OPAQUE",
+            "pbr": {
+              "baseColorFactor": [
+                0.46207699964472876,
+                0.030713443727452196,
+                0.025186859622305935,
+                1
+              ],
+              "metallicFactor": 0,
+              "roughnessFactor": 0.88
+            }
+          }
+        },
+        {
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -9.503592814371258,
+            0.18,
+            0,
+            1
+          ],
+          "name": "P4_piso_circular_patio",
+          "bounds": [
+            [
+              -2.880000114440918,
+              -0.07000000029802322,
+              -2.880000114440918
+            ],
+            [
+              2.880000114440918,
+              0.07000000029802322,
+              2.880000114440918
+            ]
+          ],
+          "material": {
+            "alphaMode": "OPAQUE",
+            "pbr": {
+              "baseColorFactor": [
+                0.46207699964472876,
+                0.13013647668074665,
+                0.08437621153575764,
+                1
+              ],
+              "metallicFactor": 0,
+              "roughnessFactor": 0.88
+            }
+          }
+        },
+        {
+          "matrix": [
+            0.24,
+            0,
+            0,
+            0,
+            0,
+            3.4,
+            0,
+            0,
+            0,
+            0,
+            0.24,
+            0,
+            -12.191592814371258,
+            1.72,
+            -13.731032335329342,
+            1
+          ],
+          "name": "P4_columna_patio",
+          "bounds": [
+            [
+              -0.5,
+              -0.5,
+              -0.5
+            ],
+            [
+              0.5,
+              0.5,
+              0.5
+            ]
+          ],
+          "material": {
+            "alphaMode": "OPAQUE",
+            "pbr": {
+              "baseColorFactor": [
+                0.4793201830913402,
+                0.02217388478862708,
+                0.028426039499072558,
+                1
+              ],
+              "metallicFactor": 0,
+              "roughnessFactor": 0.88
+            }
+          }
+        },
+        {
+          "matrix": [
+            1.4,
+            0,
+            0,
+            0,
+            0,
+            0.75,
+            0,
+            0,
+            0,
+            0,
+            1.8,
+            0,
+            -9.503592814371258,
+            0.45,
+            -13.731032335329342,
+            1
+          ],
+          "name": "P4_mesa_estudio",
+          "bounds": [
+            [
+              -0.5,
+              -0.5,
+              -0.5
+            ],
+            [
+              0.5,
+              0.5,
+              0.5
+            ]
+          ],
+          "material": {
+            "alphaMode": "OPAQUE",
+            "pbr": {
+              "baseColorFactor": [
+                0.5775804404214573,
+                0.5647115056965487,
+                0.4910208498384856,
+                1
+              ],
+              "metallicFactor": 0,
+              "roughnessFactor": 0.88
+            }
+          }
+        },
+        {
+          "matrix": [
+            0.24,
+            0,
+            0,
+            0,
+            0,
+            0.24,
+            0,
+            0,
+            0,
+            0,
+            0.24,
+            0,
+            -9.503592814371258,
+            3.1,
+            -13.731032335329342,
+            1
+          ],
+          "name": "P4_luminaria_globo",
+          "bounds": [
+            [
+              -1,
+              -1,
+              -1
+            ],
+            [
+              1,
+              1,
+              1
+            ]
+          ],
+          "material": {
+            "alphaMode": "OPAQUE",
+            "pbr": {
+              "baseColorFactor": [
+                0.9301108583738498,
+                0.913098651791473,
+                0.8307698767709715,
+                1
+              ],
+              "metallicFactor": 0,
+              "roughnessFactor": 0.88
+            }
+          }
+        },
+        {
+          "matrix": [
+            0.24,
+            0,
+            0,
+            0,
+            0,
+            3.4,
+            0,
+            0,
+            0,
+            0,
+            0.24,
+            0,
+            -12.191592814371258,
+            1.72,
+            -7.531032335329342,
+            1
+          ],
+          "name": "P4_columna_patio",
+          "bounds": [
+            [
+              -0.5,
+              -0.5,
+              -0.5
+            ],
+            [
+              0.5,
+              0.5,
+              0.5
+            ]
+          ],
+          "material": {
+            "alphaMode": "OPAQUE",
+            "pbr": {
+              "baseColorFactor": [
+                0.4793201830913402,
+                0.02217388478862708,
+                0.028426039499072558,
+                1
+              ],
+              "metallicFactor": 0,
+              "roughnessFactor": 0.88
+            }
+          }
+        },
+        {
+          "matrix": [
+            1.4,
+            0,
+            0,
+            0,
+            0,
+            0.75,
+            0,
+            0,
+            0,
+            0,
+            1.8,
+            0,
+            -9.503592814371258,
+            0.45,
+            -7.531032335329342,
+            1
+          ],
+          "name": "P4_mesa_estudio",
+          "bounds": [
+            [
+              -0.5,
+              -0.5,
+              -0.5
+            ],
+            [
+              0.5,
+              0.5,
+              0.5
+            ]
+          ],
+          "material": {
+            "alphaMode": "OPAQUE",
+            "pbr": {
+              "baseColorFactor": [
+                0.5775804404214573,
+                0.5647115056965487,
+                0.4910208498384856,
+                1
+              ],
+              "metallicFactor": 0,
+              "roughnessFactor": 0.88
+            }
+          }
+        },
+        {
+          "matrix": [
+            0.24,
+            0,
+            0,
+            0,
+            0,
+            0.24,
+            0,
+            0,
+            0,
+            0,
+            0.24,
+            0,
+            -9.503592814371258,
+            3.1,
+            -7.531032335329342,
+            1
+          ],
+          "name": "P4_luminaria_globo",
+          "bounds": [
+            [
+              -1,
+              -1,
+              -1
+            ],
+            [
+              1,
+              1,
+              1
+            ]
+          ],
+          "material": {
+            "alphaMode": "OPAQUE",
+            "pbr": {
+              "baseColorFactor": [
+                0.9301108583738498,
+                0.913098651791473,
+                0.8307698767709715,
+                1
+              ],
+              "metallicFactor": 0,
+              "roughnessFactor": 0.88
+            }
+          }
+        },
+        {
+          "matrix": [
+            0.24,
+            0,
+            0,
+            0,
+            0,
+            3.4,
+            0,
+            0,
+            0,
+            0,
+            0.24,
+            0,
+            -12.191592814371258,
+            1.72,
+            -1.3310323353293416,
+            1
+          ],
+          "name": "P4_columna_patio",
+          "bounds": [
+            [
+              -0.5,
+              -0.5,
+              -0.5
+            ],
+            [
+              0.5,
+              0.5,
+              0.5
+            ]
+          ],
+          "material": {
+            "alphaMode": "OPAQUE",
+            "pbr": {
+              "baseColorFactor": [
+                0.4793201830913402,
+                0.02217388478862708,
+                0.028426039499072558,
+                1
+              ],
+              "metallicFactor": 0,
+              "roughnessFactor": 0.88
+            }
+          }
+        },
+        {
+          "matrix": [
+            1.4,
+            0,
+            0,
+            0,
+            0,
+            0.75,
+            0,
+            0,
+            0,
+            0,
+            1.8,
+            0,
+            -9.503592814371258,
+            0.45,
+            -1.3310323353293416,
+            1
+          ],
+          "name": "P4_mesa_estudio",
+          "bounds": [
+            [
+              -0.5,
+              -0.5,
+              -0.5
+            ],
+            [
+              0.5,
+              0.5,
+              0.5
+            ]
+          ],
+          "material": {
+            "alphaMode": "OPAQUE",
+            "pbr": {
+              "baseColorFactor": [
+                0.5775804404214573,
+                0.5647115056965487,
+                0.4910208498384856,
+                1
+              ],
+              "metallicFactor": 0,
+              "roughnessFactor": 0.88
+            }
+          }
+        },
+        {
+          "matrix": [
+            0.24,
+            0,
+            0,
+            0,
+            0,
+            0.24,
+            0,
+            0,
+            0,
+            0,
+            0.24,
+            0,
+            -9.503592814371258,
+            3.1,
+            -1.3310323353293416,
+            1
+          ],
+          "name": "P4_luminaria_globo",
+          "bounds": [
+            [
+              -1,
+              -1,
+              -1
+            ],
+            [
+              1,
+              1,
+              1
+            ]
+          ],
+          "material": {
+            "alphaMode": "OPAQUE",
+            "pbr": {
+              "baseColorFactor": [
+                0.9301108583738498,
+                0.913098651791473,
+                0.8307698767709715,
+                1
+              ],
+              "metallicFactor": 0,
+              "roughnessFactor": 0.88
+            }
+          }
+        },
+        {
+          "matrix": [
+            0.24,
+            0,
+            0,
+            0,
+            0,
+            3.4,
+            0,
+            0,
+            0,
+            0,
+            0.24,
+            0,
+            -12.191592814371258,
+            1.72,
+            4.868967664670659,
+            1
+          ],
+          "name": "P4_columna_patio",
+          "bounds": [
+            [
+              -0.5,
+              -0.5,
+              -0.5
+            ],
+            [
+              0.5,
+              0.5,
+              0.5
+            ]
+          ],
+          "material": {
+            "alphaMode": "OPAQUE",
+            "pbr": {
+              "baseColorFactor": [
+                0.4793201830913402,
+                0.02217388478862708,
+                0.028426039499072558,
+                1
+              ],
+              "metallicFactor": 0,
+              "roughnessFactor": 0.88
+            }
+          }
+        },
+        {
+          "matrix": [
+            1.4,
+            0,
+            0,
+            0,
+            0,
+            0.75,
+            0,
+            0,
+            0,
+            0,
+            1.8,
+            0,
+            -9.503592814371258,
+            0.45,
+            4.868967664670659,
+            1
+          ],
+          "name": "P4_mesa_estudio",
+          "bounds": [
+            [
+              -0.5,
+              -0.5,
+              -0.5
+            ],
+            [
+              0.5,
+              0.5,
+              0.5
+            ]
+          ],
+          "material": {
+            "alphaMode": "OPAQUE",
+            "pbr": {
+              "baseColorFactor": [
+                0.5775804404214573,
+                0.5647115056965487,
+                0.4910208498384856,
+                1
+              ],
+              "metallicFactor": 0,
+              "roughnessFactor": 0.88
+            }
+          }
+        },
+        {
+          "matrix": [
+            0.24,
+            0,
+            0,
+            0,
+            0,
+            0.24,
+            0,
+            0,
+            0,
+            0,
+            0.24,
+            0,
+            -9.503592814371258,
+            3.1,
+            4.868967664670659,
+            1
+          ],
+          "name": "P4_luminaria_globo",
+          "bounds": [
+            [
+              -1,
+              -1,
+              -1
+            ],
+            [
+              1,
+              1,
+              1
+            ]
+          ],
+          "material": {
+            "alphaMode": "OPAQUE",
+            "pbr": {
+              "baseColorFactor": [
+                0.9301108583738498,
+                0.913098651791473,
+                0.8307698767709715,
+                1
+              ],
+              "metallicFactor": 0,
+              "roughnessFactor": 0.88
+            }
+          }
+        },
+        {
+          "matrix": [
+            0.24,
+            0,
+            0,
+            0,
+            0,
+            3.4,
+            0,
+            0,
+            0,
+            0,
+            0.24,
+            0,
+            -12.191592814371258,
+            1.72,
+            11.068967664670659,
+            1
+          ],
+          "name": "P4_columna_patio",
+          "bounds": [
+            [
+              -0.5,
+              -0.5,
+              -0.5
+            ],
+            [
+              0.5,
+              0.5,
+              0.5
+            ]
+          ],
+          "material": {
+            "alphaMode": "OPAQUE",
+            "pbr": {
+              "baseColorFactor": [
+                0.4793201830913402,
+                0.02217388478862708,
+                0.028426039499072558,
+                1
+              ],
+              "metallicFactor": 0,
+              "roughnessFactor": 0.88
+            }
+          }
+        },
+        {
+          "matrix": [
+            1.4,
+            0,
+            0,
+            0,
+            0,
+            0.75,
+            0,
+            0,
+            0,
+            0,
+            1.8,
+            0,
+            -9.503592814371258,
+            0.45,
+            11.068967664670659,
+            1
+          ],
+          "name": "P4_mesa_estudio",
+          "bounds": [
+            [
+              -0.5,
+              -0.5,
+              -0.5
+            ],
+            [
+              0.5,
+              0.5,
+              0.5
+            ]
+          ],
+          "material": {
+            "alphaMode": "OPAQUE",
+            "pbr": {
+              "baseColorFactor": [
+                0.5775804404214573,
+                0.5647115056965487,
+                0.4910208498384856,
+                1
+              ],
+              "metallicFactor": 0,
+              "roughnessFactor": 0.88
+            }
+          }
+        },
+        {
+          "matrix": [
+            0.24,
+            0,
+            0,
+            0,
+            0,
+            0.24,
+            0,
+            0,
+            0,
+            0,
+            0.24,
+            0,
+            -9.503592814371258,
+            3.1,
+            11.068967664670659,
+            1
+          ],
+          "name": "P4_luminaria_globo",
+          "bounds": [
+            [
+              -1,
+              -1,
+              -1
+            ],
+            [
+              1,
+              1,
+              1
+            ]
+          ],
+          "material": {
+            "alphaMode": "OPAQUE",
+            "pbr": {
+              "baseColorFactor": [
+                0.9301108583738498,
+                0.913098651791473,
+                0.8307698767709715,
+                1
+              ],
+              "metallicFactor": 0,
+              "roughnessFactor": 0.88
+            }
+          }
+        },
+        {
+          "matrix": [
+            1.2,
+            0,
+            0,
+            0,
+            0,
+            0.12,
+            0,
+            0,
+            0,
+            0,
+            1.2,
+            0,
+            -9.003592814371256,
+            0.18,
+            -20.037604790419163,
+            1
+          ],
+          "name": "P4_base_arbol_acero",
+          "bounds": [
+            [
+              -0.5,
+              -0.5,
+              -0.5
+            ],
+            [
+              0.5,
+              0.5,
+              0.5
+            ]
+          ],
+          "material": {
+            "alphaMode": "OPAQUE",
+            "pbr": {
+              "baseColorFactor": [
+                0.7304607400847158,
+                0.43415363616478553,
+                0.02121901037134225,
+                1
+              ],
+              "metallicFactor": 0,
+              "roughnessFactor": 0.88
+            }
+          }
+        },
+        {
+          "matrix": [
+            0.36,
+            0,
+            0,
+            0,
+            0,
+            2.8,
+            0,
+            0,
+            0,
+            0,
+            0.36,
+            0,
+            -9.003592814371256,
+            1.55,
+            -20.037604790419163,
+            1
+          ],
+          "name": "P4_escultura_amarilla",
+          "bounds": [
+            [
+              -0.5,
+              -0.5,
+              -0.5
+            ],
+            [
+              0.5,
+              0.5,
+              0.5
+            ]
+          ],
+          "material": {
+            "alphaMode": "OPAQUE",
+            "pbr": {
+              "baseColorFactor": [
+                0.7304607400847158,
+                0.43415363616478553,
+                0.02121901037134225,
+                1
+              ],
+              "metallicFactor": 0,
+              "roughnessFactor": 0.88
+            }
+          }
+        },
+        {
+          "matrix": [
+            0.32,
+            0,
+            0,
+            0,
+            0,
+            0.38,
+            0,
+            0,
+            0,
+            0,
+            2.3,
+            0,
+            -9.003592814371256,
+            1.1,
+            -20.037604790419163,
+            1
+          ],
+          "name": "P4_brazo_acero_amarillo",
+          "bounds": [
+            [
+              -0.5,
+              -0.5,
+              -0.5
+            ],
+            [
+              0.5,
+              0.5,
+              0.5
+            ]
+          ],
+          "material": {
+            "alphaMode": "OPAQUE",
+            "pbr": {
+              "baseColorFactor": [
+                0.7304607400847158,
+                0.43415363616478553,
+                0.02121901037134225,
+                1
+              ],
+              "metallicFactor": 0,
+              "roughnessFactor": 0.88
+            }
+          }
+        },
+        {
+          "matrix": [
+            0.32,
+            0,
+            0,
+            0,
+            0,
+            0.38,
+            0,
+            0,
+            0,
+            0,
+            2.3,
+            0,
+            -9.003592814371256,
+            2.2,
+            -20.037604790419163,
+            1
+          ],
+          "name": "P4_brazo_acero_amarillo",
+          "bounds": [
+            [
+              -0.5,
+              -0.5,
+              -0.5
+            ],
+            [
+              0.5,
+              0.5,
+              0.5
+            ]
+          ],
+          "material": {
+            "alphaMode": "OPAQUE",
+            "pbr": {
+              "baseColorFactor": [
+                0.7304607400847158,
+                0.43415363616478553,
+                0.02121901037134225,
+                1
+              ],
+              "metallicFactor": 0,
+              "roughnessFactor": 0.88
+            }
+          }
+        },
+        {
+          "matrix": [
+            0.14,
+            0,
+            0,
+            0,
+            0,
+            0.756279608621603,
+            0.5749270854492375,
+            0,
+            0,
+            -0.08472609680304555,
+            0.11145173179686783,
+            0,
+            -9.003592814371256,
+            0.65,
+            -20.487604790419162,
+            1
+          ],
+          "name": "P4_diagonal_acero_amarillo",
+          "bounds": [
+            [
+              -0.5,
+              -0.5,
+              -0.5
+            ],
+            [
+              0.5,
+              0.5,
+              0.5
+            ]
+          ],
+          "material": {
+            "alphaMode": "OPAQUE",
+            "pbr": {
+              "baseColorFactor": [
+                0.7304607400847158,
+                0.43415363616478553,
+                0.02121901037134225,
+                1
+              ],
+              "metallicFactor": 0,
+              "roughnessFactor": 0.88
+            }
+          }
+        }
+      ]
+    },
+    {
+      "building": {
+        "name": "Edificio_P2",
+        "extras": {
+          "id": "P2",
+          "name": "P2 · Talleres y cubículos de Energía (2P)",
+          "floors": 2,
+          "approximate": true
+        }
+      },
+      "part": {
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          179.46107784431138,
+          0,
+          43.64670658682635,
+          1
+        ],
+        "name": "P2_volumen_0"
+      },
+      "children": [
+        {
+          "name": "P2_AZC_talleres_2P",
+          "extras": {
+            "building": "P2",
+            "floors": 2,
+            "approximate": true,
+            "reference": "Corpus confirmado UAM-A: imagen_0036, 0047, 0048, 0059, 0065, 0088, 0093, 0094"
+          },
+          "children": [
+            {
+              "matrix": [
+                0.82,
+                0,
+                0,
+                0,
+                0,
+                1.5,
+                0,
+                0,
+                0,
+                0,
+                0.82,
+                0,
+                -1.4179640718562874,
+                4.35,
+                37.62754491017964,
+                1
+              ],
+              "name": "P2_tinaco_azotea",
+              "bounds": [
+                [
+                  -0.9749279022216797,
+                  -0.5,
+                  -0.9009688496589661
+                ],
+                [
+                  0.9749279022216797,
+                  0.5,
+                  1
+                ]
+              ],
+              "material": {
+                "alphaMode": "OPAQUE",
+                "pbr": {
+                  "baseColorFactor": [
+                    0.01764195448412081,
+                    0.02121901037134225,
+                    0.025186859622305935,
+                    1
+                  ],
+                  "metallicFactor": 0,
+                  "roughnessFactor": 0.88
+                }
+              }
+            },
+            {
+              "matrix": [
+                3.8,
+                0,
+                0,
+                0,
+                0,
+                2.8,
+                0,
+                0,
+                0,
+                0,
+                6.4,
+                0,
+                -11.162275449101795,
+                1.45,
+                -12.681916167664669,
+                1
+              ],
+              "name": "P2_invernadero_lateral",
+              "bounds": [
+                [
+                  -0.5,
+                  -0.5,
+                  -0.5
+                ],
+                [
+                  0.5,
+                  0.5,
+                  0.5
+                ]
+              ],
+              "material": {
+                "alphaMode": "BLEND",
+                "pbr": {
+                  "baseColorFactor": [
+                    0.6583748172725346,
+                    0.8069522576650873,
+                    0.775822218312646,
+                    0.58
+                  ],
+                  "metallicFactor": 0,
+                  "roughnessFactor": 0.22
+                }
+              }
+            },
+            {
+              "matrix": [
+                3.9,
+                0,
+                0,
+                0,
+                0,
+                2.85,
+                0,
+                0,
+                0,
+                0,
+                0.1,
+                0,
+                -11.162275449101795,
+                1.45,
+                -15.781916167664669,
+                1
+              ],
+              "name": "P2_marco_invernadero",
+              "bounds": [
+                [
+                  -0.5,
+                  -0.5,
+                  -0.5
+                ],
+                [
+                  0.5,
+                  0.5,
+                  0.5
+                ]
+              ],
+              "material": {
+                "alphaMode": "OPAQUE",
+                "pbr": {
+                  "baseColorFactor": [
+                    0.85499260812105,
+                    0.8713671191959567,
+                    0.8387990117372213,
+                    1
+                  ],
+                  "metallicFactor": 0,
+                  "roughnessFactor": 0.88
+                }
+              }
+            },
+            {
+              "matrix": [
+                3.9,
+                0,
+                0,
+                0,
+                0,
+                2.85,
+                0,
+                0,
+                0,
+                0,
+                0.1,
+                0,
+                -11.162275449101795,
+                1.45,
+                -12.681916167664669,
+                1
+              ],
+              "name": "P2_marco_invernadero",
+              "bounds": [
+                [
+                  -0.5,
+                  -0.5,
+                  -0.5
+                ],
+                [
+                  0.5,
+                  0.5,
+                  0.5
+                ]
+              ],
+              "material": {
+                "alphaMode": "OPAQUE",
+                "pbr": {
+                  "baseColorFactor": [
+                    0.85499260812105,
+                    0.8713671191959567,
+                    0.8387990117372213,
+                    1
+                  ],
+                  "metallicFactor": 0,
+                  "roughnessFactor": 0.88
+                }
+              }
+            },
+            {
+              "matrix": [
+                3.9,
+                0,
+                0,
+                0,
+                0,
+                2.85,
+                0,
+                0,
+                0,
+                0,
+                0.1,
+                0,
+                -11.162275449101795,
+                1.45,
+                -9.58191616766467,
+                1
+              ],
+              "name": "P2_marco_invernadero",
+              "bounds": [
+                [
+                  -0.5,
+                  -0.5,
+                  -0.5
+                ],
+                [
+                  0.5,
+                  0.5,
+                  0.5
+                ]
+              ],
+              "material": {
+                "alphaMode": "OPAQUE",
+                "pbr": {
+                  "baseColorFactor": [
+                    0.85499260812105,
+                    0.8713671191959567,
+                    0.8387990117372213,
+                    1
+                  ],
+                  "metallicFactor": 0,
+                  "roughnessFactor": 0.88
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "nearbyObstacleGlbSha256": "05daf9f1d8bd858b384d4235243b7095a4424174c80ff2de223a6f147c3b96cc",
+  "nearbyObstacles": [
+    {
+      "building": "O",
+      "name": "FixtureObstaculo_Cuerpo de concreto",
+      "sourceName": "Cuerpo de concreto",
+      "sourceParent": "O_volumen_0",
+      "matrix": [
+        28.802395209580837,
+        0,
+        0,
+        0,
+        0,
+        3.3,
+        0,
+        0,
+        0,
+        0,
+        19.940119760479043,
+        0,
+        155.75449101796406,
+        1.65,
+        27.694610778443113,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "O",
+      "name": "FixtureObstaculo_Ventana_nivel_0",
+      "sourceName": "Ventana_nivel_0",
+      "sourceParent": "O_volumen_0",
+      "matrix": [
+        27.802395209580837,
+        0,
+        0,
+        0,
+        0,
+        1.15,
+        0,
+        0,
+        0,
+        0,
+        0.1,
+        0,
+        155.75449101796406,
+        2,
+        17.69955089820359,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "O",
+      "name": "FixtureObstaculo_Montante",
+      "sourceName": "Montante",
+      "sourceParent": "O_volumen_0",
+      "matrix": [
+        0.11,
+        0,
+        0,
+        0,
+        0,
+        1.2,
+        0,
+        0,
+        0,
+        0,
+        0.1,
+        0,
+        162.35329341317365,
+        2,
+        17.634550898203592,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "O",
+      "name": "FixtureObstaculo_Montante",
+      "sourceName": "Montante",
+      "sourceParent": "O_volumen_0",
+      "matrix": [
+        0.11,
+        0,
+        0,
+        0,
+        0,
+        1.2,
+        0,
+        0,
+        0,
+        0,
+        0.1,
+        0,
+        165.35329341317365,
+        2,
+        17.634550898203592,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "O",
+      "name": "FixtureObstaculo_Montante",
+      "sourceName": "Montante",
+      "sourceParent": "O_volumen_0",
+      "matrix": [
+        0.11,
+        0,
+        0,
+        0,
+        0,
+        1.2,
+        0,
+        0,
+        0,
+        0,
+        0.1,
+        0,
+        168.35329341317365,
+        2,
+        17.634550898203592,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "O",
+      "name": "FixtureObstaculo_Ventana_nivel_0",
+      "sourceName": "Ventana_nivel_0",
+      "sourceParent": "O_volumen_0",
+      "matrix": [
+        27.802395209580837,
+        0,
+        0,
+        0,
+        0,
+        1.15,
+        0,
+        0,
+        0,
+        0,
+        0.1,
+        0,
+        155.75449101796406,
+        2,
+        37.68967065868264,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "O",
+      "name": "FixtureObstaculo_Montante",
+      "sourceName": "Montante",
+      "sourceParent": "O_volumen_0",
+      "matrix": [
+        0.11,
+        0,
+        0,
+        0,
+        0,
+        1.2,
+        0,
+        0,
+        0,
+        0,
+        0.1,
+        0,
+        162.35329341317365,
+        2,
+        37.754670658682635,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "O",
+      "name": "FixtureObstaculo_Montante",
+      "sourceName": "Montante",
+      "sourceParent": "O_volumen_0",
+      "matrix": [
+        0.11,
+        0,
+        0,
+        0,
+        0,
+        1.2,
+        0,
+        0,
+        0,
+        0,
+        0.1,
+        0,
+        165.35329341317365,
+        2,
+        37.754670658682635,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "O",
+      "name": "FixtureObstaculo_Montante",
+      "sourceName": "Montante",
+      "sourceParent": "O_volumen_0",
+      "matrix": [
+        0.11,
+        0,
+        0,
+        0,
+        0,
+        1.2,
+        0,
+        0,
+        0,
+        0,
+        0.1,
+        0,
+        168.35329341317365,
+        2,
+        37.754670658682635,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "O",
+      "name": "FixtureObstaculo_Ventana_lateral_nivel_0",
+      "sourceName": "Ventana_lateral_nivel_0",
+      "sourceParent": "O_volumen_0",
+      "matrix": [
+        0.1,
+        0,
+        0,
+        0,
+        0,
+        1.15,
+        0,
+        0,
+        0,
+        0,
+        18.940119760479043,
+        0,
+        170.18068862275447,
+        2,
+        27.694610778443113,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "O",
+      "name": "FixtureObstaculo_Acento guinda",
+      "sourceName": "Acento guinda",
+      "sourceParent": "O_volumen_0",
+      "matrix": [
+        1.1,
+        0,
+        0,
+        0,
+        0,
+        3.3,
+        0,
+        0,
+        0,
+        0,
+        0.17,
+        0,
+        169.45568862275448,
+        1.65,
+        37.76467065868263,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "P",
+      "name": "FixtureObstaculo_Cuerpo integrado al pasillo",
+      "sourceName": "Cuerpo integrado al pasillo",
+      "sourceParent": "P_volumen_0",
+      "matrix": [
+        120.97005988023952,
+        0,
+        0,
+        0,
+        0,
+        9.899999999999999,
+        0,
+        0,
+        0,
+        0,
+        11.379640718562875,
+        0,
+        176.5808383233533,
+        4.949999999999999,
+        -0.07065868263473041,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "P",
+      "name": "FixtureObstaculo_Galería_integrada_0",
+      "sourceName": "Galería_integrada_0",
+      "sourceParent": "P_volumen_0",
+      "matrix": [
+        120.97005988023952,
+        0,
+        0,
+        0,
+        0,
+        0.3,
+        0,
+        0,
+        0,
+        0,
+        2.8,
+        0,
+        176.5808383233533,
+        0.19999999999999998,
+        7.019161676646707,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "P",
+      "name": "FixtureObstaculo_Pilar integrado",
+      "sourceName": "Pilar integrado",
+      "sourceParent": "P_volumen_0",
+      "matrix": [
+        0.3,
+        0,
+        0,
+        0,
+        0,
+        9.899999999999999,
+        0,
+        0,
+        0,
+        0,
+        0.35,
+        0,
+        164.48383233532934,
+        4.949999999999999,
+        8.219161676646706,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "P",
+      "name": "FixtureObstaculo_Pilar integrado",
+      "sourceName": "Pilar integrado",
+      "sourceParent": "P_volumen_0",
+      "matrix": [
+        0.3,
+        0,
+        0,
+        0,
+        0,
+        9.899999999999999,
+        0,
+        0,
+        0,
+        0,
+        0.35,
+        0,
+        169.32263473053894,
+        4.949999999999999,
+        8.219161676646706,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "P2",
+      "name": "FixtureObstaculo_P2_marco_ventana_rojo",
+      "sourceName": "P2_marco_ventana_rojo",
+      "sourceParent": "P2_AZC_talleres_2P",
+      "matrix": [
+        0.32,
+        0,
+        0,
+        0,
+        0,
+        1.42,
+        0,
+        0,
+        0,
+        0,
+        2.75,
+        0,
+        170.4388023952096,
+        1.65,
+        14.41916167664671,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "P2",
+      "name": "FixtureObstaculo_Ventana_lateral_nivel_0",
+      "sourceName": "Ventana_lateral_nivel_0",
+      "sourceParent": "P2_AZC_talleres_2P",
+      "matrix": [
+        0.2,
+        0,
+        0,
+        0,
+        0,
+        1.08,
+        0,
+        0,
+        0,
+        0,
+        2.35,
+        0,
+        170.3788023952096,
+        1.65,
+        14.41916167664671,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "P2",
+      "name": "FixtureObstaculo_P2_marco_ventana_rojo",
+      "sourceName": "P2_marco_ventana_rojo",
+      "sourceParent": "P2_AZC_talleres_2P",
+      "matrix": [
+        0.32,
+        0,
+        0,
+        0,
+        0,
+        1.42,
+        0,
+        0,
+        0,
+        0,
+        2.75,
+        0,
+        170.4388023952096,
+        1.65,
+        22.91916167664671,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "P2",
+      "name": "FixtureObstaculo_Ventana_lateral_nivel_0",
+      "sourceName": "Ventana_lateral_nivel_0",
+      "sourceParent": "P2_AZC_talleres_2P",
+      "matrix": [
+        0.2,
+        0,
+        0,
+        0,
+        0,
+        1.08,
+        0,
+        0,
+        0,
+        0,
+        2.35,
+        0,
+        170.3788023952096,
+        1.65,
+        22.91916167664671,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "P2",
+      "name": "FixtureObstaculo_P2_marco_ventana_rojo",
+      "sourceName": "P2_marco_ventana_rojo",
+      "sourceParent": "P2_AZC_talleres_2P",
+      "matrix": [
+        0.32,
+        0,
+        0,
+        0,
+        0,
+        1.42,
+        0,
+        0,
+        0,
+        0,
+        2.75,
+        0,
+        170.4388023952096,
+        1.65,
+        31.41916167664671,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "P2",
+      "name": "FixtureObstaculo_Ventana_lateral_nivel_0",
+      "sourceName": "Ventana_lateral_nivel_0",
+      "sourceParent": "P2_AZC_talleres_2P",
+      "matrix": [
+        0.2,
+        0,
+        0,
+        0,
+        0,
+        1.08,
+        0,
+        0,
+        0,
+        0,
+        2.35,
+        0,
+        170.3788023952096,
+        1.65,
+        31.41916167664671,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "P2",
+      "name": "FixtureObstaculo_P2_marco_ventana_rojo",
+      "sourceName": "P2_marco_ventana_rojo",
+      "sourceParent": "P2_AZC_talleres_2P",
+      "matrix": [
+        0.32,
+        0,
+        0,
+        0,
+        0,
+        1.42,
+        0,
+        0,
+        0,
+        0,
+        2.75,
+        0,
+        170.4388023952096,
+        1.65,
+        56.91916167664671,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "P2",
+      "name": "FixtureObstaculo_Ventana_lateral_nivel_0",
+      "sourceName": "Ventana_lateral_nivel_0",
+      "sourceParent": "P2_AZC_talleres_2P",
+      "matrix": [
+        0.2,
+        0,
+        0,
+        0,
+        0,
+        1.08,
+        0,
+        0,
+        0,
+        0,
+        2.35,
+        0,
+        170.3788023952096,
+        1.65,
+        56.91916167664671,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "P2",
+      "name": "FixtureObstaculo_P2_rampa_taller",
+      "sourceName": "P2_rampa_taller",
+      "sourceParent": "P2_AZC_talleres_2P",
+      "matrix": [
+        2.2971255989084223,
+        -0.11495208932256015,
+        0,
+        0,
+        0.008996250468722098,
+        0.1797750468710939,
+        0,
+        0,
+        0,
+        0,
+        3.6,
+        0,
+        169.3488023952096,
+        0.14,
+        39.14670658682635,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "P2",
+      "name": "FixtureObstaculo_P2_rampa_taller",
+      "sourceName": "P2_rampa_taller",
+      "sourceParent": "P2_AZC_talleres_2P",
+      "matrix": [
+        2.2971255989084223,
+        -0.11495208932256015,
+        0,
+        0,
+        0.008996250468722098,
+        0.1797750468710939,
+        0,
+        0,
+        0,
+        0,
+        3.6,
+        0,
+        169.3488023952096,
+        0.14,
+        48.14670658682635,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "P2",
+      "name": "FixtureObstaculo_P2_columna_marquesina",
+      "sourceName": "P2_columna_marquesina",
+      "sourceParent": "P2_AZC_talleres_2P",
+      "matrix": [
+        0.14,
+        0,
+        0,
+        0,
+        0,
+        3.4,
+        0,
+        0,
+        0,
+        0,
+        0.14,
+        0,
+        168.49880239520957,
+        1.7,
+        21.10107784431138,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "P2",
+      "name": "FixtureObstaculo_P2_columna_marquesina",
+      "sourceName": "P2_columna_marquesina",
+      "sourceParent": "P2_AZC_talleres_2P",
+      "matrix": [
+        0.14,
+        0,
+        0,
+        0,
+        0,
+        3.4,
+        0,
+        0,
+        0,
+        0,
+        0.14,
+        0,
+        168.49880239520957,
+        1.7,
+        29.60107784431138,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "P2",
+      "name": "FixtureObstaculo_P2_columna_marquesina",
+      "sourceName": "P2_columna_marquesina",
+      "sourceParent": "P2_AZC_talleres_2P",
+      "matrix": [
+        0.14,
+        0,
+        0,
+        0,
+        0,
+        3.4,
+        0,
+        0,
+        0,
+        0,
+        0.14,
+        0,
+        168.49880239520957,
+        1.7,
+        38.10107784431138,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "P2",
+      "name": "FixtureObstaculo_P2_columna_marquesina",
+      "sourceName": "P2_columna_marquesina",
+      "sourceParent": "P2_AZC_talleres_2P",
+      "matrix": [
+        0.14,
+        0,
+        0,
+        0,
+        0,
+        3.4,
+        0,
+        0,
+        0,
+        0,
+        0.14,
+        0,
+        168.49880239520957,
+        1.7,
+        46.60107784431138,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    },
+    {
+      "building": "P2",
+      "name": "FixtureObstaculo_P2_columna_marquesina",
+      "sourceName": "P2_columna_marquesina",
+      "sourceParent": "P2_AZC_talleres_2P",
+      "matrix": [
+        0.14,
+        0,
+        0,
+        0,
+        0,
+        3.4,
+        0,
+        0,
+        0,
+        0,
+        0.14,
+        0,
+        168.49880239520957,
+        1.7,
+        55.10107784431138,
+        1
+      ],
+      "bounds": [
+        [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        [
+          0.5,
+          0.5,
+          0.5
+        ]
+      ],
+      "material": {
+        "alphaMode": "OPAQUE"
+      }
+    }
+  ]
+}

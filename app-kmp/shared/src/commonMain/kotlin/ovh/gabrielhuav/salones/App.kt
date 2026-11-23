@@ -58,8 +58,8 @@ expect fun Mapa(centro: Ubicacion, marcador: Ubicacion?, proveedor: Int, centrar
 @Composable
 fun App(
     ubicacion: Ubicacion?, mensaje: String, onUbicar: () -> Unit = {}, redes: Map<Unidad, String> = emptyMap(),
-    // Prototipo 4 · experimento: reconocer el edificio con la cámara, sólo en la ESCOM (por ahora sólo Android).
-    onReconocer: (() -> Unit)? = null, reconocido: Reconocido? = null,
+    // Experimento: reconocer el edificio con la cámara en los campus con galería (por ahora sólo Android).
+    onReconocer: ((Unidad) -> Unit)? = null, reconocido: Reconocido? = null,
 ) {
     val sistemaOscuro = isSystemInDarkTheme()
     // Lo último que se eligió en «Tema ▾»; la primera vez, claro u oscuro como el teléfono.
@@ -84,7 +84,7 @@ fun App(
     LaunchedEffect(reconocido) {
         val r = reconocido ?: return@LaunchedEffect
         sugerido = red?.destinos?.find { it.id == r.destino }
-        if (sede == Unidad.ESCOM && sugerido != null) eligiendoRuta = true
+        if (reconocedorDe(sede) != null && sugerido != null) eligiendoRuta = true
     }
     var hora by remember { mutableStateOf(horaLocal()) }
     LaunchedEffect(Unit) {
@@ -121,8 +121,14 @@ fun App(
                 Row(Modifier.padding(start = 16.dp, end = 4.dp, top = 8.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
                     Column(Modifier.weight(1f)) {
                         Text("Campus UAM", style = MaterialTheme.typography.titleLarge)
-                        Text(ubicacion?.let { describir(it, sede) } ?: mensaje, style = MaterialTheme.typography.bodyMedium)
-                        if (ruta != null) {
+                        Text(ubicacion?.let {
+                            when (red?.ubicacionDentroDelPerimetro(it)) {
+                                true -> "Tu ubicación está dentro de ${sede.titulo}."
+                                false -> "Tu ubicación está fuera de ${sede.titulo}."
+                                null -> describir(it, sede)
+                            }
+                        } ?: mensaje, style = MaterialTheme.typography.bodyMedium)
+                        if (rutaTexto.isNotEmpty()) {
                             Text(rutaTexto, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.primary)
                         }
                         // Mapa real con el plano encima, solo el plano, o el modelo 3D.
@@ -181,7 +187,10 @@ fun App(
             ) {
                 // Rutas: sólo donde hay red de caminos (por ahora Azcapotzalco y ESCOM); desde el P4 también en 3D.
                 if (red != null && (vista != Vista.TRES_D || sede.carpeta != null)) {
-                    ExtendedFloatingActionButton(onClick = { if (ruta == null) { sugerido = null; eligiendoRuta = true } else ruta = null }) {
+                    ExtendedFloatingActionButton(onClick = {
+                        rutaTexto = ""
+                        if (ruta == null) { sugerido = null; eligiendoRuta = true } else ruta = null
+                    }) {
                         Text(if (ruta == null) "Ruta" else "Quitar ruta")
                     }
                 }
@@ -190,8 +199,8 @@ fun App(
                         Text(if (inclinada) "Desde arriba" else "Inclinar")
                     }
                 } else {
-                    if (sede == Unidad.ESCOM && red != null && onReconocer != null) {
-                        ExtendedFloatingActionButton(onClick = onReconocer) { Text("Reconocer edificio") }
+                    if (reconocedorDe(sede) != null && red != null && onReconocer != null) {
+                        ExtendedFloatingActionButton(onClick = { onReconocer(sede) }) { Text("Reconocer edificio") }
                     }
                     ExtendedFloatingActionButton(onClick = { enLaUam = true; centrar++ }) { Text("UAM") }
                     ExtendedFloatingActionButton(onClick = { enLaUam = false; centrar++; onUbicar() }) { Text("Ubicarme") }
@@ -209,9 +218,19 @@ fun App(
                                     else red.rutaMasCorta(desde.nodo, hasta.nodo)?.let { it to false }
                     ruta = calculada?.first
                     rutaTexto = calculada?.let { (r, porAcceso) ->
-                        "Ruta a ${hasta.nombre}: ${r.metros.toInt()} m · ${r.minutos} min a pie" +
-                            if (porAcceso) " (desde el acceso más cercano)" else ""
-                    } ?: "No hay camino hacia ${hasta.nombre}."
+                        buildString {
+                            if (r.metros < 0.5) append("Ya estás en el punto de llegada.")
+                            else append("Ruta a ${hasta.nombre} · ${r.metros.toInt()} m · ${r.minutos} min a pie")
+                            if (porAcceso) {
+                                val puerta = red.destinos.find { it.id == r.inicioAcceso }?.nombre
+                                append("\nInicio en ${puerta ?: "el acceso más cercano"}.")
+                            }
+                            if (r.incluyeEscaleras) append("\nEl recorrido incluye escaleras.")
+                            hasta.nivel?.let { append("\nLa línea llega a la entrada del edificio ${hasta.edificio}. El destino está en ${nombrePiso(it)}.") }
+                            hasta.referencia?.let { append("\n$it") }
+                        }
+                    } ?: if (desde == null) "No se pudo trazar desde tu ubicación. Elige un acceso como origen."
+                         else "No hay camino hacia ${hasta.nombre}."
                     enLaUam = true
                     centrar++
                 }
@@ -239,6 +258,7 @@ fun App(
                         TextButton(onClick = {
                             sede = u
                             ruta = null // la ruta era del otro campus
+                            rutaTexto = ""
                             Preferencias.guardar("sede", u.name)
                             enLaUam = true
                             centrar++

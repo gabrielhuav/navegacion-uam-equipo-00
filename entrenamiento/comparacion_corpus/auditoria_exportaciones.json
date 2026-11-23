@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "technical_approval": true,
+  "scope": "read_only_schema_reference_identity_and_numerical_equivalence",
+  "new_accuracy_evaluation": false,
+  "query_vectors_published": false,
+  "gallery_contains_reference_feature_vectors": true,
+  "gallery_contains_new_random_photo_group_tokens_without_corpus_correspondences": true,
+  "review_does_not_claim_mathematical_anonymity_of_feature_vectors": true,
+  "exports": {
+    "maestro": {
+      "azc": {
+        "reference_photos": 143,
+        "classes": 23,
+        "reference_vectors_identical_within_tolerance": true,
+        "maximum_reference_vector_error": 0.0,
+        "maximum_train_mean_error": 0.0,
+        "maximum_train_scale_error": 0.0,
+        "independent_private_fixture_checks": 1,
+        "maximum_independent_class_score_error": 1.4125219627292296e-07,
+        "private_schema_fields_absent": true
+      },
+      "escom": {
+        "reference_photos": 74,
+        "classes": 8,
+        "reference_vectors_identical_within_tolerance": true,
+        "maximum_reference_vector_error": 0.0,
+        "maximum_train_mean_error": 0.0,
+        "maximum_train_scale_error": 0.0,
+        "independent_private_fixture_checks": 1,
+        "maximum_independent_class_score_error": 9.053624994148635e-08,
+        "private_schema_fields_absent": true
+      }
+    },
+    "combinado": {
+      "azc": {
+        "reference_photos": 299,
+        "classes": 26,
+        "reference_vectors_identical_within_tolerance": true,
+        "maximum_reference_vector_error": 7.233190113531407e-08,
+        "maximum_train_mean_error": 0.0,
+        "maximum_train_scale_error": 0.0,
+        "independent_private_fixture_checks": 1,
+        "maximum_independent_class_score_error": 1.3675397969592495e-07,
+        "private_schema_fields_absent": true
+      },
+      "escom": {
+        "reference_photos": 138,
+        "classes": 18,
+        "reference_vectors_identical_within_tolerance": true,
+        "maximum_reference_vector_error": 4.3835230445488094e-08,
+        "maximum_train_mean_error": 6.43124078991697e-09,
+        "maximum_train_scale_error": 0.0,
+        "independent_private_fixture_checks": 1,
+        "maximum_independent_class_score_error": 3.4903978513023404e-08,
+        "private_schema_fields_absent": true
+      }
+    }
+  },
+  "physical_original_encoder_and_current_galleries_unchanged": true
+}

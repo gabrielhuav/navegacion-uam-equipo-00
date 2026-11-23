@@ -1,12 +1,30 @@
 {
   "version": 1,
   "unidad": "azcapotzalco",
+  "perimetro": [
+    {
+      "lat": 19.50123944,
+      "lon": -99.18375476
+    },
+    {
+      "lat": 19.50292033,
+      "lon": -99.19052565
+    },
+    {
+      "lat": 19.5050663,
+      "lon": -99.19087449
+    },
+    {
+      "lat": 19.50389274,
+      "lon": -99.18329253
+    }
+  ],
   "nodos": [
     {
       "id": "n1",
-      "lat": 19.50296402,
-      "lon": -99.18348229,
-      "x": -367.3413,
+      "lat": 19.50295981,
+      "lon": -99.18345505,
+      "x": -370,
       "z": 40.7665,
       "nivel": 0,
       "tipo": "acceso"
@@ -58,9 +76,9 @@
     },
     {
       "id": "n7",
-      "lat": 19.50335774,
-      "lon": -99.1834137,
-      "x": -367.3413,
+      "lat": 19.50335352,
+      "lon": -99.18338646,
+      "x": -370,
       "z": 81.5329,
       "nivel": 0,
       "tipo": "acceso"
@@ -670,10 +688,10 @@
     },
     {
       "id": "n75",
-      "lat": 19.50336428,
-      "lon": -99.18683486,
-      "x": -42.0958,
-      "z": 28.8024,
+      "lat": 19.50345,
+      "lon": -99.18676397,
+      "x": -47.4132,
+      "z": 38.5509,
       "nivel": 0,
       "tipo": "entrada"
     },
@@ -724,12 +742,12 @@
     },
     {
       "id": "n81",
-      "lat": 19.50415774,
-      "lon": -99.18750324,
-      "x": 34.5629,
-      "z": 98.3713,
+      "lat": 19.50417163,
+      "lon": -99.18750782,
+      "x": 35.2275,
+      "z": 99.7006,
       "nivel": 0,
-      "tipo": "cruce"
+      "tipo": "entrada"
     },
     {
       "id": "n82",
@@ -742,37 +760,37 @@
     },
     {
       "id": "n83",
-      "lat": 19.50359817,
-      "lon": -99.1869573,
-      "x": -26.5868,
-      "z": 50.4738,
+      "lat": 19.50361009,
+      "lon": -99.18703448,
+      "x": -19.0539,
+      "z": 50.4707,
       "nivel": 0,
       "tipo": "cruce"
     },
     {
       "id": "n84",
-      "lat": 19.50362425,
-      "lon": -99.18695275,
-      "x": -26.5868,
-      "z": 53.1737,
+      "lat": 19.50363834,
+      "lon": -99.18702956,
+      "x": -19.0539,
+      "z": 53.3952,
       "nivel": 0,
       "tipo": "cruce"
     },
     {
       "id": "n85",
-      "lat": 19.50383822,
-      "lon": -99.18691548,
-      "x": -26.5868,
+      "lat": 19.50385017,
+      "lon": -99.18699266,
+      "x": -19.0539,
       "z": 75.3293,
       "nivel": 0,
       "tipo": "cruce"
     },
     {
       "id": "n86",
-      "lat": 19.50391526,
-      "lon": -99.18690206,
-      "x": -26.5868,
-      "z": 83.3054,
+      "lat": 19.50392105,
+      "lon": -99.18699057,
+      "x": -18.079,
+      "z": 82.5078,
       "nivel": 0,
       "tipo": "entrada"
     },
@@ -832,10 +850,10 @@
     },
     {
       "id": "n93",
-      "lat": 19.50476732,
-      "lon": -99.18908488,
+      "lat": 19.50478872,
+      "lon": -99.18908115,
       "x": 194.9701,
-      "z": 135.1497,
+      "z": 137.3653,
       "nivel": 0,
       "tipo": "acceso"
     },
@@ -1012,37 +1030,163 @@
     },
     {
       "id": "n113",
-      "lat": 19.50390124,
-      "lon": -99.19058789,
-      "x": 323.4731,
-      "z": 24.3713,
+      "lat": 19.50394492,
+      "lon": -99.19034482,
+      "x": 301.0958,
+      "z": 32.5689,
       "nivel": 0,
       "tipo": "cruce"
     },
     {
       "id": "n114",
-      "lat": 19.50413661,
-      "lon": -99.19054689,
-      "x": 323.4731,
-      "z": 48.7425,
+      "lat": 19.50405833,
+      "lon": -99.19032507,
+      "x": 301.0958,
+      "z": 44.3114,
       "nivel": 0,
       "tipo": "cruce"
     },
     {
       "id": "n115",
-      "lat": 19.5042222,
-      "lon": -99.19053198,
-      "x": 323.4731,
-      "z": 57.6048,
+      "lat": 19.50409043,
+      "lon": -99.19031948,
+      "x": 301.0958,
+      "z": 47.6347,
       "nivel": 0,
       "tipo": "entrada"
+    },
+    {
+      "id": "n116",
+      "lat": 19.5035774,
+      "lon": -99.18591185,
+      "x": -126.2874,
+      "z": 64.6946,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n117",
+      "lat": 19.50353079,
+      "lon": -99.18634892,
+      "x": -85.521,
+      "z": 53.1737,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n118",
+      "lat": 19.50360782,
+      "lon": -99.1863355,
+      "x": -85.521,
+      "z": 61.1497,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n119",
+      "lat": 19.50364767,
+      "lon": -99.18636586,
+      "x": -81.976,
+      "z": 64.6946,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n120",
+      "lat": 19.50395735,
+      "lon": -99.18632217,
+      "x": -81.0012,
+      "z": 96.5988,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n121",
+      "lat": 19.50348865,
+      "lon": -99.18701368,
+      "x": -23.0419,
+      "z": 38.5509,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n122",
+      "lat": 19.50365649,
+      "lon": -99.18656481,
+      "x": -62.9222,
+      "z": 62.479,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n123",
+      "lat": 19.50343249,
+      "lon": -99.18662248,
+      "x": -61.1497,
+      "z": 38.994,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n124",
+      "lat": 19.50385041,
+      "lon": -99.18973418,
+      "x": 241.497,
+      "z": 32.5689,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n125",
+      "lat": 19.50182146,
+      "lon": -99.18365337,
+      "x": -370,
+      "z": -77.1018,
+      "nivel": 0,
+      "tipo": "acceso"
+    },
+    {
+      "id": "n126",
+      "lat": 19.5018341,
+      "lon": -99.18373509,
+      "x": -362.024,
+      "z": -77.1018,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n127",
+      "lat": 19.50187096,
+      "lon": -99.18383124,
+      "x": -352.2754,
+      "z": -74.8862,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n128",
+      "lat": 19.50192156,
+      "lon": -99.18415813,
+      "x": -320.3713,
+      "z": -74.8862,
+      "nivel": 0,
+      "tipo": "cruce"
+    },
+    {
+      "id": "n129",
+      "lat": 19.50200287,
+      "lon": -99.18414396,
+      "x": -320.3713,
+      "z": -66.4671,
+      "nivel": 0,
+      "tipo": "cruce"
     }
   ],
   "aristas": [
     {
       "de": "n1",
       "a": "n2",
-      "metros": 9.16,
+      "metros": 12.06,
       "tipo": "exterior",
       "accesible": true
     },
@@ -1077,7 +1221,7 @@
     {
       "de": "n7",
       "a": "n8",
-      "metros": 9.16,
+      "metros": 12.06,
       "tipo": "exterior",
       "accesible": true
     },
@@ -1567,14 +1711,21 @@
     {
       "de": "n74",
       "a": "n75",
-      "metros": 43.4,
+      "metros": 39.08,
       "tipo": "exterior",
       "accesible": true
     },
     {
       "de": "n75",
+      "a": "n121",
+      "metros": 26.52,
+      "tipo": "exterior",
+      "accesible": true
+    },
+    {
+      "de": "n121",
       "a": "n76",
-      "metros": 16.88,
+      "metros": 11.29,
       "tipo": "exterior",
       "accesible": true
     },
@@ -1594,8 +1745,36 @@
     },
     {
       "de": "n74",
+      "a": "n117",
+      "metros": 26.8,
+      "tipo": "exterior",
+      "accesible": true
+    },
+    {
+      "de": "n117",
+      "a": "n118",
+      "metros": 8.68,
+      "tipo": "exterior",
+      "accesible": true
+    },
+    {
+      "de": "n118",
+      "a": "n119",
+      "metros": 5.46,
+      "tipo": "exterior",
+      "accesible": true
+    },
+    {
+      "de": "n119",
+      "a": "n120",
+      "metros": 34.74,
+      "tipo": "exterior",
+      "accesible": true
+    },
+    {
+      "de": "n120",
       "a": "n19",
-      "metros": 103.68,
+      "metros": 29.92,
       "tipo": "exterior",
       "accesible": true
     },
@@ -1623,7 +1802,7 @@
     {
       "de": "n80",
       "a": "n81",
-      "metros": 44.37,
+      "metros": 45.82,
       "tipo": "exterior",
       "accesible": true
     },
@@ -1635,30 +1814,30 @@
       "accesible": true
     },
     {
-      "de": "n76",
+      "de": "n121",
       "a": "n83",
-      "metros": 23.58,
+      "metros": 13.68,
       "tipo": "exterior",
       "accesible": true
     },
     {
       "de": "n83",
       "a": "n84",
-      "metros": 2.94,
+      "metros": 3.18,
       "tipo": "escalera",
       "accesible": false
     },
     {
       "de": "n84",
       "a": "n85",
-      "metros": 24.11,
+      "metros": 23.87,
       "tipo": "exterior",
       "accesible": true
     },
     {
       "de": "n85",
       "a": "n86",
-      "metros": 8.68,
+      "metros": 7.88,
       "tipo": "exterior",
       "accesible": true
     },
@@ -1714,7 +1893,7 @@
     {
       "de": "n22",
       "a": "n93",
-      "metros": 12.66,
+      "metros": 14.97,
       "tipo": "exterior",
       "accesible": true
     },
@@ -1846,8 +2025,15 @@
     },
     {
       "de": "n111",
+      "a": "n124",
+      "metros": 8.92,
+      "tipo": "exterior",
+      "accesible": true
+    },
+    {
+      "de": "n124",
       "a": "n112",
-      "metros": 69.92,
+      "metros": 61,
       "tipo": "exterior",
       "accesible": true
     },
@@ -1859,31 +2045,101 @@
       "accesible": true
     },
     {
-      "de": "n111",
+      "de": "n124",
       "a": "n113",
-      "metros": 89.21,
+      "metros": 64.86,
       "tipo": "exterior",
       "accesible": true
     },
     {
       "de": "n113",
       "a": "n114",
-      "metros": 26.52,
+      "metros": 12.78,
       "tipo": "exterior",
       "accesible": true
     },
     {
       "de": "n114",
       "a": "n115",
-      "metros": 9.64,
+      "metros": 3.62,
       "tipo": "exterior",
       "accesible": true
+    },
+    {
+      "de": "n71",
+      "a": "n116",
+      "metros": 22.18,
+      "tipo": "exterior",
+      "accesible": true
+    },
+    {
+      "de": "n116",
+      "a": "n119",
+      "metros": 48.22,
+      "tipo": "pasillo",
+      "accesible": false
+    },
+    {
+      "de": "n119",
+      "a": "n122",
+      "metros": 20.88,
+      "tipo": "exterior",
+      "accesible": true
+    },
+    {
+      "de": "n122",
+      "a": "n123",
+      "metros": 25.63,
+      "tipo": "exterior",
+      "accesible": true
+    },
+    {
+      "de": "n123",
+      "a": "n75",
+      "metros": 14.96,
+      "tipo": "exterior",
+      "accesible": true
+    },
+    {
+      "de": "n125",
+      "a": "n126",
+      "metros": 8.68,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n126",
+      "a": "n127",
+      "metros": 10.88,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n127",
+      "a": "n128",
+      "metros": 34.72,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n128",
+      "a": "n129",
+      "metros": 9.16,
+      "tipo": "exterior",
+      "accesible": false
+    },
+    {
+      "de": "n129",
+      "a": "n24",
+      "metros": 30.38,
+      "tipo": "exterior",
+      "accesible": false
     }
   ],
   "destinos": [
     {
       "id": "A",
-      "nombre": "A · acceso exterior a zona de obra",
+      "nombre": "A · CICTE, llegada exterior",
       "nodo": "n26"
     },
     {
@@ -1914,7 +2170,8 @@
     {
       "id": "G",
       "nombre": "Edificio G",
-      "nodo": "n88"
+      "nodo": "n88",
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
     },
     {
       "id": "H",
@@ -1934,7 +2191,8 @@
     {
       "id": "I",
       "nombre": "I · Biblioteca / COSEI",
-      "nodo": "n86"
+      "nodo": "n86",
+      "referencia": "Busca el pórtico acristalado y el rótulo rojo «i» frente a Plaza COSEI."
     },
     {
       "id": "J",
@@ -1988,12 +2246,13 @@
     },
     {
       "id": "Q",
-      "nombre": "Edificio Q",
-      "nodo": "n115"
+      "nombre": "Q · Gimnasio de pesas (Acondicionamiento físico)",
+      "nodo": "n115",
+      "referencia": "Sigue el andador entre las multicanchas y el campo natural hasta la fachada de Q. La llegada es aproximada; identifica la puerta de pesas con la señalización local."
     },
     {
       "id": "R",
-      "nombre": "Edificio R",
+      "nombre": "Edificio R · Gimnasio de duela",
       "nodo": "n50"
     },
     {
@@ -2004,7 +2263,8 @@
     {
       "id": "T",
       "nombre": "Edificio T",
-      "nodo": "n89"
+      "nodo": "n81",
+      "referencia": "Entra por el patio interior, hacia la galería con las ventanillas rojas de Sistemas Escolares."
     },
     {
       "id": "W",
@@ -2014,7 +2274,8 @@
     {
       "id": "COSEI",
       "nombre": "Plaza COSEI",
-      "nodo": "n75"
+      "nodo": "n75",
+      "referencia": "La biblioteca queda frente a las palmas y al asta, al otro lado de los escalones."
     },
     {
       "id": "PLAZA_ROJA",
@@ -2022,19 +2283,644 @@
       "nodo": "n72"
     },
     {
+      "id": "ACCESO_PUERTA_2",
+      "nombre": "Puerta 2 · San Pablo Xalpa (peatonal)",
+      "nodo": "n125",
+      "referencia": "Cruza el pórtico de uso mixto por el lado de la torre, sigue la franja de llegada y el paso entre estacionamientos hacia el andador de D."
+    },
+    {
       "id": "ACCESO_P1",
-      "nombre": "Acceso peatonal P1",
-      "nodo": "n1"
+      "nombre": "Puerta 4 · San Pablo Xalpa (P1)",
+      "nodo": "n1",
+      "referencia": "Vano peatonal entre las jambas, junto a la banqueta de Av. San Pablo. Consulta la señalización para ingreso o salida."
     },
     {
       "id": "ACCESO_P2",
-      "nombre": "Acceso peatonal P2",
-      "nodo": "n7"
+      "nombre": "Puerta 5 · San Pablo Xalpa (P2)",
+      "nodo": "n7",
+      "referencia": "Vano peatonal junto a la banqueta de Av. San Pablo, hacia el andador de Plaza Roja."
     },
     {
       "id": "ACCESO_P3",
-      "nombre": "Acceso peatonal P3",
-      "nodo": "n93"
+      "nombre": "Puerta 6 · Eje 5 Norte (P3)",
+      "nodo": "n93",
+      "referencia": "Vano del acceso junto a la banqueta de Eje 5 Norte. El andador conecta con el borde deportivo y M."
+    },
+    {
+      "id": "G006",
+      "nombre": "G006 · Laboratorio de Electricidad y Magnetismo",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 0,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "G007",
+      "nombre": "G007 · Laboratorio del Cuerpo Rígido y Oscilador",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 0,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "G302-A",
+      "nombre": "G302-A · Aula de Redes",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 3,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "G302-B",
+      "nombre": "G302-B · Aula de Redes",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 3,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "G307",
+      "nombre": "G307 · Aula de Robótica",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 3,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "G310-A",
+      "nombre": "G310-A · Aula de Proyectos Terminales",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 3,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "G314",
+      "nombre": "G314 · Aula Audiovisual",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 3,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "G304",
+      "nombre": "G304 · Laboratorio de Control",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 3,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "G304-BIS",
+      "nombre": "G304-BIS · Laboratorio de Caracterización de Dispositivos Semiconductores y Circuitos Integrados",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 3,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "G306",
+      "nombre": "G306 · Laboratorio de Electrónica",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 3,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "G308",
+      "nombre": "G308 · Laboratorio de Electrónica de Potencia",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 3,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "G309",
+      "nombre": "G309 · Centro de Apoyo para la Docencia e Investigación (CADI)",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 3,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "G312",
+      "nombre": "G312 · Laboratorio de Mecatrónica y Robótica Cognitiva",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 3,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "G316",
+      "nombre": "G316 · Taller Mecánico",
+      "nodo": "n88",
+      "edificio": "G",
+      "nivel": 3,
+      "referencia": "Llega por la fachada de los refuerzos rojos, del lado de Plaza Roja."
+    },
+    {
+      "id": "I_HEMEROTECA",
+      "nombre": "Biblioteca · Hemeroteca",
+      "nodo": "n86",
+      "edificio": "I",
+      "nivel": 0,
+      "referencia": "Busca el pórtico acristalado y el rótulo rojo «i» frente a Plaza COSEI."
+    },
+    {
+      "id": "I_DOCUMENTACION",
+      "nombre": "Biblioteca · Sección de Documentación",
+      "nodo": "n86",
+      "edificio": "I",
+      "nivel": 0,
+      "referencia": "Busca el pórtico acristalado y el rótulo rojo «i» frente a Plaza COSEI."
+    },
+    {
+      "id": "I_AUDIOVISUAL",
+      "nombre": "Biblioteca · Colección Audiovisual",
+      "nodo": "n86",
+      "edificio": "I",
+      "nivel": 1,
+      "referencia": "Busca el pórtico acristalado y el rótulo rojo «i» frente a Plaza COSEI."
+    },
+    {
+      "id": "I_GENERAL_Q_Z",
+      "nombre": "Biblioteca · Colección General Q–Z",
+      "nodo": "n86",
+      "edificio": "I",
+      "nivel": 1,
+      "referencia": "Busca el pórtico acristalado y el rótulo rojo «i» frente a Plaza COSEI."
+    },
+    {
+      "id": "I_GENERAL_A_P",
+      "nombre": "Biblioteca · Colección General A–P",
+      "nodo": "n86",
+      "edificio": "I",
+      "nivel": 2,
+      "referencia": "Busca el pórtico acristalado y el rótulo rojo «i» frente a Plaza COSEI."
+    },
+    {
+      "id": "T_CSE",
+      "nombre": "T · Sistemas Escolares",
+      "nodo": "n81",
+      "edificio": "T",
+      "nivel": 0,
+      "referencia": "Entra por el patio interior, hacia la galería con las ventanillas rojas de Sistemas Escolares."
+    },
+    {
+      "id": "T_NEUMANN",
+      "nombre": "T · Sala John Von Neumann",
+      "nodo": "n81",
+      "edificio": "T",
+      "nivel": 1,
+      "referencia": "Entra por el patio interior, hacia la galería con las ventanillas rojas de Sistemas Escolares."
+    },
+    {
+      "id": "T_SOPORTE",
+      "nombre": "T · Soporte Técnico y Redes",
+      "nodo": "n81",
+      "edificio": "T",
+      "nivel": 0,
+      "referencia": "Entra por el patio interior, hacia la galería con las ventanillas rojas de Sistemas Escolares."
+    },
+    {
+      "id": "O-103",
+      "nombre": "O-103 · Laboratorio de aire (SALAIRE)",
+      "nodo": "n106",
+      "edificio": "O",
+      "nivel": 0,
+      "referencia": "Llegada al acceso de O; planta baja según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "O-104",
+      "nombre": "O-104",
+      "nodo": "n106",
+      "edificio": "O",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de O; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "O-105",
+      "nombre": "O-105",
+      "nodo": "n106",
+      "edificio": "O",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de O; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "O-106",
+      "nombre": "O-106",
+      "nodo": "n106",
+      "edificio": "O",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de O; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P_APRO",
+      "nombre": "Salón APRO",
+      "nodo": "n66",
+      "edificio": "P",
+      "nivel": 0,
+      "referencia": "Llegada al acceso de P; planta baja según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P_ATER",
+      "nombre": "Salón ATER",
+      "nodo": "n66",
+      "edificio": "P",
+      "nivel": 0,
+      "referencia": "Llegada al acceso de P; planta baja según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P_LEL01",
+      "nombre": "Laboratorio eléctrico LEL01",
+      "nodo": "n66",
+      "edificio": "P",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de P; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P_LEL02",
+      "nombre": "Laboratorio eléctrico LEL02",
+      "nodo": "n66",
+      "edificio": "P",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de P; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P_LEL03",
+      "nombre": "Laboratorio eléctrico LEL03",
+      "nodo": "n66",
+      "edificio": "P",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de P; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P_LEL04",
+      "nombre": "Laboratorio eléctrico LEL04",
+      "nodo": "n66",
+      "edificio": "P",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de P; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P_LTER_A",
+      "nombre": "Salón LTER A",
+      "nodo": "n66",
+      "edificio": "P",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de P; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P2_CEMAC",
+      "nombre": "CEMAC · Centro de Maquinado Asistido por Computadora",
+      "nodo": "n99",
+      "edificio": "P2",
+      "nivel": 0,
+      "referencia": "Llegada al acceso de P2; planta baja según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P2_LABDIN",
+      "nombre": "LABDIN · Laboratorio de Dinámica y Vibraciones",
+      "nodo": "n99",
+      "edificio": "P2",
+      "nivel": 0,
+      "referencia": "Llegada al acceso de P2; planta baja según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P2_LABMET",
+      "nombre": "LABMET · Laboratorio de Metrología",
+      "nodo": "n99",
+      "edificio": "P2",
+      "nivel": 0,
+      "referencia": "Llegada al acceso de P2; planta baja según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P2_LTER",
+      "nombre": "LTER · Laboratorio de Hidráulica, Química y Termofluidos",
+      "nodo": "n99",
+      "edificio": "P2",
+      "nivel": 0,
+      "referencia": "Llegada al acceso de P2; planta baja según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P2_TMEC",
+      "nombre": "TMEC · Taller Mecánico",
+      "nodo": "n99",
+      "edificio": "P2",
+      "nivel": 0,
+      "referencia": "Llegada al acceso de P2; planta baja según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P2_LTER_B",
+      "nombre": "Salón LTER B",
+      "nodo": "n99",
+      "edificio": "P2",
+      "nivel": 0,
+      "referencia": "Llegada al acceso de P2; planta baja según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P2_CEDAC",
+      "nombre": "CEDAC · Centro de Desarrollo Asistido por Computadora",
+      "nodo": "n99",
+      "edificio": "P2",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de P2; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P2_LABMEC",
+      "nombre": "LABMEC · Laboratorio de Mecanismos",
+      "nodo": "n99",
+      "edificio": "P2",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de P2; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P2_SM1",
+      "nombre": "Salón SM1",
+      "nodo": "n99",
+      "edificio": "P2",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de P2; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P2_SM2",
+      "nombre": "Salón SM2",
+      "nodo": "n99",
+      "edificio": "P2",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de P2; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P2_FLUIDOS",
+      "nombre": "Laboratorio de Propiedades de los Fluidos",
+      "nodo": "n99",
+      "edificio": "P2",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de P2; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P3_SOLDADURA",
+      "nombre": "Caseta de Soldadura",
+      "nodo": "n100",
+      "edificio": "P3",
+      "nivel": 0,
+      "referencia": "Llegada al acceso de P3; planta baja según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P3_FUNDICION",
+      "nombre": "Taller de Fundición",
+      "nodo": "n100",
+      "edificio": "P3",
+      "nivel": 0,
+      "referencia": "Llegada al acceso de P3; planta baja según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "P3_ARENAS",
+      "nombre": "Laboratorio de Arenas",
+      "nodo": "n100",
+      "edificio": "P3",
+      "nivel": 1,
+      "referencia": "Llegada al acceso de P3; primer piso según el directorio de Energía. Continúa con la señalización del edificio."
+    },
+    {
+      "id": "C_INCALLI",
+      "nombre": "Auditorio Incalli Ixcahuicopa",
+      "nodo": "n51",
+      "edificio": "C",
+      "nivel": 0,
+      "referencia": "Llegada al acceso de C; auditorio en planta baja. Consulta la señalización del edificio."
+    },
+    {
+      "id": "D-001",
+      "nombre": "D-001 · Auditorio",
+      "nodo": "n33",
+      "edificio": "D",
+      "nivel": 0,
+      "referencia": "Llegada al acceso de D; auditorio en planta baja. Consulta la señalización del edificio."
+    },
+    {
+      "id": "W001",
+      "nombre": "W001 · Sala",
+      "nodo": "n47",
+      "edificio": "W",
+      "nivel": 0,
+      "referencia": "La ruta termina en el acceso de W. Sigue la señalización de W001 en la planta baja."
+    },
+    {
+      "id": "W002",
+      "nombre": "W002 · Sala",
+      "nodo": "n47",
+      "edificio": "W",
+      "nivel": 0,
+      "referencia": "La ruta termina en el acceso de W. Sigue la señalización de W002 en la planta baja."
+    },
+    {
+      "id": "W003",
+      "nombre": "W003 · Sala",
+      "nodo": "n47",
+      "edificio": "W",
+      "nivel": 1,
+      "referencia": "La ruta termina en el acceso de W. Sigue la señalización de W003 en el primer piso."
+    },
+    {
+      "id": "W004",
+      "nombre": "W004 · Sala",
+      "nodo": "n47",
+      "edificio": "W",
+      "nivel": 1,
+      "referencia": "La ruta termina en el acceso de W. Sigue la señalización de W004 en el primer piso."
+    },
+    {
+      "id": "W_LAPLACE",
+      "nombre": "Laboratorio de Aplicaciones de Plasma Frío y Conversión de Energía (LAPLACE)",
+      "nodo": "n47",
+      "edificio": "W",
+      "nivel": 1,
+      "referencia": "La ruta llega al acceso del edificio W. Sigue la señalización hacia el módulo A, primer piso."
+    },
+    {
+      "id": "W_TELETRAFICO",
+      "nombre": "Laboratorio de Teletráfico y Comunicaciones Ópticas",
+      "nodo": "n47",
+      "edificio": "W",
+      "nivel": 3,
+      "referencia": "La ruta llega al acceso del edificio W. Busca la señalización del tercer nivel, según Conexión CBI."
+    },
+    {
+      "id": "E311",
+      "nombre": "E311 · Aula Audiovisual",
+      "nodo": "n52",
+      "edificio": "E",
+      "nivel": 3,
+      "referencia": "La ruta termina en el acceso de E. El directorio de Electrónica ubica el aula audiovisual en el tercer piso."
+    },
+    {
+      "id": "F302",
+      "nombre": "F302 · Laboratorio de Microelectrónica",
+      "nodo": "n87",
+      "edificio": "F",
+      "nivel": 3,
+      "referencia": "La ruta termina en el acceso de F. Busca el Laboratorio de Microelectrónica en el tercer piso."
+    },
+    {
+      "id": "F306",
+      "nombre": "F306 · Aula Audiovisual",
+      "nodo": "n87",
+      "edificio": "F",
+      "nivel": 3,
+      "referencia": "La ruta termina en el acceso de F. El directorio de Electrónica ubica el aula audiovisual en el tercer piso."
+    },
+    {
+      "id": "C_LIBRERIA",
+      "nombre": "Librería UAM Azcapotzalco",
+      "nodo": "n51",
+      "edificio": "C",
+      "nivel": 0,
+      "referencia": "La ruta termina en el acceso de C. Busca la Librería y Papelería en planta baja, según su sitio institucional."
+    },
+    {
+      "id": "C_GALERIA_TIEMPO",
+      "nombre": "Galería del Tiempo",
+      "nodo": "n51",
+      "edificio": "C",
+      "nivel": 0,
+      "referencia": "La ruta termina en el acceso de C. Busca la Galería del Tiempo en planta baja, dentro del corredor cultural."
+    },
+    {
+      "id": "C_CELEX",
+      "nombre": "C · Coordinación de Lenguas Extranjeras (CELEX)",
+      "nodo": "n51",
+      "edificio": "C",
+      "nivel": 1,
+      "referencia": "La ruta termina en el acceso de C. Busca CELEX en el primer piso."
+    },
+    {
+      "id": "C_GESTION_ACADEMICA",
+      "nombre": "C · Coordinación de Gestión Académica",
+      "nodo": "n51",
+      "edificio": "C",
+      "nivel": 2,
+      "referencia": "La ruta termina en el acceso de C. Busca la Coordinación de Gestión Académica en el segundo piso."
+    },
+    {
+      "id": "C_RECTORIA",
+      "nombre": "C · Rectoría de la Unidad",
+      "nodo": "n51",
+      "edificio": "C",
+      "nivel": 3,
+      "referencia": "La ruta termina en el acceso de C. Busca la Rectoría de la Unidad en el tercer piso."
+    },
+    {
+      "id": "C_CAJA_UNIDAD",
+      "nombre": "C · Caja de la Unidad",
+      "nodo": "n51",
+      "edificio": "C",
+      "nivel": 3,
+      "referencia": "La ruta termina en el acceso de C. Busca la Caja de la Unidad en el tercer piso."
+    },
+    {
+      "id": "C_OTCA",
+      "nombre": "C · Oficina Técnica del Consejo Académico",
+      "nodo": "n51",
+      "edificio": "C",
+      "nivel": 3,
+      "referencia": "La ruta termina en el acceso de C. Busca la Oficina Técnica del Consejo Académico en el tercer piso."
+    },
+    {
+      "id": "D-102",
+      "nombre": "D-102 · Núcleo docente de Posgrados CyAD",
+      "nodo": "n33",
+      "edificio": "D",
+      "nivel": 1,
+      "referencia": "La ruta termina en el acceso de D. Busca el salón D-102 en el núcleo de Posgrados CyAD, primer piso, sección centro."
+    },
+    {
+      "id": "D007",
+      "nombre": "D007 · Sala de capacitación",
+      "nodo": "n33",
+      "edificio": "D",
+      "nivel": 0,
+      "referencia": "La ruta termina en el acceso de D. Busca la sala D007 en planta baja."
+    },
+    {
+      "id": "D008",
+      "nombre": "D008 · Sala de capacitación",
+      "nodo": "n33",
+      "edificio": "D",
+      "nivel": 0,
+      "referencia": "La ruta termina en el acceso de D. Busca la sala D008 en planta baja."
+    },
+    {
+      "id": "J_SANITARIOS",
+      "nombre": "J · Sanitarios",
+      "nodo": "n79",
+      "edificio": "J",
+      "nivel": 0,
+      "referencia": "La ruta termina en el acceso de la cafetería. Sigue los señalamientos de sanitarios en planta baja."
+    },
+    {
+      "id": "K001",
+      "nombre": "K-001 · Auditorio / Sala audiovisual",
+      "nodo": "n60",
+      "edificio": "K",
+      "nivel": 0,
+      "referencia": "La ruta termina en el acceso de K. Busca la puerta roja del auditorio K-001 en la galería de planta baja frente al jardín de la cafetería."
+    },
+    {
+      "id": "K_POSGRADOS_CBI",
+      "nombre": "K · Coordinación de Estudios de Posgrado de CBI",
+      "nodo": "n60",
+      "edificio": "K",
+      "nivel": 3,
+      "referencia": "La ruta termina en el acceso de K. Busca la Coordinación de Estudios de Posgrado de CBI en el tercer piso."
+    },
+    {
+      "id": "K_VINCULACION_CSH",
+      "nombre": "K-002 · Coordinación Divisional de Vinculación CSH",
+      "nodo": "n60",
+      "edificio": "K",
+      "nivel": 0,
+      "referencia": "La ruta termina en el acceso de K. Busca la oficina K-002 de Vinculación CSH en planta baja."
+    },
+    {
+      "id": "K_LIM",
+      "nombre": "LIM · Laboratorio de Innovación Metropolitana",
+      "nodo": "n60",
+      "edificio": "K",
+      "nivel": 2,
+      "referencia": "La ruta termina en el acceso de K. El Laboratorio de Innovación Metropolitana está en el segundo piso."
+    },
+    {
+      "id": "K116",
+      "nombre": "K-116 · Aula",
+      "nodo": "n60",
+      "edificio": "K",
+      "nivel": 1,
+      "referencia": "La ruta termina en el acceso de K. Busca el aula K-116 en el primer piso."
+    },
+    {
+      "id": "K306",
+      "nombre": "K-306 · Aula",
+      "nodo": "n60",
+      "edificio": "K",
+      "nivel": 3,
+      "referencia": "La ruta termina en el acceso de K. Busca el aula K-306 en el tercer piso."
+    },
+    {
+      "id": "K308",
+      "nombre": "K-308 · Aula",
+      "nodo": "n60",
+      "edificio": "K",
+      "nivel": 3,
+      "referencia": "La ruta termina en el acceso de K. Busca el aula K-308 en el tercer piso."
+    },
+    {
+      "id": "K310",
+      "nombre": "K-310 · Aula",
+      "nodo": "n60",
+      "edificio": "K",
+      "nivel": 3,
+      "referencia": "La ruta termina en el acceso de K. Busca el aula K-310 en el tercer piso."
     }
   ]
 }

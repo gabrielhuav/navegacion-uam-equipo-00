@@ -2,6 +2,8 @@
 
 `rutas.json` sustituye completa la red provisional de Claude. Contrato versión 1, unidad `azcapotzalco`, aristas **no dirigidas**. Entrega inicial: **115 nodos, 120 aristas, 31 destinos, un componente**. No se modifica el diseño de edificios ni los planos de las otras unidades.
 
+En el [piloto T, G y biblioteca](PILOTO_T_G_BIBLIOTECA.md) la red tiene 123 nodos, 130 tramos y 53 destinos. Se añade `perimetro` como lista de puntos `{lat, lon}` derivados del predio canónico. `destinos` admite `referencia` para orientar la llegada y, para un destino interior, `edificio` y `nivel` (0 para planta baja). El destino interior conserva el nodo de su edificio. Al reasignar la llegada en el editor se actualizan sus destinos interiores juntos. KMP y Flutter usan la red; las redes anteriores que carecen de estos campos conservan su lectura y el criterio de inicio previo. El contrato vigente se comprueba con `node campus/validacion/verificar_contrato_actual.mjs`.
+
 Se trazó sobre el croquis canónico: centros de caminos representados, ejes de plazas, borde de estacionamientos y franjas de galería abierta en PB. No es un levantamiento de puertas, anchos, pavimentos o accesibilidad. La ubicación exacta de cada entrada sigue siendo aproximada y se puede ajustar en el editor. No se toma el centro del edificio como entrada ni se usa la red provisional como base geométrica.
 
 ## Destinos y circulación
@@ -16,7 +18,7 @@ En COSEI se representa la escalera que ya existe en el modelo, con `tipo: escale
 
 El comprobador detecta intersecciones con los **cuerpos cerrados** de los edificios. Deriva los obstáculos del mismo JSON y de la misma construcción usada por `building()` del visor, con desplazamientos y giro de los pabellones HO/HP. Para E, K, P y la parte sur de H, la franja libre de galería de PB se calcula con el ancho que ya representa el modelo: `min(2.8 m, 32% del fondo)`. Esa franja abierta no se trata como un muro. Las entradas pueden terminar en la cara del edificio; no penetran su cuerpo cerrado.
 
-Así los pasillos pueden aparecer sobre la huella techada de E/H/K/P en un plano superior, pero no atraviesan su volumen cerrado. No hay una excepción general para aristas llamadas «pasillo»: un tramo de ese tipo que corte una habitación o el cuerpo de L también se rechaza. Los pilares, jardineras, estado del suelo y anchos libres requieren revisión de campo. La red se conserva prudente frente a cuerpos que el croquis todavía muestra cerrados, de modo que algunas rutas dan rodeos y no garantizan el recorrido real más corto.
+Los pasillos pueden aparecer sobre la huella techada de E/H/K/P y del vano central de planta baja de G en un plano superior. El comprobador deriva la apertura de G de la misma crujía que el visor y rechaza los cortes de los cuerpos cerrados, incluido un tramo etiquetado como «pasillo» que atraviese L. Los pilares, jardineras, estado del suelo y anchos libres requieren revisión de campo. La red puede dar rodeos donde la continuidad de un paso está por verificar.
 
 ## Coordenadas y metros
 

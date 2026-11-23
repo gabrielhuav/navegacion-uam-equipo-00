@@ -1,0 +1,2 @@
+# Evidencia con SHA-256: conservar bytes y reconocer CRLF en la revisión.
+* -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

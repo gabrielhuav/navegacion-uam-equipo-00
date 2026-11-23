@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "protocol_sha256": "0de4cc0a18b5afd02d614141e86f13a8f6cc53e775729c8cf8b9db664c1ae66b",
+  "frozen_protocol_file_sha256": "42202d67c9444db03e48ce3878c9b5930fd48e3999555537298b87cb3d6f90d8",
+  "source_protocol_sha256": "a04dbd52ab84e4c37fd508ecf2435a4194b7d9fa20c95338a77218659f5693e5",
+  "input_signatures": {
+    "metadata_sha256": "8becb5ce6fae7c0ee0892e6ee5e10ca2599b6f00655fb5662f8802919ad4d14e",
+    "npz_sha256": "93d4e07b2b44641dab5b87c18109b1d5b0873a781b73ede8f876c119bb405d0a",
+    "model_sha256": "d01e31483ac10fc887e5b4e7d47ee0e7a93cc196c56286312329401e219474bd",
+    "arrays_signature_sha256": "48c219626ec05c740d9c40d4621b915b4cbe95113b840a4007f92e195bc41449",
+    "teacher_labels_signature_sha256": "b0acbc8dc303d8c81d904f9d9f553e16fb39da36f6ef7053d3f041901b393473"
+  },
+  "driver_sha256": "5b88b078ce07bd29c3abd415164d5e4c6d4769277a9e1dd3bfe2d93cd99f56ab",
+  "objective_source_sha256": "4f32f8ba9512474e5c24a3431493cd841e6b4fac8280cf217a5ef97830e0e130",
+  "verifier_source_sha256": "421e8bdca844b01b65322aafa33eb86a019e865d1a774695731a622f25223d4c",
+  "outer_evaluation_run": false,
+  "write_once": true
+}

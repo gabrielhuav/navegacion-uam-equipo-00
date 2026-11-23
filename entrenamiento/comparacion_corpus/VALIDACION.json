@@ -1,0 +1,54 @@
+{
+  "date": "2026-11-16",
+  "scope": "local_validation_before_PR23_push",
+  "numerical_synthetic_tests": {
+    "run": 20,
+    "failures": 0
+  },
+  "shared_tests": {
+    "run": 30,
+    "new": 9,
+    "failures": 0
+  },
+  "android_debug": {
+    "assemble": "passed",
+    "lint_errors": 0,
+    "lint_warnings": 9,
+    "installed": false,
+    "selector_device_UI_tested": false
+  },
+  "jvm_python_score_parity": {
+    "cases": 4,
+    "class_scores": 75,
+    "maximum_error": 6.556510925e-07,
+    "tolerance": 1e-05,
+    "passed": true
+  },
+  "protected_files": {
+    "checked": 18,
+    "unchanged": 18,
+    "original_recognition_assets": 11,
+    "signed_050_aab_sha256": "7d6b44b73c95b67f2ceab91c2a7e2e381aa5d6b845b745356f31c05649724cb4"
+  },
+  "new_gallery_assets": {
+    "app-kmp/androidApp/src/main/assets/reconocimiento/corpus/combinado/escom.json": {
+      "sha256": "f012cd0e7e9495dd668c3ba529c8e0ea2739130584049d44eebce56e80e3f115",
+      "bytes": 8610046
+    },
+    "app-kmp/androidApp/src/main/assets/reconocimiento/corpus/combinado/uam_azcapotzalco.json": {
+      "sha256": "2cf74852aa5b1e1aad985167bce8c1b26dcf36f02c57b789e2b2b512478133b3",
+      "bytes": 17026051
+    },
+    "app-kmp/androidApp/src/main/assets/reconocimiento/corpus/maestro/escom.json": {
+      "sha256": "dff8a523c82a109726794ad4151c23188aa7197a246b99a76c0b46556cfc0193",
+      "bytes": 4172937
+    },
+    "app-kmp/androidApp/src/main/assets/reconocimiento/corpus/maestro/uam_azcapotzalco.json": {
+      "sha256": "66880ed81ddce477ff6745821da5ef2e6b89379d352bff9698cbebdc63c9666b",
+      "bytes": 8076754
+    }
+  },
+  "external_blind_test": false,
+  "new_Play_upload": false,
+  "PR_approval_or_merge": false
+}
